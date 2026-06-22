@@ -70,22 +70,22 @@ export const websiteConfig: WebsiteConfig = {
     paginationSize: 6,
   },
   mail: {
-    enable: true,
+    enable: false,
     provider: 'cloudflare',
     fromEmail: 'TanStarter <support@tanstarter.dev>',
     supportEmail: 'TanStarter <support@tanstarter.dev>',
   },
   newsletter: {
-    enable: true,
+    enable: false,
     provider: 'resend',
-    autoSubscribeAfterSignUp: true,
+    autoSubscribeAfterSignUp: false,
   },
   notification: {
-    enable: true,
+    enable: false,
     provider: 'discord',
   },
   storage: {
-    enable: true,
+    enable: false,
     provider: 'r2',
     maxFileSize: DEFAULT_MAX_FILE_SIZE,
     allowedTypes: DEFAULT_ALLOWED_TYPES,
