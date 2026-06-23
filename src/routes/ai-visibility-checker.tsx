@@ -22,8 +22,13 @@ export const Route = createFileRoute("/ai-visibility-checker")({
 });
 
 function CheckerPage() {
-  const handleSubmit = async (data: CheckerFormData) => {
-    await submitCheckerForm({ data });
+  const handleSubmit = async (data: CheckerFormData): Promise<boolean> => {
+    try {
+      await submitCheckerForm({ data });
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (

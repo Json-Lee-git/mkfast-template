@@ -1,5 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getBaseUrl } from '@/lib/urls';
+import { tools } from '@/data/tools';
+import { comparisons } from '@/data/comparisons';
+import { glossaryTerms } from '@/data/glossary';
 import { getSortedPosts } from '@/lib/blog';
 import { websiteConfig } from '@/config/website';
 import {
@@ -37,6 +40,9 @@ export const Route = createFileRoute('/sitemap.xml')({
           { path: '/terms', changefreq: 'monthly' },
           { path: '/privacy', changefreq: 'monthly' },
           { path: '/cookie', changefreq: 'monthly' },
+          ...tools.map((tool) => ({ path: `/tools/${tool.slug}`, changefreq: 'weekly', priority: '0.7' })),
+          ...comparisons.map((c) => ({ path: `/compare/${c.slug}`, changefreq: 'weekly', priority: '0.6' })),
+          ...Object.keys(glossaryTerms).map((slug) => ({ path: `/glossary/${slug}`, changefreq: 'monthly', priority: '0.5' })),
         ];
 
         if (websiteConfig.blog?.enable) {

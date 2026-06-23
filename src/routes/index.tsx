@@ -1,5 +1,6 @@
 import { AIHomePage } from '@/components/blocks/ai-home';
 import { seo } from '@/lib/seo';
+import { getBaseUrl } from '@/lib/urls';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/')({
           '@type': 'WebSite',
           name: 'AI Visibility Tools Directory',
           description: 'Compare the best AI visibility tools for tracking brand mentions across AI search platforms.',
-          url: 'https://mkfast-template.s01071233604.workers.dev',
+          url: getBaseUrl(),
         }),
       },
     ],

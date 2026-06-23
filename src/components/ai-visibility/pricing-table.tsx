@@ -9,7 +9,7 @@ export function PricingTable({ tools, className = "" }: { tools: AITool[]; class
             <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Tool</th>
             <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Starting Price</th>
             <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Free Plan</th>
-            <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Free Trial</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Free Checker</th>
             <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Best For</th>
             <th className="px-3 py-2 text-left text-xs font-medium text-zinc-400">Notes</th>
           </tr>

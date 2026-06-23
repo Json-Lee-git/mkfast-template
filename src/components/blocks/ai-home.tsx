@@ -43,7 +43,7 @@ export function AIHomePage() {
               Compare tools for monitoring brand mentions across ChatGPT, Perplexity, Gemini, Claude, and Google AI Overviews. Free checkers, pricing, and honest reviews.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a href="/best-ai-visibility-tools" className="inline-flex items-center gap-2 rounded-xl bg-gray-900 dark:bg-zinc-50 px-6 py-3 text-sm font-semibold text-gray-900 dark:text-zinc-50 transition-all hover:bg-zinc-200 active:scale-[0.98]">
+              <a href="/best-ai-visibility-tools" className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200">
                 Compare Tools <IconArrowRight size={16} />
               </a>
               <a href="/ai-visibility-checker" className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900/50 px-6 py-3 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-gray-400 dark:border-zinc-600 hover:bg-gray-200 dark:bg-zinc-800/50 active:scale-[0.98]">
@@ -135,7 +135,7 @@ export function AIHomePage() {
             <h2 className="relative text-2xl font-bold text-gray-900 dark:text-zinc-100">Ready to Start Tracking?</h2>
             <p className="relative mt-3 text-gray-500 dark:text-zinc-400">Try our free AI visibility checker or compare tools to find your best fit.</p>
             <div className="relative mt-8 flex flex-wrap justify-center gap-4">
-              <a href="/ai-visibility-checker" className="inline-flex items-center gap-2 rounded-xl bg-gray-900 dark:bg-zinc-50 px-6 py-3 text-sm font-semibold text-gray-900 dark:text-zinc-50 transition-all hover:bg-zinc-200 active:scale-[0.98]">
+              <a href="/ai-visibility-checker" className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200">
                 Free AI Visibility Checker <IconArrowRight size={16} />
               </a>
               <a href="/best-ai-visibility-tools" className="inline-flex items-center gap-2 rounded-xl border border-gray-400 dark:border-zinc-600 bg-gray-200 dark:bg-zinc-800/50 px-6 py-3 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-zinc-500 active:scale-[0.98]">
