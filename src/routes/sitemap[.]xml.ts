@@ -25,6 +25,9 @@ export const Route = createFileRoute('/sitemap.xml')({
           priority?: string;
         }[] = [
           { path: '/', changefreq: 'daily', priority: '1.0' },
+          { path: '/best-ai-visibility-tools', changefreq: 'daily', priority: '0.9' },
+          { path: '/ai-visibility-tools-pricing', changefreq: 'weekly', priority: '0.8' },
+          { path: '/ai-visibility-checker', changefreq: 'weekly', priority: '0.8' },
           { path: '/about', changefreq: 'monthly' },
           { path: '/ai', changefreq: 'monthly' },
           { path: '/changelog', changefreq: 'weekly' },

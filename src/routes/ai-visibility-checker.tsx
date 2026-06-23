@@ -3,6 +3,7 @@ import Container from "@/components/layout/container";
 import { CheckerForm } from "@/components/ai-visibility/checker-form";
 import { FAQ } from "@/components/ai-visibility/faq";
 import type { CheckerFormData } from "@/components/ai-visibility/checker-form";
+import { submitCheckerForm } from "@/api/ai-visibility/checker";
 import { seo } from "@/lib/seo";
 
 const checkerFAQ = [
@@ -21,7 +22,9 @@ export const Route = createFileRoute("/ai-visibility-checker")({
 });
 
 function CheckerPage() {
-  const handleSubmit = (_data: CheckerFormData) => {};
+  const handleSubmit = async (data: CheckerFormData) => {
+    await submitCheckerForm({ data });
+  };
 
   return (
     <div>

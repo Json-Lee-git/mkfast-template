@@ -86,3 +86,18 @@ export const userFilesRelations = relations(userFiles, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+/**
+ * AI Visibility Checker form submissions
+ */
+export const checkerSubmissions = sqliteTable("checker_submissions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  brandName: text("brand_name").notNull(),
+  websiteUrl: text("website_url").notNull(),
+  industry: text("industry"),
+  competitors: text("competitors"),
+  email: text("email").notNull(),
+  platforms: text("platforms").notNull(),
+  role: text("role"),
+  submittedAt: text("submitted_at").notNull(),
+});
