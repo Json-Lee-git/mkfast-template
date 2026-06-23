@@ -26,35 +26,35 @@ function PricingPage() {
 
   return (
     <div>
-      <section className="border-b border-zinc-800 py-16">
+      <section className="border-b border-gray-200 dark:border-zinc-800 py-16">
         <Container>
-          <h1 className="text-3xl font-bold text-zinc-100">AI Visibility Tools Pricing</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100">AI Visibility Tools Pricing</h1>
           <p className="mt-4 max-w-2xl text-zinc-400">Compare pricing, plans, and costs for the top AI visibility tracking tools.</p>
         </Container>
       </section>
       <section className="py-12"><Container><PricingTable tools={tools} /></Container></section>
-      <section className="border-t border-zinc-800 py-12">
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
         <Container>
-          <h2 className="text-2xl font-bold text-zinc-100">Free AI Visibility Tools</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">Free AI Visibility Tools</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {freeTools.map((t) => (
-              <a key={t.slug} href={`/tools/${t.slug}`} className="rounded-lg border border-zinc-800 p-4 hover:border-zinc-700">
-                <h3 className="font-semibold text-zinc-200">{t.name}</h3>
+              <a key={t.slug} href={`/tools/${t.slug}`} className="rounded-lg border border-gray-200 dark:border-zinc-800 p-4 hover:border-zinc-700">
+                <h3 className="font-semibold text-gray-800 dark:text-zinc-200">{t.name}</h3>
                 <p className="mt-1 text-sm text-zinc-400">{t.shortDescription.slice(0, 100)}...</p>
-                <span className="mt-2 inline-block text-xs text-emerald-400">✓ Free plan available</span>
+                <span className="mt-2 inline-block text-xs text-emerald-600 dark:text-emerald-400">✓ Free plan available</span>
               </a>
             ))}
           </div>
         </Container>
       </section>
       {budgetTools.length > 0 && (
-        <section className="border-t border-zinc-800 py-12">
+        <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
           <Container>
-            <h2 className="text-2xl font-bold text-zinc-100">Budget Picks (Under $50/mo)</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">Budget Picks (Under $50/mo)</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {budgetTools.map((t) => (
-                <div key={t.slug} className="rounded-lg border border-zinc-800 p-4">
-                  <h3 className="font-semibold text-zinc-200">{t.name}</h3>
+                <div key={t.slug} className="rounded-lg border border-gray-200 dark:border-zinc-800 p-4">
+                  <h3 className="font-semibold text-gray-800 dark:text-zinc-200">{t.name}</h3>
                   <p className="text-sm text-zinc-400">{t.startingPrice}</p>
                 </div>
               ))}
@@ -62,8 +62,8 @@ function PricingPage() {
           </Container>
         </section>
       )}
-      <section className="border-t border-zinc-800 py-12">
-        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-zinc-100">FAQ</h2><FAQ items={pricingFAQ} className="mt-6" /></div></Container>
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
+        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">FAQ</h2><FAQ items={pricingFAQ} className="mt-6" /></div></Container>
       </section>
     </div>
   );

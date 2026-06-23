@@ -23,7 +23,7 @@ function GlossaryPage() {
   if (!term) {
     return (
       <Container className="py-16 text-center">
-        <h1 className="text-2xl font-bold text-zinc-100">Glossary term not found</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">Glossary term not found</h1>
         <a href="/" className="mt-4 inline-block text-blue-400">← Home</a>
       </Container>
     );
@@ -37,10 +37,10 @@ function GlossaryPage() {
 
   return (
     <div>
-      <section className="border-b border-zinc-800 py-16">
+      <section className="border-b border-gray-200 dark:border-zinc-800 py-16">
         <Container>
-          <a href="/" className="text-sm text-blue-400 hover:text-blue-300">← Home</a>
-          <h1 className="mt-4 text-3xl font-bold text-zinc-100">{term.term}</h1>
+          <a href="/" className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-300">← Home</a>
+          <h1 className="mt-4 text-3xl font-bold text-gray-900 dark:text-zinc-100">{term.term}</h1>
         </Container>
       </section>
 
@@ -48,38 +48,38 @@ function GlossaryPage() {
         <Container>
           <div className="mx-auto max-w-2xl space-y-8">
             <div>
-              <h2 className="text-xl font-bold text-zinc-100">Definition</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">Definition</h2>
               <p className="mt-2 leading-relaxed text-zinc-400">{term.definition}</p>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-zinc-100">Why It Matters</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">Why It Matters</h2>
               <p className="mt-2 leading-relaxed text-zinc-400">{term.whyItMatters}</p>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-zinc-100">How It Is Measured</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">How It Is Measured</h2>
               <p className="mt-2 leading-relaxed text-zinc-400">{term.howMeasured}</p>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-zinc-100">Related Tools</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">Related Tools</h2>
               <p className="mt-2 text-zinc-400">
-                <a href="/best-ai-visibility-tools" className="text-blue-400 hover:text-blue-300">Browse AI visibility tools →</a>
+                <a href="/best-ai-visibility-tools" className="text-blue-600 dark:text-blue-400 hover:text-blue-300">Browse AI visibility tools →</a>
               </p>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-zinc-100">Related Pages</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">Related Pages</h2>
               <div className="mt-2 flex flex-wrap gap-3">
-                <a href="/best-ai-visibility-tools" className="text-blue-400 hover:text-blue-300 text-sm">Best AI Visibility Tools</a>
+                <a href="/best-ai-visibility-tools" className="text-blue-600 dark:text-blue-400 hover:text-blue-300 text-sm">Best AI Visibility Tools</a>
                 <span className="text-zinc-700">·</span>
-                <a href="/ai-visibility-checker" className="text-blue-400 hover:text-blue-300 text-sm">Free AI Visibility Checker</a>
+                <a href="/ai-visibility-checker" className="text-blue-600 dark:text-blue-400 hover:text-blue-300 text-sm">Free AI Visibility Checker</a>
                 <span className="text-zinc-700">·</span>
-                <a href="/ai-visibility-tools-pricing" className="text-blue-400 hover:text-blue-300 text-sm">Pricing Comparison</a>
+                <a href="/ai-visibility-tools-pricing" className="text-blue-600 dark:text-blue-400 hover:text-blue-300 text-sm">Pricing Comparison</a>
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="border-t border-zinc-800 py-8">
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-8">
         <Container><div className="mx-auto max-w-2xl"><FAQ items={faq} /></div></Container>
       </section>
     </div>

@@ -28,28 +28,28 @@ function CheckerPage() {
 
   return (
     <div>
-      <section className="border-b border-zinc-800 py-16">
+      <section className="border-b border-gray-200 dark:border-zinc-800 py-16">
         <Container className="text-center">
-          <h1 className="text-3xl font-bold text-zinc-100">Free AI Visibility Checker</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100">Free AI Visibility Checker</h1>
           <p className="mx-auto mt-4 max-w-xl text-zinc-400">Enter your brand details to get started. We'll prepare a sample AI visibility report for your brand.</p>
         </Container>
       </section>
       <section className="py-12">
         <Container>
           <div className="mx-auto max-w-lg">
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-6">
+            <div className="rounded-lg border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/30 p-6">
               <CheckerForm onSubmit={handleSubmit} />
             </div>
-            <p className="mt-4 text-xs text-zinc-500">
+            <p className="mt-4 text-xs text-gray-400 dark:text-zinc-500">
               This is an early-access checker. The current version collects your inputs and helps us prepare a sample report. It does not perform live monitoring across AI platforms yet.
             </p>
           </div>
         </Container>
       </section>
-      <section className="border-t border-zinc-800 py-12">
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
         <Container>
           <div className="mx-auto max-w-2xl">
-            <h2 className="text-2xl font-bold text-zinc-100">What a Full Report Includes</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">What a Full Report Includes</h2>
             <ul className="mt-6 space-y-3 text-zinc-400">
               <li>✓ Brand mention overview across all tracked AI platforms</li>
               <li>✓ Platform-by-platform breakdown with mention frequency</li>
@@ -60,8 +60,8 @@ function CheckerPage() {
           </div>
         </Container>
       </section>
-      <section className="border-t border-zinc-800 py-12">
-        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-zinc-100">FAQ</h2><FAQ items={checkerFAQ} className="mt-6" /></div></Container>
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
+        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">FAQ</h2><FAQ items={checkerFAQ} className="mt-6" /></div></Container>
       </section>
     </div>
   );

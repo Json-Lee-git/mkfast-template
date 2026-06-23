@@ -33,27 +33,27 @@ function BestToolsPage() {
 
   return (
     <div>
-      <section className="border-b border-zinc-800 py-16">
+      <section className="border-b border-gray-200 dark:border-zinc-800 py-16">
         <Container>
-          <h1 className="text-3xl font-bold text-zinc-100">Best AI Visibility Tools</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-100">Best AI Visibility Tools</h1>
           <p className="mt-4 max-w-2xl text-zinc-400">Compare the top AI visibility tools for monitoring brand presence across ChatGPT, Perplexity, Gemini, Claude, and Google AI Overviews. Find the right tool for your budget and needs.</p>
         </Container>
       </section>
 
       <section className="py-12"><Container><ComparisonTable tools={tools} cols={cols} title="Quick Comparison" /></Container></section>
 
-      <section className="border-t border-zinc-800 py-12">
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
         <Container>
-          <h2 className="text-2xl font-bold text-zinc-100">All Tools</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">All Tools</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {tools.map((tool) => (<ToolCard key={tool.slug} tool={tool} />))}
           </div>
         </Container>
       </section>
 
-      <section className="border-t border-zinc-800 py-12">
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
         <Container>
-          <h2 className="text-2xl font-bold text-zinc-100">Best For Different Use Cases</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">Best For Different Use Cases</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {[
               { title: "Best for Agencies", tool: "Otterly AI", desc: "Automated reports, competitor comparison, and white-label options." },
@@ -63,9 +63,9 @@ function BestToolsPage() {
               { title: "Best for Developers", tool: "LLMrefs", desc: "API-first architecture with webhook notifications." },
               { title: "Most Platforms", tool: "Scrunch AI", desc: "Full six-platform coverage with sentiment analysis." },
             ].map((item) => (
-              <div key={item.title} className="rounded-lg border border-zinc-800 p-5">
-                <span className="text-xs text-zinc-500">{item.title}</span>
-                <h3 className="mt-1 font-semibold text-zinc-200">{item.tool}</h3>
+              <div key={item.title} className="rounded-lg border border-gray-200 dark:border-zinc-800 p-5">
+                <span className="text-xs text-gray-400 dark:text-zinc-500">{item.title}</span>
+                <h3 className="mt-1 font-semibold text-gray-800 dark:text-zinc-200">{item.tool}</h3>
                 <p className="mt-1 text-sm text-zinc-400">{item.desc}</p>
               </div>
             ))}
@@ -73,8 +73,8 @@ function BestToolsPage() {
         </Container>
       </section>
 
-      <section className="border-t border-zinc-800 py-12">
-        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-zinc-100">FAQ</h2><FAQ items={bestToolsFAQ} className="mt-6" /></div></Container>
+      <section className="border-t border-gray-200 dark:border-zinc-800 py-12">
+        <Container><div className="mx-auto max-w-2xl"><h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">FAQ</h2><FAQ items={bestToolsFAQ} className="mt-6" /></div></Container>
       </section>
     </div>
   );
