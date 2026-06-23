@@ -25,6 +25,9 @@ import { websiteConfig } from './website';
  */
 export function getNavbarLinks(): MenuItemConfig[] {
   const links: MenuItemConfig[] = [
+    { title: "Tools Directory", href: "/best-ai-visibility-tools", external: false },
+    { title: "Pricing", href: "/ai-visibility-tools-pricing", external: false },
+    { title: "Free Checker", href: "/ai-visibility-checker", external: false },
     { title: m.nav_features(), href: Routes.Features, external: false },
   ];
   if (websiteConfig.payment?.enable) {
