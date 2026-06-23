@@ -14,13 +14,17 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ManifestDotjsonRouteImport } from './routes/manifest[.]json'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as BestAiVisibilityToolsRouteImport } from './routes/best-ai-visibility-tools'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AiVisibilityToolsPricingRouteImport } from './routes/ai-visibility-tools-pricing'
+import { Route as AiVisibilityCheckerRouteImport } from './routes/ai-visibility-checker'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
 import { Route as SettingsSecurityRouteImport } from './routes/settings/security'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPaymentRouteImport } from './routes/settings/payment'
@@ -28,6 +32,8 @@ import { Route as SettingsNotificationsRouteImport } from './routes/settings/not
 import { Route as SettingsFilesRouteImport } from './routes/settings/files'
 import { Route as SettingsBillingRouteImport } from './routes/settings/billing'
 import { Route as SettingsApikeysRouteImport } from './routes/settings/apikeys'
+import { Route as GlossarySlugRouteImport } from './routes/glossary.$slug'
+import { Route as CompareComparisonSlugRouteImport } from './routes/compare.$comparisonSlug'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
@@ -78,9 +84,25 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BestAiVisibilityToolsRoute = BestAiVisibilityToolsRouteImport.update({
+  id: '/best-ai-visibility-tools',
+  path: '/best-ai-visibility-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiVisibilityToolsPricingRoute =
+  AiVisibilityToolsPricingRouteImport.update({
+    id: '/ai-visibility-tools-pricing',
+    path: '/ai-visibility-tools-pricing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AiVisibilityCheckerRoute = AiVisibilityCheckerRouteImport.update({
+  id: '/ai-visibility-checker',
+  path: '/ai-visibility-checker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -112,6 +134,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const ToolsSlugRoute = ToolsSlugRouteImport.update({
+  id: '/tools/$slug',
+  path: '/tools/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsSecurityRoute = SettingsSecurityRouteImport.update({
   id: '/security',
@@ -147,6 +174,16 @@ const SettingsApikeysRoute = SettingsApikeysRouteImport.update({
   id: '/apikeys',
   path: '/apikeys',
   getParentRoute: () => SettingsRoute,
+} as any)
+const GlossarySlugRoute = GlossarySlugRouteImport.update({
+  id: '/glossary/$slug',
+  path: '/glossary/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareComparisonSlugRoute = CompareComparisonSlugRouteImport.update({
+  id: '/compare/$comparisonSlug',
+  path: '/compare/$comparisonSlug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
@@ -272,7 +309,10 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-visibility-checker': typeof AiVisibilityCheckerRoute
+  '/ai-visibility-tools-pricing': typeof AiVisibilityToolsPricingRoute
   '/auth': typeof AuthRouteWithChildren
+  '/best-ai-visibility-tools': typeof BestAiVisibilityToolsRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -298,6 +338,8 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$comparisonSlug': typeof CompareComparisonSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/settings/apikeys': typeof SettingsApikeysRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/files': typeof SettingsFilesRoute
@@ -305,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/$slug': typeof ToolsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -316,7 +359,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-visibility-checker': typeof AiVisibilityCheckerRoute
+  '/ai-visibility-tools-pricing': typeof AiVisibilityToolsPricingRoute
   '/auth': typeof AuthRouteWithChildren
+  '/best-ai-visibility-tools': typeof BestAiVisibilityToolsRoute
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -340,6 +386,8 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$comparisonSlug': typeof CompareComparisonSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/settings/apikeys': typeof SettingsApikeysRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/files': typeof SettingsFilesRoute
@@ -347,6 +395,7 @@ export interface FileRoutesByTo {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/$slug': typeof ToolsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -360,7 +409,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-visibility-checker': typeof AiVisibilityCheckerRoute
+  '/ai-visibility-tools-pricing': typeof AiVisibilityToolsPricingRoute
   '/auth': typeof AuthRouteWithChildren
+  '/best-ai-visibility-tools': typeof BestAiVisibilityToolsRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -386,6 +438,8 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$comparisonSlug': typeof CompareComparisonSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/settings/apikeys': typeof SettingsApikeysRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/files': typeof SettingsFilesRoute
@@ -393,6 +447,7 @@ export interface FileRoutesById {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/$slug': typeof ToolsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -407,7 +462,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/ai-visibility-checker'
+    | '/ai-visibility-tools-pricing'
     | '/auth'
+    | '/best-ai-visibility-tools'
     | '/dashboard'
     | '/manifest.json'
     | '/robots.txt'
@@ -433,6 +491,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/$comparisonSlug'
+    | '/glossary/$slug'
     | '/settings/apikeys'
     | '/settings/billing'
     | '/settings/files'
@@ -440,6 +500,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/$slug'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
@@ -451,7 +512,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-visibility-checker'
+    | '/ai-visibility-tools-pricing'
     | '/auth'
+    | '/best-ai-visibility-tools'
     | '/manifest.json'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -475,6 +539,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/$comparisonSlug'
+    | '/glossary/$slug'
     | '/settings/apikeys'
     | '/settings/billing'
     | '/settings/files'
@@ -482,6 +548,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/$slug'
     | '/admin'
     | '/blog'
     | '/dashboard'
@@ -494,7 +561,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/ai-visibility-checker'
+    | '/ai-visibility-tools-pricing'
     | '/auth'
+    | '/best-ai-visibility-tools'
     | '/dashboard'
     | '/manifest.json'
     | '/robots.txt'
@@ -520,6 +590,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/$comparisonSlug'
+    | '/glossary/$slug'
     | '/settings/apikeys'
     | '/settings/billing'
     | '/settings/files'
@@ -527,6 +599,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/$slug'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
@@ -540,7 +613,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AiVisibilityCheckerRoute: typeof AiVisibilityCheckerRoute
+  AiVisibilityToolsPricingRoute: typeof AiVisibilityToolsPricingRoute
   AuthRoute: typeof AuthRouteWithChildren
+  BestAiVisibilityToolsRoute: typeof BestAiVisibilityToolsRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   ManifestDotjsonRoute: typeof ManifestDotjsonRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -560,6 +636,9 @@ export interface RootRouteChildren {
   testsTestErrorRoute: typeof testsTestErrorRoute
   ApiPingRoute: typeof ApiPingRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  CompareComparisonSlugRoute: typeof CompareComparisonSlugRoute
+  GlossarySlugRoute: typeof GlossarySlugRoute
+  ToolsSlugRoute: typeof ToolsSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiStorageFileRoute: typeof ApiStorageFileRoute
@@ -604,11 +683,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/best-ai-visibility-tools': {
+      id: '/best-ai-visibility-tools'
+      path: '/best-ai-visibility-tools'
+      fullPath: '/best-ai-visibility-tools'
+      preLoaderRoute: typeof BestAiVisibilityToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-visibility-tools-pricing': {
+      id: '/ai-visibility-tools-pricing'
+      path: '/ai-visibility-tools-pricing'
+      fullPath: '/ai-visibility-tools-pricing'
+      preLoaderRoute: typeof AiVisibilityToolsPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-visibility-checker': {
+      id: '/ai-visibility-checker'
+      path: '/ai-visibility-checker'
+      fullPath: '/ai-visibility-checker'
+      preLoaderRoute: typeof AiVisibilityCheckerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -652,6 +752,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/tools/$slug': {
+      id: '/tools/$slug'
+      path: '/tools/$slug'
+      fullPath: '/tools/$slug'
+      preLoaderRoute: typeof ToolsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/settings/security': {
       id: '/settings/security'
@@ -701,6 +808,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/apikeys'
       preLoaderRoute: typeof SettingsApikeysRouteImport
       parentRoute: typeof SettingsRoute
+    }
+    '/glossary/$slug': {
+      id: '/glossary/$slug'
+      path: '/glossary/$slug'
+      fullPath: '/glossary/$slug'
+      preLoaderRoute: typeof GlossarySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/$comparisonSlug': {
+      id: '/compare/$comparisonSlug'
+      path: '/compare/$comparisonSlug'
+      fullPath: '/compare/$comparisonSlug'
+      preLoaderRoute: typeof CompareComparisonSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -944,7 +1065,10 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AiVisibilityCheckerRoute: AiVisibilityCheckerRoute,
+  AiVisibilityToolsPricingRoute: AiVisibilityToolsPricingRoute,
   AuthRoute: AuthRouteWithChildren,
+  BestAiVisibilityToolsRoute: BestAiVisibilityToolsRoute,
   DashboardRoute: DashboardRouteWithChildren,
   ManifestDotjsonRoute: ManifestDotjsonRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
@@ -964,6 +1088,9 @@ const rootRouteChildren: RootRouteChildren = {
   testsTestErrorRoute: testsTestErrorRoute,
   ApiPingRoute: ApiPingRoute,
   BlogSlugRoute: BlogSlugRoute,
+  CompareComparisonSlugRoute: CompareComparisonSlugRoute,
+  GlossarySlugRoute: GlossarySlugRoute,
+  ToolsSlugRoute: ToolsSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiStorageFileRoute: ApiStorageFileRoute,
