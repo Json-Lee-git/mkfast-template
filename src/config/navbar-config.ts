@@ -1,4 +1,3 @@
-import { m } from '@/locale/paraglide/messages';
 import { Routes } from '@/lib/routes';
 import {
   IconBuilding,
@@ -28,138 +27,38 @@ export function getNavbarLinks(): MenuItemConfig[] {
     { title: "Tools Directory", href: "/best-ai-visibility-tools", external: false },
     { title: "Pricing", href: "/ai-visibility-tools-pricing", external: false },
     { title: "Free Checker", href: "/ai-visibility-checker", external: false },
-    { title: m.nav_features(), href: Routes.Features, external: false },
+    { title: "Features", href: Routes.Features, external: false },
   ];
   if (websiteConfig.payment?.enable) {
-    links.push({
-      title: m.nav_pricing(),
-      href: Routes.Pricing,
-      external: false,
-    });
+    links.push({ title: "Pricing", href: Routes.Pricing, external: false });
   }
   if (websiteConfig.blog?.enable) {
-    links.push({ title: m.nav_blog(), href: Routes.Blog, external: false });
+    links.push({ title: "Blog", href: Routes.Blog, external: false });
   }
   links.push({
-    title: m.nav_ai_title(),
+    title: "AI Tools",
     items: [
-      {
-        title: m.nav_ai_summarization_title(),
-        description: m.nav_ai_summarization_description(),
-        href: Routes.AiSummarization,
-        icon: IconWand,
-        external: false,
-      },
-      {
-        title: m.nav_ai_translation_title(),
-        description: m.nav_ai_translation_description(),
-        href: Routes.AiTranslation,
-        icon: IconLanguage,
-        external: false,
-      },
-      {
-        title: m.nav_ai_tagline_title(),
-        description: m.nav_ai_tagline_description(),
-        href: Routes.AiTagline,
-        icon: IconBulb,
-        external: false,
-      },
-      {
-        title: m.nav_ai_tts_title(),
-        description: m.nav_ai_tts_description(),
-        href: Routes.AiTts,
-        icon: IconMicrophone,
-        external: false,
-      },
-      {
-        title: m.nav_ai_caption_title(),
-        description: m.nav_ai_caption_description(),
-        href: Routes.AiCaption,
-        icon: IconPhotoScan,
-        external: false,
-      },
-      {
-        title: m.nav_ai_image_cf_title(),
-        description: m.nav_ai_image_cf_description(),
-        href: Routes.AiImageCf,
-        icon: IconSparkles,
-        external: false,
-      },
-      {
-        title: m.nav_ai_image_fal_title(),
-        description: m.nav_ai_image_fal_description(),
-        href: Routes.AiImageFal,
-        icon: IconPhoto,
-        external: false,
-      },
-      {
-        title: m.nav_ai_image_edit_title(),
-        description: m.nav_ai_image_edit_description(),
-        href: Routes.AiImageEdit,
-        icon: IconPhotoEdit,
-        external: false,
-      },
+      { title: "AI Summarization", description: "Summarize text with AI", href: Routes.AiSummarization, icon: IconWand, external: false },
+      { title: "AI Translation", description: "Translate text", href: Routes.AiTranslation, icon: IconLanguage, external: false },
+      { title: "AI Tagline Generator", description: "Generate taglines", href: Routes.AiTagline, icon: IconBulb, external: false },
+      { title: "Text to Speech", description: "Convert text to speech", href: Routes.AiTts, icon: IconMicrophone, external: false },
+      { title: "AI Caption", description: "Generate image captions", href: Routes.AiCaption, icon: IconPhotoScan, external: false },
+      { title: "AI Image (CF)", description: "Generate images via Cloudflare", href: Routes.AiImageCf, icon: IconSparkles, external: false },
+      { title: "AI Image (Fal)", description: "Generate images via Fal.ai", href: Routes.AiImageFal, icon: IconPhoto, external: false },
+      { title: "AI Image Edit", description: "Edit images with AI", href: Routes.AiImageEdit, icon: IconPhotoEdit, external: false },
     ],
   });
   links.push({
-    title: m.nav_pages(),
+    title: "Pages",
     items: [
-      {
-        title: m.nav_about_title(),
-        description: m.nav_about_description(),
-        href: Routes.About,
-        icon: IconBuilding,
-        external: false,
-      },
-      {
-        title: m.nav_contact_title(),
-        description: m.nav_contact_description(),
-        href: Routes.Contact,
-        icon: IconMail,
-        external: false,
-      },
-      {
-        title: m.nav_waitlist_title(),
-        description: m.nav_waitlist_description(),
-        href: Routes.Waitlist,
-        icon: IconMailbox,
-        external: false,
-      },
-      {
-        title: m.nav_changelog_title(),
-        description: m.nav_changelog_description(),
-        href: Routes.Changelog,
-        icon: IconListCheck,
-        external: false,
-      },
-      {
-        title: m.nav_roadmap_title(),
-        description: m.nav_roadmap_description(),
-        href: Routes.Roadmap,
-        icon: IconRoute,
-        external: false,
-      },
-      {
-        title: m.nav_cookie_policy_title(),
-        description: m.nav_cookie_policy_description(),
-        href: Routes.CookiePolicy,
-        icon: IconCookie,
-        external: false,
-      },
-      {
-        title: m.nav_privacy_policy_title(),
-        description: m.nav_privacy_policy_description(),
-        href: Routes.PrivacyPolicy,
-        icon: IconShieldCheck,
-        external: false,
-      },
-      {
-        title: m.nav_terms_of_service_title(),
-        description: m.nav_terms_of_service_description(),
-        href: Routes.TermsOfService,
-        icon: IconFileText,
-        external: false,
-      },
+      { title: "About", description: "About this site", href: Routes.About, icon: IconBuilding, external: false },
+      { title: "Contact", description: "Get in touch", href: Routes.Contact, icon: IconMail, external: false },
+      { title: "Waitlist", description: "Join the waitlist", href: Routes.Waitlist, icon: IconMailbox, external: false },
+      { title: "Changelog", description: "Product updates", href: Routes.Changelog, icon: IconListCheck, external: false },
+      { title: "Roadmap", description: "Planned features", href: Routes.Roadmap, icon: IconRoute, external: false },
+      { title: "Cookie Policy", description: "Cookie usage", href: Routes.CookiePolicy, icon: IconCookie, external: false },
+      { title: "Privacy Policy", description: "Privacy policy", href: Routes.PrivacyPolicy, icon: IconShieldCheck, external: false },
+      { title: "Terms of Service", description: "Terms and conditions", href: Routes.TermsOfService, icon: IconFileText, external: false },
     ],
   });
   return links;
