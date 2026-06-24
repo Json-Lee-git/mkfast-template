@@ -53,6 +53,10 @@ export const Route = createRootRouteWithContext<{
       meta: [
         { charSet: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          name: 'google-site-verification',
+          content: '6YodOYqUG21MSm47m6OI0s7TsczStreJgXmixOx-sWg',
+        },
         { title: websiteConfig.metadata?.title },
         { name: 'description', content: websiteConfig.metadata?.description },
         { name: 'theme-color', content: '#09090b' },

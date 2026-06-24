@@ -85,6 +85,10 @@ export const metadata = ({
     content?: string;
   }> = [
     { title },
+    {
+      name: 'google-site-verification',
+      content: '6YodOYqUG21MSm47m6OI0s7TsczStreJgXmixOx-sWg',
+    },
     ...(description ? [{ name: 'description', content: description }] : []),
     ...(keywords ? [{ name: 'keywords', content: keywords }] : []),
     // OG metadata
