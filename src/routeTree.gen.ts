@@ -23,6 +23,7 @@ import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ToolsLlmsTxtGeneratorRouteImport } from './routes/tools.llms-txt-generator'
 import { Route as ToolsLlmsTxtCheckerRouteImport } from './routes/tools.llms-txt-checker'
+import { Route as ToolsAeoCheckerRouteImport } from './routes/tools.aeo-checker'
 import { Route as SettingsSecurityRouteImport } from './routes/settings/security'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPaymentRouteImport } from './routes/settings/payment'
@@ -126,6 +127,11 @@ const ToolsLlmsTxtGeneratorRoute = ToolsLlmsTxtGeneratorRouteImport.update({
 const ToolsLlmsTxtCheckerRoute = ToolsLlmsTxtCheckerRouteImport.update({
   id: '/tools/llms-txt-checker',
   path: '/tools/llms-txt-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsAeoCheckerRoute = ToolsAeoCheckerRouteImport.update({
+  id: '/tools/aeo-checker',
+  path: '/tools/aeo-checker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsSecurityRoute = SettingsSecurityRouteImport.update({
@@ -338,6 +344,7 @@ export interface FileRoutesByFullPath {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/admin/': typeof AdminIndexRoute
@@ -385,6 +392,7 @@ export interface FileRoutesByTo {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/admin': typeof AdminIndexRoute
@@ -436,6 +444,7 @@ export interface FileRoutesById {
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
+  '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/admin/': typeof AdminIndexRoute
@@ -488,6 +497,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/admin/'
@@ -535,6 +545,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/admin'
@@ -585,6 +596,7 @@ export interface FileRouteTypes {
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
+    | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/admin/'
@@ -623,6 +635,7 @@ export interface RootRouteChildren {
   GuidesLlmsFullTxtRoute: typeof GuidesLlmsFullTxtRoute
   GuidesLlmsTxtFileRoute: typeof GuidesLlmsTxtFileRoute
   GuidesLlmsTxtSeoRoute: typeof GuidesLlmsTxtSeoRoute
+  ToolsAeoCheckerRoute: typeof ToolsAeoCheckerRoute
   ToolsLlmsTxtCheckerRoute: typeof ToolsLlmsTxtCheckerRoute
   ToolsLlmsTxtGeneratorRoute: typeof ToolsLlmsTxtGeneratorRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -730,6 +743,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/llms-txt-checker'
       fullPath: '/tools/llms-txt-checker'
       preLoaderRoute: typeof ToolsLlmsTxtCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/aeo-checker': {
+      id: '/tools/aeo-checker'
+      path: '/tools/aeo-checker'
+      fullPath: '/tools/aeo-checker'
+      preLoaderRoute: typeof ToolsAeoCheckerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/security': {
@@ -1067,6 +1087,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesLlmsFullTxtRoute: GuidesLlmsFullTxtRoute,
   GuidesLlmsTxtFileRoute: GuidesLlmsTxtFileRoute,
   GuidesLlmsTxtSeoRoute: GuidesLlmsTxtSeoRoute,
+  ToolsAeoCheckerRoute: ToolsAeoCheckerRoute,
   ToolsLlmsTxtCheckerRoute: ToolsLlmsTxtCheckerRoute,
   ToolsLlmsTxtGeneratorRoute: ToolsLlmsTxtGeneratorRoute,
   BlogIndexRoute: BlogIndexRoute,

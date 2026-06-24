@@ -5,6 +5,7 @@ import {
   IconFileText,
   IconSpy,
   IconArrowRight,
+  IconScan,
 } from '@tabler/icons-react';
 
 const features = [
@@ -25,6 +26,12 @@ const features = [
     title: 'AI Crawlability Checker',
     desc: 'Check whether AI crawlers like GPTBot, ClaudeBot, and PerplexityBot can access your site. Part of the LLMs.txt checker.',
     href: '/tools/llms-txt-checker#crawlers',
+  },
+  {
+    icon: IconScan,
+    title: 'AEO Checker',
+    desc: 'Run a technical AEO audit for your page. Check structured data, answer-ready content, AI crawler access, and trust signals.',
+    href: '/tools/aeo-checker',
   },
 ];
 
