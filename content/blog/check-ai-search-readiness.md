@@ -57,3 +57,11 @@ It gives you a readiness score and a list of specific things to fix. No signup r
 None of this guarantees your site will show up in AI search results. It does not guarantee citations or traffic. What it does is remove the dumb obstacles: blocked crawlers, missing files, broken links. If your site cannot be read by the systems that might surface it, nothing else you do matters.
 
 Checking these five things takes under five minutes. It is the cheapest thing you can do to prepare for a world where AI-mediated search keeps growing.
+
+## More from our blog
+
+- [How to Create an LLMs.txt File — Step-by-Step Guide for Any Website](/blog/create-llms-txt-step-by-step)
+- [GPTBot and AI Crawler Access Guide — Robots.txt Rules for ChatGPT, Claude, Perplexity](/blog/gptbot-ai-crawler-access-guide)
+- [LLMs.txt Best Practices — Format, Template, and Real Examples](/blog/llms-txt-best-practices)
+- [LLMs.txt vs Robots.txt vs Sitemap — What Each File Does](/blog/llms-txt-vs-robots-vs-sitemap)
+- [What Is an LLMs.txt File and How to Create One for Your Website](/blog/what-is-llms-txt)

@@ -86,3 +86,11 @@ Or write it yourself. Open a text editor, follow the format above, save as `llms
 Either way, run it through the [LLMs.txt Checker](/tools/llms-txt-checker) afterward. It tells you if the file is reachable, whether the links work, and which AI crawlers can access your site.
 
 Ten minutes, zero dollars. If nothing else, you stop wondering about it.
+
+## More from our blog
+
+- [How to Check if Your Website Is Ready for AI Search](/blog/check-ai-search-readiness)
+- [How to Create an LLMs.txt File — Step-by-Step Guide for Any Website](/blog/create-llms-txt-step-by-step)
+- [GPTBot and AI Crawler Access Guide — Robots.txt Rules for ChatGPT, Claude, Perplexity](/blog/gptbot-ai-crawler-access-guide)
+- [LLMs.txt Best Practices — Format, Template, and Real Examples](/blog/llms-txt-best-practices)
+- [LLMs.txt vs Robots.txt vs Sitemap — What Each File Does](/blog/llms-txt-vs-robots-vs-sitemap)

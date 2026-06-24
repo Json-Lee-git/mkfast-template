@@ -67,3 +67,11 @@ robots.txt and sitemap.xml are probably already handled. For llms.txt:
 - Read the [LLMs.txt format guide](/guides/llms-txt-file) if you want the details
 
 The three files together give you complete coverage for both search engines and AI systems. robots.txt handles access. sitemap.xml handles discovery. llms.txt handles understanding. That is the whole picture.
+
+## More from our blog
+
+- [How to Check if Your Website Is Ready for AI Search](/blog/check-ai-search-readiness)
+- [How to Create an LLMs.txt File — Step-by-Step Guide for Any Website](/blog/create-llms-txt-step-by-step)
+- [GPTBot and AI Crawler Access Guide — Robots.txt Rules for ChatGPT, Claude, Perplexity](/blog/gptbot-ai-crawler-access-guide)
+- [LLMs.txt Best Practices — Format, Template, and Real Examples](/blog/llms-txt-best-practices)
+- [What Is an LLMs.txt File and How to Create One for Your Website](/blog/what-is-llms-txt)
