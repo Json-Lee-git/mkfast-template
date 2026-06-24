@@ -121,6 +121,8 @@ function AeoCheckerPage() {
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadMessage, setLeadMessage] = useState<string | null>(null);
   const [leadSuccess, setLeadSuccess] = useState(false);
+  const [showPayModal, setShowPayModal] = useState(false);
+  const [payEmail, setPayEmail] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -631,6 +633,130 @@ function AeoCheckerPage() {
                   {new Date(r.checkedAt).toLocaleString()}
                 </p>
               </div>
+
+              {/* Full Report CTA */}
+              <div className="rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 p-8 text-center">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
+                  Unlock the full AEO Audit Report for $19
+                </h3>
+                <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
+                  We found {r.recommendations.length} technical issues. Unlock
+                  the full report to get prioritized fixes, schema
+                  recommendations, answer-ready content suggestions, and query
+                  fan-out content gaps.
+                </p>
+
+                {/* Free vs Paid comparison */}
+                <div className="mt-6 overflow-x-auto">
+                  <table className="w-full text-sm text-left">
+                    <thead>
+                      <tr className="border-b border-blue-200 dark:border-blue-800">
+                        <th className="py-2 font-medium text-gray-500 dark:text-zinc-400">
+                          Feature
+                        </th>
+                        <th className="py-2 text-center font-medium text-gray-500 dark:text-zinc-400">
+                          Free Result
+                        </th>
+                        <th className="py-2 text-center font-medium text-blue-700 dark:text-blue-400">
+                          Full Report
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-600 dark:text-zinc-400">
+                      {[
+                        ['Technical AEO Score', 'Yes', 'Yes'],
+                        ['AI Readiness Summary', 'Yes', 'Yes'],
+                        ['Top 3 Issues', 'Yes', 'Yes'],
+                        ['Full Issue List', 'No', 'Yes'],
+                        ['Prioritized Fixes', 'No', 'Yes'],
+                        ['Schema Recommendations', 'Basic', 'Detailed'],
+                        ['Content Suggestions', 'Basic', 'Detailed'],
+                        ['Query Fan-Out Content Gaps', 'No', 'Yes'],
+                        ['Markdown Export', 'No', 'Yes'],
+                      ].map(([f, free, paid]) => (
+                        <tr
+                          key={f}
+                          className="border-b border-blue-100/50 dark:border-blue-900/30"
+                        >
+                          <td className="py-1.5">{f}</td>
+                          <td className="py-1.5 text-center">{free}</td>
+                          <td className="py-1.5 text-center font-medium text-blue-700 dark:text-blue-400">
+                            {paid}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowPayModal(true)}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 active:scale-[0.98]"
+                  >
+                    Unlock Full Report - $19
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900/50 px-5 py-3 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-gray-400 dark:hover:border-zinc-600 active:scale-[0.98]"
+                  >
+                    Email me the free summary
+                  </button>
+                </div>
+              </div>
+
+              {/* Fake-door modal */}
+              {showPayModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                  <div className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-900 p-8 shadow-xl">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-zinc-100">
+                      Full Report - $19
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
+                      Full paid reports are launching soon. Leave your email to
+                      get early access and a sample report.
+                    </p>
+                    <div className="mt-6 space-y-3">
+                      <input
+                        type="email"
+                        placeholder="Your email"
+                        value={payEmail}
+                        onChange={(e) => setPayEmail(e.target.value)}
+                        className="w-full rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Website URL"
+                        defaultValue={r.normalizedUrl}
+                        className="w-full rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm"
+                      />
+                    </div>
+                    <div className="mt-4 flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPayEmail('');
+                          setShowPayModal(false);
+                        }}
+                        className="flex-1 rounded-xl border border-gray-300 dark:border-zinc-700 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-zinc-300"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPayEmail('');
+                          setShowPayModal(false);
+                        }}
+                        className="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white"
+                      >
+                        Join early access
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Lead capture */}
               <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8">
