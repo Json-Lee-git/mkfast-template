@@ -1,26 +1,20 @@
 import { AIHomePage } from '@/components/blocks/ai-home';
+import {
+  jsonLd,
+  websiteSchema,
+  organizationSchema,
+} from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/urls';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   head: () => ({
     ...seo('/', {
-      title: 'AI Visibility Tools Directory — Find & Compare AI Search Visibility Tools',
-      description: 'Compare the best AI visibility tools for tracking brand mentions across ChatGPT, Perplexity, Gemini, Claude and Google AI Overviews.',
+      title: 'AI Search Readiness Tools - LLMs.txt Checker & Generator',
+      description:
+        "Check your website's LLMs.txt, LLMs-full.txt, sitemap, and AI crawler access. Generate AI-readable files and get a technical AI Search Readiness report.",
     }),
-    scripts: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: 'AI Visibility Tools Directory',
-          description: 'Compare the best AI visibility tools for tracking brand mentions across AI search platforms.',
-          url: getBaseUrl(),
-        }),
-      },
-    ],
+    scripts: [jsonLd(websiteSchema()), jsonLd(organizationSchema())],
   }),
   component: AIHomePage,
 });

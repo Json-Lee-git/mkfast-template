@@ -5,9 +5,12 @@ import { isLinkActive } from '@/lib/urls';
 import { cn } from '@/lib/utils';
 import Container from '@/components/layout/container';
 import { Logo } from '@/components/shared/logo';
-import BuiltWithButton from '@/components/shared/built-with-button';
 import { Link, useLocation } from '@tanstack/react-router';
 import { websiteConfig } from '@/config/website';
+
+const footerTagline =
+  'Compare AI visibility tools for tracking brand mentions across AI search platforms.';
+
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   const pathname = useLocation().pathname;
   const footerLinks = getFooterLinks();
@@ -24,7 +27,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               </span>
             </div>
             <p className="text-muted-foreground text-base py-2 md:pr-12">
-              {m.footer_tagline()}
+              {footerTagline}
             </p>
             <nav
               aria-label={m.common_social_links()}
@@ -100,7 +103,6 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             &copy; {new Date().getFullYear()} {websiteConfig.metadata?.name}.{' '}
             {m.footer_rights_reserved()}
           </span>
-          <BuiltWithButton />
         </Container>
       </div>
     </footer>

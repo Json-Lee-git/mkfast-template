@@ -1,0 +1,14 @@
+# AI Search Readiness Tools
+
+> Free tools to check and generate LLMs.txt files. Validate your website's AI crawler access, sitemap, and technical readiness for AI-powered search.
+
+## Tools
+
+- [LLMs.txt Checker](https://aivisibility.tools/tools/llms-txt-checker): Check if your site has a valid LLMs.txt file. Get a technical readiness report.
+- [LLMs.txt Generator](https://aivisibility.tools/tools/llms-txt-generator): Generate an LLMs.txt file from your sitemap or manual input.
+
+## Guides
+
+- [What Is an LLMs.txt File?](https://aivisibility.tools/guides/llms-txt-file): Format, examples, and how to create one.
+- [Does LLMs.txt Help SEO?](https://aivisibility.tools/guides/llms-txt-seo): What it can and cannot do for your search visibility.
+- [What Is LLMs-full.txt?](https://aivisibility.tools/guides/llms-full-txt): When to use it and how it differs from LLMs.txt.

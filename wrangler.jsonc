@@ -44,7 +44,7 @@
 
   // Custom domains
   // https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
-  // Custom domains — add your own domain here later
+  // Custom domains: add your own domain here later
   // https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
 
   /**
@@ -63,7 +63,7 @@
       "database_id": "f1c3e26b-0798-439d-b5f8-0e4cf39b08ca",
       "migrations_dir": "./src/db/migrations"
     }
-  ],
+  ]
   /**
    * R2: disabled (not yet enabled on account)
    */

@@ -38,15 +38,10 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   metadata: {
-    get name() {
-      return m.site_name();
-    },
-    get title() {
-      return m.site_title();
-    },
-    get description() {
-      return m.site_description();
-    },
+    name: 'AI Search Readiness Tools',
+    title: 'AI Search Readiness Tools - LLMs.txt Checker & Generator',
+    description:
+      "Check your website's LLMs.txt, LLMs-full.txt, sitemap, and AI crawler access. Generate AI-readable files and get a technical AI Search Readiness report.",
     images: {
       ogImage: '/og.png',
       logoLight: '/logo.png',
@@ -54,10 +49,10 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   social: {
-    github: 'https://github.com/MkFastHQ',
-    discord: 'https://mksaas.link/discord',
-    twitter: 'https://x.com/TanStarter',
-    youtube: 'https://www.youtube.com/@TanStarter',
+    github: '',
+    discord: '',
+    twitter: '',
+    youtube: '',
   },
   auth: {
     enable: true,
@@ -72,8 +67,8 @@ export const websiteConfig: WebsiteConfig = {
   mail: {
     enable: false,
     provider: 'cloudflare',
-    fromEmail: 'TanStarter <support@tanstarter.dev>',
-    supportEmail: 'TanStarter <support@tanstarter.dev>',
+    fromEmail: 'AI Search Readiness Tools <support@aisearchreadiness.tools>',
+    supportEmail: 'AI Search Readiness Tools <support@aisearchreadiness.tools>',
   },
   newsletter: {
     enable: false,

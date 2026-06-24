@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#10b981"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.08"/>
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.02"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Grid lines (subtle) -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+  </g>
+
+  <!-- Logo mark: Abstract document-with-check geometric mark -->
+  <g transform="translate(520, 130)">
+    <!-- Outer rounded square -->
+    <rect x="0" y="0" width="160" height="160" rx="32" fill="none" stroke="url(#accent)" stroke-width="3"/>
+
+    <!-- Inner document shape -->
+    <rect x="40" y="30" width="80" height="100" rx="4" fill="none" stroke="url(#accent)" stroke-width="2.5" stroke-opacity="0.6"/>
+
+    <!-- Document lines -->
+    <line x1="54" y1="50" x2="106" y2="50" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.4"/>
+    <line x1="54" y1="62" x2="96" y2="62" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.3"/>
+    <line x1="54" y1="74" x2="100" y2="74" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.3"/>
+
+    <!-- Checkmark -->
+    <polyline points="48,118 68,138 112,94" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Magnifier arc -->
+    <circle cx="120" cy="120" r="18" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-opacity="0.5"/>
+    <line x1="133" y1="133" x2="146" y2="146" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="#f9fafb" letter-spacing="-1">
+    AI Search Readiness Tools
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="455" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="400" fill="#9ca3af" letter-spacing="0">
+    LLMs.txt Checker &amp; Generator
+  </text>
+
+  <!-- Bottom accent line -->
+  <rect x="460" y="490" width="280" height="2" rx="1" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- URL -->
+  <text x="600" y="550" text-anchor="middle" font-family="monospace" font-size="14" fill="#6b7280">
+    aivisibility.tools
+  </text>
+
+  <!-- Small dots decoration -->
+  <circle cx="200" cy="550" r="2" fill="#3b82f6" opacity="0.4"/>
+  <circle cx="210" cy="550" r="2" fill="#3b82f6" opacity="0.3"/>
+  <circle cx="220" cy="550" r="2" fill="#3b82f6" opacity="0.2"/>
+
+  <circle cx="980" cy="550" r="2" fill="#10b981" opacity="0.2"/>
+  <circle cx="990" cy="550" r="2" fill="#10b981" opacity="0.3"/>
+  <circle cx="1000" cy="550" r="2" fill="#10b981" opacity="0.4"/>
+</svg>

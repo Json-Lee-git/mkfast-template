@@ -1,73 +1,77 @@
-import { m } from '@/locale/paraglide/messages';
 import { Routes } from '@/lib/routes';
 import type { MenuItemConfig } from '../types';
 import { websiteConfig } from './website';
+
 /**
  * Footer links, grouped by section
  */
 export function getFooterLinks(): MenuItemConfig[] {
-  const productItems: MenuItemConfig[] = [];
-  productItems.push({
-    title: m.nav_features(),
-    href: Routes.Features,
-    external: false,
-  });
-  if (websiteConfig.payment?.enable) {
-    productItems.push({
-      title: m.nav_pricing(),
-      href: Routes.Pricing,
+  const productItems: MenuItemConfig[] = [
+    {
+      title: 'LLMs.txt Checker',
+      href: '/tools/llms-txt-checker',
       external: false,
-    });
-  }
-  productItems.push({
-    title: m.nav_faq(),
-    href: Routes.Faqs,
-    external: false,
-  });
-  const resourcesItems: MenuItemConfig[] = [];
+    },
+    {
+      title: 'LLMs.txt Generator',
+      href: '/tools/llms-txt-generator',
+      external: false,
+    },
+  ];
+
+  const resourcesItems: MenuItemConfig[] = [
+    {
+      title: 'LLMs.txt Guide',
+      href: '/guides/llms-txt-file',
+      external: false,
+    },
+    {
+      title: 'LLMs.txt SEO Guide',
+      href: '/guides/llms-txt-seo',
+      external: false,
+    },
+    {
+      title: 'LLMs-full.txt Guide',
+      href: '/guides/llms-full-txt',
+      external: false,
+    },
+  ];
+
   if (websiteConfig.blog?.enable) {
     resourcesItems.push({
-      title: m.nav_blog(),
+      title: 'Blog',
       href: Routes.Blog,
       external: false,
     });
   }
-  resourcesItems.push({
-    title: m.nav_changelog_title(),
-    href: Routes.Changelog,
-    external: false,
-  });
-  resourcesItems.push({
-    title: m.nav_roadmap_title(),
-    href: Routes.Roadmap,
-    external: false,
-  });
+
   const companyItems: MenuItemConfig[] = [
-    { title: m.nav_about_title(), href: Routes.About, external: false },
-    { title: m.nav_contact_title(), href: Routes.Contact, external: false },
-    { title: m.nav_waitlist_title(), href: Routes.Waitlist, external: false },
+    { title: 'About', href: Routes.About, external: false },
+    { title: 'Contact', href: Routes.Contact, external: false },
   ];
+
   const legalItems: MenuItemConfig[] = [
     {
-      title: m.nav_cookie_policy_title(),
+      title: 'Cookie Policy',
       href: Routes.CookiePolicy,
       external: false,
     },
     {
-      title: m.nav_privacy_policy_title(),
+      title: 'Privacy Policy',
       href: Routes.PrivacyPolicy,
       external: false,
     },
     {
-      title: m.nav_terms_of_service_title(),
+      title: 'Terms of Service',
       href: Routes.TermsOfService,
       external: false,
     },
   ];
+
   return [
-    { title: m.nav_product(), items: productItems },
-    { title: m.nav_resources(), items: resourcesItems },
-    { title: m.nav_company(), items: companyItems },
-    { title: m.nav_legal(), items: legalItems },
+    { title: 'Tools', items: productItems },
+    { title: 'Guides', items: resourcesItems },
+    { title: 'Company', items: companyItems },
+    { title: 'Legal', items: legalItems },
   ];
 }
