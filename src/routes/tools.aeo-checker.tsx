@@ -9,10 +9,9 @@ import {
   IconAlertTriangle,
   IconLoader2,
   IconMail,
-  IconSearch,
 } from '@tabler/icons-react';
 import { runAeoAudit, type AeoAuditResult } from '@/api/ai-readiness/aeo';
-import { formatBytes } from '@/lib/formatter';
+import { submitLeadCapture } from '@/api/ai-readiness/lead';
 import { useState } from 'react';
 
 // ---------- Types ----------
@@ -118,6 +117,7 @@ function AeoCheckerPage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AeoAuditResult | null>(null);
   const [leadEmail, setLeadEmail] = useState('');
+  const [leadWebsiteUrl, setLeadWebsiteUrl] = useState('');
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadMessage, setLeadMessage] = useState<string | null>(null);
   const [leadSuccess, setLeadSuccess] = useState(false);
@@ -135,6 +135,8 @@ function AeoCheckerPage() {
     try {
       const data = await runAeoAudit({ data: { url: trimmed } });
       setResult(data);
+      setLeadWebsiteUrl(data.normalizedUrl);
+      setLeadMessage(null);
     } catch (err: any) {
       setError(err?.message || 'Something went wrong. Please try again.');
     } finally {
@@ -144,15 +146,23 @@ function AeoCheckerPage() {
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!leadEmail.trim() || !result) return;
+    if (!leadEmail.trim() || !leadWebsiteUrl.trim() || !result) return;
     setLeadLoading(true);
     setLeadMessage(null);
     try {
-      setLeadMessage('Report request received. Webhook is not configured yet.');
-      setLeadSuccess(false);
-      setLeadEmail('');
+      const res = await submitLeadCapture({
+        data: {
+          email: leadEmail.trim(),
+          websiteUrl: leadWebsiteUrl.trim(),
+        },
+      });
+      setLeadMessage(res.message);
+      setLeadSuccess(res.success);
+      if (res.success) setLeadEmail('');
     } catch {
-      setLeadMessage('Unable to send report. Try again later.');
+      setLeadMessage(
+        'Unable to send the report at this time. Please try again later.'
+      );
       setLeadSuccess(false);
     } finally {
       setLeadLoading(false);
@@ -257,8 +267,8 @@ function AeoCheckerPage() {
                   {scoreLabelText(r.score)}
                 </p>
                 <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500 italic">
-                  This score is a technical readiness estimate, not a ranking or
-                  citation guarantee.
+                  This score is a technical readiness estimate. It does not
+                  guarantee rankings or citations.
                 </p>
               </div>
 
@@ -521,6 +531,10 @@ function AeoCheckerPage() {
                         : 'Not Found'
                     }
                   />
+                  <Meta
+                    label="Brand Mentions"
+                    value={String(r.entityClarity.brandMentionCount ?? 0)}
+                  />
                 </div>
                 {r.entityClarity.issues.length > 0 && (
                   <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
@@ -649,9 +663,17 @@ function AeoCheckerPage() {
                   >
                     <input
                       type="email"
-                      placeholder="Your email"
+                      placeholder="Email"
                       value={leadEmail}
                       onChange={(e) => setLeadEmail(e.target.value)}
+                      disabled={leadLoading}
+                      className="flex-1 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
+                    />
+                    <input
+                      type="url"
+                      placeholder="Website URL"
+                      value={leadWebsiteUrl}
+                      onChange={(e) => setLeadWebsiteUrl(e.target.value)}
                       disabled={leadLoading}
                       className="flex-1 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
                     />
@@ -750,6 +772,20 @@ function AeoCheckerPage() {
               >
                 LLMs.txt guide
               </a>
+              ,{' '}
+              <a
+                href="/guides/llms-txt-seo"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt SEO guide
+              </a>
+              , and{' '}
+              <a
+                href="/guides/llms-full-txt"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs-full.txt guide
+              </a>
               .
             </p>
           </div>
@@ -762,9 +798,9 @@ function AeoCheckerPage() {
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm text-gray-400 dark:text-zinc-500">
               This AEO Checker provides a technical readiness audit. It does not
-              guarantee rankings, citations, traffic, or visibility in ChatGPT,
-              Perplexity, Gemini, Claude, Google AI Overviews, or other answer
-              engines.
+              guarantee rankings or citations, traffic, or visibility in
+              ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews, or other
+              answer engines.
             </p>
           </div>
         </Container>

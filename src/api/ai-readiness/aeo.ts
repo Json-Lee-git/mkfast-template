@@ -14,9 +14,13 @@ const inputSchema = z.object({
 
 const MAX_HTML_SIZE = 2 * 1024 * 1024; // 2 MB
 const AI_CRAWLERS = [
-  'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
-  'ClaudeBot', 'Claude-SearchBot',
-  'PerplexityBot', 'Perplexity-User',
+  'GPTBot',
+  'OAI-SearchBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-SearchBot',
+  'PerplexityBot',
+  'Perplexity-User',
   'Google-Extended',
 ] as const;
 
@@ -108,6 +112,43 @@ function normalizeInputUrl(raw: string): string {
 
 // ---------- Fetch helpers ----------
 
+async function readTextWithLimit(
+  res: Response,
+  limitBytes: number
+): Promise<{ text: string; sizeBytes: number }> {
+  if (!res.body) {
+    const text = (await res.text()).slice(0, limitBytes);
+    return {
+      text,
+      sizeBytes: new TextEncoder().encode(text).length,
+    };
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let text = '';
+  let sizeBytes = 0;
+
+  while (sizeBytes < limitBytes) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const remaining = limitBytes - sizeBytes;
+    const chunk =
+      value.byteLength > remaining ? value.slice(0, remaining) : value;
+    text += decoder.decode(chunk, { stream: value.byteLength <= remaining });
+    sizeBytes += chunk.byteLength;
+
+    if (value.byteLength > remaining) {
+      await reader.cancel();
+      break;
+    }
+  }
+
+  text += decoder.decode();
+  return { text, sizeBytes };
+}
+
 async function fetchPage(url: string): Promise<{
   finalUrl: string;
   statusCode: number;
@@ -129,33 +170,42 @@ async function fetchPage(url: string): Promise<{
     if ([301, 302, 303, 307, 308].includes(res.status)) {
       const location = res.headers.get('location');
       if (location) {
-        currentUrl = new URL(location, currentUrl).href;
+        try {
+          currentUrl = normalizeUrlKeepPath(new URL(location, currentUrl).href);
+        } catch {
+          return { finalUrl: currentUrl, statusCode: 0 };
+        }
         redirectCount++;
         continue;
       }
     }
 
     const ct = res.headers.get('content-type') || '';
-    const isHtml = ct.includes('text/html') || ct.includes('application/xhtml');
 
     if (res.status >= 200 && res.status < 400) {
       try {
-        const text = await res.text();
-        const sizeBytes = new TextEncoder().encode(text).length;
-        const body = sizeBytes <= MAX_HTML_SIZE ? text : text.slice(0, MAX_HTML_SIZE);
+        const { text, sizeBytes } = await readTextWithLimit(res, MAX_HTML_SIZE);
         return {
           finalUrl: currentUrl,
           statusCode: res.status,
           contentType: ct || undefined,
-          body,
-          sizeBytes: Math.min(sizeBytes, MAX_HTML_SIZE),
+          body: text,
+          sizeBytes,
         };
       } catch {
-        return { finalUrl: currentUrl, statusCode: res.status, contentType: ct || undefined };
+        return {
+          finalUrl: currentUrl,
+          statusCode: res.status,
+          contentType: ct || undefined,
+        };
       }
     }
 
-    return { finalUrl: currentUrl, statusCode: res.status, contentType: ct || undefined };
+    return {
+      finalUrl: currentUrl,
+      statusCode: res.status,
+      contentType: ct || undefined,
+    };
   }
 
   return { finalUrl: currentUrl, statusCode: 0 };
@@ -164,8 +214,14 @@ async function fetchPage(url: string): Promise<{
 // ---------- HTML parsing ----------
 
 function extractMeta(html: string, name: string): string | undefined {
-  const regex = new RegExp(`<meta[^>]+(?:name|property)=["']${name}["'][^>]+content=["']([^"']+)["']`, 'i');
-  const alt = new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+(?:name|property)=["']${name}["']`, 'i');
+  const regex = new RegExp(
+    `<meta[^>]+(?:name|property)=["']${name}["'][^>]+content=["']([^"']+)["']`,
+    'i'
+  );
+  const alt = new RegExp(
+    `<meta[^>]+content=["']([^"']+)["'][^>]+(?:name|property)=["']${name}["']`,
+    'i'
+  );
   return (html.match(regex)?.[1] || html.match(alt)?.[1])?.trim();
 }
 
@@ -174,40 +230,95 @@ function extractTitle(html: string): string | undefined {
 }
 
 function extractCanonical(html: string): string | undefined {
-  return html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]?.trim();
+  return html
+    .match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
+    ?.trim();
 }
 
 function extractMetaRobots(html: string): string | undefined {
   return extractMeta(html, 'robots');
 }
 
-function extractJsonLd(html: string): Array<{ type?: string; raw?: string }> {
-  const results: Array<{ type?: string; raw?: string }> = [];
-  const regex = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+function normalizeSchemaType(value: string): string {
+  return value.replace(/^https?:\/\/schema\.org\//i, '').trim();
+}
+
+function collectSchemaTypes(value: unknown, types: Set<string>): void {
+  if (!value) return;
+  if (Array.isArray(value)) {
+    for (const item of value) collectSchemaTypes(item, types);
+    return;
+  }
+  if (typeof value !== 'object') return;
+
+  const record = value as Record<string, unknown>;
+  const rawType = record['@type'];
+  if (typeof rawType === 'string') {
+    const type = normalizeSchemaType(rawType);
+    if (type) types.add(type);
+  } else if (Array.isArray(rawType)) {
+    for (const item of rawType) {
+      if (typeof item === 'string') {
+        const type = normalizeSchemaType(item);
+        if (type) types.add(type);
+      }
+    }
+  }
+
+  for (const nested of Object.values(record)) {
+    if (nested && typeof nested === 'object') collectSchemaTypes(nested, types);
+  }
+}
+
+function extractJsonLd(
+  html: string
+): Array<{ types: string[]; error?: string }> {
+  const results: Array<{ types: string[]; error?: string }> = [];
+  const regex =
+    /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   let match = regex.exec(html);
   while (match !== null) {
     const raw = match[1].trim();
     try {
       const parsed = JSON.parse(raw);
-      const type = parsed['@type'] || undefined;
-      results.push({ type, raw });
-    } catch {
-      results.push({ raw });
+      const types = new Set<string>();
+      collectSchemaTypes(parsed, types);
+      results.push({ types: [...types] });
+    } catch (error) {
+      results.push({
+        types: [],
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Invalid JSON-LD block could not be parsed.',
+      });
     }
     match = regex.exec(html);
   }
   return results;
 }
 
-function extractHeadings(html: string): { h1: string[]; h2: string[]; h3: string[] } {
-  const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/gi) || []).map((h) => h.replace(/<[^>]+>/g, '').trim()).filter(Boolean);
-  const h2 = (html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/gi) || []).map((h) => h.replace(/<[^>]+>/g, '').trim()).filter(Boolean);
-  const h3 = (html.match(/<h3[^>]*>([\s\S]*?)<\/h3>/gi) || []).map((h) => h.replace(/<[^>]+>/g, '').trim()).filter(Boolean);
+function extractHeadings(html: string): {
+  h1: string[];
+  h2: string[];
+  h3: string[];
+} {
+  const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/gi) || [])
+    .map((h) => h.replace(/<[^>]+>/g, '').trim())
+    .filter(Boolean);
+  const h2 = (html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/gi) || [])
+    .map((h) => h.replace(/<[^>]+>/g, '').trim())
+    .filter(Boolean);
+  const h3 = (html.match(/<h3[^>]*>([\s\S]*?)<\/h3>/gi) || [])
+    .map((h) => h.replace(/<[^>]+>/g, '').trim())
+    .filter(Boolean);
   return { h1, h2, h3 };
 }
 
 function hasQuestionHeadings(headings: string[]): boolean {
-  return headings.some((h) => /^(what|how|why|when|where|who|should|can|does|is|are|do)\b/i.test(h));
+  return headings.some((h) =>
+    /^(what|how|why|when|where|who|should|can|does|is|are|do)\b/i.test(h)
+  );
 }
 
 function hasFaqSection(html: string, headings: string[]): boolean {
@@ -241,7 +352,9 @@ function extractExternalLinks(html: string, baseDomain: string): string[] {
       if (url.hostname !== baseDomain && !links.includes(match[1])) {
         links.push(match[1]);
       }
-    } catch { /* skip invalid URLs */ }
+    } catch {
+      /* skip invalid URLs */
+    }
     match = regex.exec(html);
   }
   return links;
@@ -251,7 +364,67 @@ function hasInternalLink(html: string, pattern: RegExp): boolean {
   return pattern.test(html);
 }
 
-function extractBrandName(title: string | undefined, ogSiteName: string | undefined, domain: string): string {
+function resolveRobotsAccess(
+  lines: string[],
+  userAgent: string
+): 'allowed' | 'blocked' | 'unknown' {
+  const uaLower = userAgent.toLowerCase();
+  let bestAccess: 'allowed' | 'blocked' | 'unknown' = 'unknown';
+  let bestSpecificity = -1;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line.startsWith('user-agent:')) continue;
+
+    const agents: string[] = [];
+    let cursor = i;
+    while (cursor < lines.length) {
+      const current = lines[cursor].trim();
+      if (!current.startsWith('user-agent:')) break;
+      agents.push(current.slice('user-agent:'.length).trim());
+      cursor++;
+    }
+
+    const matchesSpecific = agents.includes(uaLower);
+    const matchesWildcard = agents.includes('*');
+    if (!matchesSpecific && !matchesWildcard) {
+      i = Math.max(cursor - 1, i);
+      continue;
+    }
+
+    const specificity = matchesSpecific ? 2 : 1;
+    if (specificity < bestSpecificity) {
+      i = Math.max(cursor - 1, i);
+      continue;
+    }
+
+    let groupAccess: 'allowed' | 'blocked' | 'unknown' = 'allowed';
+    for (let j = cursor; j < lines.length; j++) {
+      const rule = lines[j].trim();
+      if (rule.startsWith('user-agent:')) break;
+      if (rule.startsWith('disallow:')) {
+        const path = rule.slice('disallow:'.length).trim();
+        if (path === '/') groupAccess = 'blocked';
+      }
+      if (rule.startsWith('allow:')) {
+        const path = rule.slice('allow:'.length).trim();
+        if (path === '/' || path === '') groupAccess = 'allowed';
+      }
+    }
+
+    bestSpecificity = specificity;
+    bestAccess = groupAccess;
+    i = Math.max(cursor - 1, i);
+  }
+
+  return bestAccess;
+}
+
+function extractBrandName(
+  title: string | undefined,
+  ogSiteName: string | undefined,
+  domain: string
+): string {
   if (ogSiteName) return ogSiteName;
   if (title) {
     const sep = title.match(/^(.+?)\s+[|\-–—]\s+.+$/);
@@ -262,87 +435,64 @@ function extractBrandName(title: string | undefined, ogSiteName: string | undefi
 }
 
 function hasAuthor(html: string): boolean {
-  return /<meta[^>]+name=["']author["'][^>]+content=/i.test(html)
-    || /<a[^>]+rel=["']author["'][^>]/i.test(html)
-    || /class=["'][^"']*author[^"']*["']/i.test(html)
-    || /\bby\s+<[^>]+>[^<]+<\/[^>]+>/i.test(html);
+  return (
+    /<meta[^>]+name=["']author["'][^>]+content=/i.test(html) ||
+    /<a[^>]+rel=["']author["'][^>]/i.test(html) ||
+    /class=["'][^"']*author[^"']*["']/i.test(html) ||
+    /\bby\s+<[^>]+>[^<]+<\/[^>]+>/i.test(html)
+  );
 }
 
 function hasDate(html: string): { published: boolean; modified: boolean } {
-  const hasPublished = /<meta[^>]+(?:name|property)=["']article:published_time["'][^>]+content=/i.test(html)
-    || /<time[^>]+datetime=["'][^"']+["'][^>]*>/i.test(html)
-    || /datetime=["']\d{4}-\d{2}-\d{2}/i.test(html);
-  const hasModified = /<meta[^>]+(?:name|property)=["']article:modified_time["'][^>]+content=/i.test(html)
-    || /last.?modified/i.test(html);
+  const hasPublished =
+    /<meta[^>]+(?:name|property)=["']article:published_time["'][^>]+content=/i.test(
+      html
+    ) ||
+    /<time[^>]+datetime=["'][^"']+["'][^>]*>/i.test(html) ||
+    /datetime=["']\d{4}-\d{2}-\d{2}/i.test(html);
+  const hasModified =
+    /<meta[^>]+(?:name|property)=["']article:modified_time["'][^>]+content=/i.test(
+      html
+    ) || /last.?modified/i.test(html);
   return { published: hasPublished, modified: hasModified };
 }
 
 // ---------- AI Files check ----------
 
-async function checkAiFiles(origin: string): Promise<AeoAuditResult['aiFiles']> {
-  const [llmsTxtRes, llmsFullTxtRes, robotsTxtRes, sitemapRes] = await Promise.all([
-    fetchPage(`${origin}/llms.txt`),
-    fetchPage(`${origin}/llms-full.txt`),
-    fetchPage(`${origin}/robots.txt`),
-    fetchPage(`${origin}/sitemap.xml`),
-  ]);
+async function checkAiFiles(
+  origin: string
+): Promise<AeoAuditResult['aiFiles']> {
+  const [llmsTxtRes, llmsFullTxtRes, robotsTxtRes, sitemapRes] =
+    await Promise.all([
+      fetchPage(`${origin}/llms.txt`),
+      fetchPage(`${origin}/llms-full.txt`),
+      fetchPage(`${origin}/robots.txt`),
+      fetchPage(`${origin}/sitemap.xml`),
+    ]);
 
-  const llmsTxtExists = llmsTxtRes.statusCode >= 200 && llmsTxtRes.statusCode < 400;
-  const llmsFullTxtExists = llmsFullTxtRes.statusCode >= 200 && llmsFullTxtRes.statusCode < 400;
-  const robotsTxtExists = robotsTxtRes.statusCode >= 200 && robotsTxtRes.statusCode < 400;
-  const sitemapExists = sitemapRes.statusCode >= 200 && sitemapRes.statusCode < 400;
+  const llmsTxtExists =
+    llmsTxtRes.statusCode >= 200 && llmsTxtRes.statusCode < 400;
+  const llmsFullTxtExists =
+    llmsFullTxtRes.statusCode >= 200 && llmsFullTxtRes.statusCode < 400;
+  const robotsTxtExists =
+    robotsTxtRes.statusCode >= 200 && robotsTxtRes.statusCode < 400;
+  const sitemapExists =
+    sitemapRes.statusCode >= 200 && sitemapRes.statusCode < 400;
 
   // Parse robots.txt for crawler rules
   const crawlers: AeoAuditResult['aiFiles']['robotsTxt']['crawlers'] = [];
   if (robotsTxtExists && robotsTxtRes.body) {
-    const lines = robotsTxtRes.body.toLowerCase().split('\n');
+    const lines = robotsTxtRes.body
+      .toLowerCase()
+      .split('\n')
+      .map((line) => line.split('#')[0].trim())
+      .filter(Boolean);
     for (const crawlerName of AI_CRAWLERS) {
-      const uaLower = crawlerName.toLowerCase();
-      let access: 'allowed' | 'blocked' | 'unknown' = 'unknown';
-      let foundSpecific = false;
-
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (line.startsWith('user-agent:')) {
-          const agent = line.slice('user-agent:'.length).trim();
-          if (agent === uaLower) {
-            foundSpecific = true;
-            for (let j = i + 1; j < lines.length; j++) {
-              const next = lines[j].trim();
-              if (next.startsWith('user-agent:')) break;
-              if (next.startsWith('disallow:')) {
-                const path = next.slice('disallow:'.length).trim();
-                if (path === '/' || path === '') access = 'blocked';
-              }
-              if (next.startsWith('allow:')) {
-                const path = next.slice('allow:'.length).trim();
-                if (path === '/' || path === '') access = 'allowed';
-              }
-            }
-          }
-        }
-      }
-
-      if (!foundSpecific) {
-        // Check wildcard
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].trim() === 'user-agent: *') {
-            for (let j = i + 1; j < lines.length; j++) {
-              const next = lines[j].trim();
-              if (next.startsWith('user-agent:')) break;
-              if (next.startsWith('disallow:')) {
-                const path = next.slice('disallow:'.length).trim();
-                if (path === '/') { access = 'blocked'; break; }
-              }
-            }
-            break;
-          }
-        }
-      }
-
-      if (access === 'unknown' && foundSpecific) access = 'allowed';
-
-      crawlers.push({ name: crawlerName, userAgent: crawlerName, access });
+      crawlers.push({
+        name: crawlerName,
+        userAgent: crawlerName,
+        access: resolveRobotsAccess(lines, crawlerName),
+      });
     }
   } else {
     for (const c of AI_CRAWLERS) {
@@ -351,10 +501,27 @@ async function checkAiFiles(origin: string): Promise<AeoAuditResult['aiFiles']> 
   }
 
   return {
-    llmsTxt: { exists: llmsTxtExists, url: `${origin}/llms.txt`, statusCode: llmsTxtRes.statusCode || undefined },
-    llmsFullTxt: { exists: llmsFullTxtExists, url: `${origin}/llms-full.txt`, statusCode: llmsFullTxtRes.statusCode || undefined },
-    sitemap: { exists: sitemapExists, url: `${origin}/sitemap.xml`, statusCode: sitemapRes.statusCode || undefined },
-    robotsTxt: { exists: robotsTxtExists, url: `${origin}/robots.txt`, statusCode: robotsTxtRes.statusCode || undefined, crawlers },
+    llmsTxt: {
+      exists: llmsTxtExists,
+      url: `${origin}/llms.txt`,
+      statusCode: llmsTxtRes.statusCode || undefined,
+    },
+    llmsFullTxt: {
+      exists: llmsFullTxtExists,
+      url: `${origin}/llms-full.txt`,
+      statusCode: llmsFullTxtRes.statusCode || undefined,
+    },
+    sitemap: {
+      exists: sitemapExists,
+      url: `${origin}/sitemap.xml`,
+      statusCode: sitemapRes.statusCode || undefined,
+    },
+    robotsTxt: {
+      exists: robotsTxtExists,
+      url: `${origin}/robots.txt`,
+      statusCode: robotsTxtRes.statusCode || undefined,
+      crawlers,
+    },
   };
 }
 
@@ -364,11 +531,16 @@ function calculateScore(result: AeoAuditResult): number {
   let score = 0;
 
   // Technical crawlability: 15
-  if (result.page.statusCode && result.page.statusCode >= 200 && result.page.statusCode < 400) score += 4;
+  if (
+    result.page.statusCode &&
+    result.page.statusCode >= 200 &&
+    result.page.statusCode < 400
+  )
+    score += 4;
   if (result.page.title) score += 3;
   if (result.page.metaDescription) score += 3;
   if (result.page.canonical) score += 3;
-  if (result.page.metaRobots && !result.page.metaRobots.toLowerCase().includes('noindex')) score += 2;
+  if (!result.page.metaRobots?.toLowerCase().includes('noindex')) score += 2;
 
   // AI files + crawler access: 20
   if (result.aiFiles.llmsTxt.exists) score += 5;
@@ -383,8 +555,18 @@ function calculateScore(result: AeoAuditResult): number {
   // Structured data: 20
   if (result.structuredData.hasJsonLd) score += 5;
   if (result.structuredData.schemaTypes.length > 0) score += 5;
-  if (result.structuredData.schemaTypes.some((t) => /organization|website|webpage/i.test(t))) score += 5;
-  if (result.structuredData.schemaTypes.some((t) => /article|blogposting|faqpage|product|howto/i.test(t))) score += 3;
+  if (
+    result.structuredData.schemaTypes.some((t) =>
+      /organization|website|webpage/i.test(t)
+    )
+  )
+    score += 5;
+  if (
+    result.structuredData.schemaTypes.some((t) =>
+      /article|blogposting|faqpage|product|howto/i.test(t)
+    )
+  )
+    score += 3;
   if (result.structuredData.parseErrors.length === 0) score += 2;
 
   // Answer-ready content: 20
@@ -399,7 +581,11 @@ function calculateScore(result: AeoAuditResult): number {
   if (result.entityClarity.inferredBrandName) score += 4;
   if (result.entityClarity.hasOgSiteName) score += 4;
   if (result.entityClarity.hasOrganizationSchema) score += 5;
-  if (result.entityClarity.brandMentionCount && result.entityClarity.brandMentionCount >= 2) score += 2;
+  if (
+    result.entityClarity.brandMentionCount &&
+    result.entityClarity.brandMentionCount >= 2
+  )
+    score += 2;
 
   // Trust signals: 10
   if (result.trustSignals.hasAuthor) score += 2;
@@ -420,16 +606,26 @@ function generateRecommendations(result: AeoAuditResult): string[] {
 
   // Crawlability
   if (!result.page.title) recs.push('Add a page title (<title>).');
-  if (!result.page.metaDescription) recs.push('Add a meta description to summarize your page content.');
-  if (!result.page.canonical) recs.push('Add a canonical URL to prevent duplicate content issues.');
-  if (result.page.metaRobots?.toLowerCase().includes('noindex')) recs.push('Remove noindex from meta robots if you want this page indexed.');
+  if (!result.page.metaDescription)
+    recs.push('Add a meta description to summarize your page content.');
+  if (!result.page.canonical)
+    recs.push('Add a canonical URL to prevent duplicate content issues.');
+  if (result.page.metaRobots?.toLowerCase().includes('noindex'))
+    recs.push('Remove noindex from meta robots if you want this page indexed.');
 
   // AI Files
-  if (!result.aiFiles.llmsTxt.exists) recs.push('Add an LLMs.txt file at your site root.');
-  if (!result.aiFiles.llmsFullTxt.exists) recs.push('Consider adding an LLMs-full.txt file for deeper content coverage.');
-  if (!result.aiFiles.sitemap.exists) recs.push('Add a sitemap.xml or reference your sitemap in robots.txt.');
+  if (!result.aiFiles.llmsTxt.exists)
+    recs.push('Add an LLMs.txt file at your site root.');
+  if (!result.aiFiles.llmsFullTxt.exists)
+    recs.push(
+      'Consider adding an LLMs-full.txt file for deeper content coverage.'
+    );
+  if (!result.aiFiles.sitemap.exists)
+    recs.push('Add a sitemap.xml or reference your sitemap in robots.txt.');
   if (result.aiFiles.robotsTxt.exists) {
-    const blocked = result.aiFiles.robotsTxt.crawlers.filter((c) => c.access === 'blocked');
+    const blocked = result.aiFiles.robotsTxt.crawlers.filter(
+      (c) => c.access === 'blocked'
+    );
     for (const c of blocked) {
       recs.push(`Review robots.txt rules that block ${c.userAgent}.`);
     }
@@ -438,35 +634,57 @@ function generateRecommendations(result: AeoAuditResult): string[] {
   }
 
   // Structured data
-  if (!result.structuredData.hasJsonLd) recs.push('Add JSON-LD structured data to your page.');
-  if (result.structuredData.schemaTypes.length === 0) recs.push('Add at least Organization or WebSite schema to your pages.');
-  if (!result.structuredData.schemaTypes.some((t) => /organization|website/i.test(t))) {
+  if (!result.structuredData.hasJsonLd)
+    recs.push('Add JSON-LD structured data to your page.');
+  if (result.structuredData.schemaTypes.length === 0)
+    recs.push('Add at least Organization or WebSite schema to your pages.');
+  if (
+    !result.structuredData.schemaTypes.some((t) =>
+      /organization|website/i.test(t)
+    )
+  ) {
     recs.push('Add Organization schema to clarify your brand entity.');
   }
-  if (result.structuredData.parseErrors.length > 0) recs.push('Fix JSON-LD parse errors on your page.');
+  if (result.structuredData.parseErrors.length > 0)
+    recs.push('Fix JSON-LD parse errors on your page.');
 
   // Answer-ready content
-  if (result.answerReadyContent.h1Count !== 1) recs.push('Use exactly one H1 heading per page.');
-  if (result.answerReadyContent.h2Count < 2) recs.push('Add H2 section headings to organize your content structure.');
-  if (!result.answerReadyContent.hasFaqSection) recs.push('Add an FAQ section to answer common user questions.');
+  if (result.answerReadyContent.h1Count !== 1)
+    recs.push('Use exactly one H1 heading per page.');
+  if (result.answerReadyContent.h2Count < 2)
+    recs.push('Add H2 section headings to organize your content structure.');
+  if (!result.answerReadyContent.hasFaqSection)
+    recs.push('Add an FAQ section to answer common user questions.');
   if (!result.answerReadyContent.hasQuestionHeadings) {
-    recs.push('Add question-format headings (e.g. "What is X?") to help answer engines extract Q&A pairs.');
+    recs.push(
+      'Add question-format headings (e.g. "What is X?") to help answer engines extract Q&A pairs.'
+    );
   }
   if (!result.answerReadyContent.hasShortAnswerParagraphs) {
     recs.push('Rewrite key paragraphs to provide concise 40-80 word answers.');
   }
 
   // Entity clarity
-  if (!result.entityClarity.hasOgSiteName) recs.push('Add og:site_name meta tag to clarify your brand name.');
-  if (!result.entityClarity.hasOrganizationSchema) recs.push('Add Organization schema to define your brand entity for AI systems.');
+  if (!result.entityClarity.hasOgSiteName)
+    recs.push('Add og:site_name meta tag to clarify your brand name.');
+  if (!result.entityClarity.hasOrganizationSchema)
+    recs.push(
+      'Add Organization schema to define your brand entity for AI systems.'
+    );
 
   // Trust signals
-  if (!result.trustSignals.hasAuthor) recs.push('Add author information to improve content credibility.');
-  if (!result.trustSignals.hasPublishedDate) recs.push('Add a published date to your content.');
-  if (!result.trustSignals.hasAboutLink) recs.push('Add an About page link to improve trust signals.');
-  if (!result.trustSignals.hasContactLink) recs.push('Add a Contact page link to improve trust signals.');
-  if (!result.trustSignals.hasPrivacyLink) recs.push('Add a Privacy page link to improve trust signals.');
-  if (result.trustSignals.externalLinkCount < 2) recs.push('Add relevant external references to support your content.');
+  if (!result.trustSignals.hasAuthor)
+    recs.push('Add author information to improve content credibility.');
+  if (!result.trustSignals.hasPublishedDate)
+    recs.push('Add a published date to your content.');
+  if (!result.trustSignals.hasAboutLink)
+    recs.push('Add an About page link to improve trust signals.');
+  if (!result.trustSignals.hasContactLink)
+    recs.push('Add a Contact page link to improve trust signals.');
+  if (!result.trustSignals.hasPrivacyLink)
+    recs.push('Add a Privacy page link to improve trust signals.');
+  if (result.trustSignals.externalLinkCount < 2)
+    recs.push('Add relevant external references to support your content.');
 
   // Deduplicate
   return [...new Set(recs)];
@@ -493,7 +711,11 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
     const pageIssues: string[] = [];
     const pageWarnings: string[] = [];
 
-    if (!pageRes.statusCode || pageRes.statusCode < 200 || pageRes.statusCode >= 400) {
+    if (
+      !pageRes.statusCode ||
+      pageRes.statusCode < 200 ||
+      pageRes.statusCode >= 400
+    ) {
       pageIssues.push(`Page returned HTTP ${pageRes.statusCode || 'error'}.`);
     }
     if (pageRes.contentType && !pageRes.contentType.includes('text/html')) {
@@ -501,8 +723,12 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
     }
     if (!title) pageIssues.push('No page title found.');
     if (!metaDescription) pageWarnings.push('No meta description found.');
-    else if (metaDescription.length < 50) pageWarnings.push('Meta description is too short.');
+    else if (metaDescription.length < 50)
+      pageWarnings.push('Meta description is too short.');
     if (!canonical) pageWarnings.push('No canonical URL found.');
+    if (metaRobots?.toLowerCase().includes('noindex')) {
+      pageIssues.push('Meta robots contains noindex.');
+    }
 
     // Parse content structure
     const headings = extractHeadings(html);
@@ -510,8 +736,14 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
     const answerWarnings: string[] = [];
 
     if (headings.h1.length === 0) answerIssues.push('No H1 heading found.');
-    if (headings.h1.length > 1) answerIssues.push(`Multiple H1 headings found (${headings.h1.length}). Use exactly one.`);
-    if (headings.h2.length < 2) answerIssues.push('Fewer than 2 H2 headings found. Add more section structure.');
+    if (headings.h1.length > 1)
+      answerIssues.push(
+        `Multiple H1 headings found (${headings.h1.length}). Use exactly one.`
+      );
+    if (headings.h2.length < 2)
+      answerIssues.push(
+        'Fewer than 2 H2 headings found. Add more section structure.'
+      );
 
     const qHeadings = hasQuestionHeadings([...headings.h2, ...headings.h3]);
     const faq = hasFaqSection(html, [...headings.h2, ...headings.h3]);
@@ -520,27 +752,52 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
 
     if (!faq) answerIssues.push('No FAQ section or Q&A structure detected.');
     if (!qHeadings) answerWarnings.push('No question-format headings found.');
-    if (!shortAnswers) answerWarnings.push('No concise answer paragraphs (40-80 words) detected.');
+    if (!shortAnswers)
+      answerWarnings.push(
+        'No concise answer paragraphs (40-80 words) detected.'
+      );
 
     // Parse JSON-LD
     const jsonLdBlocks = extractJsonLd(html);
-    const schemaTypes = jsonLdBlocks.filter((b) => b.type).map((b) => b.type!);
-    const parseErrors = jsonLdBlocks.filter((b) => !b.type).map((b) => b.raw || 'Parse error');
+    const schemaTypes = [
+      ...new Set(jsonLdBlocks.flatMap((block) => block.types)),
+    ];
+    const parseErrors = jsonLdBlocks
+      .filter((block) => block.error)
+      .map((block) => block.error!);
     const schemaIssues: string[] = [];
     const schemaWarnings: string[] = [];
 
-    if (jsonLdBlocks.length === 0) schemaIssues.push('No JSON-LD structured data found.');
-    if (schemaTypes.length > 0 && !schemaTypes.some((t) => /organization|website/i.test(t))) {
-      schemaWarnings.push('No Organization or WebSite schema found in JSON-LD.');
+    if (jsonLdBlocks.length === 0)
+      schemaIssues.push('No JSON-LD structured data found.');
+    if (
+      schemaTypes.length > 0 &&
+      !schemaTypes.some((t) => /organization|website/i.test(t))
+    ) {
+      schemaWarnings.push(
+        'No Organization or WebSite schema found in JSON-LD.'
+      );
     }
-    if (parseErrors.length > 0) schemaIssues.push(`${parseErrors.length} JSON-LD block(s) failed to parse.`);
+    if (parseErrors.length > 0)
+      schemaIssues.push(
+        `${parseErrors.length} JSON-LD block(s) failed to parse.`
+      );
 
     // Entity clarity
     const domain = new URL(pageRes.finalUrl || normalizedUrl).hostname;
     const ogSiteName = extractMeta(html, 'og:site_name');
     const inferredName = extractBrandName(title, ogSiteName, domain);
     const hasOrgSchema = schemaTypes.some((t) => /organization/i.test(t));
-    const brandMentions = inferredName ? (html.match(new RegExp(inferredName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length : 0;
+    const brandMentions = inferredName
+      ? (
+          html.match(
+            new RegExp(
+              inferredName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+              'gi'
+            )
+          ) || []
+        ).length
+      : 0;
 
     const entityIssues: string[] = [];
     const entityWarnings: string[] = [];

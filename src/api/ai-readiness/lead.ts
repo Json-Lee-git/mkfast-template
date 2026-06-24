@@ -6,6 +6,16 @@ const schema = z.object({
   websiteUrl: z.string().trim().min(1, 'Please enter a website URL'),
 });
 
+function parseWebhookUrl(raw: string): string | null {
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
 export const submitLeadCapture = createServerFn({ method: 'POST' })
   .inputValidator(schema)
   .handler(async ({ data }) => {
@@ -14,15 +24,24 @@ export const submitLeadCapture = createServerFn({ method: 'POST' })
     if (!webhookUrl) {
       return {
         success: false,
-        message: 'Report request saved locally is not enabled yet.',
+        message: 'Report request received. Webhook is not configured yet.',
       };
     }
 
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 5000);
+    const parsedWebhookUrl = parseWebhookUrl(webhookUrl);
+    if (!parsedWebhookUrl) {
+      return {
+        success: false,
+        message:
+          'Report request received, but the webhook URL is not valid yet.',
+      };
+    }
 
-      const res = await fetch(webhookUrl, {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const res = await fetch(parsedWebhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -32,8 +51,6 @@ export const submitLeadCapture = createServerFn({ method: 'POST' })
         }),
         signal: controller.signal,
       });
-
-      clearTimeout(timer);
 
       if (!res.ok) {
         return {
@@ -53,5 +70,7 @@ export const submitLeadCapture = createServerFn({ method: 'POST' })
         message:
           'Unable to send the report at this time. Please try again later.',
       };
+    } finally {
+      clearTimeout(timer);
     }
   });

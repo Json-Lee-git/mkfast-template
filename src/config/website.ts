@@ -39,9 +39,9 @@ export const websiteConfig: WebsiteConfig = {
   },
   metadata: {
     name: 'AI Search Readiness Tools',
-    title: 'AI Search Readiness Tools - LLMs.txt Checker & Generator',
+    title: 'AI Search Readiness Tools - LLMs.txt, AEO Checker & Query Fan-Out',
     description:
-      "Check your website's LLMs.txt, LLMs-full.txt, sitemap, and AI crawler access. Generate AI-readable files and get a technical AI Search Readiness report.",
+      "Free tools to check your website's AI search readiness. Validate LLMs.txt, audit technical AEO signals, check AI crawler access, and simulate query fan-out.",
     images: {
       ogImage: '/og.png',
       logoLight: '/logo.png',
