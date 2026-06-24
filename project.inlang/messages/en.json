@@ -721,7 +721,7 @@
   "settings_security_update_password_success": "Password updated successfully",
   "settings_security_update_password_title": "Change Password",
   "site_description": "AI Search Readiness is the complete TanStack Start boilerplate for building profitable SaaS, packed with AI, auth, database, storage, blog, email, newsletter, payments, dashboard, i8n, SEO, and more, fully deployed on Cloudflare Workers",
-  "site_name": "AI Search Readiness Demo",
+  "site_name": "AI Search Readiness Tools",
   "site_title": "AI Search Readiness - LLMs.txt Checker Ship Faster with TanStack, Cost Less with Cloudflare Generator",
   "waitlist_description": "Join the waitlist for early access and updates",
   "waitlist_email": "Email",
