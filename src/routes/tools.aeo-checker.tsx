@@ -23,19 +23,37 @@ type Status = 'good' | 'warning' | 'issue' | 'neutral';
 
 function statusBadge(status: Status) {
   const map: Record<Status, { bg: string; text: string }> = {
-    good: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-400' },
-    warning: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400' },
-    issue: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400' },
-    neutral: { bg: 'bg-gray-100 dark:bg-zinc-800', text: 'text-gray-600 dark:text-zinc-400' },
+    good: {
+      bg: 'bg-emerald-100 dark:bg-emerald-900/30',
+      text: 'text-emerald-700 dark:text-emerald-400',
+    },
+    warning: {
+      bg: 'bg-amber-100 dark:bg-amber-900/30',
+      text: 'text-amber-700 dark:text-amber-400',
+    },
+    issue: {
+      bg: 'bg-red-100 dark:bg-red-900/30',
+      text: 'text-red-700 dark:text-red-400',
+    },
+    neutral: {
+      bg: 'bg-gray-100 dark:bg-zinc-800',
+      text: 'text-gray-600 dark:text-zinc-400',
+    },
   };
   return map[status];
 }
 
 function accessBadge(access: string) {
   switch (access) {
-    case 'allowed': return { label: 'Allowed', cls: 'text-emerald-600 dark:text-emerald-400' };
-    case 'blocked': return { label: 'Blocked', cls: 'text-red-600 dark:text-red-400' };
-    default: return { label: 'Unknown', cls: 'text-gray-400 dark:text-zinc-500' };
+    case 'allowed':
+      return {
+        label: 'Allowed',
+        cls: 'text-emerald-600 dark:text-emerald-400',
+      };
+    case 'blocked':
+      return { label: 'Blocked', cls: 'text-red-600 dark:text-red-400' };
+    default:
+      return { label: 'Unknown', cls: 'text-gray-400 dark:text-zinc-500' };
   }
 }
 
@@ -107,14 +125,21 @@ function AeoCheckerPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = url.trim();
-    if (!trimmed) { setError('Please enter a domain or page URL.'); return; }
-    setLoading(true); setError(null); setResult(null);
+    if (!trimmed) {
+      setError('Please enter a domain or page URL.');
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    setResult(null);
     try {
       const data = await runAeoAudit({ data: { url: trimmed } });
       setResult(data);
     } catch (err: any) {
       setError(err?.message || 'Something went wrong. Please try again.');
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
@@ -129,7 +154,9 @@ function AeoCheckerPage() {
     } catch {
       setLeadMessage('Unable to send report. Try again later.');
       setLeadSuccess(false);
-    } finally { setLeadLoading(false); }
+    } finally {
+      setLeadLoading(false);
+    }
   };
 
   const r = result;
@@ -171,7 +198,14 @@ function AeoCheckerPage() {
                 disabled={loading}
                 className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
               >
-                {loading ? <><IconLoader2 size={16} className="animate-spin" /> Auditing...</> : 'Run AEO audit'}
+                {loading ? (
+                  <>
+                    <IconLoader2 size={16} className="animate-spin" />{' '}
+                    Auditing...
+                  </>
+                ) : (
+                  'Run AEO audit'
+                )}
               </button>
             </div>
           </form>
@@ -180,233 +214,561 @@ function AeoCheckerPage() {
 
       {/* Error */}
       {error && (
-        <section className="pb-8"><Container>
-          <div className="mx-auto max-w-xl rounded-2xl border border-red-200 dark:border-red-900/30 bg-red-50 dark:bg-red-950/20 p-4 text-center">
-            <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
-          </div>
-        </Container></section>
+        <section className="pb-8">
+          <Container>
+            <div className="mx-auto max-w-xl rounded-2xl border border-red-200 dark:border-red-900/30 bg-red-50 dark:bg-red-950/20 p-4 text-center">
+              <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+            </div>
+          </Container>
+        </section>
       )}
 
       {/* Loading */}
       {loading && !r && (
-        <section className="pb-20"><Container>
-          <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
-            <IconLoader2 size={48} className="mx-auto animate-spin text-blue-500" />
-            <p className="mt-4 text-sm text-gray-500 dark:text-zinc-400">Auditing your page. This may take a few seconds.</p>
-          </div>
-        </Container></section>
+        <section className="pb-20">
+          <Container>
+            <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
+              <IconLoader2
+                size={48}
+                className="mx-auto animate-spin text-blue-500"
+              />
+              <p className="mt-4 text-sm text-gray-500 dark:text-zinc-400">
+                Auditing your page. This may take a few seconds.
+              </p>
+            </div>
+          </Container>
+        </section>
       )}
 
       {/* Report */}
       {r && (
-        <section className="pb-20"><Container>
-          <div className="mx-auto max-w-4xl space-y-6">
-
-            {/* Score */}
-            <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
-              <p className="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide">Technical AEO Score</p>
-              <p className={`mt-2 text-6xl font-bold ${scoreColor(r.score)}`}>{r.score}</p>
-              <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">{scoreLabelText(r.score)}</p>
-              <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500 italic">This score is a technical readiness estimate, not a ranking or citation guarantee.</p>
-            </div>
-
-            {/* Crawlability */}
-            <Card title="Technical Crawlability" status="good">
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="Status" value={r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'N/A'} />
-                <Meta label="Content Type" value={r.page.contentType || 'N/A'} />
-                <Meta label="Title" value={r.page.title || 'N/A'} />
-                <Meta label="Meta Description" value={r.page.metaDescription || 'N/A'} />
-                <Meta label="Canonical" value={r.page.canonical || 'N/A'} />
-                <Meta label="Meta Robots" value={r.page.metaRobots || 'N/A'} />
+        <section className="pb-20">
+          <Container>
+            <div className="mx-auto max-w-4xl space-y-6">
+              {/* Score */}
+              <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
+                <p className="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide">
+                  Technical AEO Score
+                </p>
+                <p className={`mt-2 text-6xl font-bold ${scoreColor(r.score)}`}>
+                  {r.score}
+                </p>
+                <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
+                  {scoreLabelText(r.score)}
+                </p>
+                <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500 italic">
+                  This score is a technical readiness estimate, not a ranking or
+                  citation guarantee.
+                </p>
               </div>
-              {r.page.warnings.length > 0 && (
-                <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.page.warnings.map((w) => <li key={w} className="flex items-start gap-2"><IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-amber-500" /> {w}</li>)}
-                </ul>
-              )}
-            </Card>
 
-            {/* AI Files */}
-            <Card title="AI Search Files & Crawler Access" status={r.aiFiles.llmsTxt.exists ? 'good' : 'issue'}>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="LLMs.txt" value={r.aiFiles.llmsTxt.exists ? `Found (${r.aiFiles.llmsTxt.statusCode})` : 'Not Found'} />
-                <Meta label="LLMs-full.txt" value={r.aiFiles.llmsFullTxt.exists ? `Found (${r.aiFiles.llmsFullTxt.statusCode})` : 'Not Found'} />
-                <Meta label="Sitemap" value={r.aiFiles.sitemap.exists ? `Found (${r.aiFiles.sitemap.statusCode})` : 'Not Found'} />
-                <Meta label="Robots.txt" value={r.aiFiles.robotsTxt.exists ? `Found (${r.aiFiles.robotsTxt.statusCode})` : 'Not Found'} />
-              </div>
-              {r.aiFiles.robotsTxt.exists && (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead><tr className="border-b border-gray-200 dark:border-zinc-800"><th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">Crawler</th><th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">User Agent</th><th className="py-2 text-right font-medium text-gray-500 dark:text-zinc-400">Access</th></tr></thead>
-                    <tbody>
-                      {r.aiFiles.robotsTxt.crawlers.map((c) => {
-                        const b = accessBadge(c.access);
-                        return <tr key={c.userAgent} className="border-b border-gray-100 dark:border-zinc-800/50"><td className="py-2.5 text-gray-700 dark:text-zinc-300">{c.name}</td><td className="py-2.5 font-mono text-xs text-gray-400 dark:text-zinc-500">{c.userAgent}</td><td className={`py-2.5 text-right font-medium ${b.cls}`}>{b.label}</td></tr>;
-                      })}
-                    </tbody>
-                  </table>
+              {/* Crawlability */}
+              <Card title="Technical Crawlability" status="good">
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="Status"
+                    value={
+                      r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'N/A'
+                    }
+                  />
+                  <Meta
+                    label="Content Type"
+                    value={r.page.contentType || 'N/A'}
+                  />
+                  <Meta label="Title" value={r.page.title || 'N/A'} />
+                  <Meta
+                    label="Meta Description"
+                    value={r.page.metaDescription || 'N/A'}
+                  />
+                  <Meta label="Canonical" value={r.page.canonical || 'N/A'} />
+                  <Meta
+                    label="Meta Robots"
+                    value={r.page.metaRobots || 'N/A'}
+                  />
                 </div>
-              )}
-            </Card>
+                {r.page.warnings.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.page.warnings.map((w) => (
+                      <li key={w} className="flex items-start gap-2">
+                        <IconAlertTriangle
+                          size={14}
+                          className="mt-0.5 shrink-0 text-amber-500"
+                        />{' '}
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
 
-            {/* Structured Data */}
-            <Card title="Structured Data" status={r.structuredData.hasJsonLd ? 'good' : 'issue'}>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="JSON-LD" value={r.structuredData.hasJsonLd ? 'Found' : 'Not Found'} />
-                <Meta label="Schema Types" value={r.structuredData.schemaTypes.length > 0 ? r.structuredData.schemaTypes.join(', ') : 'None'} />
-              </div>
-              {r.structuredData.parseErrors.length > 0 && (
-                <ul className="mt-4 space-y-1 text-sm text-red-600 dark:text-red-400">
-                  {r.structuredData.parseErrors.map((e) => <li key={e}>{e}</li>)}
-                </ul>
-              )}
-              {r.structuredData.warnings.length > 0 && (
-                <ul className="mt-2 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.structuredData.warnings.map((w) => <li key={w} className="flex items-start gap-2"><IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-amber-500" /> {w}</li>)}
-                </ul>
-              )}
-            </Card>
-
-            {/* Answer-ready Content */}
-            <Card title="Answer-ready Content" status={r.answerReadyContent.hasFaqSection ? 'good' : 'warning'}>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="H1 Count" value={String(r.answerReadyContent.h1Count)} />
-                <Meta label="H2 Count" value={String(r.answerReadyContent.h2Count)} />
-                <Meta label="H3 Count" value={String(r.answerReadyContent.h3Count)} />
-                <Meta label="FAQ Section" value={r.answerReadyContent.hasFaqSection ? 'Found' : 'Not Found'} />
-                <Meta label="Question Headings" value={r.answerReadyContent.hasQuestionHeadings ? 'Found' : 'Not Found'} />
-                <Meta label="Lists" value={r.answerReadyContent.hasLists ? 'Present' : 'Not Found'} />
-                <Meta label="Short Answer Paragraphs" value={r.answerReadyContent.hasShortAnswerParagraphs ? 'Present' : 'Not Found'} />
-              </div>
-              {r.answerReadyContent.issues.length > 0 && (
-                <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.answerReadyContent.issues.map((i) => <li key={i} className="flex items-start gap-2"><IconX size={14} className="mt-0.5 shrink-0 text-red-500" /> {i}</li>)}
-                </ul>
-              )}
-              {r.answerReadyContent.warnings.length > 0 && (
-                <ul className="mt-2 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.answerReadyContent.warnings.map((w) => <li key={w} className="flex items-start gap-2"><IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-amber-500" /> {w}</li>)}
-                </ul>
-              )}
-            </Card>
-
-            {/* Entity Clarity */}
-            <Card title="Entity Clarity" status="warning">
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="Inferred Brand" value={r.entityClarity.inferredBrandName || 'N/A'} />
-                <Meta label="og:site_name" value={r.entityClarity.hasOgSiteName ? 'Found' : 'Not Found'} />
-                <Meta label="Organization Schema" value={r.entityClarity.hasOrganizationSchema ? 'Found' : 'Not Found'} />
-              </div>
-              {r.entityClarity.issues.length > 0 && (
-                <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.entityClarity.issues.map((i) => <li key={i} className="flex items-start gap-2"><IconX size={14} className="mt-0.5 shrink-0 text-red-500" /> {i}</li>)}
-                </ul>
-              )}
-            </Card>
-
-            {/* Trust Signals */}
-            <Card title="Trust Signals" status={r.trustSignals.hasAuthor ? 'good' : 'issue'}>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <Meta label="Author" value={r.trustSignals.hasAuthor ? 'Found' : 'Not Found'} />
-                <Meta label="Published Date" value={r.trustSignals.hasPublishedDate ? 'Found' : 'Not Found'} />
-                <Meta label="Modified Date" value={r.trustSignals.hasModifiedDate ? 'Found' : 'Not Found'} />
-                <Meta label="About Link" value={r.trustSignals.hasAboutLink ? 'Found' : 'Not Found'} />
-                <Meta label="Contact Link" value={r.trustSignals.hasContactLink ? 'Found' : 'Not Found'} />
-                <Meta label="Privacy Link" value={r.trustSignals.hasPrivacyLink ? 'Found' : 'Not Found'} />
-                <Meta label="External Links" value={String(r.trustSignals.externalLinkCount)} />
-              </div>
-              {r.trustSignals.issues.length > 0 && (
-                <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
-                  {r.trustSignals.issues.map((i) => <li key={i} className="flex items-start gap-2"><IconX size={14} className="mt-0.5 shrink-0 text-red-500" /> {i}</li>)}
-                </ul>
-              )}
-            </Card>
-
-            {/* Recommendations */}
-            <Card title="Recommended Fixes" status="neutral">
-              <ul className="space-y-2 text-sm text-gray-500 dark:text-zinc-400">
-                {r.recommendations.map((rec) => (
-                  <li key={rec} className="flex items-start gap-2"><IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-blue-500" /> {rec}</li>
-                ))}
-              </ul>
-            </Card>
-
-            {/* Checked info */}
-            <div className="text-center">
-              <p className="text-xs text-gray-400 dark:text-zinc-500">Checked: {r.normalizedUrl} at {new Date(r.checkedAt).toLocaleString()}</p>
-            </div>
-
-            {/* Lead capture */}
-            <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-600/10"><IconMail size={20} className="text-blue-600 dark:text-blue-400" /></div>
-                <div>
-                  <h3 className="font-semibold text-gray-800 dark:text-zinc-200">Get the full AEO audit report</h3>
-                  <p className="text-sm text-gray-500 dark:text-zinc-400">We'll email you the complete report for {r.normalizedUrl}.</p>
+              {/* AI Files */}
+              <Card
+                title="AI Search Files & Crawler Access"
+                status={r.aiFiles.llmsTxt.exists ? 'good' : 'issue'}
+              >
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="LLMs.txt"
+                    value={
+                      r.aiFiles.llmsTxt.exists
+                        ? `Found (${r.aiFiles.llmsTxt.statusCode})`
+                        : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="LLMs-full.txt"
+                    value={
+                      r.aiFiles.llmsFullTxt.exists
+                        ? `Found (${r.aiFiles.llmsFullTxt.statusCode})`
+                        : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Sitemap"
+                    value={
+                      r.aiFiles.sitemap.exists
+                        ? `Found (${r.aiFiles.sitemap.statusCode})`
+                        : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Robots.txt"
+                    value={
+                      r.aiFiles.robotsTxt.exists
+                        ? `Found (${r.aiFiles.robotsTxt.statusCode})`
+                        : 'Not Found'
+                    }
+                  />
                 </div>
+                {r.aiFiles.robotsTxt.exists && (
+                  <div className="mt-4 overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-200 dark:border-zinc-800">
+                          <th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">
+                            Crawler
+                          </th>
+                          <th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">
+                            User Agent
+                          </th>
+                          <th className="py-2 text-right font-medium text-gray-500 dark:text-zinc-400">
+                            Access
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {r.aiFiles.robotsTxt.crawlers.map((c) => {
+                          const b = accessBadge(c.access);
+                          return (
+                            <tr
+                              key={c.userAgent}
+                              className="border-b border-gray-100 dark:border-zinc-800/50"
+                            >
+                              <td className="py-2.5 text-gray-700 dark:text-zinc-300">
+                                {c.name}
+                              </td>
+                              <td className="py-2.5 font-mono text-xs text-gray-400 dark:text-zinc-500">
+                                {c.userAgent}
+                              </td>
+                              <td
+                                className={`py-2.5 text-right font-medium ${b.cls}`}
+                              >
+                                {b.label}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </Card>
+
+              {/* Structured Data */}
+              <Card
+                title="Structured Data"
+                status={r.structuredData.hasJsonLd ? 'good' : 'issue'}
+              >
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="JSON-LD"
+                    value={r.structuredData.hasJsonLd ? 'Found' : 'Not Found'}
+                  />
+                  <Meta
+                    label="Schema Types"
+                    value={
+                      r.structuredData.schemaTypes.length > 0
+                        ? r.structuredData.schemaTypes.join(', ')
+                        : 'None'
+                    }
+                  />
+                </div>
+                {r.structuredData.parseErrors.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm text-red-600 dark:text-red-400">
+                    {r.structuredData.parseErrors.map((e) => (
+                      <li key={e}>{e}</li>
+                    ))}
+                  </ul>
+                )}
+                {r.structuredData.warnings.length > 0 && (
+                  <ul className="mt-2 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.structuredData.warnings.map((w) => (
+                      <li key={w} className="flex items-start gap-2">
+                        <IconAlertTriangle
+                          size={14}
+                          className="mt-0.5 shrink-0 text-amber-500"
+                        />{' '}
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              {/* Answer-ready Content */}
+              <Card
+                title="Answer-ready Content"
+                status={r.answerReadyContent.hasFaqSection ? 'good' : 'warning'}
+              >
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="H1 Count"
+                    value={String(r.answerReadyContent.h1Count)}
+                  />
+                  <Meta
+                    label="H2 Count"
+                    value={String(r.answerReadyContent.h2Count)}
+                  />
+                  <Meta
+                    label="H3 Count"
+                    value={String(r.answerReadyContent.h3Count)}
+                  />
+                  <Meta
+                    label="FAQ Section"
+                    value={
+                      r.answerReadyContent.hasFaqSection ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Question Headings"
+                    value={
+                      r.answerReadyContent.hasQuestionHeadings
+                        ? 'Found'
+                        : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Lists"
+                    value={
+                      r.answerReadyContent.hasLists ? 'Present' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Short Answer Paragraphs"
+                    value={
+                      r.answerReadyContent.hasShortAnswerParagraphs
+                        ? 'Present'
+                        : 'Not Found'
+                    }
+                  />
+                </div>
+                {r.answerReadyContent.issues.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.answerReadyContent.issues.map((i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <IconX
+                          size={14}
+                          className="mt-0.5 shrink-0 text-red-500"
+                        />{' '}
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {r.answerReadyContent.warnings.length > 0 && (
+                  <ul className="mt-2 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.answerReadyContent.warnings.map((w) => (
+                      <li key={w} className="flex items-start gap-2">
+                        <IconAlertTriangle
+                          size={14}
+                          className="mt-0.5 shrink-0 text-amber-500"
+                        />{' '}
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              {/* Entity Clarity */}
+              <Card title="Entity Clarity" status="warning">
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="Inferred Brand"
+                    value={r.entityClarity.inferredBrandName || 'N/A'}
+                  />
+                  <Meta
+                    label="og:site_name"
+                    value={
+                      r.entityClarity.hasOgSiteName ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Organization Schema"
+                    value={
+                      r.entityClarity.hasOrganizationSchema
+                        ? 'Found'
+                        : 'Not Found'
+                    }
+                  />
+                </div>
+                {r.entityClarity.issues.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.entityClarity.issues.map((i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <IconX
+                          size={14}
+                          className="mt-0.5 shrink-0 text-red-500"
+                        />{' '}
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              {/* Trust Signals */}
+              <Card
+                title="Trust Signals"
+                status={r.trustSignals.hasAuthor ? 'good' : 'issue'}
+              >
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <Meta
+                    label="Author"
+                    value={r.trustSignals.hasAuthor ? 'Found' : 'Not Found'}
+                  />
+                  <Meta
+                    label="Published Date"
+                    value={
+                      r.trustSignals.hasPublishedDate ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Modified Date"
+                    value={
+                      r.trustSignals.hasModifiedDate ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="About Link"
+                    value={r.trustSignals.hasAboutLink ? 'Found' : 'Not Found'}
+                  />
+                  <Meta
+                    label="Contact Link"
+                    value={
+                      r.trustSignals.hasContactLink ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="Privacy Link"
+                    value={
+                      r.trustSignals.hasPrivacyLink ? 'Found' : 'Not Found'
+                    }
+                  />
+                  <Meta
+                    label="External Links"
+                    value={String(r.trustSignals.externalLinkCount)}
+                  />
+                </div>
+                {r.trustSignals.issues.length > 0 && (
+                  <ul className="mt-4 space-y-1 text-sm text-gray-500 dark:text-zinc-400">
+                    {r.trustSignals.issues.map((i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <IconX
+                          size={14}
+                          className="mt-0.5 shrink-0 text-red-500"
+                        />{' '}
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              {/* Recommendations */}
+              <Card title="Recommended Fixes" status="neutral">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-zinc-400">
+                  {r.recommendations.map((rec) => (
+                    <li key={rec} className="flex items-start gap-2">
+                      <IconAlertTriangle
+                        size={14}
+                        className="mt-0.5 shrink-0 text-blue-500"
+                      />{' '}
+                      {rec}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+
+              {/* Checked info */}
+              <div className="text-center">
+                <p className="text-xs text-gray-400 dark:text-zinc-500">
+                  Checked: {r.normalizedUrl} at{' '}
+                  {new Date(r.checkedAt).toLocaleString()}
+                </p>
               </div>
-              {leadMessage ? (
-                <div className={`rounded-xl p-3 text-center text-sm ${leadSuccess ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400'}`}>{leadMessage}</div>
-              ) : (
-                <form onSubmit={handleLeadSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <input type="email" placeholder="Your email" value={leadEmail} onChange={(e) => setLeadEmail(e.target.value)} disabled={leadLoading} className="flex-1 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50" />
-                  <button type="submit" disabled={leadLoading} className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200">{leadLoading ? <><IconLoader2 size={14} className="animate-spin" /> Sending...</> : 'Send me the report'}</button>
-                </form>
-              )}
+
+              {/* Lead capture */}
+              <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-600/10">
+                    <IconMail
+                      size={20}
+                      className="text-blue-600 dark:text-blue-400"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800 dark:text-zinc-200">
+                      Get the full AEO audit report
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-zinc-400">
+                      We'll email you the complete report for {r.normalizedUrl}.
+                    </p>
+                  </div>
+                </div>
+                {leadMessage ? (
+                  <div
+                    className={`rounded-xl p-3 text-center text-sm ${leadSuccess ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400'}`}
+                  >
+                    {leadMessage}
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={handleLeadSubmit}
+                    className="flex flex-col sm:flex-row gap-3"
+                  >
+                    <input
+                      type="email"
+                      placeholder="Your email"
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      disabled={leadLoading}
+                      className="flex-1 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
+                    />
+                    <button
+                      type="submit"
+                      disabled={leadLoading}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] disabled:opacity-50 dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
+                    >
+                      {leadLoading ? (
+                        <>
+                          <IconLoader2 size={14} className="animate-spin" />{' '}
+                          Sending...
+                        </>
+                      ) : (
+                        'Send me the report'
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
-          </div>
-        </Container></section>
+          </Container>
+        </section>
       )}
 
       {/* Explanation */}
-      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16"><Container>
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">What does this AEO Checker audit?</h2>
-          <p className="mt-6 text-center text-gray-500 dark:text-zinc-400">
-            This tool checks technical and content signals that can make a page easier for answer engines and AI search systems to understand. It looks at crawlability, LLMs.txt, AI crawler access, structured data, answer-ready formatting, entity clarity, and trust signals.
-          </p>
-        </div>
-      </Container></section>
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              What does this AEO Checker audit?
+            </h2>
+            <p className="mt-6 text-center text-gray-500 dark:text-zinc-400">
+              This tool checks technical and content signals that can make a
+              page easier for answer engines and AI search systems to
+              understand. It looks at crawlability, LLMs.txt, AI crawler access,
+              structured data, answer-ready formatting, entity clarity, and
+              trust signals.
+            </p>
+          </div>
+        </Container>
+      </section>
 
       {/* Difference */}
-      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16"><Container>
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">AEO readiness is not the same as AI visibility tracking</h2>
-          <p className="mt-6 text-center text-gray-500 dark:text-zinc-400">
-            This tool does not monitor whether your brand appears in ChatGPT, Perplexity, Gemini, Claude, or Google AI Overviews. Instead, it checks whether your website has the technical and content foundations that may help answer engines understand your pages.
-          </p>
-        </div>
-      </Container></section>
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              AEO readiness is not the same as AI visibility tracking
+            </h2>
+            <p className="mt-6 text-center text-gray-500 dark:text-zinc-400">
+              This tool does not monitor whether your brand appears in ChatGPT,
+              Perplexity, Gemini, Claude, or Google AI Overviews. Instead, it
+              checks whether your website has the technical and content
+              foundations that may help answer engines understand your pages.
+            </p>
+          </div>
+        </Container>
+      </section>
 
       {/* FAQ */}
-      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16"><Container>
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">Frequently Asked Questions</h2>
-          <FAQ items={faqItems} className="mt-8" />
-        </div>
-      </Container></section>
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              Frequently Asked Questions
+            </h2>
+            <FAQ items={faqItems} className="mt-8" />
+          </div>
+        </Container>
+      </section>
 
       {/* Internal links */}
-      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12"><Container>
-        <div className="mx-auto max-w-xl text-center">
-          <p className="text-sm text-gray-500 dark:text-zinc-400">
-            Also try our{' '}
-            <a href="/tools/llms-txt-checker" className="text-blue-600 dark:text-blue-400 hover:underline">LLMs.txt Checker</a>,{' '}
-            <a href="/tools/llms-txt-generator" className="text-blue-600 dark:text-blue-400 hover:underline">LLMs.txt Generator</a>, and{' '}
-            <a href="/guides/llms-txt-file" className="text-blue-600 dark:text-blue-400 hover:underline">LLMs.txt guide</a>.
-          </p>
-        </div>
-      </Container></section>
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
+        <Container>
+          <div className="mx-auto max-w-xl text-center">
+            <p className="text-sm text-gray-500 dark:text-zinc-400">
+              Also try our{' '}
+              <a
+                href="/tools/llms-txt-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt Checker
+              </a>
+              ,{' '}
+              <a
+                href="/tools/llms-txt-generator"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt Generator
+              </a>
+              , and{' '}
+              <a
+                href="/guides/llms-txt-file"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt guide
+              </a>
+              .
+            </p>
+          </div>
+        </Container>
+      </section>
 
       {/* Trust disclaimer */}
-      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12"><Container>
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm text-gray-400 dark:text-zinc-500">
-            This AEO Checker provides a technical readiness audit. It does not guarantee rankings, citations, traffic, or visibility in ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews, or other answer engines.
-          </p>
-        </div>
-      </Container></section>
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm text-gray-400 dark:text-zinc-500">
+              This AEO Checker provides a technical readiness audit. It does not
+              guarantee rankings, citations, traffic, or visibility in ChatGPT,
+              Perplexity, Gemini, Claude, Google AI Overviews, or other answer
+              engines.
+            </p>
+          </div>
+        </Container>
+      </section>
 
       <div className="h-8" />
     </div>
@@ -415,14 +777,26 @@ function AeoCheckerPage() {
 
 // ---------- Sub-components ----------
 
-function Card({ title, status = 'neutral', children }: { title: string; status?: Status; children: React.ReactNode }) {
+function Card({
+  title,
+  status = 'neutral',
+  children,
+}: {
+  title: string;
+  status?: Status;
+  children: React.ReactNode;
+}) {
   const badge = statusBadge(status);
   return (
     <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-800 dark:text-zinc-200">{title}</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-zinc-200">
+          {title}
+        </h3>
         {status !== 'neutral' && (
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.bg} ${badge.text}`}>
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.bg} ${badge.text}`}
+          >
             {status === 'good' && <IconCheck size={12} />}
             {status === 'warning' && <IconAlertTriangle size={12} />}
             {status === 'issue' && <IconX size={12} />}
@@ -436,7 +810,12 @@ function Card({ title, status = 'neutral', children }: { title: string; status?:
 }
 
 function Meta({ label, value }: { label: string; value: string }) {
-  return <div><span className="text-xs text-gray-400 dark:text-zinc-500">{label}</span><p className="text-gray-700 dark:text-zinc-300 break-all">{value}</p></div>;
+  return (
+    <div>
+      <span className="text-xs text-gray-400 dark:text-zinc-500">{label}</span>
+      <p className="text-gray-700 dark:text-zinc-300 break-all">{value}</p>
+    </div>
+  );
 }
 
 // ---------- Route export ----------
@@ -445,7 +824,8 @@ export const Route = createFileRoute('/tools/aeo-checker')({
   head: () => ({
     ...seo('/tools/aeo-checker', {
       title: 'Free AEO Checker & Website Audit Tool',
-      description: 'Run a technical AEO audit for your website. Check LLMs.txt, AI crawler access, structured data, answer-ready content, trust signals, and get an AEO score.',
+      description:
+        'Run a technical AEO audit for your website. Check LLMs.txt, AI crawler access, structured data, answer-ready content, trust signals, and get an AEO score.',
     }),
     scripts: [jsonLd(websiteSchema())],
   }),
