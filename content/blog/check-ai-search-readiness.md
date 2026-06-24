@@ -3,7 +3,7 @@ title: How to Check if Your Website Is Ready for AI Search
 description: Run through a quick technical checklist to see if AI crawlers can access your site and whether your LLMs.txt, sitemap, and robots.txt are set up right.
 date: 2026-06-21
 category: Guides
-image: https://cdn.mksaas.com/tanstarter/template/blog-hello-world.jpeg
+image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 
 AI search is not some distant thing anymore. ChatGPT, Perplexity, Gemini, Claude. People use them to find products, research vendors, and discover content. If you run a website, it is worth knowing whether your site is readable to these systems.

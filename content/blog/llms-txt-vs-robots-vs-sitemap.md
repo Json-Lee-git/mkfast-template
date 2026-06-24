@@ -3,7 +3,7 @@ title: LLMs.txt vs Robots.txt vs Sitemap — What Each File Does
 description: A plain-language comparison of llms.txt, robots.txt, and sitemap.xml. What each file controls, when to use it, and how they fit together for AI crawler access.
 date: 2026-06-22
 category: Guides
-image: https://cdn.mksaas.com/tanstarter/template/blog-hello-world.jpeg
+image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 
 If you manage a website, you deal with a few files that tell search engines and crawlers what to do. Three of them overlap enough that they get confused: `robots.txt`, `sitemap.xml`, and the newer `llms.txt`. They do different things. Mixing them up leads to mistakes.

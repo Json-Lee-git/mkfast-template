@@ -3,7 +3,7 @@ title: What Is an LLMs.txt File and How to Create One for Your Website
 description: Learn what an LLMs.txt file is, why it matters for AI search readiness, how to create one with the right format, and see real examples you can copy.
 date: 2026-06-20
 category: Guides
-image: https://cdn.mksaas.com/tanstarter/template/blog-hello-world.jpeg
+image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 
 Most sites have a `robots.txt`. Most have a `sitemap.xml`. A lot fewer have an `llms.txt`, but that is changing fast.
