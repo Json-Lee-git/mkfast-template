@@ -7,6 +7,18 @@ import { IconArrowRight } from '@tabler/icons-react';
 
 const faqItems = [
   {
+    q: 'What is the difference between LLMs.txt and LLMs-full.txt?',
+    a: 'LLMs.txt is a short summary with links to your most important pages. LLMs-full.txt contains the full Markdown content of your key pages, making deep content directly available to AI systems. Think of LLMs.txt as a table of contents and LLMs-full.txt as the full book.',
+  },
+  {
+    q: 'Who should use LLMs-full.txt?',
+    a: 'LLMs-full.txt is most useful for documentation sites, API references, developer tools, SaaS knowledge bases, and technical content libraries. If your site has deep structured content that AI systems could benefit from, it is worth considering.',
+  },
+  {
+    q: 'Can I generate an LLMs-full.txt file?',
+    a: 'Our current generator focuses on the standard LLMs.txt format. For LLMs-full.txt, you can build it manually by combining your most important Markdown content into a single file. Check whether your site already has one using the LLMs.txt Checker.',
+  },
+  {
     q: 'Is LLMs-full.txt required if I already have LLMs.txt?',
     a: 'No. LLMs-full.txt is entirely optional. Many sites will only need the standard LLMs.txt. LLMs-full.txt is for sites that want to provide much deeper, expanded content — typically documentation or knowledge bases.',
   },

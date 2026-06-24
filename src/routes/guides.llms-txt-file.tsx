@@ -15,6 +15,26 @@ const faqItems = [
     a: 'robots.txt controls which crawlers are allowed to access your site. LLMs.txt provides structured, AI-readable content about your site. They serve different purposes: robots.txt is about access control, LLMs.txt is about content discovery.',
   },
   {
+    q: 'What is the difference between LLMs.txt and sitemap.xml?',
+    a: 'A sitemap.xml lists every URL on your site for search engines. An LLMs.txt file highlights your most important pages with descriptions so AI models understand what matters. Sitemap is a directory. LLMs.txt is a curated guide.',
+  },
+  {
+    q: 'What is the LLMs.txt format?',
+    a: 'LLMs.txt uses standard Markdown. It starts with an H1 heading for your site name, followed by a blockquote summary, then section headings with links and short descriptions. No special syntax. No XML. Just Markdown anyone can write.',
+  },
+  {
+    q: 'Where can I find an LLMs.txt example?',
+    a: 'We have a full LLMs.txt template and real-world examples in our best practices guide. You can also generate a draft from your own sitemap using the free LLMs.txt Generator.',
+  },
+  {
+    q: 'How do I create an LLMs.txt file for my website?',
+    a: 'Write a Markdown file with your site name, summary, and key pages. Save it as llms.txt and upload it to your site root. Or use our free LLMs.txt Generator to build one automatically from your sitemap.',
+  },
+  {
+    q: 'Where should I put my LLMs.txt file?',
+    a: 'At the root of your website so it is accessible at /llms.txt. For static sites, drop it in your public folder. For CMS platforms, upload it through your file manager. Make sure it returns a 200 status code.',
+  },
+  {
     q: 'Should every website create an LLMs.txt file?',
     a: 'Not necessarily. It is most relevant for documentation sites, SaaS products, developer tools, content-heavy sites, and structured knowledge sites. If your site is a simple brochure page, the effort may outweigh the benefit.',
   },

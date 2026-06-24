@@ -7,6 +7,18 @@ import { IconArrowRight } from '@tabler/icons-react';
 
 const faqItems = [
   {
+    q: 'Does LLMs.txt help with SEO?',
+    a: 'LLMs.txt is not a confirmed ranking factor. It does not directly improve Google rankings. However, it may help AI-powered search products like ChatGPT and Perplexity understand your site structure better, which could lead to more accurate citations.',
+  },
+  {
+    q: 'What is LLMs.txt GEO?',
+    a: 'GEO stands for Generative Engine Optimization. It is the practice of optimizing content for AI-powered search and response engines. An LLMs.txt file is one low-cost GEO tactic: it gives AI models a structured summary of your site content.',
+  },
+  {
+    q: 'Does LLMs.txt help with ChatGPT or Perplexity?',
+    a: 'There is no guarantee, but an LLMs.txt file makes your site easier for AI systems to parse. ChatGPT, Perplexity, and other AI products may use it to understand what your site is about and which pages matter. It is a signal, not a promise.',
+  },
+  {
     q: 'Should I replace my SEO strategy with LLMs.txt?',
     a: 'No. LLMs.txt should not replace normal SEO, sitemaps, internal linking, structured data, or crawlable content. It is a supplementary file, not a replacement for established SEO practices.',
   },
@@ -17,6 +29,10 @@ const faqItems = [
   {
     q: 'Does adding LLMs.txt guarantee I appear in ChatGPT responses?',
     a: "No. There is no guarantee that adding an LLMs.txt file will cause any AI model to cite your website. It is one of many signals and is not a confirmed input to any major AI product's citation system.",
+  },
+  {
+    q: 'Is LLMs.txt worth the effort?',
+    a: 'For most sites, yes. It takes ten minutes to create and costs nothing. The upside is that your site becomes easier for AI systems to understand. The downside is ten minutes of your time. It is one of the lowest-risk SEO experiments you can run.',
   },
 ];
 
