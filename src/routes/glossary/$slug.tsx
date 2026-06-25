@@ -2,7 +2,13 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { Markdown } from '@/components/markdown/markdown';
 import { getGlossaryBySlug } from '@/lib/glossary';
+import {
+  breadcrumbSchema,
+  definedTermSchema,
+  jsonLd,
+} from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
+import { getCanonicalUrl } from '@/lib/urls';
 import { IconArrowLeft } from '@tabler/icons-react';
 
 export const Route = createFileRoute('/glossary/$slug')({
@@ -14,11 +20,30 @@ export const Route = createFileRoute('/glossary/$slug')({
   head: ({ loaderData }) => {
     const term = loaderData;
     if (!term) return {};
-    return seo(`/glossary/${term.slug}`, {
-      title: `${term.title} — AI Search Readiness Glossary`,
-      description: term.description,
-      type: 'article',
-    });
+    const path = `/glossary/${term.slug}`;
+    return {
+      ...seo(path, {
+        title: `${term.title} - AI Search Readiness Glossary`,
+        description: term.description,
+        type: 'article',
+      }),
+      scripts: [
+        jsonLd(
+          definedTermSchema({
+            name: term.title,
+            description: term.description,
+            url: getCanonicalUrl(path),
+          })
+        ),
+        jsonLd(
+          breadcrumbSchema([
+            { name: 'Home', url: getCanonicalUrl('/') },
+            { name: 'Glossary', url: getCanonicalUrl('/glossary') },
+            { name: term.title, url: getCanonicalUrl(path) },
+          ])
+        ),
+      ],
+    };
   },
   component: GlossaryTermPage,
 });

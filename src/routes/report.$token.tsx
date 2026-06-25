@@ -44,7 +44,10 @@ function statusBadge(status: Status) {
 function accessBadge(access: string) {
   switch (access) {
     case 'allowed':
-      return { label: 'Allowed', cls: 'text-emerald-600 dark:text-emerald-400' };
+      return {
+        label: 'Allowed',
+        cls: 'text-emerald-600 dark:text-emerald-400',
+      };
     case 'blocked':
       return { label: 'Blocked', cls: 'text-red-600 dark:text-red-400' };
     default:
@@ -76,25 +79,52 @@ function ReportPage() {
   const [loading, setLoading] = useState(true);
   const [report, setReport] = useState<ReportData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const poll = async () => {
       try {
         const data = await getReportByToken({ data: { token } });
-        if (!cancelled) {
-          setReport(data);
+        if (cancelled) return;
+        setReport(data);
+        if (data?.status === 'active') {
+          setLoading(false);
+          clearInterval(timer);
+        } else if (data) {
+          // payment pending — keep polling
           setLoading(false);
         }
       } catch {
         if (!cancelled) {
           setError('Failed to load report.');
           setLoading(false);
+          clearInterval(timer);
         }
       }
-    })();
+    };
+
+    // Initial fetch
+    poll();
+
+    timer = setInterval(() => {
+      if (cancelled) return;
+      setElapsed((prev) => {
+        // Stop polling after 2 minutes
+        if (prev >= 120) {
+          clearInterval(timer);
+          return prev;
+        }
+        return prev + 2;
+      });
+      poll();
+    }, 2000);
+
     return () => {
       cancelled = true;
+      clearInterval(timer);
     };
   }, [token]);
 
@@ -103,7 +133,10 @@ function ReportPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <IconLoader2 size={48} className="mx-auto animate-spin text-blue-500" />
+          <IconLoader2
+            size={48}
+            className="mx-auto animate-spin text-blue-500"
+          />
           <p className="mt-4 text-sm text-gray-500 dark:text-zinc-400">
             Loading report...
           </p>
@@ -129,10 +162,7 @@ function ReportPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="mx-auto max-w-md rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
-          <IconAlertTriangle
-            size={40}
-            className="mx-auto text-amber-400"
-          />
+          <IconAlertTriangle size={40} className="mx-auto text-amber-400" />
           <h2 className="mt-4 text-lg font-semibold text-gray-900 dark:text-zinc-100">
             Report not found
           </h2>
@@ -149,21 +179,38 @@ function ReportPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="mx-auto max-w-md rounded-2xl border border-amber-200 dark:border-amber-900/30 bg-amber-50 dark:bg-amber-950/20 p-8 text-center">
-          <IconAlertTriangle
+          <IconLoader2
             size={40}
-            className="mx-auto text-amber-400"
+            className="mx-auto text-amber-400 animate-spin"
           />
           <h2 className="mt-4 text-lg font-semibold text-gray-900 dark:text-zinc-100">
-            Payment pending
+            Confirming payment
           </h2>
           <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
             Your report for{' '}
             <span className="font-medium text-gray-700 dark:text-zinc-300">
               {report.websiteUrl}
             </span>{' '}
-            is waiting for payment confirmation. The full report will be
-            available here once your payment is processed.
+            is being processed. This should only take a few seconds.
           </p>
+          {elapsed > 10 && (
+            <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
+              Still waiting... don't worry, your payment is safe. The report
+              will appear here automatically.
+            </p>
+          )}
+          {elapsed >= 120 && (
+            <p className="mt-3 text-sm text-gray-500 dark:text-zinc-400">
+              Taking longer than expected.{' '}
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Refresh page
+              </button>
+            </p>
+          )}
         </div>
       </div>
     );
@@ -254,6 +301,156 @@ function ReportPage() {
             </p>
           </div>
 
+          {/* Score Breakdown */}
+          <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-6">
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-zinc-200 mb-4">
+              Score breakdown
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+              <ScoreBadge
+                label="Crawlability"
+                status={
+                  !r.page.issues.length
+                    ? 'good'
+                    : r.page.issues.length <= 2
+                      ? 'warning'
+                      : 'issue'
+                }
+              />
+              <ScoreBadge
+                label="AI Files & Crawlers"
+                status={r.aiFiles.llmsTxt.exists ? 'good' : 'warning'}
+              />
+              <ScoreBadge
+                label="Structured Data"
+                status={r.structuredData.hasJsonLd ? 'good' : 'issue'}
+              />
+              <ScoreBadge
+                label="Content"
+                status={r.answerReadyContent.hasFaqSection ? 'good' : 'warning'}
+              />
+              <ScoreBadge
+                label="Entity Clarity"
+                status={
+                  r.entityClarity.hasOrganizationSchema ? 'good' : 'warning'
+                }
+              />
+              <ScoreBadge
+                label="Trust Signals"
+                status={
+                  r.trustSignals.hasAuthor
+                    ? 'good'
+                    : r.trustSignals.hasContactLink
+                      ? 'warning'
+                      : 'issue'
+                }
+              />
+            </div>
+          </div>
+
+          {/* AI Analysis — the core value of the paid report */}
+          {r.aiAnalysis && (
+            <>
+              <Card title="Analysis" status="neutral">
+                <p className="text-sm text-gray-700 dark:text-zinc-300 leading-relaxed">
+                  {r.aiAnalysis.summary}
+                </p>
+                {r.aiAnalysis.strengths.length > 0 && (
+                  <ul className="mt-4 space-y-2">
+                    {r.aiAnalysis.strengths.map((s) => (
+                      <li
+                        key={s}
+                        className="flex items-start gap-2 text-sm text-gray-600 dark:text-zinc-400"
+                      >
+                        <IconCheck
+                          size={16}
+                          className="mt-0.5 shrink-0 text-emerald-500"
+                        />
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              {r.aiAnalysis.quickWins.length > 0 && (
+                <Card title="Quick Wins" status="good">
+                  <p className="text-xs text-gray-400 dark:text-zinc-500 mb-3">
+                    These can be done in under 15 minutes:
+                  </p>
+                  <ul className="space-y-2">
+                    {r.aiAnalysis.quickWins.map((w) => (
+                      <li
+                        key={w}
+                        className="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-300"
+                      >
+                        <IconCheck
+                          size={16}
+                          className="mt-0.5 shrink-0 text-emerald-500"
+                        />
+                        {w}
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              )}
+
+              {r.aiAnalysis.actionPlan.length > 0 && (
+                <Card title="Your Action Plan" status="neutral">
+                  <div className="space-y-4">
+                    {r.aiAnalysis.actionPlan.map((a, i) => {
+                      const colors: Record<string, string> = {
+                        critical:
+                          'border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/20',
+                        high: 'border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20',
+                        medium:
+                          'border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20',
+                        low: 'border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900/30',
+                      };
+                      const badges: Record<string, string> = {
+                        critical:
+                          'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
+                        high: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400',
+                        medium:
+                          'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+                        low: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400',
+                      };
+                      return (
+                        <div
+                          key={a.title}
+                          className={`rounded-xl border p-4 ${colors[a.priority] || colors.medium}`}
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white dark:bg-zinc-900 text-xs font-semibold text-gray-700 dark:text-zinc-300 border border-gray-200 dark:border-zinc-700">
+                              {i + 1}
+                            </span>
+                            <span
+                              className={`rounded-full px-2 py-0.5 text-xs font-medium ${badges[a.priority] || badges.medium}`}
+                            >
+                              {a.priority}
+                            </span>
+                            <span className="text-xs text-gray-400 dark:text-zinc-500">
+                              {a.effort}
+                            </span>
+                          </div>
+                          <h4 className="font-semibold text-gray-800 dark:text-zinc-200">
+                            {a.title}
+                          </h4>
+                          <p className="mt-1 text-sm text-gray-600 dark:text-zinc-400">
+                            {a.whatToDo}
+                          </p>
+                          <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500 italic">
+                            Why: {a.why}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Card>
+              )}
+            </>
+          )}
+
           {/* Crawlability */}
           <Card title="Technical Crawlability" status="good">
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -261,10 +458,7 @@ function ReportPage() {
                 label="Status"
                 value={r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'N/A'}
               />
-              <Meta
-                label="Content Type"
-                value={r.page.contentType || 'N/A'}
-              />
+              <Meta label="Content Type" value={r.page.contentType || 'N/A'} />
               <Meta label="Title" value={r.page.title || 'N/A'} />
               <Meta
                 label="Meta Description"
@@ -450,7 +644,9 @@ function ReportPage() {
               />
               <Meta
                 label="FAQ Section"
-                value={r.answerReadyContent.hasFaqSection ? 'Found' : 'Not Found'}
+                value={
+                  r.answerReadyContent.hasFaqSection ? 'Found' : 'Not Found'
+                }
               />
               <Meta
                 label="Question Headings"
@@ -511,9 +707,7 @@ function ReportPage() {
               <Meta
                 label="Organization Schema"
                 value={
-                  r.entityClarity.hasOrganizationSchema
-                    ? 'Found'
-                    : 'Not Found'
+                  r.entityClarity.hasOrganizationSchema ? 'Found' : 'Not Found'
                 }
               />
               <Meta
@@ -604,145 +798,80 @@ function ReportPage() {
             )}
           </Card>
 
-          {/* Prioritized Fixes */}
-          <Card title="Prioritized Fixes" status="neutral">
-            <div className="space-y-4">
-              {r.recommendations.length === 0 ? (
+          {/* Prioritized Fixes (shown when AI analysis is unavailable) */}
+          {!r.aiAnalysis && r.recommendations.length > 0 && (
+            <Card title="Prioritized Fixes" status="neutral">
+              <div className="space-y-4">
                 <p className="text-sm text-gray-500 dark:text-zinc-400">
-                  No critical issues found. Your site is in good shape.
+                  Address these items in order to improve your technical AEO
+                  readiness score.
                 </p>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-500 dark:text-zinc-400">
-                    Address these items in order to improve your technical AEO
-                    readiness score.
-                  </p>
-                  <ol className="space-y-3 text-sm">
-                    {r.recommendations.map((rec, i) => (
-                      <li
-                        key={rec}
-                        className="flex items-start gap-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-3"
-                      >
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-xs font-semibold text-blue-700 dark:text-blue-400">
-                          {i + 1}
-                        </span>
-                        <span className="text-gray-700 dark:text-zinc-300 pt-0.5">
-                          {rec}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                </>
-              )}
-            </div>
-          </Card>
-
-          {/* AI Analysis */}
-          {r.aiAnalysis && (
-            <Card title="AI-Powered Analysis" status="neutral">
-              <div className="space-y-5">
-                <p className="text-sm text-gray-700 dark:text-zinc-300">
-                  {r.aiAnalysis.summary}
-                </p>
-                {r.aiAnalysis.strengths.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-2">
-                      Strengths
-                    </h4>
-                    <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                      {r.aiAnalysis.strengths.map((s) => (
-                        <li key={s} className="flex items-start gap-2">
-                          <IconCheck size={14} className="mt-0.5 shrink-0 text-emerald-500" />{' '}
-                          {s}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {r.aiAnalysis.quickWins.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2">
-                      Quick Wins
-                    </h4>
-                    <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                      {r.aiAnalysis.quickWins.map((w) => (
-                        <li key={w} className="flex items-start gap-2">
-                          <IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-blue-500" />{' '}
-                          {w}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {r.aiAnalysis.contentSuggestions.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-2">
-                      Content Suggestions
-                    </h4>
-                    <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                      {r.aiAnalysis.contentSuggestions.map((c) => (
-                        <li key={c} className="flex items-start gap-2">
-                          <IconCheck size={14} className="mt-0.5 shrink-0 text-purple-500" />{' '}
-                          {c}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {r.aiAnalysis.schemaSuggestions.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
-                      Schema Suggestions
-                    </h4>
-                    <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                      {r.aiAnalysis.schemaSuggestions.map((s) => (
-                        <li key={s} className="flex items-start gap-2">
-                          <IconCheck size={14} className="mt-0.5 shrink-0 text-amber-500" />{' '}
-                          {s}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <ol className="space-y-3 text-sm">
+                  {r.recommendations.map((rec, i) => (
+                    <li
+                      key={rec}
+                      className="flex items-start gap-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-3"
+                    >
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-xs font-semibold text-blue-700 dark:text-blue-400">
+                        {i + 1}
+                      </span>
+                      <span className="text-gray-700 dark:text-zinc-300 pt-0.5">
+                        {rec}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </Card>
           )}
 
           {/* Schema Recommendations */}
-          <Card title="Schema Recommendations" status="neutral">
-            <div className="space-y-4">
-              {r.structuredData.schemaTypes.length === 0 ? (
-                <SchemaRecommendations
-                  missing
-                  websiteUrl={r.normalizedUrl}
-                  brandName={r.entityClarity.inferredBrandName || hostname}
-                />
-              ) : (
-                <SchemaRecommendations
-                  missing={false}
-                  existingTypes={r.structuredData.schemaTypes}
-                  hasOrganization={r.entityClarity.hasOrganizationSchema}
-                  hasFaq={r.answerReadyContent.hasFaqSection}
-                  websiteUrl={r.normalizedUrl}
-                  brandName={r.entityClarity.inferredBrandName || hostname}
-                />
-              )}
-            </div>
-          </Card>
+          <SchemaRecommendations
+            aiSchemaJson={r.aiAnalysis?.customSchemaJson}
+            existingTypes={r.structuredData.schemaTypes}
+            pageTitle={r.page.title || ''}
+            brandName={r.entityClarity.inferredBrandName || hostname}
+            websiteUrl={r.normalizedUrl}
+            metaDescription={r.page.metaDescription || ''}
+            hasAuthor={r.trustSignals.hasAuthor}
+            hasPublishedDate={r.trustSignals.hasPublishedDate}
+            hasFaq={r.answerReadyContent.hasFaqSection}
+            hasQuestionHeadings={r.answerReadyContent.hasQuestionHeadings}
+          />
 
           {/* LLMs.txt Improvement Plan */}
           <Card
             title="LLMs.txt Improvement Plan"
             status={r.aiFiles.llmsTxt.exists ? 'good' : 'issue'}
           >
-            <LlmsTxtPlan
-              hasLlmsTxt={r.aiFiles.llmsTxt.exists}
-              hasLlmsFullTxt={r.aiFiles.llmsFullTxt.exists}
-              websiteUrl={r.normalizedUrl}
-              brandName={r.entityClarity.inferredBrandName || hostname}
-              title={r.page.title || hostname}
-              description={r.page.metaDescription || ''}
-            />
+            {r.aiAnalysis?.customLlmsTxt ? (
+              <div className="space-y-4 text-sm">
+                <p className="text-gray-500 dark:text-zinc-400">
+                  AI-generated /llms.txt tailored to your site:
+                </p>
+                <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
+                  {r.aiAnalysis.customLlmsTxt}
+                </pre>
+                {r.aiAnalysis.customLlmsFullTxt && (
+                  <>
+                    <p className="text-gray-500 dark:text-zinc-400 mt-4">
+                      AI-generated /llms-full.txt:
+                    </p>
+                    <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300 max-h-96 overflow-y-auto">
+                      {r.aiAnalysis.customLlmsFullTxt}
+                    </pre>
+                  </>
+                )}
+              </div>
+            ) : (
+              <LlmsTxtPlan
+                hasLlmsTxt={r.aiFiles.llmsTxt.exists}
+                hasLlmsFullTxt={r.aiFiles.llmsFullTxt.exists}
+                websiteUrl={r.normalizedUrl}
+                brandName={r.entityClarity.inferredBrandName || hostname}
+                description={r.page.metaDescription || ''}
+              />
+            )}
           </Card>
 
           {/* Answer Content Suggestions */}
@@ -750,14 +879,55 @@ function ReportPage() {
             title="Answer-Ready Content Suggestions"
             status={r.answerReadyContent.hasFaqSection ? 'good' : 'warning'}
           >
-            <ContentSuggestions
-              h1Count={r.answerReadyContent.h1Count}
-              h2Count={r.answerReadyContent.h2Count}
-              hasFaq={r.answerReadyContent.hasFaqSection}
-              hasQuestions={r.answerReadyContent.hasQuestionHeadings}
-              hasShortAnswers={r.answerReadyContent.hasShortAnswerParagraphs}
-              hasLists={r.answerReadyContent.hasLists}
-            />
+            {r.aiAnalysis?.contentSuggestions.length ? (
+              <ul className="space-y-3 text-sm">
+                {r.aiAnalysis.contentSuggestions.map((s) => (
+                  <li
+                    key={s}
+                    className="flex items-start gap-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-3"
+                  >
+                    <IconCheck
+                      size={16}
+                      className="mt-0.5 shrink-0 text-blue-500"
+                    />
+                    <span className="text-gray-700 dark:text-zinc-300">
+                      {s}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : r.aiAnalysis?.missingTopics?.length ? (
+              <div className="space-y-3 text-sm">
+                <p className="text-gray-500 dark:text-zinc-400">
+                  Topics your page should cover to improve AI search coverage:
+                </p>
+                <ul className="space-y-2">
+                  {r.aiAnalysis.missingTopics.map((t) => (
+                    <li
+                      key={t}
+                      className="flex items-start gap-3 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50 dark:bg-amber-950/20 p-3"
+                    >
+                      <IconAlertTriangle
+                        size={16}
+                        className="mt-0.5 shrink-0 text-amber-500"
+                      />
+                      <span className="text-gray-700 dark:text-zinc-300">
+                        {t}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <ContentSuggestions
+                h1Count={r.answerReadyContent.h1Count}
+                h2Count={r.answerReadyContent.h2Count}
+                hasFaq={r.answerReadyContent.hasFaqSection}
+                hasQuestions={r.answerReadyContent.hasQuestionHeadings}
+                hasShortAnswers={r.answerReadyContent.hasShortAnswerParagraphs}
+                hasLists={r.answerReadyContent.hasLists}
+              />
+            )}
           </Card>
 
           {/* Metadata */}
@@ -807,6 +977,26 @@ function ReportPage() {
 
 // ---------- Sub-components ----------
 
+function ScoreBadge({ label, status }: { label: string; status: Status }) {
+  const badge = statusBadge(status);
+  return (
+    <div
+      className={`flex items-center gap-2 rounded-xl border px-3 py-2 ${badge.bg}`}
+    >
+      {status === 'good' && (
+        <IconCheck size={14} className="text-emerald-500 shrink-0" />
+      )}
+      {status === 'warning' && (
+        <IconAlertTriangle size={14} className="text-amber-500 shrink-0" />
+      )}
+      {status === 'issue' && (
+        <IconX size={14} className="text-red-500 shrink-0" />
+      )}
+      <span className={`text-xs font-medium ${badge.text}`}>{label}</span>
+    </div>
+  );
+}
+
 function Card({
   title,
   status = 'neutral',
@@ -848,109 +1038,24 @@ function Meta({ label, value }: { label: string; value: string }) {
   );
 }
 
-// ---------- Full-report sections ----------
-
-function SchemaRecommendations({
-  missing,
-  existingTypes = [],
-  hasOrganization,
-  hasFaq,
-  websiteUrl,
-  brandName,
-}: {
-  missing: boolean;
-  existingTypes?: string[];
-  hasOrganization?: boolean;
-  hasFaq?: boolean;
-  websiteUrl: string;
-  brandName: string;
-}) {
-  const domain = new URL(websiteUrl).hostname;
-
-  return (
-    <div className="space-y-4 text-sm">
-      {missing && (
-        <p className="text-gray-500 dark:text-zinc-400">
-          No structured data detected. Adding JSON-LD schema helps AI systems
-          understand your site content and entity relationships. Here is a
-          baseline recommendation:
-        </p>
-      )}
-
-      <div>
-        <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
-          Organization schema
-        </h4>
-        <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-{`{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "${brandName}",
-  "url": "${websiteUrl}",
-  "sameAs": []
-}`}
-        </pre>
-      </div>
-
-      <div>
-        <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
-          WebSite schema
-        </h4>
-        <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-{`{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "${brandName}",
-  "url": "${websiteUrl}"
-}`}
-        </pre>
-      </div>
-
-      {hasFaq && (
-        <div>
-          <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
-            FAQPage schema (detected FAQ content — add this)
-          </h4>
-          <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-{`{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [{
-    "@type": "Question",
-    "name": "What is [topic]?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "[concise answer]"
-    }
-  }]
-}`}
-          </pre>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function LlmsTxtPlan({
   hasLlmsTxt,
   hasLlmsFullTxt,
   websiteUrl,
   brandName,
-  title,
   description,
 }: {
   hasLlmsTxt: boolean;
   hasLlmsFullTxt: boolean;
   websiteUrl: string;
   brandName: string;
-  title: string;
   description: string;
 }) {
   if (hasLlmsTxt && hasLlmsFullTxt) {
     return (
       <p className="text-sm text-gray-500 dark:text-zinc-400">
-        Both LLMs.txt and LLMs-full.txt are present. Review them periodically
-        to ensure they reflect your current site structure and key pages.
+        Both LLMs.txt and LLMs-full.txt are present. Review them periodically to
+        ensure they reflect your current site structure and key pages.
       </p>
     );
   }
@@ -969,18 +1074,16 @@ function LlmsTxtPlan({
             Recommended LLMs.txt:
           </h4>
           <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-{`# ${brandName}
-> ${description || title}
+            {`# ${brandName}
+> ${description || `${brandName} — ${websiteUrl}`}
 
-## Core Pages
-- [Home](${websiteUrl}): Main landing page
-- [About](${websiteUrl}/about): Company information
+## About
+- [Home](${websiteUrl}): ${description || `${brandName} official website`}
 
-## Tools
-- [AEO Checker](${websiteUrl}/tools/aeo-checker): Technical AEO audit
-
-## Optional
-- [LLMs.txt Guide](${websiteUrl}/guides/llms-txt-file): LLMs.txt documentation`}
+## Getting Started
+- The llms.txt file helps AI systems understand your site structure.
+- Add links to your most important pages under ## Core Pages.
+- Add links to documentation or guides under ## Documentation.`}
           </pre>
         </div>
       )}
@@ -991,14 +1094,17 @@ function LlmsTxtPlan({
             Recommended LLMs-full.txt:
           </h4>
           <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-{`# ${brandName} - Full Content
-## Home
-${description || title}
+            {`# ${brandName} — Full Content
 
-## AEO Checker
-Free technical AEO audit tool checking crawlability, LLMs.txt,
-AI crawler access, structured data, answer-ready content, entity
-clarity, and trust signals for any website.`}
+> ${description || `${brandName}`}
+
+## About
+This file provides expanded content to help AI systems understand
+your website's key information. Replace this template with actual
+content from your most important pages.
+
+Start by including your homepage content, product descriptions,
+and key documentation pages.`}
           </pre>
         </div>
       )}
@@ -1083,6 +1189,188 @@ function ContentSuggestions({
   );
 }
 
+// ---------- Schema Recommendations ----------
+
+function SchemaRecommendations({
+  aiSchemaJson,
+  existingTypes,
+  pageTitle,
+  brandName,
+  websiteUrl,
+  metaDescription,
+  hasAuthor,
+  hasPublishedDate,
+  hasFaq,
+  hasQuestionHeadings,
+}: {
+  aiSchemaJson?: string;
+  existingTypes: string[];
+  pageTitle: string;
+  brandName: string;
+  websiteUrl: string;
+  metaDescription: string;
+  hasAuthor: boolean;
+  hasPublishedDate: boolean;
+  hasFaq: boolean;
+  hasQuestionHeadings: boolean;
+}) {
+  if (aiSchemaJson) {
+    return (
+      <Card title="Schema Recommendations" status="neutral">
+        <div className="space-y-4 text-sm">
+          <p className="text-gray-500 dark:text-zinc-400">
+            AI-generated schema markup tailored to your page:
+          </p>
+          <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
+            {aiSchemaJson}
+          </pre>
+        </div>
+      </Card>
+    );
+  }
+
+  const titleLower = pageTitle.toLowerCase();
+  const isTool =
+    /\b(checker|generator|tool|audit|converter|calculator|analyzer|validator|scanner|tester)\b/i.test(
+      titleLower
+    );
+  const isArticle = hasAuthor || hasPublishedDate;
+
+  const schemas: { label: string; json: string }[] = [];
+
+  // Always recommend Organization as the base
+  schemas.push({
+    label: 'Organization',
+    json: JSON.stringify(
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: brandName,
+        url: websiteUrl,
+        sameAs: [],
+      },
+      null,
+      2
+    ),
+  });
+
+  if (isTool) {
+    schemas.push({
+      label: 'WebApplication',
+      json: JSON.stringify(
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: pageTitle,
+          url: websiteUrl,
+          description: metaDescription,
+          applicationCategory: 'DeveloperApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+        },
+        null,
+        2
+      ),
+    });
+  }
+
+  if (isArticle) {
+    schemas.push({
+      label: 'Article',
+      json: JSON.stringify(
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: pageTitle,
+          url: websiteUrl,
+          description: metaDescription,
+          author: {
+            '@type': 'Organization',
+            name: brandName,
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: brandName,
+            url: websiteUrl,
+          },
+        },
+        null,
+        2
+      ),
+    });
+  }
+
+  if (hasFaq || hasQuestionHeadings) {
+    schemas.push({
+      label: 'FAQPage',
+      json: JSON.stringify(
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'What is this page about?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: metaDescription || `Learn more about ${brandName}.`,
+              },
+            },
+          ],
+        },
+        null,
+        2
+      ),
+    });
+  }
+
+  // Always add WebSite as the last base schema
+  schemas.push({
+    label: 'WebSite',
+    json: JSON.stringify(
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: brandName,
+        url: websiteUrl,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${websiteUrl}/search?q={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      null,
+      2
+    ),
+  });
+
+  return (
+    <Card title="Schema Recommendations" status="neutral">
+      <div className="space-y-4 text-sm">
+        <p className="text-gray-500 dark:text-zinc-400">
+          {existingTypes.length === 0
+            ? 'No structured data detected. Adding JSON-LD schema helps AI systems understand your site.'
+            : `Detected schema types: ${existingTypes.join(', ')}. Below are recommendations:`}
+        </p>
+        {schemas.map((s) => (
+          <div key={s.label}>
+            <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
+              {s.label} schema
+            </h4>
+            <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
+              {s.json}
+            </pre>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
 // ---------- Markdown export ----------
 
 function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
@@ -1106,7 +1394,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 
   if (r.page.issues.length > 0) {
     lines.push('', '### Issues', '');
-    r.page.issues.forEach((i) => lines.push(`- ${i}`));
+    r.page.issues.forEach((i) => {
+      lines.push(`- ${i}`);
+    });
   }
 
   lines.push(
@@ -1137,7 +1427,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 
   if (r.structuredData.parseErrors.length > 0) {
     lines.push('### Parse Errors', '');
-    r.structuredData.parseErrors.forEach((e) => lines.push(`- ${e}`));
+    r.structuredData.parseErrors.forEach((e) => {
+      lines.push(`- ${e}`);
+    });
     lines.push('');
   }
 

@@ -43,11 +43,15 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthErrorRouteImport } from './routes/auth/error'
+import { Route as ApiRssDotxmlRouteImport } from './routes/api/rss[.]xml'
+import { Route as ApiRssRouteImport } from './routes/api/rss'
 import { Route as ApiPingRouteImport } from './routes/api/ping'
+import { Route as ApiDebugAiRouteImport } from './routes/api/debug-ai'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
 import { Route as pagesContactRouteImport } from './routes/(pages)/contact'
 import { Route as pagesAiRouteImport } from './routes/(pages)/ai'
+import { Route as pagesAboutRouteImport } from './routes/(pages)/about'
 import { Route as legalsTermsRouteImport } from './routes/(legals)/terms'
 import { Route as legalsPrivacyRouteImport } from './routes/(legals)/privacy'
 import { Route as legalsCookieRouteImport } from './routes/(legals)/cookie'
@@ -225,9 +229,24 @@ const AuthErrorRoute = AuthErrorRouteImport.update({
   path: '/error',
   getParentRoute: () => AuthRoute,
 } as any)
+const ApiRssDotxmlRoute = ApiRssDotxmlRouteImport.update({
+  id: '/api/rss.xml',
+  path: '/api/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRssRoute = ApiRssRouteImport.update({
+  id: '/api/rss',
+  path: '/api/rss',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPingRoute = ApiPingRouteImport.update({
   id: '/api/ping',
   path: '/api/ping',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDebugAiRoute = ApiDebugAiRouteImport.update({
+  id: '/api/debug-ai',
+  path: '/api/debug-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -248,6 +267,11 @@ const pagesContactRoute = pagesContactRouteImport.update({
 const pagesAiRoute = pagesAiRouteImport.update({
   id: '/(pages)/ai',
   path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const pagesAboutRoute = pagesAboutRouteImport.update({
+  id: '/(pages)/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const legalsTermsRoute = legalsTermsRouteImport.update({
@@ -293,11 +317,15 @@ export interface FileRoutesByFullPath {
   '/cookie': typeof legalsCookieRoute
   '/privacy': typeof legalsPrivacyRoute
   '/terms': typeof legalsTermsRoute
+  '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
   '/contact': typeof pagesContactRoute
   '/pricing': typeof pagesPricingRoute
   '/admin/users': typeof AdminUsersRoute
+  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
+  '/api/rss': typeof ApiRssRoute
+  '/api/rss.xml': typeof ApiRssDotxmlRoute
   '/auth/error': typeof AuthErrorRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -337,11 +365,15 @@ export interface FileRoutesByTo {
   '/cookie': typeof legalsCookieRoute
   '/privacy': typeof legalsPrivacyRoute
   '/terms': typeof legalsTermsRoute
+  '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
   '/contact': typeof pagesContactRoute
   '/pricing': typeof pagesPricingRoute
   '/admin/users': typeof AdminUsersRoute
+  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
+  '/api/rss': typeof ApiRssRoute
+  '/api/rss.xml': typeof ApiRssDotxmlRoute
   '/auth/error': typeof AuthErrorRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -385,11 +417,15 @@ export interface FileRoutesById {
   '/(legals)/cookie': typeof legalsCookieRoute
   '/(legals)/privacy': typeof legalsPrivacyRoute
   '/(legals)/terms': typeof legalsTermsRoute
+  '/(pages)/about': typeof pagesAboutRoute
   '/(pages)/ai': typeof pagesAiRoute
   '/(pages)/contact': typeof pagesContactRoute
   '/(pages)/pricing': typeof pagesPricingRoute
   '/admin/users': typeof AdminUsersRoute
+  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
+  '/api/rss': typeof ApiRssRoute
+  '/api/rss.xml': typeof ApiRssDotxmlRoute
   '/auth/error': typeof AuthErrorRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
@@ -434,11 +470,15 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/privacy'
     | '/terms'
+    | '/about'
     | '/ai'
     | '/contact'
     | '/pricing'
     | '/admin/users'
+    | '/api/debug-ai'
     | '/api/ping'
+    | '/api/rss'
+    | '/api/rss.xml'
     | '/auth/error'
     | '/auth/forgot-password'
     | '/auth/login'
@@ -478,11 +518,15 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/privacy'
     | '/terms'
+    | '/about'
     | '/ai'
     | '/contact'
     | '/pricing'
     | '/admin/users'
+    | '/api/debug-ai'
     | '/api/ping'
+    | '/api/rss'
+    | '/api/rss.xml'
     | '/auth/error'
     | '/auth/forgot-password'
     | '/auth/login'
@@ -525,11 +569,15 @@ export interface FileRouteTypes {
     | '/(legals)/cookie'
     | '/(legals)/privacy'
     | '/(legals)/terms'
+    | '/(pages)/about'
     | '/(pages)/ai'
     | '/(pages)/contact'
     | '/(pages)/pricing'
     | '/admin/users'
+    | '/api/debug-ai'
     | '/api/ping'
+    | '/api/rss'
+    | '/api/rss.xml'
     | '/auth/error'
     | '/auth/forgot-password'
     | '/auth/login'
@@ -573,10 +621,14 @@ export interface RootRouteChildren {
   legalsCookieRoute: typeof legalsCookieRoute
   legalsPrivacyRoute: typeof legalsPrivacyRoute
   legalsTermsRoute: typeof legalsTermsRoute
+  pagesAboutRoute: typeof pagesAboutRoute
   pagesAiRoute: typeof pagesAiRoute
   pagesContactRoute: typeof pagesContactRoute
   pagesPricingRoute: typeof pagesPricingRoute
+  ApiDebugAiRoute: typeof ApiDebugAiRoute
   ApiPingRoute: typeof ApiPingRoute
+  ApiRssRoute: typeof ApiRssRoute
+  ApiRssDotxmlRoute: typeof ApiRssDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
   GlossarySlugRoute: typeof GlossarySlugRoute
   GuidesAeoAuditRoute: typeof GuidesAeoAuditRoute
@@ -836,11 +888,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthErrorRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/api/rss.xml': {
+      id: '/api/rss.xml'
+      path: '/api/rss.xml'
+      fullPath: '/api/rss.xml'
+      preLoaderRoute: typeof ApiRssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rss': {
+      id: '/api/rss'
+      path: '/api/rss'
+      fullPath: '/api/rss'
+      preLoaderRoute: typeof ApiRssRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/ping': {
       id: '/api/ping'
       path: '/api/ping'
       fullPath: '/api/ping'
       preLoaderRoute: typeof ApiPingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/debug-ai': {
+      id: '/api/debug-ai'
+      path: '/api/debug-ai'
+      fullPath: '/api/debug-ai'
+      preLoaderRoute: typeof ApiDebugAiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
@@ -869,6 +942,13 @@ declare module '@tanstack/react-router' {
       path: '/ai'
       fullPath: '/ai'
       preLoaderRoute: typeof pagesAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(pages)/about': {
+      id: '/(pages)/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof pagesAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(legals)/terms': {
@@ -990,10 +1070,14 @@ const rootRouteChildren: RootRouteChildren = {
   legalsCookieRoute: legalsCookieRoute,
   legalsPrivacyRoute: legalsPrivacyRoute,
   legalsTermsRoute: legalsTermsRoute,
+  pagesAboutRoute: pagesAboutRoute,
   pagesAiRoute: pagesAiRoute,
   pagesContactRoute: pagesContactRoute,
   pagesPricingRoute: pagesPricingRoute,
+  ApiDebugAiRoute: ApiDebugAiRoute,
   ApiPingRoute: ApiPingRoute,
+  ApiRssRoute: ApiRssRoute,
+  ApiRssDotxmlRoute: ApiRssDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,
   GlossarySlugRoute: GlossarySlugRoute,
   GuidesAeoAuditRoute: GuidesAeoAuditRoute,

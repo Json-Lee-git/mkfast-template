@@ -1,7 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import {
-  FETCH_TIMEOUT_MS,
   MAX_REDIRECTS,
   normalizeOrigin,
   validateUrl,

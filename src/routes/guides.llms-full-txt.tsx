@@ -247,9 +247,9 @@ function LLMsFullTxtGuidePage() {
               LLMs-full.txt expands each section with the full documentation
               content in Markdown, giving AI systems direct access to API
               references, code examples, and guides without needing to crawl
-              individual pages. Check{' '}
-              <code>tanstack.com/llms.txt</code> for the navigation file and{' '}
-              <code>tanstack.com/llms-full.txt</code> for the full content.
+              individual pages. Check <code>tanstack.com/llms.txt</code> for the
+              navigation file and <code>tanstack.com/llms-full.txt</code> for
+              the full content.
             </p>
           </div>
         </Container>

@@ -652,7 +652,7 @@ export const Route = createFileRoute('/tools/llms-txt-checker')({
     ...seo('/tools/llms-txt-checker', {
       title: 'Free LLMs.txt Checker & Validator | AI Search Readiness',
       description:
-        'Check if your website has a valid LLMs.txt file. Validate structure, links, LLMs-full.txt, sitemap, and AI crawler access.',
+        'Check if your website has a valid LLMs.txt file. Validate structure, links, LLMs-full.txt, sitemap, and AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and more. Free, no sign-up required.',
     }),
     scripts: [jsonLd(websiteSchema())],
   }),

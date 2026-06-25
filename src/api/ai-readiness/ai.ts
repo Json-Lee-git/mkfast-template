@@ -4,7 +4,7 @@ import { aiUsage } from '@/db/app.schema';
 import { gte, and, eq } from 'drizzle-orm';
 
 // Workers AI free tier model — fast, capable, zero cost
-const DEFAULT_MODEL = '@cf/meta/llama-3.1-8b-instruct';
+const DEFAULT_MODEL = '@cf/meta/llama-4-scout-17b-16e-instruct';
 
 const DAILY_LIMIT = 100;
 
@@ -41,8 +41,8 @@ async function todayUsage(feature: string): Promise<number> {
         and(
           eq(aiUsage.feature, feature),
           eq(aiUsage.success, true),
-          gte(aiUsage.createdAt, today),
-        ),
+          gte(aiUsage.createdAt, today)
+        )
       );
     return rows.length;
   } catch {
@@ -73,7 +73,9 @@ export async function runAi(opts: AiCallOptions): Promise<AiCallResult | null> {
   // Daily limit check
   const count = await todayUsage(feature);
   if (count >= DAILY_LIMIT) {
-    console.log(`AI daily limit reached for ${feature} (${count}/${DAILY_LIMIT})`);
+    console.log(
+      `AI daily limit reached for ${feature} (${count}/${DAILY_LIMIT})`
+    );
     return null;
   }
 
@@ -106,14 +108,46 @@ export async function runAi(opts: AiCallOptions): Promise<AiCallResult | null> {
 }
 
 /**
- * Parse a JSON response from AI, handling markdown code fences.
+ * Parse a JSON response from AI, handling various markdown wrapping patterns.
+ * Tries multiple extraction strategies before giving up.
  */
 export function parseAiJson(text: string): unknown | null {
-  // Strip markdown fences
   let cleaned = text.trim();
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+
+  // Strategy 1: extract JSON from markdown code fences anywhere in response
+  const fenceMatch = cleaned.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+  if (fenceMatch) {
+    cleaned = fenceMatch[1].trim();
   }
+
+  // Strategy 2: find first { } or [ ] block
+  if (!fenceMatch) {
+    const firstBrace = cleaned.indexOf('{');
+    const firstBracket = cleaned.indexOf('[');
+    if (firstBrace >= 0 || firstBracket >= 0) {
+      const start =
+        firstBrace >= 0 && (firstBrace < firstBracket || firstBracket < 0)
+          ? firstBrace
+          : firstBracket;
+      cleaned = cleaned.slice(start);
+      // Try to find matching end
+      let depth = 0;
+      let end = -1;
+      for (let i = 0; i < cleaned.length; i++) {
+        const ch = cleaned[i];
+        if (ch === '{' || ch === '[') depth++;
+        else if (ch === '}' || ch === ']') {
+          depth--;
+          if (depth === 0) {
+            end = i + 1;
+            break;
+          }
+        }
+      }
+      if (end > 0) cleaned = cleaned.slice(0, end);
+    }
+  }
+
   try {
     return JSON.parse(cleaned);
   } catch {

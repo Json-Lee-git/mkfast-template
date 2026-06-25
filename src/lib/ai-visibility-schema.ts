@@ -62,6 +62,25 @@ export function itemListSchema(path: string, items: ListItem[]) {
   };
 }
 
+export function definedTermSchema(term: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    name: term.name,
+    description: term.description,
+    url: term.url,
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'AI Search Readiness Glossary',
+      url: getCanonicalUrl('/glossary'),
+    },
+  };
+}
+
 export function faqSchema(items: FAQItem[]) {
   return {
     '@context': 'https://schema.org',

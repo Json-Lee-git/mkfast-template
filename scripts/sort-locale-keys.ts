@@ -1,8 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
-const MESSAGE_FILES = [
-  'project.inlang/messages/en.json',
-] as const;
+const MESSAGE_FILES = ['project.inlang/messages/en.json'] as const;
 
 async function sortMessages(file: string) {
   const raw = await readFile(file, 'utf8');

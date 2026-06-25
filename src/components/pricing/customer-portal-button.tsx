@@ -1,7 +1,6 @@
 import { m } from '@/locale/paraglide/messages';
 import { createCustomerPortalSession } from '@/api/payment';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { IconLoader2 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';

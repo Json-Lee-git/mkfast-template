@@ -1,8 +1,5 @@
 import { m } from '@/locale/paraglide/messages';
-import {
-  IconLayoutDashboard,
-  IconSettings2,
-} from '@tabler/icons-react';
+import { IconLayoutDashboard, IconSettings2 } from '@tabler/icons-react';
 import { Routes } from '@/lib/routes';
 import type { MenuItemConfig } from '../types';
 /**

@@ -14,7 +14,9 @@ import { WORKERS_AI_MODELS } from '@/config/ai-models';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 export function AiTaglineCard() {
-  const [product, setProduct] = useState(m.ai_page_tagline_sample());
+  const [product, setProduct] = useState<string>(() =>
+    String(m.ai_page_tagline_sample())
+  );
   const [taglines, setTaglines] = useState<string[]>([]);
   const [error, setError] = useState<string | undefined>();
   const [isPending, setIsPending] = useState(false);

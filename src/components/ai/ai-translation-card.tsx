@@ -51,7 +51,9 @@ const LANGUAGES: {
   { value: 'arabic', label: 'العربية Arabic' },
 ];
 export function AiTranslationCard() {
-  const [input, setInput] = useState(m.ai_page_translation_sample());
+  const [input, setInput] = useState<string>(() =>
+    String(m.ai_page_translation_sample())
+  );
   const [sourceLang, setSourceLang] = useState<Language>('english');
   const [targetLang, setTargetLang] = useState<Language>('chinese');
   const [translation, setTranslation] = useState('');

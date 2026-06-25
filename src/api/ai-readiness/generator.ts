@@ -1,11 +1,9 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import {
-  FETCH_TIMEOUT_MS,
   MAX_REDIRECTS,
   normalizeOrigin,
   normalizeUrlKeepPath,
-  validateUrl,
   fetchWithTimeout,
 } from './shared';
 import { runAi, parseAiJson } from './ai';
@@ -378,7 +376,10 @@ export const enhanceLlmsTxt = createServerFn({ method: 'POST' })
     });
 
     if (aiResult) {
-      const parsed = parseAiJson(aiResult.text) as Record<string, unknown> | null;
+      const parsed = parseAiJson(aiResult.text) as Record<
+        string,
+        unknown
+      > | null;
       if (parsed && typeof parsed.markdown === 'string') {
         return {
           markdown: String(parsed.markdown),

@@ -198,8 +198,13 @@ function QueryFanOutGuidePage() {
               "Toggl vs Clockify comparison," "project-based vs hourly billing
               tools." A site covering only the main keyword without the
               sub-topics leaves content gaps. Run this query through the{' '}
-              <a href="/tools/query-fan-out-tool" className="text-blue-600 dark:text-blue-400 hover:underline">Query Fan-Out Tool</a> to
-              see what a full coverage plan looks like.
+              <a
+                href="/tools/query-fan-out-tool"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Query Fan-Out Tool
+              </a>{' '}
+              to see what a full coverage plan looks like.
             </p>
           </div>
         </Container>

@@ -1,7 +1,6 @@
 import Container from '@/components/layout/container';
 import { FAQ } from '@/components/ai-visibility/faq';
 import {
-  IconSearch,
   IconFileText,
   IconScan,
   IconBrain,
@@ -80,9 +79,7 @@ export function AIHomePage() {
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
               AI Search Readiness Tools{' '}
-              <span className="gradient-text">
-                for Your Website
-              </span>
+              <span className="gradient-text">for Your Website</span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               Check your LLMs.txt, AI crawler access, technical AEO signals,
@@ -168,7 +165,25 @@ export function AIHomePage() {
             <p className="mt-6 text-center text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               AI Search Readiness means your website is technically easy for
               search engines, answer engines, and AI-assisted retrieval systems
-              to understand.
+              to understand, as defined by the{' '}
+              <a
+                href="https://llmstxt.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                llms.txt proposal
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://schema.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Schema.org
+              </a>{' '}
+              structured data standards.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {readinessPoints.map((point) => (

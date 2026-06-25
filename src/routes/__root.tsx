@@ -18,12 +18,7 @@ import appCss from '../styles.css?url';
 import { DefaultCatchBoundary } from '@/components/layout/default-catch-boundary';
 import { Routes } from '@/lib/routes';
 import { getCanonicalUrl, getOgImage, twitterHandleFromUrl } from '@/lib/urls';
-import {
-  getCanonicalPathname,
-  getLocale,
-  localeConfig,
-  locales,
-} from '@/lib/locale';
+import { getCanonicalPathname, getLocale, localeConfig } from '@/lib/locale';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { lazy } from 'react';
 
@@ -46,9 +41,9 @@ export const Route = createRootRouteWithContext<{
     // OG locale format uses underscore (e.g. en_US, zh_CN), unlike BCP 47 used
     // for <html lang> / hreflang which uses hyphens.
     const ogLocale = localeConfig[currentLocale].hreflang.replace('-', '_');
-    const alternateOgLocales = locales
-      .filter((l) => l !== currentLocale)
-      .map((l) => localeConfig[l].hreflang.replace('-', '_'));
+    const alternateOgLocales = Object.entries(localeConfig)
+      .filter(([locale]) => locale !== currentLocale)
+      .map(([, config]) => config.hreflang.replace('-', '_'));
     return {
       meta: [
         { charSet: 'utf-8' },
@@ -118,6 +113,12 @@ export const Route = createRootRouteWithContext<{
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'icon', href: '/favicon.ico' },
         { rel: 'manifest', href: '/manifest.json' },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'AI Search Readiness Tools RSS Feed',
+          href: '/api/rss.xml',
+        },
       ],
     };
   },
@@ -176,6 +177,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang={localeConfig[getLocale()].hreflang} suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-4EK6XN9BVY"
+        ></script>
+        <script>{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-4EK6XN9BVY');`}</script>
       </head>
       <body>
         <ThemeProvider>

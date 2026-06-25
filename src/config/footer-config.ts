@@ -61,6 +61,7 @@ export function getFooterLinks(): MenuItemConfig[] {
     {
       title: 'Company',
       items: [
+        { title: 'About', href: '/about', external: false },
         { title: 'Contact', href: Routes.Contact, external: false },
       ],
     },

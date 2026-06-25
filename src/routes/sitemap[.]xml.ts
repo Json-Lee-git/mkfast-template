@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getBaseUrl } from '@/lib/urls';
 import { getSortedPosts } from '@/lib/blog';
+import { getGlossaryTerms } from '@/lib/glossary';
 import { websiteConfig } from '@/config/website';
 import {
   baseLocale,
@@ -69,6 +70,11 @@ export const Route = createFileRoute('/sitemap.xml')({
             changefreq: 'monthly',
             priority: '0.7',
           },
+          {
+            path: '/glossary',
+            changefreq: 'weekly',
+            priority: '0.7',
+          },
           { path: '/contact', changefreq: 'monthly' },
           { path: '/terms', changefreq: 'monthly' },
           { path: '/privacy', changefreq: 'monthly' },
@@ -133,11 +139,21 @@ export const Route = createFileRoute('/sitemap.xml')({
             .join('\n');
         }
 
+        const glossaryPart = getGlossaryTerms(baseLocale)
+          .map((term) =>
+            urlEntry(`/glossary/${term.slug}`, {
+              changefreq: 'monthly',
+              priority: '0.6',
+            })
+          )
+          .join('\n');
+
         const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${staticPart}
 ${blogPart ? `\n${blogPart}` : ''}
+${glossaryPart ? `\n${glossaryPart}` : ''}
 </urlset>`;
 
         return new Response(sitemap, {

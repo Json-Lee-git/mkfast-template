@@ -51,7 +51,9 @@ const SPEAKERS: {
   { value: 'zeus', label: 'Zeus · Male (US)' },
 ];
 export function AiTtsCard() {
-  const [text, setText] = useState(m.ai_page_tts_sample());
+  const [text, setText] = useState<string>(() =>
+    String(m.ai_page_tts_sample())
+  );
   const [speaker, setSpeaker] = useState<Speaker>('asteria');
   const [audioUrl, setAudioUrl] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();

@@ -14,6 +14,18 @@ const disallowedPaths = [
   '/waitlist',
 ];
 
+const aiCrawlerUserAgents = [
+  'GPTBot',
+  'ChatGPT-User',
+  'OAI-SearchBot',
+  'ClaudeBot',
+  'Claude-SearchBot',
+  'PerplexityBot',
+  'Google-Extended',
+  'CCBot',
+  'meta-externalagent',
+];
+
 function getDisallowRules() {
   return disallowedPaths
     .flatMap((path) => [
@@ -26,6 +38,12 @@ function getDisallowRules() {
     .join('\n');
 }
 
+function getAiCrawlerAllowRules() {
+  return aiCrawlerUserAgents
+    .map((userAgent) => `User-agent: ${userAgent}\nAllow: /`)
+    .join('\n\n');
+}
+
 /**
  * Dynamic robots.txt
  * https://tanstack.dev/start/latest/docs/framework/react/guide/seo#dynamic-robotstxt
@@ -35,7 +53,9 @@ export const Route = createFileRoute('/robots.txt')({
     handlers: {
       GET: async () => {
         const base = getBaseUrl().replace(/\/$/, '');
-        const robots = `User-agent: *
+        const robots = `${getAiCrawlerAllowRules()}
+
+User-agent: *
 Allow: /
 ${getDisallowRules()}
 

@@ -27,6 +27,8 @@ export const Routes = {
   Settings: '/settings',
   SettingsProfile: '/settings/profile',
   SettingsSecurity: '/settings/security',
+  SettingsBilling: '/settings/billing',
+  Payment: '/settings/payment',
 
   // Admin routes
   Admin: '/admin',

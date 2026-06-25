@@ -21,9 +21,7 @@ const BLOG_REDIRECTS: Record<string, string> = {
   'why-robots-txt-blocks-ai-crawlers': '/blog/ai-crawlers-search-readiness',
 };
 
-export function getBlogRedirect(
-  slug: string,
-): string | undefined {
+export function getBlogRedirect(slug: string): string | undefined {
   return BLOG_REDIRECTS[slug];
 }
 

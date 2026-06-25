@@ -12,7 +12,7 @@ export function getGlossaryTerms(locale: Locale = getLocale()): GlossaryTerm[] {
 
 export function getGlossaryBySlug(
   slug: string,
-  locale: Locale = getLocale(),
+  locale: Locale = getLocale()
 ): GlossaryTerm | undefined {
   const terms = allGlossaries as GlossaryTerm[];
   return terms.find((t) => t.slug === slug && t.locale === locale);

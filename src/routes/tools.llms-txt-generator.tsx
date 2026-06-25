@@ -126,9 +126,12 @@ function GeneratorPage() {
     setEnhancing(true);
     setEnhanceMsg(null);
     try {
-      const siteName = activeTab === 'manual' ? siteName.trim() : (sitemapUrl.trim() || 'Website');
+      const resolvedSiteName =
+        activeTab === 'manual'
+          ? siteName.trim()
+          : sitemapUrl.trim() || 'Website';
       const result = await enhanceLlmsTxt({
-        data: { markdown: output, siteName },
+        data: { markdown: output, siteName: resolvedSiteName },
       });
       setOutput(result.markdown);
       setEnhanceMsg(
@@ -599,7 +602,7 @@ export const Route = createFileRoute('/tools/llms-txt-generator')({
       title:
         'Free LLMs.txt Generator from Sitemap | Create an AI-Readable File',
       description:
-        'Generate a clean LLMs.txt file for your website from your sitemap or manual inputs. Copy, edit, and download your AI-readable site file.',
+        'Generate a clean, AI-readable LLMs.txt file for your website from your sitemap or manual inputs. Create, edit, copy, and download your file. Works with any site. Free, no sign-up required.',
     }),
     scripts: [jsonLd(websiteSchema())],
   }),

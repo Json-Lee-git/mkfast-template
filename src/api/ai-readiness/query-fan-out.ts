@@ -72,7 +72,13 @@ function buildDefaultResult(topic: string): FanOutResult {
       `${topic} best practices`,
       `${topic} vs alternatives`,
     ],
-    intentClusters: ['Definition', 'How it works', 'Getting started', 'Best practices', 'Comparisons'],
+    intentClusters: [
+      'Definition',
+      'How it works',
+      'Getting started',
+      'Best practices',
+      'Comparisons',
+    ],
     recommendedHeadings: [
       `What is ${topic}?`,
       `How ${topic} works`,
@@ -110,7 +116,10 @@ export const runQueryFanOut = createServerFn({ method: 'POST' })
     });
 
     if (aiResult) {
-      const parsed = parseAiJson(aiResult.text) as Record<string, unknown> | null;
+      const parsed = parseAiJson(aiResult.text) as Record<
+        string,
+        unknown
+      > | null;
       if (parsed && typeof parsed.mainIntent === 'string') {
         return {
           query: topic,

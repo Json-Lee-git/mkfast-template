@@ -27,6 +27,7 @@ export function seo(
     keywords?: string;
     image?: string;
     type?: 'website' | 'article';
+    noIndex?: boolean;
   }
 ) {
   const url = getCanonicalUrl(path);
@@ -60,6 +61,7 @@ export const metadata = ({
   image,
   url,
   type = 'website',
+  noIndex,
 }: {
   title: string;
   description?: string;
@@ -67,6 +69,7 @@ export const metadata = ({
   url?: string;
   keywords?: string;
   type?: 'website' | 'article';
+  noIndex?: boolean;
 }) => {
   const twitterSite = websiteConfig.social?.twitter
     ? twitterHandleFromUrl(websiteConfig.social.twitter)
@@ -75,9 +78,9 @@ export const metadata = ({
   // for <html lang> / hreflang which uses hyphens.
   const currentLocale = getLocale();
   const ogLocale = localeConfig[currentLocale].hreflang.replace('-', '_');
-  const alternateLocales = locales
-    .filter((l) => l !== currentLocale)
-    .map((l) => localeConfig[l].hreflang.replace('-', '_'));
+  const alternateLocales = Object.entries(localeConfig)
+    .filter(([locale]) => locale !== currentLocale)
+    .map(([, config]) => config.hreflang.replace('-', '_'));
   const metadata: Array<{
     title?: string;
     name?: string;
@@ -91,6 +94,7 @@ export const metadata = ({
     },
     ...(description ? [{ name: 'description', content: description }] : []),
     ...(keywords ? [{ name: 'keywords', content: keywords }] : []),
+    ...(noIndex ? [{ name: 'robots', content: 'noindex, nofollow' }] : []),
     // OG metadata
     { property: 'og:type', content: type },
     { property: 'og:site_name', content: websiteConfig.metadata?.name ?? '' },

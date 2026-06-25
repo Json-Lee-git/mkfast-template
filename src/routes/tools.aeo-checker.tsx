@@ -251,6 +251,7 @@ function AeoCheckerPage() {
   const handleCheckout = async () => {
     if (!result) return;
     setCheckoutLoading(true);
+    setReportMessage(null);
     try {
       const res = await createReportCheckout({
         data: {
@@ -261,11 +262,14 @@ function AeoCheckerPage() {
       if (res.url) {
         window.location.href = res.url;
       } else {
-        setReportMessage('Payment service is temporarily unavailable.');
+        setReportMessage(
+          'Payment service returned an empty URL. Please try again.'
+        );
         setCheckoutLoading(false);
       }
-    } catch {
-      setReportMessage('Unable to start checkout. Please try again later.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      setReportMessage(`Checkout failed: ${msg}`);
       setCheckoutLoading(false);
     }
   };
@@ -768,7 +772,10 @@ function AeoCheckerPage() {
                         <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
                           {r.aiAnalysis.strengths.map((s) => (
                             <li key={s} className="flex items-start gap-2">
-                              <IconCheck size={14} className="mt-0.5 shrink-0 text-emerald-500" />{' '}
+                              <IconCheck
+                                size={14}
+                                className="mt-0.5 shrink-0 text-emerald-500"
+                              />{' '}
                               {s}
                             </li>
                           ))}
@@ -784,7 +791,10 @@ function AeoCheckerPage() {
                         <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
                           {r.aiAnalysis.quickWins.map((w) => (
                             <li key={w} className="flex items-start gap-2">
-                              <IconAlertTriangle size={14} className="mt-0.5 shrink-0 text-blue-500" />{' '}
+                              <IconAlertTriangle
+                                size={14}
+                                className="mt-0.5 shrink-0 text-blue-500"
+                              />{' '}
                               {w}
                             </li>
                           ))}
@@ -800,7 +810,10 @@ function AeoCheckerPage() {
                         <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
                           {r.aiAnalysis.contentSuggestions.map((c) => (
                             <li key={c} className="flex items-start gap-2">
-                              <IconCheck size={14} className="mt-0.5 shrink-0 text-purple-500" />{' '}
+                              <IconCheck
+                                size={14}
+                                className="mt-0.5 shrink-0 text-purple-500"
+                              />{' '}
                               {c}
                             </li>
                           ))}
@@ -816,7 +829,10 @@ function AeoCheckerPage() {
                         <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
                           {r.aiAnalysis.schemaSuggestions.map((s) => (
                             <li key={s} className="flex items-start gap-2">
-                              <IconCheck size={14} className="mt-0.5 shrink-0 text-amber-500" />{' '}
+                              <IconCheck
+                                size={14}
+                                className="mt-0.5 shrink-0 text-amber-500"
+                              />{' '}
                               {s}
                             </li>
                           ))}
@@ -1212,9 +1228,10 @@ function Meta({ label, value }: { label: string; value: string }) {
 export const Route = createFileRoute('/tools/aeo-checker')({
   head: () => ({
     ...seo('/tools/aeo-checker', {
-      title: 'Free AEO Checker & Website Audit Tool',
+      title:
+        'Free AEO Checker — AI Search Readiness & Answer Engine Optimization Audit',
       description:
-        'Run a technical AEO audit for your website. Check LLMs.txt, AI crawler access, structured data, answer-ready content, trust signals, and get an AEO score.',
+        'Run a technical AEO audit for any website. Check if your site is ready for ChatGPT, Perplexity, Google AI Overviews, and other AI search engines. Get an AEO score, prioritized fixes, and schema recommendations.',
     }),
     scripts: [
       jsonLd(

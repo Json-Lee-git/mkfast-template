@@ -1,5 +1,10 @@
 import { m } from '@/locale/paraglide/messages';
-import { createFileRoute, Link, notFound, redirect } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  redirect,
+} from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { Markdown } from '@/components/markdown/markdown';
 import { getPostBySlug, getBlogRedirect } from '@/lib/blog';
@@ -62,9 +67,37 @@ export const Route = createFileRoute('/blog/$slug')({
         },
       },
     };
+    const breadcrumbJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: getCanonicalUrl('/'),
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: getCanonicalUrl('/blog'),
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: post.title,
+          item: canonicalUrl,
+        },
+      ],
+    };
     return {
       ...metadata,
       scripts: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify(breadcrumbJsonLd),
+        },
         {
           type: 'application/ld+json',
           children: JSON.stringify(articleJsonLd),

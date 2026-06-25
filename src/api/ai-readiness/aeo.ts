@@ -7,7 +7,7 @@ import {
   normalizeUrlKeepPath,
   fetchWithTimeout,
 } from './shared';
-import { runAi } from './ai';
+import { runAi, parseAiJson } from './ai';
 
 const inputSchema = z.object({
   url: z.string().trim().min(1, 'Please enter a URL'),
@@ -97,14 +97,30 @@ export interface AeoAuditResult {
     warnings: string[];
   };
   recommendations: string[];
+  pageText?: string;
   aiAnalysis?: {
     summary: string;
     strengths: string[];
     quickWins: string[];
+    actionPlan: Array<{
+      priority: 'critical' | 'high' | 'medium' | 'low';
+      effort: string;
+      title: string;
+      whatToDo: string;
+      why: string;
+    }>;
     contentSuggestions: string[];
     schemaSuggestions: string[];
+    missingTopics: string[];
+    customLlmsTxt: string;
+    customLlmsFullTxt: string;
+    customSchemaJson: string;
   };
 }
+
+export type AeoActionPriority = NonNullable<
+  AeoAuditResult['aiAnalysis']
+>['actionPlan'][number]['priority'];
 
 // ---------- URL normalize ----------
 
@@ -465,8 +481,8 @@ function hasDate(html: string): { published: boolean; modified: boolean } {
   return { published: hasPublished, modified: hasModified };
 }
 
-function extractPageText(html: string, maxChars = 4000): string {
-  let text = html
+function extractPageText(html: string, maxChars = 6000): string {
+  const text = html
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
     .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, '')
@@ -482,15 +498,39 @@ function extractPageText(html: string, maxChars = 4000): string {
   return text.length > maxChars ? text.slice(0, maxChars) + '...' : text;
 }
 
-const AI_ANALYSIS_PROMPT = `You are an AEO (Answer Engine Optimization) expert. Analyze the page content and audit results below and return a JSON object with actionable recommendations.
+export const AI_ANALYSIS_PROMPT = `You are a senior AEO (Answer Engine Optimization) consultant hired by a website owner who knows nothing about SEO. Your client pays $19 for this audit. They need a report they can act on immediately — every suggestion must be specific to THEIR website, not generic advice.
 
-Return ONLY valid JSON:
+You will receive:
+1. The page's visible text content
+2. A technical audit summary with detected issues
+
+RULES (follow strictly):
+- NEVER use placeholder text like "[topic]", "[concise answer]", "[brand name]", "[Author Name]", "[company name]", "[insert...]", or any bracketed placeholder. Use actual content from the page.
+- Every recommendation must reference something you can see in the provided page content or audit data.
+- Write as if talking to a non-technical person. Be clear, direct, and practical.
+- Prioritize impact: what will actually move the needle for AI search citations?
+
+Return ONLY valid JSON (no markdown fences, no commentary):
+
 {
-  "summary": "1-2 sentence overall assessment",
-  "strengths": ["strength 1", "strength 2", "strength 3"],
-  "quickWins": ["immediate fix 1", "immediate fix 2", "immediate fix 3"],
-  "contentSuggestions": ["content improvement 1", "content improvement 2"],
-  "schemaSuggestions": ["schema recommendation 1", "schema recommendation 2"]
+  "summary": "2-3 sentence assessment of this specific website's AEO readiness. Include the actual brand/site name.",
+  "strengths": ["3-5 strengths found on THIS page. Be specific about what content/pattern you observed."],
+  "quickWins": ["2-4 quick fixes that can be done in under 15 minutes. Each should be a single actionable sentence."],
+  "actionPlan": [
+    {
+      "priority": "critical|high|medium",
+      "effort": "5 minutes|15 minutes|30 minutes|1 hour",
+      "title": "Short action title",
+      "whatToDo": "Step-by-step instructions. Include actual content examples or code snippets the user can copy.",
+      "why": "One sentence explaining why this matters for AI search visibility."
+    }
+  ],
+  "contentSuggestions": ["2-4 specific content improvements. Reference existing page sections."],
+  "schemaSuggestions": ["1-3 JSON-LD schema improvements. Mention specific schema types appropriate for this page."],
+  "missingTopics": ["2-3 topics this page SHOULD cover but doesn't. These are content gaps hurting AI search coverage."],
+  "customLlmsTxt": "A complete /llms.txt file generated from this page's content. Use real page titles, real URLs, real descriptions.",
+  "customLlmsFullTxt": "A complete /llms-full.txt with expanded markdown content extracted from the page. Include the key information sections.",
+  "customSchemaJson": "A JSON-LD schema object (stringified) tailored to this page. If the page is about a tool, use SoftwareApplication or WebApplication. If it's documentation, use Article or TechArticle. Fill in every field with real data from the page."
 }`;
 
 // ---------- AI Files check ----------
@@ -925,15 +965,29 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
 
     // AI-powered deep analysis (non-blocking — falls back gracefully)
     const pageText = extractPageText(html);
+    result.pageText = pageText;
     const aiContext = [
       `URL: ${result.normalizedUrl}`,
+      `Brand/Inferred Name: ${inferredName || 'N/A'}`,
       `Title: ${title || 'N/A'}`,
-      `Meta: ${metaDescription || 'N/A'}`,
-      `H1: ${headings.h1.length}, H2: ${headings.h2.length}, H3: ${headings.h3.length}`,
-      `Schema types: ${schemaTypes.join(', ') || 'none'}`,
-      `Issues found:`,
-      ...result.recommendations.slice(0, 5).map((r) => `- ${r}`),
-      `Page content excerpt:`,
+      `Meta Description: ${metaDescription || 'N/A'}`,
+      `H1 headings: ${headings.h1.join(' | ') || 'none'}`,
+      `H2 headings: ${headings.h2.join(' | ') || 'none'}`,
+      `H3 headings: ${headings.h3.join(' | ') || 'none'}`,
+      `Schema types detected: ${schemaTypes.join(', ') || 'none'}`,
+      `Has JSON-LD: ${jsonLdBlocks.length > 0 ? 'yes' : 'no'}`,
+      `Has FAQ section: ${faq ? 'yes' : 'no'}`,
+      `Has author: ${author ? 'yes' : 'no'}`,
+      `Has published date: ${dates.published ? 'yes' : 'no'}`,
+      `Has About link: ${aboutLink ? 'yes' : 'no'}`,
+      `Has Contact link: ${contactLink ? 'yes' : 'no'}`,
+      `Has Privacy link: ${privacyLink ? 'yes' : 'no'}`,
+      `External links found: ${externalLinks.length}`,
+      `Crawler access summary:`,
+      ...aiFiles.robotsTxt.crawlers.map((c) => `  ${c.name}: ${c.access}`),
+      `Issues to fix:`,
+      ...result.recommendations.map((r) => `- ${r}`),
+      `--- PAGE CONTENT ---`,
       pageText,
     ].join('\n');
 
@@ -941,16 +995,15 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
       feature: 'aeo-analysis',
       systemPrompt: AI_ANALYSIS_PROMPT,
       userPrompt: aiContext,
-      maxTokens: 800,
+      maxTokens: 2048,
     });
 
     if (aiResult) {
       try {
-        const cleaned = aiResult.text
-          .trim()
-          .replace(/^```(?:json)?\s*\n?/, '')
-          .replace(/\n?```\s*$/, '');
-        const parsed = JSON.parse(cleaned);
+        const parsed = parseAiJson(aiResult.text) as Record<
+          string,
+          unknown
+        > | null;
         if (parsed && typeof parsed.summary === 'string') {
           result.aiAnalysis = {
             summary: String(parsed.summary || ''),
@@ -960,16 +1013,35 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
             quickWins: Array.isArray(parsed.quickWins)
               ? parsed.quickWins.map(String)
               : [],
+            actionPlan: Array.isArray(parsed.actionPlan)
+              ? parsed.actionPlan.map((a: Record<string, unknown>) => ({
+                  priority: (['critical', 'high', 'medium', 'low'].includes(
+                    String(a.priority)
+                  )
+                    ? String(a.priority)
+                    : 'medium') as AeoActionPriority,
+                  effort: String(a.effort || ''),
+                  title: String(a.title || ''),
+                  whatToDo: String(a.whatToDo || ''),
+                  why: String(a.why || ''),
+                }))
+              : [],
             contentSuggestions: Array.isArray(parsed.contentSuggestions)
               ? parsed.contentSuggestions.map(String)
               : [],
             schemaSuggestions: Array.isArray(parsed.schemaSuggestions)
               ? parsed.schemaSuggestions.map(String)
               : [],
+            missingTopics: Array.isArray(parsed.missingTopics)
+              ? parsed.missingTopics.map(String)
+              : [],
+            customLlmsTxt: String(parsed.customLlmsTxt || ''),
+            customLlmsFullTxt: String(parsed.customLlmsFullTxt || ''),
+            customSchemaJson: String(parsed.customSchemaJson || ''),
           };
         }
       } catch {
-        // AI response wasn't valid JSON — fall through, aiAnalysis stays undefined
+        console.error('Failed to parse AI analysis JSON');
       }
     }
 

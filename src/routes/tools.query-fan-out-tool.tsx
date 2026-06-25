@@ -345,7 +345,7 @@ export const Route = createFileRoute('/tools/query-fan-out-tool')({
     ...seo('/tools/query-fan-out-tool', {
       title: 'Free Query Fan-Out Tool for AI Search SEO',
       description:
-        'Simulate how AI search engines may expand a query into sub-queries, intents, and content gaps. Use query fan-out to plan answer-ready content.',
+        'Simulate how ChatGPT, Perplexity, and other AI search engines expand a query into sub-queries, intent clusters, and content gaps. Use query fan-out to plan comprehensive, answer-ready content for AI search visibility.',
     }),
     scripts: [
       jsonLd(

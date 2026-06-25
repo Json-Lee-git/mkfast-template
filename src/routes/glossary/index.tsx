@@ -1,17 +1,31 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { getGlossaryTerms } from '@/lib/glossary';
+import { itemListSchema, jsonLd } from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
+import { getCanonicalUrl } from '@/lib/urls';
 import { IconArrowRight } from '@tabler/icons-react';
 
 export const Route = createFileRoute('/glossary/')({
   loader: () => getGlossaryTerms(),
-  head: () => ({
+  head: ({ loaderData }) => ({
     ...seo('/glossary', {
-      title: 'AI Search Readiness Glossary — LLMs.txt, AEO, AI Crawlers & More',
+      title: 'AI Search Readiness Glossary - LLMs.txt, AEO, AI Crawlers & More',
       description:
         'A comprehensive glossary of AI search readiness terms: LLMs.txt, AEO, AI crawlers, structured data, answer-ready content, and more.',
     }),
+    scripts: [
+      jsonLd(
+        itemListSchema(
+          '/glossary',
+          (loaderData ?? getGlossaryTerms()).map((term) => ({
+            name: term.title,
+            description: term.description,
+            url: getCanonicalUrl(`/glossary/${term.slug}`),
+          }))
+        )
+      ),
+    ],
   }),
   component: GlossaryIndexPage,
 });
@@ -28,8 +42,9 @@ function GlossaryIndexPage() {
               AI Search Readiness Glossary
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Clear definitions for terms in AI search, LLMs.txt, AEO, structured
-              data, AI crawlers, and answer-ready content optimization.
+              Clear definitions for terms in AI search, LLMs.txt, AEO,
+              structured data, AI crawlers, and answer-ready content
+              optimization.
             </p>
           </div>
         </Container>

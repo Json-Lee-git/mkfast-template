@@ -21,6 +21,8 @@ import type {
 } from '../types';
 import { PlanIntervals, PaymentScenes, PaymentTypes } from '../types';
 
+type PaymentInsert = typeof payment.$inferInsert;
+
 /**
  * Stripe payment provider implementation
  */
@@ -697,12 +699,15 @@ export class StripeProvider implements PaymentProvider {
   private async processLifetimePlanPurchase(
     invoice: Stripe.Invoice,
     paymentRecord: Payment,
-    session: Stripe.Checkout.Session
+    _session: Stripe.Checkout.Session
   ): Promise<void> {
     console.log('>> Process lifetime plan purchase');
 
     const amount = invoice.amount_paid ? invoice.amount_paid / 100 : 0;
-    console.log('Payment notification:', { sessionId: paymentRecord.sessionId, amount });
+    console.log('Payment notification:', {
+      sessionId: paymentRecord.sessionId,
+      amount,
+    });
 
     console.log('<< Process lifetime plan purchase success');
   }
@@ -960,7 +965,7 @@ export class StripeProvider implements PaymentProvider {
    * @param recordType Type for logging ("subscription" or "one-time")
    */
   private async insertPaymentRecord(
-    paymentData: Record<string, any>,
+    paymentData: Omit<PaymentInsert, 'id' | 'createdAt' | 'updatedAt'>,
     recordType: string
   ): Promise<void> {
     const currentDate = new Date();
