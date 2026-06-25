@@ -10,14 +10,14 @@ The storage module provides file upload (and optional delete) using **Cloudflare
    npx wrangler r2 bucket create <BUCKET_NAME>
    ```
 
-   Use the same name as `bucket_name` in `wrangler.jsonc` (e.g. `mkfast-template`).
+   Use the same name as `bucket_name` in `wrangler.jsonc` (e.g. `ai-search-readiness`).
 
 2. **Configure the bucket in `wrangler.jsonc`**:
 
    ```jsonc
    "r2_buckets": [
      {
-       "bucket_name": "mkfast-template",
+       "bucket_name": "ai-search-readiness",
        "binding": "FILES"
      }
    ]

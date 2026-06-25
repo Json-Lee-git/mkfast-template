@@ -1,7 +1,7 @@
 import { getDb } from '@/db';
 import { payment } from '@/db/app.schema';
 import { user } from '@/db/auth.schema';
-import { sendPaymentNotification } from '@/notification';
+
 import { Creem } from 'creem';
 import type {
   CheckoutEntity,
@@ -784,17 +784,8 @@ export class CreemProvider implements PaymentProvider {
         updatedAt: currentDate,
       });
 
-      // Send notification for lifetime purchase
       const amount = object.product.price ? object.product.price / 100 : 0;
-      await sendPaymentNotification({
-        sessionId: event.id,
-        customerId: object.customer?.id ?? '',
-        userName:
-          (object.metadata?.userName as string) ??
-          object.customer?.name ??
-          'Customer',
-        amount,
-      });
+      console.log('Payment notification:', { sessionId: event.id, amount });
 
       console.log('<< Created Creem one-time payment record success');
     } catch (error) {

@@ -7,6 +7,7 @@ import {
   normalizeUrlKeepPath,
   fetchWithTimeout,
 } from './shared';
+import { runAi } from './ai';
 
 const inputSchema = z.object({
   url: z.string().trim().min(1, 'Please enter a URL'),
@@ -96,6 +97,13 @@ export interface AeoAuditResult {
     warnings: string[];
   };
   recommendations: string[];
+  aiAnalysis?: {
+    summary: string;
+    strengths: string[];
+    quickWins: string[];
+    contentSuggestions: string[];
+    schemaSuggestions: string[];
+  };
 }
 
 // ---------- URL normalize ----------
@@ -427,7 +435,7 @@ function extractBrandName(
 ): string {
   if (ogSiteName) return ogSiteName;
   if (title) {
-    const sep = title.match(/^(.+?)\s+[|\-–—]\s+.+$/);
+    const sep = title.match(/^(.+?)\s+[|\-:]\s+.+$/);
     if (sep) return sep[1].trim();
     return title.trim();
   }
@@ -456,6 +464,34 @@ function hasDate(html: string): { published: boolean; modified: boolean } {
     ) || /last.?modified/i.test(html);
   return { published: hasPublished, modified: hasModified };
 }
+
+function extractPageText(html: string, maxChars = 4000): string {
+  let text = html
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&[a-z]+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text.length > maxChars ? text.slice(0, maxChars) + '...' : text;
+}
+
+const AI_ANALYSIS_PROMPT = `You are an AEO (Answer Engine Optimization) expert. Analyze the page content and audit results below and return a JSON object with actionable recommendations.
+
+Return ONLY valid JSON:
+{
+  "summary": "1-2 sentence overall assessment",
+  "strengths": ["strength 1", "strength 2", "strength 3"],
+  "quickWins": ["immediate fix 1", "immediate fix 2", "immediate fix 3"],
+  "contentSuggestions": ["content improvement 1", "content improvement 2"],
+  "schemaSuggestions": ["schema recommendation 1", "schema recommendation 2"]
+}`;
 
 // ---------- AI Files check ----------
 
@@ -886,6 +922,56 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
     result.score = calculateScore(result);
     result.scoreLabel = scoreLabelText(result.score);
     result.recommendations = generateRecommendations(result);
+
+    // AI-powered deep analysis (non-blocking — falls back gracefully)
+    const pageText = extractPageText(html);
+    const aiContext = [
+      `URL: ${result.normalizedUrl}`,
+      `Title: ${title || 'N/A'}`,
+      `Meta: ${metaDescription || 'N/A'}`,
+      `H1: ${headings.h1.length}, H2: ${headings.h2.length}, H3: ${headings.h3.length}`,
+      `Schema types: ${schemaTypes.join(', ') || 'none'}`,
+      `Issues found:`,
+      ...result.recommendations.slice(0, 5).map((r) => `- ${r}`),
+      `Page content excerpt:`,
+      pageText,
+    ].join('\n');
+
+    const aiResult = await runAi({
+      feature: 'aeo-analysis',
+      systemPrompt: AI_ANALYSIS_PROMPT,
+      userPrompt: aiContext,
+      maxTokens: 800,
+    });
+
+    if (aiResult) {
+      try {
+        const cleaned = aiResult.text
+          .trim()
+          .replace(/^```(?:json)?\s*\n?/, '')
+          .replace(/\n?```\s*$/, '');
+        const parsed = JSON.parse(cleaned);
+        if (parsed && typeof parsed.summary === 'string') {
+          result.aiAnalysis = {
+            summary: String(parsed.summary || ''),
+            strengths: Array.isArray(parsed.strengths)
+              ? parsed.strengths.map(String)
+              : [],
+            quickWins: Array.isArray(parsed.quickWins)
+              ? parsed.quickWins.map(String)
+              : [],
+            contentSuggestions: Array.isArray(parsed.contentSuggestions)
+              ? parsed.contentSuggestions.map(String)
+              : [],
+            schemaSuggestions: Array.isArray(parsed.schemaSuggestions)
+              ? parsed.schemaSuggestions.map(String)
+              : [],
+          };
+        }
+      } catch {
+        // AI response wasn't valid JSON — fall through, aiAnalysis stays undefined
+      }
+    }
 
     return result;
   });

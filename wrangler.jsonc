@@ -63,7 +63,10 @@
       "database_id": "f1c3e26b-0798-439d-b5f8-0e4cf39b08ca",
       "migrations_dir": "./src/db/migrations"
     }
-  ]
+  ],
+  "ai": {
+    "binding": "AI"
+  }
   /**
    * R2: disabled (not yet enabled on account)
    */

@@ -4,7 +4,7 @@ This file provides guidance to Code Agents (Codex, Cursor, etc.) when working wi
 
 ## Project Overview
 
-**TanStarter** (mkfast-template) — a full-stack SaaS boilerplate built with TanStack Start + React 19, deployed on Cloudflare Workers. Includes auth (Better Auth), payments (Stripe / Creem), email (Resend / Cloudflare Email), storage (Cloudflare R2), database (Cloudflare D1 via Drizzle ORM), blog (Content Collections), and admin dashboard.
+**AI Search Readiness Tools** — a set of free tools for checking AI search visibility, built with TanStack Start + React 19 on Cloudflare Workers. Uses D1 (SQLite) via Drizzle ORM, Better Auth, Creem payments, Workers AI, and Content Collections.
 
 ## Commands
 

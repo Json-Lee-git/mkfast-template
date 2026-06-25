@@ -47,6 +47,9 @@ function LLMsFullTxtGuidePage() {
               Learn what LLMs-full.txt is, when documentation sites may use it,
               and how it differs from a standard LLMs.txt file.
             </p>
+            <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
+              Last updated: June 25, 2026
+            </p>
           </div>
         </Container>
       </section>
@@ -226,6 +229,28 @@ function LLMsFullTxtGuidePage() {
                 Run the LLMs.txt Checker <IconArrowRight size={16} />
               </a>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Real-world example */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              Real-world example: TanStack
+            </h2>
+            <p className="mt-6 text-gray-500 dark:text-zinc-400">
+              The TanStack documentation site maintains both LLMs.txt and
+              LLMs-full.txt. The standard LLMs.txt maps all major libraries
+              (Query, Router, Table, Form) with one-line summaries. The
+              LLMs-full.txt expands each section with the full documentation
+              content in Markdown, giving AI systems direct access to API
+              references, code examples, and guides without needing to crawl
+              individual pages. Check{' '}
+              <code>tanstack.com/llms.txt</code> for the navigation file and{' '}
+              <code>tanstack.com/llms-full.txt</code> for the full content.
+            </p>
           </div>
         </Container>
       </section>

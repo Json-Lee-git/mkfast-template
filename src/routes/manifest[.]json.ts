@@ -20,8 +20,8 @@ export const Route = createFileRoute('/manifest.json')({
           scope: '/',
           display: 'standalone',
           // Keep in sync with <meta name="theme-color"> in src/routes/__root.tsx
-          background_color: '#09090b',
-          theme_color: '#09090b',
+          background_color: '#1a1740',
+          theme_color: '#1a1740',
           icons: [
             { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
             {

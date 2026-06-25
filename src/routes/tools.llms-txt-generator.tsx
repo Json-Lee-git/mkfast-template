@@ -9,7 +9,7 @@ import {
   IconArrowRight,
   IconLoader2,
 } from '@tabler/icons-react';
-import { generateLlmsTxt } from '@/api/ai-readiness/generator';
+import { generateLlmsTxt, enhanceLlmsTxt } from '@/api/ai-readiness/generator';
 import { useState } from 'react';
 
 // ---------- Component ----------
@@ -43,6 +43,8 @@ function GeneratorPage() {
   const [output, setOutput] = useState('');
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhanceMsg, setEnhanceMsg] = useState<string | null>(null);
 
   // Sitemap submit
   const handleSitemapSubmit = async (e: React.FormEvent) => {
@@ -115,6 +117,29 @@ function GeneratorPage() {
       setManualError(err?.message || 'Something went wrong.');
     } finally {
       setManualLoading(false);
+    }
+  };
+
+  // AI enhance
+  const handleEnhance = async () => {
+    if (!output) return;
+    setEnhancing(true);
+    setEnhanceMsg(null);
+    try {
+      const siteName = activeTab === 'manual' ? siteName.trim() : (sitemapUrl.trim() || 'Website');
+      const result = await enhanceLlmsTxt({
+        data: { markdown: output, siteName },
+      });
+      setOutput(result.markdown);
+      setEnhanceMsg(
+        result.changes.length > 0
+          ? `AI enhanced: ${result.changes.join(', ')}`
+          : 'AI enhancement returned no changes.'
+      );
+    } catch {
+      setEnhanceMsg('AI enhancement unavailable. The draft is unchanged.');
+    } finally {
+      setEnhancing(false);
     }
   };
 
@@ -479,6 +504,21 @@ function GeneratorPage() {
                 </button>
                 <button
                   type="button"
+                  onClick={handleEnhance}
+                  disabled={enhancing}
+                  className="inline-flex items-center gap-2 rounded-xl border border-purple-300 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/20 px-4 py-2 text-sm font-medium text-purple-700 dark:text-purple-300 transition-all hover:border-purple-400 dark:hover:border-purple-700 active:scale-[0.98] disabled:opacity-50"
+                >
+                  {enhancing ? (
+                    <>
+                      <IconLoader2 size={16} className="animate-spin" />{' '}
+                      Enhancing...
+                    </>
+                  ) : (
+                    'AI Enhance'
+                  )}
+                </button>
+                <button
+                  type="button"
                   onClick={() => setEditing(!editing)}
                   className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900/50 px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-gray-400 dark:hover:border-zinc-600 active:scale-[0.98]"
                 >
@@ -492,6 +532,11 @@ function GeneratorPage() {
                   Run Checker <IconArrowRight size={16} />
                 </a>
               </div>
+              {enhanceMsg && (
+                <p className="mt-3 text-sm text-purple-600 dark:text-purple-400">
+                  {enhanceMsg}
+                </p>
+              )}
             </div>
           </Container>
         </section>

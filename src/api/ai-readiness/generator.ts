@@ -8,6 +8,7 @@ import {
   validateUrl,
   fetchWithTimeout,
 } from './shared';
+import { runAi, parseAiJson } from './ai';
 
 // ---------- Constants ----------
 
@@ -340,4 +341,54 @@ export const generateLlmsTxt = createServerFn({ method: 'POST' })
       return handleSitemapMode(data.url);
     }
     return handleManualMode(data);
+  });
+
+const enhanceInputSchema = z.object({
+  markdown: z.string().min(1),
+  siteName: z.string().min(1),
+});
+
+export interface EnhanceResult {
+  markdown: string;
+  changes: string[];
+}
+
+const ENHANCE_PROMPT = `You are an expert at writing LLMs.txt files for AI search readiness. Given a draft LLMs.txt file, improve it:
+
+1. Polish the site summary line (after "> ") to be concise and informative
+2. Improve link descriptions to be useful for AI systems — describe what each page contains, not just its name
+3. Add or improve section names if they're vague (e.g. "More Pages" → better grouping)
+
+Return ONLY valid JSON:
+{
+  "markdown": "the full improved LLMs.txt content",
+  "changes": ["change 1", "change 2"]
+}
+
+Preserve the exact H1 site name. Keep all links and URLs unchanged.`;
+
+export const enhanceLlmsTxt = createServerFn({ method: 'POST' })
+  .inputValidator(enhanceInputSchema)
+  .handler(async ({ data }): Promise<EnhanceResult> => {
+    const aiResult = await runAi({
+      feature: 'llms-polish',
+      systemPrompt: ENHANCE_PROMPT,
+      userPrompt: `Site: ${data.siteName}\n\nDraft LLMs.txt:\n${data.markdown}`,
+      maxTokens: 1200,
+    });
+
+    if (aiResult) {
+      const parsed = parseAiJson(aiResult.text) as Record<string, unknown> | null;
+      if (parsed && typeof parsed.markdown === 'string') {
+        return {
+          markdown: String(parsed.markdown),
+          changes: Array.isArray(parsed.changes)
+            ? parsed.changes.map(String)
+            : [],
+        };
+      }
+    }
+
+    // Fallback: return original unchanged
+    return { markdown: data.markdown, changes: [] };
   });

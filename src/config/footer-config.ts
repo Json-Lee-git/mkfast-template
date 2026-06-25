@@ -43,6 +43,16 @@ export function getFooterLinks(): MenuItemConfig[] {
           href: '/guides/llms-full-txt',
           external: false,
         },
+        {
+          title: 'AEO Audit',
+          href: '/guides/aeo-audit',
+          external: false,
+        },
+        {
+          title: 'Query Fan-Out',
+          href: '/guides/query-fan-out',
+          external: false,
+        },
         ...(websiteConfig.blog?.enable
           ? [{ title: 'Blog', href: Routes.Blog, external: false }]
           : []),
@@ -51,7 +61,6 @@ export function getFooterLinks(): MenuItemConfig[] {
     {
       title: 'Company',
       items: [
-        { title: 'About', href: Routes.About, external: false },
         { title: 'Contact', href: Routes.Contact, external: false },
       ],
     },

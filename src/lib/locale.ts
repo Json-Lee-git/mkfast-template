@@ -29,11 +29,6 @@ export const localeConfig = {
     name: 'English',
     hreflang: 'en',
   },
-  zh: {
-    flag: '🇨🇳',
-    name: '中文',
-    hreflang: 'zh-CN',
-  },
 } satisfies Record<Locale, LocaleConfig>;
 
 export function parseMessageJson<T>(value: string, fallback: T): T {
@@ -91,17 +86,13 @@ export function getCanonicalPathname(pathname: string) {
  */
 export const LOCALIZED_PATHS = new Set([
   '/',
-  '/about',
-  '/ai',
   '/blog',
   '/changelog',
   '/contact',
   '/cookie',
   '/pricing',
   '/privacy',
-  '/roadmap',
   '/terms',
-  '/waitlist',
 ]);
 
 /**

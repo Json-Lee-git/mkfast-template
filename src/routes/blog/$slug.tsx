@@ -1,8 +1,8 @@
 import { m } from '@/locale/paraglide/messages';
-import { createFileRoute, Link, notFound } from '@tanstack/react-router';
+import { createFileRoute, Link, notFound, redirect } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { Markdown } from '@/components/markdown/markdown';
-import { getPostBySlug } from '@/lib/blog';
+import { getPostBySlug, getBlogRedirect } from '@/lib/blog';
 import { websiteConfig } from '@/config/website';
 import { getCanonicalUrl, getImageUrl } from '@/lib/urls';
 import { getLocale, localeConfig } from '@/lib/locale';
@@ -12,6 +12,8 @@ import { formatDate } from '@/lib/formatter';
 
 export const Route = createFileRoute('/blog/$slug')({
   loader: async ({ params }) => {
+    const redirectTo = getBlogRedirect(params.slug);
+    if (redirectTo) throw redirect({ to: redirectTo, statusCode: 301 });
     const post = getPostBySlug(params.slug);
     if (!post) throw notFound();
     return post;

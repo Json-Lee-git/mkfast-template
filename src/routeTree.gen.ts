@@ -18,22 +18,25 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as GlossaryIndexRouteImport } from './routes/glossary/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ToolsQueryFanOutToolRouteImport } from './routes/tools.query-fan-out-tool'
 import { Route as ToolsLlmsTxtGeneratorRouteImport } from './routes/tools.llms-txt-generator'
 import { Route as ToolsLlmsTxtCheckerRouteImport } from './routes/tools.llms-txt-checker'
 import { Route as ToolsAeoCheckerRouteImport } from './routes/tools.aeo-checker'
 import { Route as SettingsSecurityRouteImport } from './routes/settings/security'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPaymentRouteImport } from './routes/settings/payment'
-import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
-import { Route as SettingsFilesRouteImport } from './routes/settings/files'
 import { Route as SettingsBillingRouteImport } from './routes/settings/billing'
-import { Route as SettingsApikeysRouteImport } from './routes/settings/apikeys'
+import { Route as ReportTokenRouteImport } from './routes/report.$token'
+import { Route as GuidesQueryFanOutRouteImport } from './routes/guides.query-fan-out'
 import { Route as GuidesLlmsTxtSeoRouteImport } from './routes/guides.llms-txt-seo'
 import { Route as GuidesLlmsTxtFileRouteImport } from './routes/guides.llms-txt-file'
 import { Route as GuidesLlmsFullTxtRouteImport } from './routes/guides.llms-full-txt'
+import { Route as GuidesAeoAuditRouteImport } from './routes/guides.aeo-audit'
+import { Route as GlossarySlugRouteImport } from './routes/glossary/$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
@@ -42,21 +45,14 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-pas
 import { Route as AuthErrorRouteImport } from './routes/auth/error'
 import { Route as ApiPingRouteImport } from './routes/api/ping'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
-import { Route as testsTestErrorRouteImport } from './routes/(tests)/test-error'
-import { Route as testsTest404RouteImport } from './routes/(tests)/test-404'
-import { Route as pagesWaitlistRouteImport } from './routes/(pages)/waitlist'
-import { Route as pagesRoadmapRouteImport } from './routes/(pages)/roadmap'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
 import { Route as pagesContactRouteImport } from './routes/(pages)/contact'
-import { Route as pagesChangelogRouteImport } from './routes/(pages)/changelog'
 import { Route as pagesAiRouteImport } from './routes/(pages)/ai'
-import { Route as pagesAboutRouteImport } from './routes/(pages)/about'
 import { Route as legalsTermsRouteImport } from './routes/(legals)/terms'
 import { Route as legalsPrivacyRouteImport } from './routes/(legals)/privacy'
 import { Route as legalsCookieRouteImport } from './routes/(legals)/cookie'
 import { Route as ApiWebhooksStripeRouteImport } from './routes/api/webhooks/stripe'
 import { Route as ApiWebhooksCreemRouteImport } from './routes/api/webhooks/creem'
-import { Route as ApiStorageFileRouteImport } from './routes/api/storage/file'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -104,6 +100,11 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SettingsRoute,
 } as any)
+const GlossaryIndexRoute = GlossaryIndexRouteImport.update({
+  id: '/glossary/',
+  path: '/glossary/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -118,6 +119,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const ToolsQueryFanOutToolRoute = ToolsQueryFanOutToolRouteImport.update({
+  id: '/tools/query-fan-out-tool',
+  path: '/tools/query-fan-out-tool',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsLlmsTxtGeneratorRoute = ToolsLlmsTxtGeneratorRouteImport.update({
   id: '/tools/llms-txt-generator',
@@ -149,25 +155,20 @@ const SettingsPaymentRoute = SettingsPaymentRouteImport.update({
   path: '/payment',
   getParentRoute: () => SettingsRoute,
 } as any)
-const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => SettingsRoute,
-} as any)
-const SettingsFilesRoute = SettingsFilesRouteImport.update({
-  id: '/files',
-  path: '/files',
-  getParentRoute: () => SettingsRoute,
-} as any)
 const SettingsBillingRoute = SettingsBillingRouteImport.update({
   id: '/billing',
   path: '/billing',
   getParentRoute: () => SettingsRoute,
 } as any)
-const SettingsApikeysRoute = SettingsApikeysRouteImport.update({
-  id: '/apikeys',
-  path: '/apikeys',
-  getParentRoute: () => SettingsRoute,
+const ReportTokenRoute = ReportTokenRouteImport.update({
+  id: '/report/$token',
+  path: '/report/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesQueryFanOutRoute = GuidesQueryFanOutRouteImport.update({
+  id: '/guides/query-fan-out',
+  path: '/guides/query-fan-out',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesLlmsTxtSeoRoute = GuidesLlmsTxtSeoRouteImport.update({
   id: '/guides/llms-txt-seo',
@@ -182,6 +183,16 @@ const GuidesLlmsTxtFileRoute = GuidesLlmsTxtFileRouteImport.update({
 const GuidesLlmsFullTxtRoute = GuidesLlmsFullTxtRouteImport.update({
   id: '/guides/llms-full-txt',
   path: '/guides/llms-full-txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesAeoAuditRoute = GuidesAeoAuditRouteImport.update({
+  id: '/guides/aeo-audit',
+  path: '/guides/aeo-audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlossarySlugRoute = GlossarySlugRouteImport.update({
+  id: '/glossary/$slug',
+  path: '/glossary/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
@@ -224,26 +235,6 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
-const testsTestErrorRoute = testsTestErrorRouteImport.update({
-  id: '/(tests)/test-error',
-  path: '/test-error',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const testsTest404Route = testsTest404RouteImport.update({
-  id: '/(tests)/test-404',
-  path: '/test-404',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const pagesWaitlistRoute = pagesWaitlistRouteImport.update({
-  id: '/(pages)/waitlist',
-  path: '/waitlist',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const pagesRoadmapRoute = pagesRoadmapRouteImport.update({
-  id: '/(pages)/roadmap',
-  path: '/roadmap',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const pagesPricingRoute = pagesPricingRouteImport.update({
   id: '/(pages)/pricing',
   path: '/pricing',
@@ -254,19 +245,9 @@ const pagesContactRoute = pagesContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const pagesChangelogRoute = pagesChangelogRouteImport.update({
-  id: '/(pages)/changelog',
-  path: '/changelog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const pagesAiRoute = pagesAiRouteImport.update({
   id: '/(pages)/ai',
   path: '/ai',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const pagesAboutRoute = pagesAboutRouteImport.update({
-  id: '/(pages)/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const legalsTermsRoute = legalsTermsRouteImport.update({
@@ -294,11 +275,6 @@ const ApiWebhooksCreemRoute = ApiWebhooksCreemRouteImport.update({
   path: '/api/webhooks/creem',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiStorageFileRoute = ApiStorageFileRouteImport.update({
-  id: '/api/storage/file',
-  path: '/api/storage/file',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -317,15 +293,9 @@ export interface FileRoutesByFullPath {
   '/cookie': typeof legalsCookieRoute
   '/privacy': typeof legalsPrivacyRoute
   '/terms': typeof legalsTermsRoute
-  '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
-  '/changelog': typeof pagesChangelogRoute
   '/contact': typeof pagesContactRoute
   '/pricing': typeof pagesPricingRoute
-  '/roadmap': typeof pagesRoadmapRoute
-  '/waitlist': typeof pagesWaitlistRoute
-  '/test-404': typeof testsTest404Route
-  '/test-error': typeof testsTestErrorRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/ping': typeof ApiPingRoute
   '/auth/error': typeof AuthErrorRoute
@@ -334,25 +304,27 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
+  '/guides/aeo-audit': typeof GuidesAeoAuditRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
-  '/settings/apikeys': typeof SettingsApikeysRoute
+  '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
+  '/report/$token': typeof ReportTokenRoute
   '/settings/billing': typeof SettingsBillingRoute
-  '/settings/files': typeof SettingsFilesRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
+  '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/glossary/': typeof GlossaryIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/storage/file': typeof ApiStorageFileRoute
   '/api/webhooks/creem': typeof ApiWebhooksCreemRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
 }
@@ -365,15 +337,9 @@ export interface FileRoutesByTo {
   '/cookie': typeof legalsCookieRoute
   '/privacy': typeof legalsPrivacyRoute
   '/terms': typeof legalsTermsRoute
-  '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
-  '/changelog': typeof pagesChangelogRoute
   '/contact': typeof pagesContactRoute
   '/pricing': typeof pagesPricingRoute
-  '/roadmap': typeof pagesRoadmapRoute
-  '/waitlist': typeof pagesWaitlistRoute
-  '/test-404': typeof testsTest404Route
-  '/test-error': typeof testsTestErrorRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/ping': typeof ApiPingRoute
   '/auth/error': typeof AuthErrorRoute
@@ -382,25 +348,27 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
+  '/guides/aeo-audit': typeof GuidesAeoAuditRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
-  '/settings/apikeys': typeof SettingsApikeysRoute
+  '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
+  '/report/$token': typeof ReportTokenRoute
   '/settings/billing': typeof SettingsBillingRoute
-  '/settings/files': typeof SettingsFilesRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
+  '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/glossary': typeof GlossaryIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/storage/file': typeof ApiStorageFileRoute
   '/api/webhooks/creem': typeof ApiWebhooksCreemRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
 }
@@ -417,15 +385,9 @@ export interface FileRoutesById {
   '/(legals)/cookie': typeof legalsCookieRoute
   '/(legals)/privacy': typeof legalsPrivacyRoute
   '/(legals)/terms': typeof legalsTermsRoute
-  '/(pages)/about': typeof pagesAboutRoute
   '/(pages)/ai': typeof pagesAiRoute
-  '/(pages)/changelog': typeof pagesChangelogRoute
   '/(pages)/contact': typeof pagesContactRoute
   '/(pages)/pricing': typeof pagesPricingRoute
-  '/(pages)/roadmap': typeof pagesRoadmapRoute
-  '/(pages)/waitlist': typeof pagesWaitlistRoute
-  '/(tests)/test-404': typeof testsTest404Route
-  '/(tests)/test-error': typeof testsTestErrorRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/ping': typeof ApiPingRoute
   '/auth/error': typeof AuthErrorRoute
@@ -434,25 +396,27 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/glossary/$slug': typeof GlossarySlugRoute
+  '/guides/aeo-audit': typeof GuidesAeoAuditRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
-  '/settings/apikeys': typeof SettingsApikeysRoute
+  '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
+  '/report/$token': typeof ReportTokenRoute
   '/settings/billing': typeof SettingsBillingRoute
-  '/settings/files': typeof SettingsFilesRoute
-  '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
+  '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/glossary/': typeof GlossaryIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/storage/file': typeof ApiStorageFileRoute
   '/api/webhooks/creem': typeof ApiWebhooksCreemRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
 }
@@ -470,15 +434,9 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/privacy'
     | '/terms'
-    | '/about'
     | '/ai'
-    | '/changelog'
     | '/contact'
     | '/pricing'
-    | '/roadmap'
-    | '/waitlist'
-    | '/test-404'
-    | '/test-error'
     | '/admin/users'
     | '/api/ping'
     | '/auth/error'
@@ -487,25 +445,27 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/glossary/$slug'
+    | '/guides/aeo-audit'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
-    | '/settings/apikeys'
+    | '/guides/query-fan-out'
+    | '/report/$token'
     | '/settings/billing'
-    | '/settings/files'
-    | '/settings/notifications'
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
+    | '/tools/query-fan-out-tool'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
+    | '/glossary/'
     | '/settings/'
     | '/api/auth/$'
-    | '/api/storage/file'
     | '/api/webhooks/creem'
     | '/api/webhooks/stripe'
   fileRoutesByTo: FileRoutesByTo
@@ -518,15 +478,9 @@ export interface FileRouteTypes {
     | '/cookie'
     | '/privacy'
     | '/terms'
-    | '/about'
     | '/ai'
-    | '/changelog'
     | '/contact'
     | '/pricing'
-    | '/roadmap'
-    | '/waitlist'
-    | '/test-404'
-    | '/test-error'
     | '/admin/users'
     | '/api/ping'
     | '/auth/error'
@@ -535,25 +489,27 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/glossary/$slug'
+    | '/guides/aeo-audit'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
-    | '/settings/apikeys'
+    | '/guides/query-fan-out'
+    | '/report/$token'
     | '/settings/billing'
-    | '/settings/files'
-    | '/settings/notifications'
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
+    | '/tools/query-fan-out-tool'
     | '/admin'
     | '/blog'
     | '/dashboard'
+    | '/glossary'
     | '/settings'
     | '/api/auth/$'
-    | '/api/storage/file'
     | '/api/webhooks/creem'
     | '/api/webhooks/stripe'
   id:
@@ -569,15 +525,9 @@ export interface FileRouteTypes {
     | '/(legals)/cookie'
     | '/(legals)/privacy'
     | '/(legals)/terms'
-    | '/(pages)/about'
     | '/(pages)/ai'
-    | '/(pages)/changelog'
     | '/(pages)/contact'
     | '/(pages)/pricing'
-    | '/(pages)/roadmap'
-    | '/(pages)/waitlist'
-    | '/(tests)/test-404'
-    | '/(tests)/test-error'
     | '/admin/users'
     | '/api/ping'
     | '/auth/error'
@@ -586,25 +536,27 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/glossary/$slug'
+    | '/guides/aeo-audit'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
-    | '/settings/apikeys'
+    | '/guides/query-fan-out'
+    | '/report/$token'
     | '/settings/billing'
-    | '/settings/files'
-    | '/settings/notifications'
     | '/settings/payment'
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
+    | '/tools/query-fan-out-tool'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
+    | '/glossary/'
     | '/settings/'
     | '/api/auth/$'
-    | '/api/storage/file'
     | '/api/webhooks/creem'
     | '/api/webhooks/stripe'
   fileRoutesById: FileRoutesById
@@ -621,26 +573,25 @@ export interface RootRouteChildren {
   legalsCookieRoute: typeof legalsCookieRoute
   legalsPrivacyRoute: typeof legalsPrivacyRoute
   legalsTermsRoute: typeof legalsTermsRoute
-  pagesAboutRoute: typeof pagesAboutRoute
   pagesAiRoute: typeof pagesAiRoute
-  pagesChangelogRoute: typeof pagesChangelogRoute
   pagesContactRoute: typeof pagesContactRoute
   pagesPricingRoute: typeof pagesPricingRoute
-  pagesRoadmapRoute: typeof pagesRoadmapRoute
-  pagesWaitlistRoute: typeof pagesWaitlistRoute
-  testsTest404Route: typeof testsTest404Route
-  testsTestErrorRoute: typeof testsTestErrorRoute
   ApiPingRoute: typeof ApiPingRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  GlossarySlugRoute: typeof GlossarySlugRoute
+  GuidesAeoAuditRoute: typeof GuidesAeoAuditRoute
   GuidesLlmsFullTxtRoute: typeof GuidesLlmsFullTxtRoute
   GuidesLlmsTxtFileRoute: typeof GuidesLlmsTxtFileRoute
   GuidesLlmsTxtSeoRoute: typeof GuidesLlmsTxtSeoRoute
+  GuidesQueryFanOutRoute: typeof GuidesQueryFanOutRoute
+  ReportTokenRoute: typeof ReportTokenRoute
   ToolsAeoCheckerRoute: typeof ToolsAeoCheckerRoute
   ToolsLlmsTxtCheckerRoute: typeof ToolsLlmsTxtCheckerRoute
   ToolsLlmsTxtGeneratorRoute: typeof ToolsLlmsTxtGeneratorRoute
+  ToolsQueryFanOutToolRoute: typeof ToolsQueryFanOutToolRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  GlossaryIndexRoute: typeof GlossaryIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiStorageFileRoute: typeof ApiStorageFileRoute
   ApiWebhooksCreemRoute: typeof ApiWebhooksCreemRoute
   ApiWebhooksStripeRoute: typeof ApiWebhooksStripeRoute
 }
@@ -710,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRoute
     }
+    '/glossary/': {
+      id: '/glossary/'
+      path: '/glossary'
+      fullPath: '/glossary/'
+      preLoaderRoute: typeof GlossaryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -730,6 +688,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/tools/query-fan-out-tool': {
+      id: '/tools/query-fan-out-tool'
+      path: '/tools/query-fan-out-tool'
+      fullPath: '/tools/query-fan-out-tool'
+      preLoaderRoute: typeof ToolsQueryFanOutToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/tools/llms-txt-generator': {
       id: '/tools/llms-txt-generator'
@@ -773,20 +738,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsPaymentRouteImport
       parentRoute: typeof SettingsRoute
     }
-    '/settings/notifications': {
-      id: '/settings/notifications'
-      path: '/notifications'
-      fullPath: '/settings/notifications'
-      preLoaderRoute: typeof SettingsNotificationsRouteImport
-      parentRoute: typeof SettingsRoute
-    }
-    '/settings/files': {
-      id: '/settings/files'
-      path: '/files'
-      fullPath: '/settings/files'
-      preLoaderRoute: typeof SettingsFilesRouteImport
-      parentRoute: typeof SettingsRoute
-    }
     '/settings/billing': {
       id: '/settings/billing'
       path: '/billing'
@@ -794,12 +745,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsBillingRouteImport
       parentRoute: typeof SettingsRoute
     }
-    '/settings/apikeys': {
-      id: '/settings/apikeys'
-      path: '/apikeys'
-      fullPath: '/settings/apikeys'
-      preLoaderRoute: typeof SettingsApikeysRouteImport
-      parentRoute: typeof SettingsRoute
+    '/report/$token': {
+      id: '/report/$token'
+      path: '/report/$token'
+      fullPath: '/report/$token'
+      preLoaderRoute: typeof ReportTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/query-fan-out': {
+      id: '/guides/query-fan-out'
+      path: '/guides/query-fan-out'
+      fullPath: '/guides/query-fan-out'
+      preLoaderRoute: typeof GuidesQueryFanOutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/guides/llms-txt-seo': {
       id: '/guides/llms-txt-seo'
@@ -820,6 +778,20 @@ declare module '@tanstack/react-router' {
       path: '/guides/llms-full-txt'
       fullPath: '/guides/llms-full-txt'
       preLoaderRoute: typeof GuidesLlmsFullTxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/aeo-audit': {
+      id: '/guides/aeo-audit'
+      path: '/guides/aeo-audit'
+      fullPath: '/guides/aeo-audit'
+      preLoaderRoute: typeof GuidesAeoAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/glossary/$slug': {
+      id: '/glossary/$slug'
+      path: '/glossary/$slug'
+      fullPath: '/glossary/$slug'
+      preLoaderRoute: typeof GlossarySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
@@ -878,34 +850,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/(tests)/test-error': {
-      id: '/(tests)/test-error'
-      path: '/test-error'
-      fullPath: '/test-error'
-      preLoaderRoute: typeof testsTestErrorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(tests)/test-404': {
-      id: '/(tests)/test-404'
-      path: '/test-404'
-      fullPath: '/test-404'
-      preLoaderRoute: typeof testsTest404RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(pages)/waitlist': {
-      id: '/(pages)/waitlist'
-      path: '/waitlist'
-      fullPath: '/waitlist'
-      preLoaderRoute: typeof pagesWaitlistRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(pages)/roadmap': {
-      id: '/(pages)/roadmap'
-      path: '/roadmap'
-      fullPath: '/roadmap'
-      preLoaderRoute: typeof pagesRoadmapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(pages)/pricing': {
       id: '/(pages)/pricing'
       path: '/pricing'
@@ -920,25 +864,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pagesContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(pages)/changelog': {
-      id: '/(pages)/changelog'
-      path: '/changelog'
-      fullPath: '/changelog'
-      preLoaderRoute: typeof pagesChangelogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(pages)/ai': {
       id: '/(pages)/ai'
       path: '/ai'
       fullPath: '/ai'
       preLoaderRoute: typeof pagesAiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(pages)/about': {
-      id: '/(pages)/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof pagesAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(legals)/terms': {
@@ -974,13 +904,6 @@ declare module '@tanstack/react-router' {
       path: '/api/webhooks/creem'
       fullPath: '/api/webhooks/creem'
       preLoaderRoute: typeof ApiWebhooksCreemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/storage/file': {
-      id: '/api/storage/file'
-      path: '/api/storage/file'
-      fullPath: '/api/storage/file'
-      preLoaderRoute: typeof ApiStorageFileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -1036,10 +959,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 )
 
 interface SettingsRouteChildren {
-  SettingsApikeysRoute: typeof SettingsApikeysRoute
   SettingsBillingRoute: typeof SettingsBillingRoute
-  SettingsFilesRoute: typeof SettingsFilesRoute
-  SettingsNotificationsRoute: typeof SettingsNotificationsRoute
   SettingsPaymentRoute: typeof SettingsPaymentRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsSecurityRoute: typeof SettingsSecurityRoute
@@ -1047,10 +967,7 @@ interface SettingsRouteChildren {
 }
 
 const SettingsRouteChildren: SettingsRouteChildren = {
-  SettingsApikeysRoute: SettingsApikeysRoute,
   SettingsBillingRoute: SettingsBillingRoute,
-  SettingsFilesRoute: SettingsFilesRoute,
-  SettingsNotificationsRoute: SettingsNotificationsRoute,
   SettingsPaymentRoute: SettingsPaymentRoute,
   SettingsProfileRoute: SettingsProfileRoute,
   SettingsSecurityRoute: SettingsSecurityRoute,
@@ -1073,26 +990,25 @@ const rootRouteChildren: RootRouteChildren = {
   legalsCookieRoute: legalsCookieRoute,
   legalsPrivacyRoute: legalsPrivacyRoute,
   legalsTermsRoute: legalsTermsRoute,
-  pagesAboutRoute: pagesAboutRoute,
   pagesAiRoute: pagesAiRoute,
-  pagesChangelogRoute: pagesChangelogRoute,
   pagesContactRoute: pagesContactRoute,
   pagesPricingRoute: pagesPricingRoute,
-  pagesRoadmapRoute: pagesRoadmapRoute,
-  pagesWaitlistRoute: pagesWaitlistRoute,
-  testsTest404Route: testsTest404Route,
-  testsTestErrorRoute: testsTestErrorRoute,
   ApiPingRoute: ApiPingRoute,
   BlogSlugRoute: BlogSlugRoute,
+  GlossarySlugRoute: GlossarySlugRoute,
+  GuidesAeoAuditRoute: GuidesAeoAuditRoute,
   GuidesLlmsFullTxtRoute: GuidesLlmsFullTxtRoute,
   GuidesLlmsTxtFileRoute: GuidesLlmsTxtFileRoute,
   GuidesLlmsTxtSeoRoute: GuidesLlmsTxtSeoRoute,
+  GuidesQueryFanOutRoute: GuidesQueryFanOutRoute,
+  ReportTokenRoute: ReportTokenRoute,
   ToolsAeoCheckerRoute: ToolsAeoCheckerRoute,
   ToolsLlmsTxtCheckerRoute: ToolsLlmsTxtCheckerRoute,
   ToolsLlmsTxtGeneratorRoute: ToolsLlmsTxtGeneratorRoute,
+  ToolsQueryFanOutToolRoute: ToolsQueryFanOutToolRoute,
   BlogIndexRoute: BlogIndexRoute,
+  GlossaryIndexRoute: GlossaryIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiStorageFileRoute: ApiStorageFileRoute,
   ApiWebhooksCreemRoute: ApiWebhooksCreemRoute,
   ApiWebhooksStripeRoute: ApiWebhooksStripeRoute,
 }

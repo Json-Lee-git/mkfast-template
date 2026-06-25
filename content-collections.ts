@@ -2,7 +2,7 @@ import { defineCollection, defineConfig } from '@content-collections/core';
 import { z } from 'zod';
 
 function getLocaleSlug(path: string) {
-  const localeMatch = path.match(/^(?<slug>.+)\.(?<locale>en|zh)$/);
+  const localeMatch = path.match(/^(?<slug>.+)\.(?<locale>en)$/);
   if (localeMatch?.groups) {
     return {
       locale: localeMatch.groups.locale,
@@ -70,6 +70,23 @@ const changelog = defineCollection({
   },
 });
 
+const glossary = defineCollection({
+  name: 'glossary',
+  directory: 'content/glossary',
+  include: '**/*.md',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    content: z.string(),
+  }),
+  transform: (doc) => {
+    const { locale, slug } = getLocaleSlug(
+      (doc as { _meta: { path: string } })._meta.path
+    );
+    return { ...doc, locale, slug };
+  },
+});
+
 export default defineConfig({
-  collections: [blog, pages, changelog],
+  collections: [blog, pages, changelog, glossary],
 });

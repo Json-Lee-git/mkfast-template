@@ -35,6 +35,16 @@ export const Route = createFileRoute('/sitemap.xml')({
             priority: '0.9',
           },
           {
+            path: '/tools/aeo-checker',
+            changefreq: 'weekly',
+            priority: '0.9',
+          },
+          {
+            path: '/tools/query-fan-out-tool',
+            changefreq: 'weekly',
+            priority: '0.8',
+          },
+          {
             path: '/guides/llms-txt-file',
             changefreq: 'monthly',
             priority: '0.8',
@@ -46,6 +56,16 @@ export const Route = createFileRoute('/sitemap.xml')({
           },
           {
             path: '/guides/llms-full-txt',
+            changefreq: 'monthly',
+            priority: '0.7',
+          },
+          {
+            path: '/guides/aeo-audit',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/guides/query-fan-out',
             changefreq: 'monthly',
             priority: '0.7',
           },

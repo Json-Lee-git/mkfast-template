@@ -7,6 +7,26 @@ export type BlogPost = Blog & { locale: Locale; slug: string };
 
 const DEFAULT_PAGE_SIZE = 6;
 
+/**
+ * Old blog slug → new destination path.
+ * When posts are merged, old URLs 301 redirect here.
+ */
+const BLOG_REDIRECTS: Record<string, string> = {
+  'what-is-llms-txt': '/blog/llms-txt-complete-guide',
+  'create-llms-txt-step-by-step': '/blog/llms-txt-complete-guide',
+  'llms-txt-best-practices': '/blog/llms-txt-complete-guide',
+  'llms-txt-vs-robots-vs-sitemap': '/blog/llms-txt-complete-guide',
+  'gptbot-ai-crawler-access-guide': '/blog/ai-crawlers-search-readiness',
+  'check-ai-search-readiness': '/blog/ai-crawlers-search-readiness',
+  'why-robots-txt-blocks-ai-crawlers': '/blog/ai-crawlers-search-readiness',
+};
+
+export function getBlogRedirect(
+  slug: string,
+): string | undefined {
+  return BLOG_REDIRECTS[slug];
+}
+
 function getPageSize(): number {
   return websiteConfig.blog?.paginationSize ?? DEFAULT_PAGE_SIZE;
 }

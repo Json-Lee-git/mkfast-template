@@ -55,6 +55,9 @@ function LLMsTxtFileGuidePage() {
               Learn what an LLMs.txt file is, how it works, what to include, and
               how to create one for your website.
             </p>
+            <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
+              Last updated: June 25, 2026
+            </p>
           </div>
         </Container>
       </section>
@@ -219,6 +222,26 @@ function LLMsTxtFileGuidePage() {
       </section>
 
       {/* FAQ */}
+      {/* Real-world example */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              Real-world example: Cursor
+            </h2>
+            <p className="mt-6 text-gray-500 dark:text-zinc-400">
+              The AI code editor Cursor maintains an LLMs.txt file at{' '}
+              <code>cursor.com/llms.txt</code>. It uses concise sections
+              ("Product," "Documentation," "Community") with one-line
+              descriptions for each link. The file is under 30 lines, follows
+              every best practice, and shows exactly how a SaaS tool should
+              structure its AI-readable summary. Open it for inspiration — it is
+              a textbook example of the format in production.
+            </p>
+          </div>
+        </Container>
+      </section>
+
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
         <Container>
           <div className="mx-auto max-w-2xl">

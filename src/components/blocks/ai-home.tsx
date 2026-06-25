@@ -71,8 +71,7 @@ export function AIHomePage() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-gray-200 dark:border-zinc-800/50">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-white dark:from-blue-950/30 dark:via-zinc-950 dark:to-zinc-950" />
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-indigo-950/40 dark:via-zinc-950 dark:to-blue-950/20" />
         <Container className="relative py-24 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700/50 bg-gray-100 dark:bg-zinc-900/50 px-4 py-1.5 text-sm text-gray-500 dark:text-zinc-400">
@@ -81,7 +80,7 @@ export function AIHomePage() {
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
               AI Search Readiness Tools{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+              <span className="gradient-text">
                 for Your Website
               </span>
             </h1>
@@ -93,7 +92,7 @@ export function AIHomePage() {
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
                 href="/tools/llms-txt-checker"
-                className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
+                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-500 active:scale-[0.98] dark:bg-indigo-500 dark:text-white dark:hover:bg-indigo-400"
               >
                 Check LLMs.txt <IconArrowRight size={16} />
               </a>
@@ -125,7 +124,7 @@ export function AIHomePage() {
               }) => (
                 <div
                   key={title}
-                  className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-6 transition-all hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-zinc-900/60"
+                  className="card-lift rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-6 transition-all hover:border-gray-300 hover:bg-gray-100 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/60"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400">
                     <Icon size={20} />

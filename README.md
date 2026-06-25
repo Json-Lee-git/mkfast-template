@@ -1,32 +1,37 @@
-# TanStarter
+# AI Search Readiness Tools
 
-Ship Faster with TanStack, Cost Less with Cloudflare
+Free tools to check and improve your website's visibility in AI-powered search results.
 
-TanStarter is the complete TanStack Start boilerplate for building profitable SaaS, packed with AI, auth, payments, storage, email, newsletter, blog, dashboard, i8n, SEO and more, fully deployed on Cloudflare Workers.
+## Tools
 
-## Author
+- **LLMs.txt Checker** — Validate your `/llms.txt` file
+- **LLMs.txt Generator** — Build one from your sitemap
+- **AEO Checker** — Audit your site's AI search readiness with AI-powered analysis
+- **Query Fan-Out** — Expand a topic into long-tail queries and FAQ questions
 
-This project is created by [Fox](https://x.com/indie_maker_fox), the founder of [TanStarter](https://tanstarter.dev), [MkImage](https://mkimage.ai), [MkSaaS](https://mksaas.com) and [Mkdirs](https://mkdirs.com).
+## Stack
 
-## Documentation
+TanStack Start + React 19 on Cloudflare Workers. D1 (SQLite) via Drizzle ORM. Better Auth for authentication. Creem for payments. Workers AI for free AI features. Content Collections for blog and glossary.
 
-The documentation is available on the [website](https://docs.tanstarter.dev). It includes guides, tutorials, and detailed explanations of the code. I designed it to be as beginner-friendly as possible, so you can start making money from day one.
+## Getting started
 
-If you found anything that could be improved, please let me know.
+```bash
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm build        # production build
+pnpm run deploy   # deploy to Cloudflare Workers
+pnpm db:migrate:remote  # apply D1 migrations to production
+```
 
-## Links
+## Content
 
-- 🔥 website: [tanstarter.dev](https://tanstarter.dev)
-- 🌐 demo: [demo.tanstarter.dev](https://demo.tanstarter.dev)
-- 📚 documentation: [docs.tanstarter.dev](https://docs.tanstarter.dev)
-- 📹 video tutorials: [youtube@TanStarter](https://www.youtube.com/@TanStarter)
+- `content/blog/` — Blog posts (Markdown with frontmatter)
+- `content/glossary/` — Glossary terms
+- `content/pages/` — Static pages (privacy, terms)
+- `content/changelog/` — Release notes
 
-## Notice
-
-- If you have any questions, please contact me at [support@tanstarter.dev](mailto:support@tanstarter.dev), or join our [discord community](https://mksaas.link/discord) and ask for help there. If you want to receive notifications whenever code changes, please click `Watch` button in the top right.
-
-- When submitting any content to the  issues of the repository, please use **English** as the main Language, so that everyone can read it and help you, thank you for your supports.
+Content Collections auto-extracts locale and slug from filenames (`slug.en.md`).
 
 ## License
 
-For any details on the license, please refer to the [License](LICENSE) file.
+See [LICENSE](LICENSE).

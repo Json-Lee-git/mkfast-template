@@ -15,7 +15,7 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
  */
 const config = defineConfig({
   server: {
-    allowedHosts: ['.trycloudflare.com', '.tanstarter.dev'],
+    allowedHosts: ['.trycloudflare.com'],
   },
   resolve: {
     alias: {

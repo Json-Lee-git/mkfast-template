@@ -1,9 +1,5 @@
 import { m } from '@/locale/paraglide/messages';
 import {
-  IconBell,
-  IconCreditCard,
-  IconFileUpload,
-  IconKey,
   IconLayoutDashboard,
   IconLock,
   IconSettings2,
@@ -48,44 +44,12 @@ export function getSidebarLinks(): MenuItemConfig[] {
           href: Routes.SettingsProfile,
           external: false,
         },
-        ...(websiteConfig.payment?.enable
-          ? [
-              {
-                title: m.dashboard_sidebar_billing(),
-                icon: IconCreditCard,
-                href: Routes.SettingsBilling,
-                external: false,
-              },
-            ]
-          : []),
         {
           title: m.dashboard_sidebar_security(),
           icon: IconLock,
           href: Routes.SettingsSecurity,
           external: false,
         },
-        {
-          title: m.dashboard_sidebar_files(),
-          icon: IconFileUpload,
-          href: Routes.SettingsFiles,
-          external: false,
-        },
-        {
-          title: m.dashboard_sidebar_api_keys(),
-          icon: IconKey,
-          href: Routes.SettingsApiKeys,
-          external: false,
-        },
-        ...(websiteConfig.newsletter?.enable
-          ? [
-              {
-                title: m.dashboard_sidebar_notifications(),
-                icon: IconBell,
-                href: Routes.SettingsNotifications,
-                external: false,
-              },
-            ]
-          : []),
       ],
     },
   ];

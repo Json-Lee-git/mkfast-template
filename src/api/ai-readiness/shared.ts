@@ -7,7 +7,7 @@ export const MAX_REDIRECTS = 3;
 
 // ---------- URL validation ----------
 
-export function isPrivateOrLocalHostname(hostname: string): boolean {
+function isPrivateOrLocalHostname(hostname: string): boolean {
   const lower = hostname.toLowerCase();
   if (['localhost', '127.0.0.1', '0.0.0.0', '[::1]'].includes(lower))
     return true;

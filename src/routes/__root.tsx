@@ -59,7 +59,7 @@ export const Route = createRootRouteWithContext<{
         },
         { title: websiteConfig.metadata?.title },
         { name: 'description', content: websiteConfig.metadata?.description },
-        { name: 'theme-color', content: '#09090b' },
+        { name: 'theme-color', content: '#1a1740' },
         // Default OG / Twitter / canonical — pages with their own head()
         // override these with page-specific values. These ensure 404 / error
         // pages and any future route that forgets to call seo() still get
@@ -115,6 +115,7 @@ export const Route = createRootRouteWithContext<{
           sizes: '16x16',
           href: '/favicon-16x16.png',
         },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'icon', href: '/favicon.ico' },
         { rel: 'manifest', href: '/manifest.json' },
       ],

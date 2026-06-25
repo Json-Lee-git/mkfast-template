@@ -6,9 +6,13 @@
 
 - [LLMs.txt Checker](https://aivisibility.tools/tools/llms-txt-checker): Check if your site has a valid LLMs.txt file. Get a technical readiness report.
 - [LLMs.txt Generator](https://aivisibility.tools/tools/llms-txt-generator): Generate an LLMs.txt file from your sitemap or manual input.
+- [AEO Checker](https://aivisibility.tools/tools/aeo-checker): Audit technical answer engine optimization readiness, structured data, trust signals, and AI crawler access.
+- [Query Fan-Out Tool](https://aivisibility.tools/tools/query-fan-out-tool): Simulate related sub-queries, intent clusters, headings, FAQs, and content gaps.
 
 ## Guides
 
 - [What Is an LLMs.txt File?](https://aivisibility.tools/guides/llms-txt-file): Format, examples, and how to create one.
 - [Does LLMs.txt Help SEO?](https://aivisibility.tools/guides/llms-txt-seo): What it can and cannot do for your search visibility.
 - [What Is LLMs-full.txt?](https://aivisibility.tools/guides/llms-full-txt): When to use it and how it differs from LLMs.txt.
+- [AEO Audit Guide](https://aivisibility.tools/guides/aeo-audit): Technical answer engine optimization checklist for crawlability, schema, content, entities, and trust.
+- [Query Fan-Out Guide](https://aivisibility.tools/guides/query-fan-out): How to plan answer-ready content with simulated sub-queries, intents, FAQs, and content gaps.

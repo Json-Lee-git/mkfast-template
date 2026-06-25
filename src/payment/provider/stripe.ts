@@ -7,7 +7,7 @@ import {
   PAYMENT_RECORD_RETRY_DELAY,
 } from '@/payment/constants';
 import { findPlanByPlanId, findPriceInPlan } from '@/lib/price-plan';
-import { sendPaymentNotification } from '@/notification';
+
 import { desc, eq } from 'drizzle-orm';
 import { Stripe } from 'stripe';
 import type {
@@ -619,7 +619,7 @@ export class StripeProvider implements PaymentProvider {
         })
         .where(eq(payment.id, paymentRecord.id));
 
-      // Process subscription benefits (no credits in MkFast)
+      // Process subscription benefits
       await this.processSubscriptionPurchase(userId, priceId);
     } catch (error) {
       console.error('<< Update subscription payment error:', error);
@@ -640,7 +640,7 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<void> {
     console.log('>> Process subscription purchase');
 
-    // No credits in MkFast; keep log for consistency with MkSaaS flow
+    // Keep log for consistency with subscription flow
     console.log('<< Process subscription purchase success');
   }
 
@@ -673,7 +673,7 @@ export class StripeProvider implements PaymentProvider {
         })
         .where(eq(payment.id, paymentRecord.id));
 
-      // Process benefits: lifetime plan purchase only (no credits in MkFast)
+      // Process benefits: lifetime plan purchase
       if (paymentRecord.sessionId) {
         const session = await this.stripe.checkout.sessions.retrieve(
           paymentRecord.sessionId
@@ -701,14 +701,8 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<void> {
     console.log('>> Process lifetime plan purchase');
 
-    // Send notification
     const amount = invoice.amount_paid ? invoice.amount_paid / 100 : 0;
-    await sendPaymentNotification({
-      sessionId: paymentRecord.sessionId!,
-      customerId: paymentRecord.customerId,
-      userName: (session.metadata?.userName as string) ?? 'Customer',
-      amount,
-    });
+    console.log('Payment notification:', { sessionId: paymentRecord.sessionId, amount });
 
     console.log('<< Process lifetime plan purchase success');
   }
@@ -938,7 +932,7 @@ export class StripeProvider implements PaymentProvider {
     const invoiceId: string | null = session.invoice as string | null;
     console.log('createOneTimePaymentRecord, invoiceId:', invoiceId);
 
-    // One-time payments in MkFast are lifetime only (no credits)
+    // One-time payments are lifetime only
     const scene = PaymentScenes.LIFETIME;
 
     // Create one-time payment record with proper status and paid=false

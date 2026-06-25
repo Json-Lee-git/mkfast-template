@@ -3,8 +3,7 @@ import { betterAuth } from 'better-auth/minimal';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { tanstackStartCookies } from 'better-auth/tanstack-start';
 import { getDb } from '@/db';
-import { sendEmail } from '@/mail';
-import { subscribe } from '@/newsletter';
+
 import { getBaseUrl } from '@/lib/urls';
 import { serverEnv } from '@/env/server';
 import { websiteConfig } from '@/config/website';
@@ -43,11 +42,7 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     // https://www.better-auth.com/docs/authentication/email-password#forget-password
     sendResetPassword: async ({ user, url }) => {
-      await sendEmail({
-        to: user.email,
-        template: 'forgotPassword',
-        context: { url, name: user.name ?? '' },
-      });
+      console.log('Password reset requested for', user.email, url);
     },
   },
   emailVerification: {
@@ -55,11 +50,7 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     // https://www.better-auth.com/docs/authentication/email-password#require-email-verification
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmail({
-        to: user.email,
-        template: 'verifyEmail',
-        context: { url, name: user.name ?? '' },
-      });
+      console.log('Verification email for', user.email, url);
     },
     sendOnSignIn: true,
   },
@@ -142,24 +133,6 @@ export const auth = betterAuth({
 /**
  * Runs after a new user is created. Auto-subscribes to newsletter when enabled.
  */
-async function onCreateUser(user: User) {
-  const newsletterConfig = websiteConfig.newsletter;
-  if (
-    !user.email ||
-    !newsletterConfig?.enable ||
-    !newsletterConfig.autoSubscribeAfterSignUp
-  ) {
-    return;
-  }
-
-  try {
-    const subscribed = await subscribe(user.email);
-    if (!subscribed) {
-      console.error(`onCreateUser, user ${user.email} failed to subscribe`);
-    } else {
-      console.log(`onCreateUser, user ${user.email} subscribed to newsletter`);
-    }
-  } catch (error) {
-    console.error('onCreateUser, newsletter subscription error:', error);
-  }
+async function onCreateUser(_user: User) {
+  // Newsletter was removed; placeholder for future post-registration hooks
 }

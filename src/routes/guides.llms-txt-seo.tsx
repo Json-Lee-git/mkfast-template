@@ -52,6 +52,9 @@ function LLMsTxtSEO() {
               crawler access, and AI-readable site structure. Learn the
               limitations before adding one.
             </p>
+            <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
+              Last updated: June 25, 2026
+            </p>
           </div>
         </Container>
       </section>
@@ -188,6 +191,29 @@ function LLMsTxtSEO() {
       </section>
 
       {/* FAQ */}
+      {/* Real-world example */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
+              Who uses LLMs.txt in production?
+            </h2>
+            <p className="mt-6 text-gray-500 dark:text-zinc-400">
+              Anthropic (the company behind Claude) maintains an LLMs.txt at{' '}
+              <code>anthropic.com/llms.txt</code>. It links to their main site,
+              research blog, documentation, and the Claude app. Stripe's
+              documentation site also serves one at{' '}
+              <code>docs.stripe.com/llms.txt</code>, mapping their entire API
+              reference surface. These companies are not adding LLMs.txt as an
+              SEO tactic — they are using it to make their content more
+              accessible to AI systems that consume web content directly. If
+              Stripe and Anthropic see value in it, the file is past the
+              "experiment" stage.
+            </p>
+          </div>
+        </Container>
+      </section>
+
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
         <Container>
           <div className="mx-auto max-w-2xl">

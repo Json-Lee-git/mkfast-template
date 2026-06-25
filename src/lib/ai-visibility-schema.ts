@@ -20,20 +20,6 @@ type AITool = {
   keyFeatures: string[];
 };
 
-type ToolComparison = {
-  slug: string;
-  title: string;
-  metaDescription: string;
-  toolA: string;
-  toolB: string;
-};
-
-type GlossaryTerm = {
-  slug: string;
-  term: string;
-  definition: string;
-};
-
 export function jsonLd(value: unknown) {
   return {
     type: 'application/ld+json',
@@ -122,30 +108,5 @@ export function softwareApplicationSchema(tool: AITool) {
       availability: 'https://schema.org/InStock',
     },
     featureList: tool.keyFeatures,
-  };
-}
-
-export function comparisonPageSchema(comparison: ToolComparison) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: comparison.title,
-    description: comparison.metaDescription,
-    url: getCanonicalUrl(`/compare/${comparison.slug}`),
-    about: [
-      { '@type': 'SoftwareApplication', name: comparison.toolA },
-      { '@type': 'SoftwareApplication', name: comparison.toolB },
-    ],
-  };
-}
-
-export function definedTermSchema(term: GlossaryTerm) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'DefinedTerm',
-    name: term.term,
-    description: term.definition,
-    url: getCanonicalUrl(`/glossary/${term.slug}`),
-    inDefinedTermSet: getCanonicalUrl('/glossary'),
   };
 }

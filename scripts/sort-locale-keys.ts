@@ -2,7 +2,6 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const MESSAGE_FILES = [
   'project.inlang/messages/en.json',
-  'project.inlang/messages/zh.json',
 ] as const;
 
 async function sortMessages(file: string) {

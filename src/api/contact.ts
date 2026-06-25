@@ -1,7 +1,5 @@
 import { m } from '@/locale/paraglide/messages';
 import { createServerFn } from '@tanstack/react-start';
-import { websiteConfig } from '@/config/website';
-import { sendEmail } from '@/mail';
 import { z } from 'zod';
 const schema = z.object({
   name: z.string().min(3, m.contact_name_min()).max(30, m.contact_name_max()),
@@ -14,20 +12,19 @@ const schema = z.object({
 export const sendContactMessage = createServerFn({ method: 'POST' })
   .inputValidator(schema)
   .handler(async ({ data }) => {
-    const supportEmail = websiteConfig.mail?.supportEmail;
-    if (!supportEmail) {
-      throw new Error('Contact form is not configured');
+    const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+    if (!webhookUrl) {
+      console.log('Contact message:', data);
+      return;
     }
-    const result = await sendEmail({
-      to: supportEmail,
-      template: 'contactMessage',
-      context: {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         name: data.name.trim(),
         email: data.email.trim(),
         message: data.message.trim(),
-      },
+        submittedAt: new Date().toISOString(),
+      }),
     });
-    if (!result.success) {
-      throw new Error('Failed to send the message');
-    }
   });

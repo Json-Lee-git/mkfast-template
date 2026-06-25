@@ -1,6 +1,5 @@
 import { m } from '@/locale/paraglide/messages';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { UpdateAvatarCard } from '@/components/settings/profile/update-avatar-card';
 import { UpdateNameCard } from '@/components/settings/profile/update-name-card';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -20,12 +19,7 @@ function ProfilePage() {
       description={m.settings_profile_description()}
     >
       <div className="flex flex-col gap-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <UpdateNameCard />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <UpdateAvatarCard />
-        </div>
+        <UpdateNameCard />
       </div>
     </DashboardLayout>
   );

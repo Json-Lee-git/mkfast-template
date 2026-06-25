@@ -2,11 +2,6 @@ import { getMessageList } from '@/lib/locale';
 import { m } from '@/locale/paraglide/messages';
 import { clientEnv } from '@/env/client';
 import type { WebsiteConfig } from '../types';
-import {
-  DEFAULT_ALLOWED_TYPES,
-  DEFAULT_MAX_FILE_SIZE,
-  DEFAULT_USER_FILES_FOLDER,
-} from '@/storage/constants';
 
 // Payment provider controlled by env var: 'stripe' | 'creem' | '' (empty means disabled)
 const paymentProvider = clientEnv.VITE_PAYMENT_PROVIDER;
@@ -63,28 +58,6 @@ export const websiteConfig: WebsiteConfig = {
   blog: {
     enable: true,
     paginationSize: 6,
-  },
-  mail: {
-    enable: false,
-    provider: 'cloudflare',
-    fromEmail: 'AI Search Readiness Tools <support@aisearchreadiness.tools>',
-    supportEmail: 'AI Search Readiness Tools <support@aisearchreadiness.tools>',
-  },
-  newsletter: {
-    enable: false,
-    provider: 'resend',
-    autoSubscribeAfterSignUp: false,
-  },
-  notification: {
-    enable: false,
-    provider: 'discord',
-  },
-  storage: {
-    enable: false,
-    provider: 'r2',
-    maxFileSize: DEFAULT_MAX_FILE_SIZE,
-    allowedTypes: DEFAULT_ALLOWED_TYPES,
-    userFilesFolder: DEFAULT_USER_FILES_FOLDER,
   },
   payment: {
     enable: isPaymentEnabled,

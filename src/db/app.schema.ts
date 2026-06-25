@@ -101,3 +101,27 @@ export const checkerSubmissions = sqliteTable("checker_submissions", {
   role: text("role"),
   submittedAt: text("submitted_at").notNull(),
 });
+
+/**
+ * Full AEO Report tokens — $19 one-time purchase access
+ */
+export const reportTokens = sqliteTable("report_tokens", {
+  id: text("id").primaryKey(),
+  token: text("token").notNull().unique(),
+  status: text("status").notNull().$type<"pending" | "active">(),
+  resultJson: text("result_json").notNull(), // AeoAuditResult serialized
+  email: text("email"),
+  websiteUrl: text("website_url").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  activatedAt: integer("activated_at", { mode: "timestamp_ms" }),
+});
+
+/**
+ * AI usage tracking — daily per-feature limits
+ */
+export const aiUsage = sqliteTable("ai_usage", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  feature: text("feature").notNull(), // 'query-fan-out' | 'aeo-analysis' | 'llms-polish'
+  success: integer("success", { mode: "boolean" }).notNull().default(true),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+});
