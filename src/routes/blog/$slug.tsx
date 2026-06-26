@@ -14,6 +14,7 @@ import { getLocale, localeConfig } from '@/lib/locale';
 import { seo } from '@/lib/seo';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { formatDate } from '@/lib/formatter';
+import { jsonLd } from '@/lib/ai-visibility-schema';
 
 export const Route = createFileRoute('/blog/$slug')({
   loader: async ({ params }) => {
@@ -32,6 +33,9 @@ export const Route = createFileRoute('/blog/$slug')({
       post.description ?? websiteConfig.metadata?.description ?? '';
     const image = post.image ? getImageUrl(post.image) : undefined;
     const canonicalUrl = getCanonicalUrl(path);
+    const modifiedDate = new Date(post.updated ?? post.date).toISOString();
+    const authorName = post.author ?? 'AI Search Readiness Editorial Team';
+    const authorTitle = post.authorTitle ?? 'Technical editorial team';
     const metadata = seo(path, {
       title,
       description,
@@ -46,7 +50,7 @@ export const Route = createFileRoute('/blog/$slug')({
       inLanguage: localeConfig[getLocale()].hreflang,
       ...(image && { image }),
       datePublished: new Date(post.date).toISOString(),
-      dateModified: new Date(post.date).toISOString(),
+      dateModified: modifiedDate,
       url: canonicalUrl,
       mainEntityOfPage: {
         '@type': 'WebPage',
@@ -54,11 +58,23 @@ export const Route = createFileRoute('/blog/$slug')({
       },
       author: {
         '@type': 'Organization',
-        name: websiteConfig.metadata?.name ?? '',
+        name: authorName,
+        description: authorTitle,
+        url: getCanonicalUrl('/about'),
       },
+      ...(post.reviewedBy
+        ? {
+            reviewedBy: {
+              '@type': 'Organization',
+              name: post.reviewedBy,
+              url: getCanonicalUrl('/about'),
+            },
+          }
+        : {}),
       publisher: {
         '@type': 'Organization',
         name: websiteConfig.metadata?.name ?? '',
+        url: getCanonicalUrl('/'),
         logo: {
           '@type': 'ImageObject',
           url: getImageUrl(
@@ -93,16 +109,7 @@ export const Route = createFileRoute('/blog/$slug')({
     };
     return {
       ...metadata,
-      scripts: [
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify(breadcrumbJsonLd),
-        },
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify(articleJsonLd),
-        },
-      ],
+      scripts: [jsonLd(breadcrumbJsonLd), jsonLd(articleJsonLd)],
     };
   },
   component: BlogPostPage,
@@ -111,6 +118,9 @@ export const Route = createFileRoute('/blog/$slug')({
 function BlogPostPage() {
   const post = Route.useLoaderData();
   if (!post || !websiteConfig.blog?.enable) throw notFound();
+  const authorName = post.author ?? 'AI Search Readiness Editorial Team';
+  const authorTitle = post.authorTitle ?? 'Technical editorial team';
+  const showUpdated = post.updated && post.updated !== post.date;
   return (
     <Container className="py-16 px-4">
       <div className="mx-auto max-w-4xl">
@@ -128,8 +138,13 @@ function BlogPostPage() {
             <span className="rounded-full bg-muted px-2.5 py-0.5 font-medium capitalize">
               {post.category}
             </span>
+            <span>By {authorName}</span>
             <span>{formatDate(new Date(post.date))}</span>
+            {showUpdated && (
+              <span>Updated {formatDate(new Date(post.updated ?? ''))}</span>
+            )}
           </div>
+          <p className="mb-4 text-muted-foreground text-sm">{authorTitle}</p>
 
           <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
 

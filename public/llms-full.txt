@@ -1,51 +1,105 @@
-# AI Search Readiness Tools — Full Content
+# AI Search Readiness Tools - Full Content
 
-> Free tools to check and generate LLMs.txt files. Validate your website's AI crawler access, sitemap, and technical readiness for AI-powered search.
+> Free tools to check and generate LLMs.txt files. Validate your website's AI
+> crawler access, sitemap, and technical readiness for AI-powered search.
 
 ## LLMs.txt Checker
 
-Check whether your site has a valid LLMs.txt file, accessible AI-readable links, LLMs-full.txt, sitemap, and AI crawler access. The checker validates:
+Check whether your site has a valid LLMs.txt file, accessible AI-readable links,
+LLMs-full.txt, sitemap, and AI crawler access. The checker validates:
 
 - LLMs.txt file existence and HTTP status
 - Link structure and formatting in your LLMs.txt
 - LLMs-full.txt availability
 - Sitemap.xml accessibility
-- Robots.txt with AI crawler rules for GPTBot, ClaudeBot, PerplexityBot, Google-Extended, and more
+- Robots.txt with AI crawler rules for OpenAI, Anthropic, Perplexity, Google,
+  Common Crawl, Apple, and Meta crawlers
 
 ## LLMs.txt Generator
 
-Generate a clean LLMs.txt file for your website from your sitemap or manual inputs. The generator creates properly formatted markdown with your site structure, key pages, and descriptions that AI systems can parse efficiently.
+Generate a clean LLMs.txt file for your website from your sitemap or manual
+inputs. The generator creates properly formatted Markdown with your site
+structure, key pages, and descriptions that AI systems can parse efficiently.
 
 ## AEO Checker
 
 Run a technical AEO audit covering seven dimensions:
 
-1. Crawlability — HTTP status, title, meta description, canonical URL, meta robots
-2. AI Search Files — LLMs.txt, LLMs-full.txt, sitemap, robots.txt with per-crawler access analysis
-3. Structured Data — JSON-LD detection, schema type enumeration, parse error reporting
-4. Answer-Ready Content — Heading hierarchy, FAQ sections, question-format headings, list usage, short answer paragraphs
-5. Entity Clarity — Brand name inference, og:site_name, Organization schema, brand mention count
-6. Trust Signals — Author attribution, published/modified dates, About/Contact/Privacy links, external references
+1. Crawlability - HTTP status, title, meta description, canonical URL, meta
+   robots
+2. AI Search Files - LLMs.txt, LLMs-full.txt, sitemap, robots.txt with
+   per-crawler access analysis
+3. Structured Data - JSON-LD detection, schema type enumeration, parse error
+   reporting
+4. Answer-Ready Content - Heading hierarchy, FAQ sections, question-format
+   headings, list usage, short answer paragraphs
+5. Entity Clarity - Brand name inference, og:site_name, Organization schema,
+   brand mention count
+6. Trust Signals - Author attribution, published/modified dates,
+   About/Contact/Privacy links, external references
 
 ## Query Fan-Out Tool
 
-Simulate how AI search engines expand a query into sub-queries, intents, and content gaps. Enter a query to see potential fan-out patterns that help you plan comprehensive, answer-ready content.
+Simulate how AI search engines expand a query into sub-queries, intents, and
+content gaps. Enter a query to see potential fan-out patterns that help you plan
+comprehensive, answer-ready content.
 
 ## Blog and Guides
 
-The blog covers practical AI search readiness topics, including AI crawler access, AEO vs SEO, AI Overviews optimization, ChatGPT citation readiness, and LLMs.txt vs robots.txt. These articles support searchers who are learning how traditional SEO, answer engine optimization, and generative engine optimization overlap.
+The blog covers practical AI search readiness topics, including AI crawler
+access, AEO vs SEO, AI Overviews optimization, ChatGPT citation readiness, and
+LLMs.txt vs robots.txt. These articles support searchers who are learning how
+traditional SEO, answer engine optimization, and generative engine optimization
+overlap.
 
 ## Glossary
 
-The glossary defines core AI search readiness concepts such as AEO, GEO, LLMs.txt, LLMs-full.txt, AI crawler, GPTBot, ClaudeBot, PerplexityBot, structured data, JSON-LD, canonical URL, FAQ schema, citation optimization, entity clarity, and trust signals.
+The glossary defines core AI search readiness concepts such as AEO, GEO,
+LLMs.txt, LLMs-full.txt, AI crawler, GPTBot, ClaudeBot, PerplexityBot,
+structured data, JSON-LD, canonical URL, FAQ schema, citation optimization,
+entity clarity, and trust signals.
+
+## Trust, Methodology, and References
+
+The site publishes trust and evidence pages so people and AI systems can inspect
+the basis for recommendations:
+
+- About: https://ai-search-readiness.s01071233604.workers.dev/about
+- Methodology: https://ai-search-readiness.s01071233604.workers.dev/methodology
+- References: https://ai-search-readiness.s01071233604.workers.dev/references
+- Press and media kit: https://ai-search-readiness.s01071233604.workers.dev/press
+- Contact and corrections: https://ai-search-readiness.s01071233604.workers.dev/contact
+
+The methodology page explains what the tools inspect, how the AEO readiness
+score is interpreted, what the tools do not infer, and which public standards
+inform the checks. The references page links to official sources such as Google
+Search Central, Schema.org, OpenAI crawler documentation, Anthropic crawler
+documentation, the llms.txt proposal, and Bing Webmaster Tools sitemap guidance.
+The press page gives third-party publishers a concise, accurate way to describe
+and cite the product without overstating ranking or citation guarantees.
+
+## Machine-readable Indexes
+
+The public crawl paths are intentionally exposed through sitemap.xml,
+robots.txt, LLMs.txt, LLMs-full.txt, and an RSS feed. These files help search
+engines, AI crawlers, and answer engines discover the current tools, guides,
+glossary definitions, and blog posts without relying only on navigation links.
+
+- Sitemap: https://ai-search-readiness.s01071233604.workers.dev/sitemap.xml
+- Robots.txt: https://ai-search-readiness.s01071233604.workers.dev/robots.txt
+- RSS feed: https://ai-search-readiness.s01071233604.workers.dev/api/rss.xml
+- LLMs.txt: https://ai-search-readiness.s01071233604.workers.dev/llms.txt
 
 ## What is AI Search Readiness?
 
-AI Search Readiness means your website is technically easy for search engines, answer engines, and AI-assisted retrieval systems to understand. It encompasses crawlability, structured data, LLMs.txt files, answer-ready content formatting, clear entity signals, and trust indicators.
+AI Search Readiness means your website is technically easy for search engines,
+answer engines, and AI-assisted retrieval systems to understand. It encompasses
+crawlability, structured data, LLMs.txt files, answer-ready content formatting,
+clear entity signals, and trust indicators.
 
 ## How These Tools Work Together
 
-1. Use the LLMs.txt Checker to validate your AI-readable site files
-2. Use the LLMs.txt Generator to create or improve your LLMs.txt
-3. Use the AEO Checker to audit overall technical readiness
-4. Use the Query Fan-Out Tool to plan comprehensive content coverage
+1. Use the LLMs.txt Checker to validate your AI-readable site files.
+2. Use the LLMs.txt Generator to create or improve your LLMs.txt.
+3. Use the AEO Checker to audit overall technical readiness.
+4. Use the Query Fan-Out Tool to plan comprehensive content coverage.

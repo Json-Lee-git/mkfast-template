@@ -1,0 +1,18 @@
+export const AI_CRAWLERS = [
+  { name: 'GPTBot', userAgent: 'GPTBot' },
+  { name: 'OAI-SearchBot', userAgent: 'OAI-SearchBot' },
+  { name: 'OAI-AdsBot', userAgent: 'OAI-AdsBot' },
+  { name: 'ChatGPT-User', userAgent: 'ChatGPT-User' },
+  { name: 'ClaudeBot', userAgent: 'ClaudeBot' },
+  { name: 'Claude-SearchBot', userAgent: 'Claude-SearchBot' },
+  { name: 'Claude-User', userAgent: 'Claude-User' },
+  { name: 'PerplexityBot', userAgent: 'PerplexityBot' },
+  { name: 'Perplexity-User', userAgent: 'Perplexity-User' },
+  { name: 'Google-Extended', userAgent: 'Google-Extended' },
+  { name: 'CCBot', userAgent: 'CCBot' },
+  { name: 'Applebot', userAgent: 'Applebot' },
+  { name: 'Applebot-Extended', userAgent: 'Applebot-Extended' },
+  { name: 'FacebookBot', userAgent: 'FacebookBot' },
+  { name: 'meta-externalagent', userAgent: 'meta-externalagent' },
+  { name: 'meta-externalfetcher', userAgent: 'meta-externalfetcher' },
+] as const;

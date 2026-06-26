@@ -2,6 +2,9 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import BackButtonSmall from '@/components/shared/back-button-small';
 
 export const Route = createFileRoute('/auth')({
+  head: () => ({
+    meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+  }),
   component: AuthLayout,
 });
 

@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
+import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import {
   MAX_REDIRECTS,
   normalizeOrigin,
@@ -12,17 +13,6 @@ import {
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 const MAX_LINKS_TO_CHECK = 20;
 const MAX_CONTENT_LENGTH_TO_PARSE = 500_000; // 500 KB for parsing
-
-const AI_CRAWLERS = [
-  { name: 'GPTBot', userAgent: 'GPTBot' },
-  { name: 'OAI-SearchBot', userAgent: 'OAI-SearchBot' },
-  { name: 'ChatGPT-User', userAgent: 'ChatGPT-User' },
-  { name: 'ClaudeBot', userAgent: 'ClaudeBot' },
-  { name: 'Claude-SearchBot', userAgent: 'Claude-SearchBot' },
-  { name: 'PerplexityBot', userAgent: 'PerplexityBot' },
-  { name: 'Perplexity-User', userAgent: 'Perplexity-User' },
-  { name: 'Google-Extended', userAgent: 'Google-Extended' },
-] as const;
 
 // ---------- Zod schemas ----------
 

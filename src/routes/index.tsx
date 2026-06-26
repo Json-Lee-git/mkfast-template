@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
       title:
-        'Free AI Search Readiness Tools — LLMs.txt Checker, AEO Audit & Query Fan-Out',
+        'Free AI Search Readiness Tools - LLMs.txt Checker, AEO Audit & Query Fan-Out',
       description:
         "Free tools to check your website's AI search readiness. Validate LLMs.txt, audit technical AEO signals, check AI crawler access for ChatGPT and Perplexity, and simulate AI query fan-out. No sign-up required.",
     });
@@ -25,7 +25,7 @@ export const Route = createFileRoute('/')({
         { property: 'article:published_time', content: '2026-02-15T00:00:00Z' },
         {
           property: 'article:modified_time',
-          content: new Date().toISOString(),
+          content: '2026-06-26T00:00:00Z',
         },
       ],
       scripts: [

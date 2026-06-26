@@ -4,6 +4,9 @@ import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/settings')({
   ssr: false,
+  head: () => ({
+    meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+  }),
   component: SidebarLayoutPage,
   server: {
     middleware: [authRouteMiddleware],

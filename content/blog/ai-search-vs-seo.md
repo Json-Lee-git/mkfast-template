@@ -2,7 +2,11 @@
 title: AI Search and SEO Are Not the Same Thing — Here's the Difference That Actually Matters
 description: SEO is about ranking pages. AI search is about being the source. These are fundamentally different games, and the optimization strategies don't overlap as much as people think.
 date: 2026-06-25
+updated: 2026-06-26
 category: Articles
+author: AI Search Readiness Editorial Team
+authorTitle: Technical SEO and AI search readiness research
+reviewedBy: AI Search Readiness Editorial Team
 image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 

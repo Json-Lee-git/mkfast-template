@@ -1,86 +1,126 @@
 ---
-title: AI Overviews Optimization Guide — What Actually Works in 2026
-description: A practical guide to optimizing for Google AI Overviews, ChatGPT, and other AI answer engines. What the data says about schemas, content structure, and entity optimization.
+title: AI Overviews Optimization Guide - What Actually Works in 2026
+description: A practical guide to optimizing for Google AI Overviews, ChatGPT, and other AI answer engines. What public documentation supports, what is observable, and what should be treated as readiness guidance.
 date: 2026-06-25
+updated: 2026-06-26
 category: Guides
+author: AI Search Readiness Editorial Team
+authorTitle: Technical SEO and AI search readiness research
+reviewedBy: AI Search Readiness Editorial Team
 image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 
-## The AI overviews reality
+## The AI Overviews reality
 
-Google AI Overviews now appear on **65% of search results pages** (March 2026 data). About 60% of searches end without a click. The traditional "rank high, get traffic" model is breaking.
+AI Overviews and chatbot search have changed how informational queries are
+answered. For many searches, users now see a synthesized answer with source
+links before they see the traditional list of blue links.
 
-But here's what matters: when your content appears in an AI Overview, you're the only source cited. One citation in an AI answer is worth more than ten blue-link positions.
-
-Here's what the data says actually works for AI overview optimization.
+That does not mean every page needs a separate "AI SEO" playbook. The durable
+work is still clear crawl access, helpful content, structured data, strong
+entity signals, and transparent publisher information.
 
 ## Content structure is your biggest lever
 
-AI models extract answers from well-structured content. The format matters more than the word count.
+AI systems extract answers from well-structured content. The format matters more
+than word count.
 
-**Answer-first architecture:**
-Every section should lead with a direct 1-2 sentence answer, followed by supporting detail. AI engines scrape the first 40-60 words of sections most aggressively.
+**Answer-first architecture:** Every section should lead with a direct one- or
+two-sentence answer, followed by supporting detail. This helps both human
+readers and retrieval systems quickly identify the claim being made.
 
-**Question-format headings:**
-H2s and H3s that mirror how people actually ask questions. "What does X cost?" beats "X Pricing Overview."
+**Question-format headings:** H2s and H3s that mirror real search questions are
+easier to match against answer-seeking queries. "What does X cost?" is clearer
+than "X Pricing Overview."
 
-**FAQ sections with schema:**
-Pages with FAQPage schema are cited **3.6x more** in AI Overviews. Each Q&A pair should be:
-- Question: Under 100 characters, natural language
-- Answer: 40-80 words, self-contained
+**FAQ sections with appropriate markup:** If the page genuinely contains
+question-and-answer content, FAQPage structured data can make that structure
+explicit. Do not add FAQ markup to promotional copy that is not actually an FAQ.
 
-## Schema: the technical difference-maker
+## Schema: the technical disambiguation layer
 
-Structured data tells AI engines what your content means, not just what it says. Our analysis of public research found:
+Structured data tells machines what your content represents, not just what it
+says. The most useful schema types depend on the page:
 
-- **FAQPage** → 3.6x citation increase in AI Overviews
-- **Organization** → 2.8x more brand mentions
-- **Article + author** → 2.8x citation boost when author is attributed
-- **15+ schema types** → 2.4x higher overall citation rates
+- **Organization** identifies the publisher or brand entity.
+- **WebSite** identifies the site and its canonical home.
+- **Article** or **TechArticle** identifies editorial content, author, publisher,
+  and dates.
+- **FAQPage** identifies real question-and-answer sections.
+- **SoftwareApplication** identifies web tools and product pages.
+- **BreadcrumbList** clarifies page hierarchy.
 
-But schema alone isn't enough. The content has to actually deliver what the schema promises.
+Schema alone is not enough. The visible page must match the structured data, and
+the content still needs to answer the query better than competing sources.
 
-## Entity optimization over keyword optimization
+## Entity optimization over keyword repetition
 
-AI engines think in entities (people, places, things, concepts), not keywords. They build a knowledge graph of your page and match it against query intent.
+AI search systems reason about entities: organizations, people, tools, topics,
+and relationships. They need to know exactly what a page is about and who is
+behind it.
 
 Practical steps:
-- Use your brand name consistently (same spelling, same format)
-- Link to your official profiles (LinkedIn, Wikipedia, Crunchbase)
-- Include `sameAs` in your Organization schema
-- Reference adjacent concepts and related topics in your content
 
-Our [AEO Checker](/tools/aeo-checker) analyzes entity clarity including inferred brand name, `og:site_name`, and Organization schema presence.
+- Use your brand name consistently.
+- Link to official profiles and authoritative references when available.
+- Include `sameAs` links in Organization schema only when the profiles are real.
+- Reference adjacent concepts and related topics in the visible content.
+- Keep About, Contact, Privacy, Methodology, and References pages easy to find.
 
-## Trust signals that AI engines look for
+Our [AEO Checker](/tools/aeo-checker) analyzes entity clarity signals including
+brand inference, `og:site_name`, and Organization schema presence.
 
-AI models are trained to prefer authoritative sources. They look for:
+## Trust signals to prioritize
 
-| Signal | Impact |
+Search and AI products do not publish a complete citation formula. But public
+quality guidance consistently rewards transparency, accountability, and helpful
+content.
+
+Prioritize:
+
+| Signal | Why it matters |
 |---|---|
-| Author attribution | 2.8x more citations |
-| Published date | Required for time-sensitive queries |
-| External citations | 37% higher citation probability |
-| About/Contact pages | Legitimacy indicator |
-| Privacy policy | Trust baseline |
+| Author or publisher attribution | Shows who is responsible for the page |
+| Published and updated dates | Helps with time-sensitive topics |
+| External references | Lets readers verify technical claims |
+| About and contact pages | Makes the publisher accountable |
+| Privacy and terms pages | Establishes a baseline of operational trust |
+| Methodology page | Explains how tools and scores are produced |
 
-Averaging all factors, pages that score 80+ on our AEO audit have strong technical readiness across all seven dimensions.
+Pages that score well in our AEO audit have strong technical readiness across
+crawlability, AI-readable files, structured data, content structure, entity
+clarity, and trust signals. A high score is not a guarantee of citations or
+rankings.
 
-## What doesn't work (despite the hype)
+## What does not work
 
-**LLMs.txt:** 97% of llms.txt files receive zero AI crawler visits (Ahrefs, May 2026). Create one because it's low-effort, not because it's a silver bullet.
+**LLMs.txt as a magic switch:** LLMs.txt can make important pages easier to
+discover and summarize, but it is not a confirmed ranking factor and does not
+guarantee AI citations.
 
-**Keyword stuffing:** AI engines use semantic search. Repeating a keyword 15 times doesn't help and can trigger content quality filters.
+**Keyword stuffing:** Repeating a phrase does not make a page more useful.
+Clear structure and direct answers matter more.
 
-**AI-generated content alone:** AI-written content without original data, examples, or expertise gets deprioritized. Models can recognize their own output patterns.
+**AI-generated content alone:** Thin generated content without examples,
+evidence, or original judgment is unlikely to become a trusted source.
 
-## Measure what matters
+## Measure what you can
 
-Traditional rank tracking is increasingly misleading. Track instead:
+Traditional rank tracking is not enough for AI search. Track proxies instead:
 
-1. **Google Search Console → Generative AI reports** (new as of June 2026)
-2. **GA4 → Referral traffic from AI sources**
-3. **Bot access logs → Correlation with traffic**
-4. **Prompt bank testing** — manually check citation presence for your target queries
+1. Google Search Console impressions and query patterns.
+2. GA4 referral traffic from AI surfaces where available.
+3. Bot access logs for crawler activity.
+4. Manual prompt-bank checks for your highest-value topics.
+5. Changes in branded search demand and third-party mentions.
 
-Run a free [AI overview readiness check](/tools/aeo-checker) on your pages to find and fix gaps.
+Run a free [AI Overview readiness check](/tools/aeo-checker) on your pages to
+find and fix technical gaps.
+
+## Sources and further reading
+
+- [Google Search Central: Introduction to structured data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+- [Google Search Central: Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+- [Schema.org: Organization](https://schema.org/Organization)
+- [Schema.org: Article](https://schema.org/Article)
+- [AI Search Readiness methodology](/methodology)

@@ -46,9 +46,11 @@ import { Route as AuthErrorRouteImport } from './routes/auth/error'
 import { Route as ApiRssDotxmlRouteImport } from './routes/api/rss[.]xml'
 import { Route as ApiRssRouteImport } from './routes/api/rss'
 import { Route as ApiPingRouteImport } from './routes/api/ping'
-import { Route as ApiDebugAiRouteImport } from './routes/api/debug-ai'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as pagesReferencesRouteImport } from './routes/(pages)/references'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
+import { Route as pagesPressRouteImport } from './routes/(pages)/press'
+import { Route as pagesMethodologyRouteImport } from './routes/(pages)/methodology'
 import { Route as pagesContactRouteImport } from './routes/(pages)/contact'
 import { Route as pagesAiRouteImport } from './routes/(pages)/ai'
 import { Route as pagesAboutRouteImport } from './routes/(pages)/about'
@@ -244,19 +246,29 @@ const ApiPingRoute = ApiPingRouteImport.update({
   path: '/api/ping',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiDebugAiRoute = ApiDebugAiRouteImport.update({
-  id: '/api/debug-ai',
-  path: '/api/debug-ai',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const pagesReferencesRoute = pagesReferencesRouteImport.update({
+  id: '/(pages)/references',
+  path: '/references',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const pagesPricingRoute = pagesPricingRouteImport.update({
   id: '/(pages)/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const pagesPressRoute = pagesPressRouteImport.update({
+  id: '/(pages)/press',
+  path: '/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const pagesMethodologyRoute = pagesMethodologyRouteImport.update({
+  id: '/(pages)/methodology',
+  path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
 const pagesContactRoute = pagesContactRouteImport.update({
@@ -320,9 +332,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
   '/contact': typeof pagesContactRoute
+  '/methodology': typeof pagesMethodologyRoute
+  '/press': typeof pagesPressRoute
   '/pricing': typeof pagesPricingRoute
+  '/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -368,9 +382,11 @@ export interface FileRoutesByTo {
   '/about': typeof pagesAboutRoute
   '/ai': typeof pagesAiRoute
   '/contact': typeof pagesContactRoute
+  '/methodology': typeof pagesMethodologyRoute
+  '/press': typeof pagesPressRoute
   '/pricing': typeof pagesPricingRoute
+  '/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -420,9 +436,11 @@ export interface FileRoutesById {
   '/(pages)/about': typeof pagesAboutRoute
   '/(pages)/ai': typeof pagesAiRoute
   '/(pages)/contact': typeof pagesContactRoute
+  '/(pages)/methodology': typeof pagesMethodologyRoute
+  '/(pages)/press': typeof pagesPressRoute
   '/(pages)/pricing': typeof pagesPricingRoute
+  '/(pages)/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/debug-ai': typeof ApiDebugAiRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -473,9 +491,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai'
     | '/contact'
+    | '/methodology'
+    | '/press'
     | '/pricing'
+    | '/references'
     | '/admin/users'
-    | '/api/debug-ai'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -521,9 +541,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/ai'
     | '/contact'
+    | '/methodology'
+    | '/press'
     | '/pricing'
+    | '/references'
     | '/admin/users'
-    | '/api/debug-ai'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -572,9 +594,11 @@ export interface FileRouteTypes {
     | '/(pages)/about'
     | '/(pages)/ai'
     | '/(pages)/contact'
+    | '/(pages)/methodology'
+    | '/(pages)/press'
     | '/(pages)/pricing'
+    | '/(pages)/references'
     | '/admin/users'
-    | '/api/debug-ai'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -624,8 +648,10 @@ export interface RootRouteChildren {
   pagesAboutRoute: typeof pagesAboutRoute
   pagesAiRoute: typeof pagesAiRoute
   pagesContactRoute: typeof pagesContactRoute
+  pagesMethodologyRoute: typeof pagesMethodologyRoute
+  pagesPressRoute: typeof pagesPressRoute
   pagesPricingRoute: typeof pagesPricingRoute
-  ApiDebugAiRoute: typeof ApiDebugAiRoute
+  pagesReferencesRoute: typeof pagesReferencesRoute
   ApiPingRoute: typeof ApiPingRoute
   ApiRssRoute: typeof ApiRssRoute
   ApiRssDotxmlRoute: typeof ApiRssDotxmlRoute
@@ -909,13 +935,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/debug-ai': {
-      id: '/api/debug-ai'
-      path: '/api/debug-ai'
-      fullPath: '/api/debug-ai'
-      preLoaderRoute: typeof ApiDebugAiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -923,11 +942,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/(pages)/references': {
+      id: '/(pages)/references'
+      path: '/references'
+      fullPath: '/references'
+      preLoaderRoute: typeof pagesReferencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(pages)/pricing': {
       id: '/(pages)/pricing'
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof pagesPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(pages)/press': {
+      id: '/(pages)/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof pagesPressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(pages)/methodology': {
+      id: '/(pages)/methodology'
+      path: '/methodology'
+      fullPath: '/methodology'
+      preLoaderRoute: typeof pagesMethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(pages)/contact': {
@@ -1073,8 +1113,10 @@ const rootRouteChildren: RootRouteChildren = {
   pagesAboutRoute: pagesAboutRoute,
   pagesAiRoute: pagesAiRoute,
   pagesContactRoute: pagesContactRoute,
+  pagesMethodologyRoute: pagesMethodologyRoute,
+  pagesPressRoute: pagesPressRoute,
   pagesPricingRoute: pagesPricingRoute,
-  ApiDebugAiRoute: ApiDebugAiRoute,
+  pagesReferencesRoute: pagesReferencesRoute,
   ApiPingRoute: ApiPingRoute,
   ApiRssRoute: ApiRssRoute,
   ApiRssDotxmlRoute: ApiRssDotxmlRoute,

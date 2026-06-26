@@ -75,6 +75,10 @@ export const Route = createFileRoute('/sitemap.xml')({
             changefreq: 'weekly',
             priority: '0.7',
           },
+          { path: '/about', changefreq: 'monthly' },
+          { path: '/methodology', changefreq: 'monthly' },
+          { path: '/references', changefreq: 'monthly' },
+          { path: '/press', changefreq: 'monthly' },
           { path: '/contact', changefreq: 'monthly' },
           { path: '/terms', changefreq: 'monthly' },
           { path: '/privacy', changefreq: 'monthly' },
@@ -158,7 +162,8 @@ ${glossaryPart ? `\n${glossaryPart}` : ''}
 
         return new Response(sitemap, {
           headers: {
-            'Content-Type': 'application/xml',
+            'Content-Type': 'application/xml; charset=utf-8',
+            'Cache-Control': 'public, max-age=3600',
           },
         });
       },

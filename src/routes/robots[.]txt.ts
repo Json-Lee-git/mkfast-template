@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import { getBaseUrl } from '@/lib/urls';
 import { baseLocale, locales, localizeHref } from '@/lib/locale';
 
@@ -14,18 +15,6 @@ const disallowedPaths = [
   '/waitlist',
 ];
 
-const aiCrawlerUserAgents = [
-  'GPTBot',
-  'ChatGPT-User',
-  'OAI-SearchBot',
-  'ClaudeBot',
-  'Claude-SearchBot',
-  'PerplexityBot',
-  'Google-Extended',
-  'CCBot',
-  'meta-externalagent',
-];
-
 function getDisallowRules() {
   return disallowedPaths
     .flatMap((path) => [
@@ -39,9 +28,10 @@ function getDisallowRules() {
 }
 
 function getAiCrawlerAllowRules() {
-  return aiCrawlerUserAgents
-    .map((userAgent) => `User-agent: ${userAgent}\nAllow: /`)
-    .join('\n\n');
+  return AI_CRAWLERS.map(
+    (crawler) =>
+      `User-agent: ${crawler.userAgent}\nAllow: /\n${getDisallowRules()}`
+  ).join('\n\n');
 }
 
 /**
@@ -63,7 +53,8 @@ Sitemap: ${base}/sitemap.xml`;
 
         return new Response(robots, {
           headers: {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Cache-Control': 'public, max-age=3600',
           },
         });
       },

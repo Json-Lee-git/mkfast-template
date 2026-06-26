@@ -2,7 +2,11 @@
 title: LLMs.txt Guide — What It Is, Why It Matters, and How to Make One That Actually Works
 description: A practical guide to LLMs.txt files from someone who has checked hundreds of them. Real examples, common mistakes, and a template you can copy.
 date: 2026-06-25
+updated: 2026-06-26
 category: Guides
+author: AI Search Readiness Editorial Team
+authorTitle: Technical SEO and AI search readiness research
+reviewedBy: AI Search Readiness Editorial Team
 image: https://ai-search-readiness.s01071233604.workers.dev/og.png
 ---
 
@@ -37,7 +41,7 @@ After checking hundreds of sites with our [LLMs.txt Checker](/tools/llms-txt-che
 
 ### 1. Wrong content type
 
-Your server needs to serve `/llms.txt` as `text/plain` or `text/markdown` with `charset=utf-8`. About 30% of the files I check return `text/html` because the server is treating it like a 404 and serving the homepage. The AI reads a full HTML page instead of your clean Markdown file.
+Your server needs to serve `/llms.txt` as `text/plain` or `text/markdown` with `charset=utf-8`. A common failure is returning `text/html` because the server treats the file like a 404 and serves the homepage. In that case, an AI crawler receives a full HTML page instead of your clean Markdown file.
 
 ### 2. Listing every page on the site
 

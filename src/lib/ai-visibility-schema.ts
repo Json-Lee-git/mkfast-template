@@ -1,5 +1,5 @@
 import { websiteConfig } from '@/config/website';
-import { getCanonicalUrl } from '@/lib/urls';
+import { getCanonicalUrl, getImageUrl } from '@/lib/urls';
 
 type ListItem = {
   name: string;
@@ -28,11 +28,49 @@ export function jsonLd(value: unknown) {
 }
 
 export function organizationSchema() {
+  const sameAs = Object.values(websiteConfig.social ?? {}).filter(Boolean);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: websiteConfig.metadata?.name,
+    description: websiteConfig.metadata?.description,
     url: getCanonicalUrl('/'),
+    logo: {
+      '@type': 'ImageObject',
+      url: getImageUrl(
+        websiteConfig.metadata?.images?.logoLight ?? '/logo.png'
+      ),
+    },
+    foundingDate: '2026-02-15',
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        url: getCanonicalUrl('/contact'),
+        availableLanguage: ['en'],
+      },
+    ],
+    publishingPrinciples: getCanonicalUrl('/methodology'),
+    correctionsPolicy: getCanonicalUrl('/contact'),
+    subjectOf: [
+      {
+        '@type': 'WebPage',
+        name: 'Methodology',
+        url: getCanonicalUrl('/methodology'),
+      },
+      {
+        '@type': 'WebPage',
+        name: 'References',
+        url: getCanonicalUrl('/references'),
+      },
+      {
+        '@type': 'WebPage',
+        name: 'Press and Media Kit',
+        url: getCanonicalUrl('/press'),
+      },
+    ],
+    ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
 
@@ -43,6 +81,11 @@ export function websiteSchema() {
     name: websiteConfig.metadata?.name,
     description: websiteConfig.metadata?.description,
     url: getCanonicalUrl('/'),
+    publisher: {
+      '@type': 'Organization',
+      name: websiteConfig.metadata?.name,
+      url: getCanonicalUrl('/'),
+    },
   };
 }
 

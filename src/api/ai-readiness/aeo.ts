@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
+import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import {
   FETCH_TIMEOUT_MS,
   MAX_REDIRECTS,
@@ -14,17 +15,6 @@ const inputSchema = z.object({
 });
 
 const MAX_HTML_SIZE = 2 * 1024 * 1024; // 2 MB
-const AI_CRAWLERS = [
-  'GPTBot',
-  'OAI-SearchBot',
-  'ChatGPT-User',
-  'ClaudeBot',
-  'Claude-SearchBot',
-  'PerplexityBot',
-  'Perplexity-User',
-  'Google-Extended',
-] as const;
-
 // ---------- Types ----------
 
 export interface AeoAuditResult {
@@ -563,16 +553,20 @@ async function checkAiFiles(
       .split('\n')
       .map((line) => line.split('#')[0].trim())
       .filter(Boolean);
-    for (const crawlerName of AI_CRAWLERS) {
+    for (const crawler of AI_CRAWLERS) {
       crawlers.push({
-        name: crawlerName,
-        userAgent: crawlerName,
-        access: resolveRobotsAccess(lines, crawlerName),
+        name: crawler.name,
+        userAgent: crawler.userAgent,
+        access: resolveRobotsAccess(lines, crawler.userAgent),
       });
     }
   } else {
-    for (const c of AI_CRAWLERS) {
-      crawlers.push({ name: c, userAgent: c, access: 'unknown' });
+    for (const crawler of AI_CRAWLERS) {
+      crawlers.push({
+        name: crawler.name,
+        userAgent: crawler.userAgent,
+        access: 'unknown',
+      });
     }
   }
 
