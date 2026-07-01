@@ -7,7 +7,7 @@ category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
 reviewedBy: AI Search Readiness Editorial Team
-image: https://ai-search-readiness.s01071233604.workers.dev/og.png
+image: https://aeocheck.xyz/og.png
 ---
 
 ## The AI Overviews reality
@@ -19,6 +19,17 @@ links before they see the traditional list of blue links.
 That does not mean every page needs a separate "AI SEO" playbook. The durable
 work is still clear crawl access, helpful content, structured data, strong
 entity signals, and transparent publisher information.
+
+## Key stats: AI Overviews readiness at a glance
+
+| Signal | What to do | Expected timeline |
+|--------|-----------|-------------------|
+| Crawl access | Allow Google-Extended in robots.txt | Days (next Google crawl) |
+| Structured data | Add Organization, Article, FAQPage schema | 1-2 weeks (recrawl + processing) |
+| Answer positioning | Direct answer in first 100 words of each section | Immediate (content change) |
+| Entity clarity | Consistent brand name, sameAs links, About page | 2-4 weeks (entity graph updates) |
+| Trust signals | Author attribution, dates, references, methodology page | 1-4 weeks (cumulative trust building) |
+| External corroboration | Get cited by Wikipedia, major publications, industry sources | 1-6 months (reputation building) |
 
 ## Content structure is your biggest lever
 
@@ -124,3 +135,60 @@ find and fix technical gaps.
 - [Schema.org: Organization](https://schema.org/Organization)
 - [Schema.org: Article](https://schema.org/Article)
 - [AI Search Readiness methodology](/methodology)
+
+## Frequently asked questions
+
+### What exactly are Google AI Overviews?
+
+AI Overviews are AI-generated summaries that appear at the top of Google search
+results for certain queries. They synthesize information from multiple web
+sources and present it as a concise answer with source links. They are not
+available for every query — Google decides when an AI Overview adds value beyond
+the traditional list of links.
+
+### Can I control whether my content appears in AI Overviews?
+
+You cannot directly control inclusion. You can control whether your content is
+eligible by allowing Google-Extended in robots.txt (opt-in for Google's AI
+products) and ensuring your pages are crawlable, well-structured, and have clear
+authorship and trust signals. Opting out is straightforward: block
+Google-Extended in robots.txt.
+
+### How is AI Overview optimization different from regular SEO?
+
+Regular SEO targets ranking position and click-through rate. AI Overview
+optimization targets citability: making your content easy for an AI to extract,
+understand, and reference as a source. This means putting direct answers early,
+using clear headings, adding structured data, and building trust signals.
+Rankings and AI Overview citations don't always correlate.
+
+### Does structured data help with AI Overview inclusion?
+
+Structured data helps AI systems understand what your content represents, which
+can improve how it's matched to queries. FAQPage, HowTo, Article, and
+Organization schema are particularly useful. But structured data alone is not
+enough — the visible page content must also be clear, well-organized, and
+answer the query better than competing sources.
+
+### How do I know if my content appears in AI Overviews?
+
+There is no dedicated "AI Overviews report" in Google Search Console. You can:
+(1) manually search your target queries and check for AI Overview citations, (2)
+monitor GSC impressions and clicks for pages that target AI-overview-eligible
+queries, (3) use third-party rank tracking tools that detect AI Overview
+presence. Expect gaps in attribution — not all AI Overview clicks are
+distinguishable from regular search clicks.
+
+### Should I optimize every page for AI Overviews?
+
+No. AI Overviews primarily appear for informational and how-to queries — not for
+transactional or navigational searches. Focus your AI Overview optimization on
+pages that answer specific questions: guides, tutorials, definitions, and FAQ
+pages. Your pricing page and checkout flow don't need AI Overview optimization.
+
+---
+> **Check your AI Overview readiness** — free audit of the signals Google AI Overviews looks for.
+> Run the readiness checker and get a prioritized list of what to fix first.
+>
+> 👉 [Check AI Overview readiness](https://aeocheck.xyz/tools/ai-overview-readiness-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-ai-overviews)
+---

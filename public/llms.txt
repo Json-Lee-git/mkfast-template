@@ -4,41 +4,52 @@
 
 ## Tools
 
-- [LLMs.txt Checker](https://ai-search-readiness.s01071233604.workers.dev/tools/llms-txt-checker): Check if your site has a valid LLMs.txt file. Get a technical readiness report.
-- [LLMs.txt Generator](https://ai-search-readiness.s01071233604.workers.dev/tools/llms-txt-generator): Generate an LLMs.txt file from your sitemap or manual input.
-- [AEO Checker](https://ai-search-readiness.s01071233604.workers.dev/tools/aeo-checker): Audit technical answer engine optimization readiness, structured data, trust signals, and AI crawler access.
-- [Query Fan-Out Tool](https://ai-search-readiness.s01071233604.workers.dev/tools/query-fan-out-tool): Simulate related sub-queries, intent clusters, headings, FAQs, and content gaps.
+- [LLMs.txt Checker](https://aeocheck.xyz/tools/llms-txt-checker): Check if your site has a valid LLMs.txt file. Get a technical readiness report.
+- [LLMs.txt Generator](https://aeocheck.xyz/tools/llms-txt-generator): Generate an LLMs.txt file from your sitemap or manual input.
+- [AEO Checker](https://aeocheck.xyz/tools/aeo-checker): Audit technical answer engine optimization readiness, structured data, trust signals, and AI crawler access.
+- [Query Fan-Out Tool](https://aeocheck.xyz/tools/query-fan-out-tool): Simulate related sub-queries, intent clusters, headings, FAQs, and content gaps.
+- [AI Crawler Checker](https://aeocheck.xyz/tools/ai-crawler-checker): Check GPTBot, ClaudeBot, PerplexityBot, robots.txt, sitemap, and AI-readable file access.
+- [Robots.txt AI Crawler Checker](https://aeocheck.xyz/tools/robots-txt-ai-crawler-checker): Review robots.txt rules that may block or allow AI crawler access.
+- [GEO Audit Tool](https://aeocheck.xyz/tools/geo-audit): Audit generative engine optimization readiness signals across crawlability, schema, content, and trust.
+- [AI Overview Readiness Checker](https://aeocheck.xyz/tools/ai-overview-readiness-checker): Check readiness signals for AI-assisted search summaries.
+- [ChatGPT Citation Readiness Checker](https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker): Review public citation-readiness signals for AI retrieval systems.
+- [Sample AEO Report](https://aeocheck.xyz/sample-aeo-report): Preview the $19 Full AI Search Readiness Report before running an audit.
+
+## Decision pages
+
+- [Is the AI Search Readiness Report Worth It?](https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it): Compare the free scan with the $19 Fix Pack, including deliverables, limitations, good-fit cases, and not-fit cases.
 
 ## Guides
 
-- [What Is an LLMs.txt File?](https://ai-search-readiness.s01071233604.workers.dev/guides/llms-txt-file): Format, examples, and how to create one.
-- [Does LLMs.txt Help SEO?](https://ai-search-readiness.s01071233604.workers.dev/guides/llms-txt-seo): What it can and cannot do for your search visibility.
-- [What Is LLMs-full.txt?](https://ai-search-readiness.s01071233604.workers.dev/guides/llms-full-txt): When to use it and how it differs from LLMs.txt.
-- [AEO Audit Guide](https://ai-search-readiness.s01071233604.workers.dev/guides/aeo-audit): Technical answer engine optimization checklist for crawlability, schema, content, entities, and trust.
-- [Query Fan-Out Guide](https://ai-search-readiness.s01071233604.workers.dev/guides/query-fan-out): How to plan answer-ready content with simulated sub-queries, intents, FAQs, and content gaps.
+- [What Is an LLMs.txt File?](https://aeocheck.xyz/guides/llms-txt-file): Format, examples, and how to create one.
+- [Does LLMs.txt Help SEO?](https://aeocheck.xyz/guides/llms-txt-seo): What it can and cannot do for your search visibility.
+- [What Is LLMs-full.txt?](https://aeocheck.xyz/guides/llms-full-txt): When to use it and how it differs from LLMs.txt.
+- [AEO Audit Guide](https://aeocheck.xyz/guides/aeo-audit): Technical answer engine optimization checklist for crawlability, schema, content, entities, and trust.
+- [AI Search Readiness Checklist](https://aeocheck.xyz/guides/ai-search-readiness-checklist): Page-level checklist for crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, and trust signals.
+- [Query Fan-Out Guide](https://aeocheck.xyz/guides/query-fan-out): How to plan answer-ready content with simulated sub-queries, intents, FAQs, and content gaps.
 
 ## Blog
 
-- [AI Crawlers and Search Readiness](https://ai-search-readiness.s01071233604.workers.dev/blog/ai-crawlers-search-readiness): How GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, and other AI crawlers interact with robots.txt and AI-readable files.
-- [AI Search vs SEO](https://ai-search-readiness.s01071233604.workers.dev/blog/ai-search-vs-seo): How AI search visibility differs from traditional search optimization.
-- [AEO vs SEO](https://ai-search-readiness.s01071233604.workers.dev/blog/aeo-vs-seo): The practical difference between answer engine optimization and SEO.
-- [How to Get Cited by ChatGPT](https://ai-search-readiness.s01071233604.workers.dev/blog/how-to-get-cited-by-chatgpt): Content, schema, entity, and trust signals that can improve citation readiness.
+- [AI Crawlers and Search Readiness](https://aeocheck.xyz/blog/ai-crawlers-search-readiness): How GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, and other AI crawlers interact with robots.txt and AI-readable files.
+- [AI Search vs SEO](https://aeocheck.xyz/blog/ai-search-vs-seo): How AI search visibility differs from traditional search optimization.
+- [AEO vs SEO](https://aeocheck.xyz/blog/aeo-vs-seo): The practical difference between answer engine optimization and SEO.
+- [How to Get Cited by ChatGPT](https://aeocheck.xyz/blog/how-to-get-cited-by-chatgpt): Content, schema, entity, and trust signals that can improve citation readiness.
 
 ## Glossary
 
-- [AI Search Readiness Glossary](https://ai-search-readiness.s01071233604.workers.dev/glossary): Definitions for LLMs.txt, AEO, GEO, AI crawlers, structured data, answer-ready content, trust signals, and related AI search terms.
+- [AI Search Readiness Glossary](https://aeocheck.xyz/glossary): Definitions for LLMs.txt, AEO, GEO, AI crawlers, structured data, answer-ready content, trust signals, and related AI search terms.
 
 ## Trust and methodology
 
-- [About](https://ai-search-readiness.s01071233604.workers.dev/about): Publisher information, product scope, editorial standards, and correction process.
-- [Methodology](https://ai-search-readiness.s01071233604.workers.dev/methodology): How the tools evaluate crawlability, AI-readable files, structured data, content structure, entity clarity, and trust signals.
-- [References](https://ai-search-readiness.s01071233604.workers.dev/references): Official external sources and standards used by the tools and guides.
-- [Press and Media Kit](https://ai-search-readiness.s01071233604.workers.dev/press): Product facts, official links, citation guidance, and safe descriptions for external mentions.
-- [Contact](https://ai-search-readiness.s01071233604.workers.dev/contact): Product questions, correction requests, and technical feedback.
+- [About](https://aeocheck.xyz/about): Publisher information, product scope, editorial standards, and correction process.
+- [Methodology](https://aeocheck.xyz/methodology): How the tools evaluate crawlability, AI-readable files, structured data, content structure, entity clarity, and trust signals.
+- [References](https://aeocheck.xyz/references): Official external sources and standards used by the tools and guides.
+- [Press and Media Kit](https://aeocheck.xyz/press): Product facts, official links, citation guidance, and safe descriptions for external mentions.
+- [Contact](https://aeocheck.xyz/contact): Product questions, correction requests, and technical feedback.
 
 ## Machine-readable indexes
 
-- [Sitemap](https://ai-search-readiness.s01071233604.workers.dev/sitemap.xml): Complete index of crawlable public tools, guides, blog posts, and glossary pages.
-- [Robots.txt](https://ai-search-readiness.s01071233604.workers.dev/robots.txt): AI crawler access rules for OpenAI, Anthropic, Perplexity, Google, Common Crawl, Apple, and Meta crawlers.
-- [RSS Feed](https://ai-search-readiness.s01071233604.workers.dev/api/rss.xml): Latest blog updates in RSS format.
-- [LLMs-full.txt](https://ai-search-readiness.s01071233604.workers.dev/llms-full.txt): Expanded plain-text overview of the site's tools, guides, glossary, and AI search readiness concepts.
+- [Sitemap](https://aeocheck.xyz/sitemap.xml): Complete index of crawlable public tools, guides, blog posts, and glossary pages.
+- [Robots.txt](https://aeocheck.xyz/robots.txt): AI crawler access rules for OpenAI, Anthropic, Perplexity, Google, Common Crawl, Apple, and Meta crawlers.
+- [RSS Feed](https://aeocheck.xyz/api/rss.xml): Latest blog updates in RSS format.
+- [LLMs-full.txt](https://aeocheck.xyz/llms-full.txt): Expanded plain-text overview of the site's tools, guides, glossary, and AI search readiness concepts.

@@ -14,7 +14,27 @@ import { getLocale, localeConfig } from '@/lib/locale';
 import { seo } from '@/lib/seo';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { formatDate } from '@/lib/formatter';
-import { jsonLd } from '@/lib/ai-visibility-schema';
+import { faqSchema, jsonLd } from '@/lib/ai-visibility-schema';
+
+/** Extract FAQ Q&A pairs from a "## Frequently asked questions" section. */
+function extractFaqFromContent(content: string): { q: string; a: string }[] {
+  const faqSection = content.match(
+    /## Frequently asked questions\n\n([\s\S]*?)(?:\n---\n|$)/
+  );
+  if (!faqSection) return [];
+
+  const items: { q: string; a: string }[] = [];
+  const blocks = faqSection[1].split(/\n### /);
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    const nl = trimmed.indexOf('\n');
+    if (nl === -1) continue;
+    const q = trimmed.slice(0, nl).trim();
+    const a = trimmed.slice(nl + 1).trim();
+    if (q && a) items.push({ q, a });
+  }
+  return items;
+}
 
 export const Route = createFileRoute('/blog/$slug')({
   loader: async ({ params }) => {
@@ -107,10 +127,16 @@ export const Route = createFileRoute('/blog/$slug')({
         },
       ],
     };
-    return {
-      ...metadata,
-      scripts: [jsonLd(breadcrumbJsonLd), jsonLd(articleJsonLd)],
-    };
+
+    const scripts = [jsonLd(breadcrumbJsonLd), jsonLd(articleJsonLd)];
+
+    // Add FAQPage schema if content has an FAQ section
+    const faqItems = extractFaqFromContent(post.content);
+    if (faqItems.length > 0) {
+      scripts.push(jsonLd(faqSchema(faqItems)));
+    }
+
+    return { ...metadata, scripts };
   },
   component: BlogPostPage,
 });

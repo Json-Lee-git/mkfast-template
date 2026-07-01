@@ -15,6 +15,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   const pathname = useLocation().pathname;
   const footerLinks = getFooterLinks();
   const socialLinks = getSocialLinks();
+  const supportEmail =
+    websiteConfig.metadata?.supportEmail ?? 'support@aeocheck.xyz';
   return (
     <footer className={cn('border-t', className)}>
       <Container className="px-4">
@@ -29,6 +31,12 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             <p className="text-muted-foreground text-base py-2 md:pr-12">
               {footerTagline}
             </p>
+            <a
+              href={`mailto:${supportEmail}`}
+              className="text-sm text-muted-foreground transition-colors hover:text-primary"
+            >
+              Support: {supportEmail}
+            </a>
             <nav
               aria-label={m.common_social_links()}
               className="flex items-center gap-4 pt-6"

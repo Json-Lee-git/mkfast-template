@@ -35,6 +35,8 @@ export const Route = createFileRoute('/(pages)/contact')({
 });
 
 function ContactPage() {
+  const supportEmail =
+    websiteConfig.metadata?.supportEmail ?? 'support@aeocheck.xyz';
   return (
     <Container className="py-16 px-4">
       <div className="mx-auto max-w-4xl space-y-8 pb-16">
@@ -48,6 +50,15 @@ function ContactPage() {
           <p className="mx-auto max-w-2xl text-center text-muted-foreground">
             Use this form for product questions, correction requests, outdated
             crawler guidance, report issues, and partnership inquiries.
+          </p>
+          <p className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
+            Direct support email:{' '}
+            <a
+              href={`mailto:${supportEmail}`}
+              className="font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {supportEmail}
+            </a>
           </p>
         </div>
         <ContactFormCard />

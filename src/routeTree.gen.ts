@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SampleAeoReportRouteImport } from './routes/sample-aeo-report'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ManifestDotjsonRouteImport } from './routes/manifest[.]json'
+import { Route as IndexnowKeyDottxtRouteImport } from './routes/indexnow-key[.]txt'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AiSearchAuditRouteImport } from './routes/ai-search-audit'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
@@ -22,9 +25,14 @@ import { Route as GlossaryIndexRouteImport } from './routes/glossary/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ToolsRobotsTxtAiCrawlerCheckerRouteImport } from './routes/tools.robots-txt-ai-crawler-checker'
 import { Route as ToolsQueryFanOutToolRouteImport } from './routes/tools.query-fan-out-tool'
 import { Route as ToolsLlmsTxtGeneratorRouteImport } from './routes/tools.llms-txt-generator'
 import { Route as ToolsLlmsTxtCheckerRouteImport } from './routes/tools.llms-txt-checker'
+import { Route as ToolsGeoAuditRouteImport } from './routes/tools.geo-audit'
+import { Route as ToolsChatgptCitationReadinessCheckerRouteImport } from './routes/tools.chatgpt-citation-readiness-checker'
+import { Route as ToolsAiOverviewReadinessCheckerRouteImport } from './routes/tools.ai-overview-readiness-checker'
+import { Route as ToolsAiCrawlerCheckerRouteImport } from './routes/tools.ai-crawler-checker'
 import { Route as ToolsAeoCheckerRouteImport } from './routes/tools.aeo-checker'
 import { Route as SettingsSecurityRouteImport } from './routes/settings/security'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
@@ -35,8 +43,13 @@ import { Route as GuidesQueryFanOutRouteImport } from './routes/guides.query-fan
 import { Route as GuidesLlmsTxtSeoRouteImport } from './routes/guides.llms-txt-seo'
 import { Route as GuidesLlmsTxtFileRouteImport } from './routes/guides.llms-txt-file'
 import { Route as GuidesLlmsFullTxtRouteImport } from './routes/guides.llms-full-txt'
+import { Route as GuidesAiSearchReadinessChecklistRouteImport } from './routes/guides.ai-search-readiness-checklist'
 import { Route as GuidesAeoAuditRouteImport } from './routes/guides.aeo-audit'
 import { Route as GlossarySlugRouteImport } from './routes/glossary/$slug'
+import { Route as CompareLlmsTxtCheckerAlternativesRouteImport } from './routes/compare.llms-txt-checker-alternatives'
+import { Route as CompareAiSearchReadinessReportWorthItRouteImport } from './routes/compare.ai-search-readiness-report-worth-it'
+import { Route as CompareAeoCheckerVsSeoToolsRouteImport } from './routes/compare.aeo-checker-vs-seo-tools'
+import { Route as CompareAeoCheckerAlternativesRouteImport } from './routes/compare.aeo-checker-alternatives'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
@@ -46,6 +59,8 @@ import { Route as AuthErrorRouteImport } from './routes/auth/error'
 import { Route as ApiRssDotxmlRouteImport } from './routes/api/rss[.]xml'
 import { Route as ApiRssRouteImport } from './routes/api/rss'
 import { Route as ApiPingRouteImport } from './routes/api/ping'
+import { Route as ApiConversionEventsRouteImport } from './routes/api/conversion-events'
+import { Route as AiSearchAuditThanksRouteImport } from './routes/ai-search-audit.thanks'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as pagesReferencesRouteImport } from './routes/(pages)/references'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
@@ -71,6 +86,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SampleAeoReportRoute = SampleAeoReportRouteImport.update({
+  id: '/sample-aeo-report',
+  path: '/sample-aeo-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
@@ -81,6 +101,11 @@ const ManifestDotjsonRoute = ManifestDotjsonRouteImport.update({
   path: '/manifest.json',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexnowKeyDottxtRoute = IndexnowKeyDottxtRouteImport.update({
+  id: '/indexnow-key.txt',
+  path: '/indexnow-key.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -89,6 +114,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiSearchAuditRoute = AiSearchAuditRouteImport.update({
+  id: '/ai-search-audit',
+  path: '/ai-search-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -126,6 +156,12 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ToolsRobotsTxtAiCrawlerCheckerRoute =
+  ToolsRobotsTxtAiCrawlerCheckerRouteImport.update({
+    id: '/tools/robots-txt-ai-crawler-checker',
+    path: '/tools/robots-txt-ai-crawler-checker',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsQueryFanOutToolRoute = ToolsQueryFanOutToolRouteImport.update({
   id: '/tools/query-fan-out-tool',
   path: '/tools/query-fan-out-tool',
@@ -139,6 +175,28 @@ const ToolsLlmsTxtGeneratorRoute = ToolsLlmsTxtGeneratorRouteImport.update({
 const ToolsLlmsTxtCheckerRoute = ToolsLlmsTxtCheckerRouteImport.update({
   id: '/tools/llms-txt-checker',
   path: '/tools/llms-txt-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsGeoAuditRoute = ToolsGeoAuditRouteImport.update({
+  id: '/tools/geo-audit',
+  path: '/tools/geo-audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsChatgptCitationReadinessCheckerRoute =
+  ToolsChatgptCitationReadinessCheckerRouteImport.update({
+    id: '/tools/chatgpt-citation-readiness-checker',
+    path: '/tools/chatgpt-citation-readiness-checker',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsAiOverviewReadinessCheckerRoute =
+  ToolsAiOverviewReadinessCheckerRouteImport.update({
+    id: '/tools/ai-overview-readiness-checker',
+    path: '/tools/ai-overview-readiness-checker',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsAiCrawlerCheckerRoute = ToolsAiCrawlerCheckerRouteImport.update({
+  id: '/tools/ai-crawler-checker',
+  path: '/tools/ai-crawler-checker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsAeoCheckerRoute = ToolsAeoCheckerRouteImport.update({
@@ -191,6 +249,12 @@ const GuidesLlmsFullTxtRoute = GuidesLlmsFullTxtRouteImport.update({
   path: '/guides/llms-full-txt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuidesAiSearchReadinessChecklistRoute =
+  GuidesAiSearchReadinessChecklistRouteImport.update({
+    id: '/guides/ai-search-readiness-checklist',
+    path: '/guides/ai-search-readiness-checklist',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GuidesAeoAuditRoute = GuidesAeoAuditRouteImport.update({
   id: '/guides/aeo-audit',
   path: '/guides/aeo-audit',
@@ -201,6 +265,30 @@ const GlossarySlugRoute = GlossarySlugRouteImport.update({
   path: '/glossary/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareLlmsTxtCheckerAlternativesRoute =
+  CompareLlmsTxtCheckerAlternativesRouteImport.update({
+    id: '/compare/llms-txt-checker-alternatives',
+    path: '/compare/llms-txt-checker-alternatives',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CompareAiSearchReadinessReportWorthItRoute =
+  CompareAiSearchReadinessReportWorthItRouteImport.update({
+    id: '/compare/ai-search-readiness-report-worth-it',
+    path: '/compare/ai-search-readiness-report-worth-it',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CompareAeoCheckerVsSeoToolsRoute =
+  CompareAeoCheckerVsSeoToolsRouteImport.update({
+    id: '/compare/aeo-checker-vs-seo-tools',
+    path: '/compare/aeo-checker-vs-seo-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CompareAeoCheckerAlternativesRoute =
+  CompareAeoCheckerAlternativesRouteImport.update({
+    id: '/compare/aeo-checker-alternatives',
+    path: '/compare/aeo-checker-alternatives',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
@@ -245,6 +333,16 @@ const ApiPingRoute = ApiPingRouteImport.update({
   id: '/api/ping',
   path: '/api/ping',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiConversionEventsRoute = ApiConversionEventsRouteImport.update({
+  id: '/api/conversion-events',
+  path: '/api/conversion-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiSearchAuditThanksRoute = AiSearchAuditThanksRouteImport.update({
+  id: '/thanks',
+  path: '/thanks',
+  getParentRoute: () => AiSearchAuditRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -320,10 +418,13 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
+  '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sample-aeo-report': typeof SampleAeoReportRoute
   '/settings': typeof SettingsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/cookie': typeof legalsCookieRoute
@@ -337,6 +438,8 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
+  '/api/conversion-events': typeof ApiConversionEventsRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -346,8 +449,13 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/aeo-checker-alternatives': typeof CompareAeoCheckerAlternativesRoute
+  '/compare/aeo-checker-vs-seo-tools': typeof CompareAeoCheckerVsSeoToolsRoute
+  '/compare/ai-search-readiness-report-worth-it': typeof CompareAiSearchReadinessReportWorthItRoute
+  '/compare/llms-txt-checker-alternatives': typeof CompareLlmsTxtCheckerAlternativesRoute
   '/glossary/$slug': typeof GlossarySlugRoute
   '/guides/aeo-audit': typeof GuidesAeoAuditRoute
+  '/guides/ai-search-readiness-checklist': typeof GuidesAiSearchReadinessChecklistRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
@@ -358,9 +466,14 @@ export interface FileRoutesByFullPath {
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
+  '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
+  '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
+  '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
+  '/tools/robots-txt-ai-crawler-checker': typeof ToolsRobotsTxtAiCrawlerCheckerRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -372,9 +485,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
+  '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sample-aeo-report': typeof SampleAeoReportRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/cookie': typeof legalsCookieRoute
   '/privacy': typeof legalsPrivacyRoute
@@ -387,6 +503,8 @@ export interface FileRoutesByTo {
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
+  '/api/conversion-events': typeof ApiConversionEventsRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -396,8 +514,13 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/aeo-checker-alternatives': typeof CompareAeoCheckerAlternativesRoute
+  '/compare/aeo-checker-vs-seo-tools': typeof CompareAeoCheckerVsSeoToolsRoute
+  '/compare/ai-search-readiness-report-worth-it': typeof CompareAiSearchReadinessReportWorthItRoute
+  '/compare/llms-txt-checker-alternatives': typeof CompareLlmsTxtCheckerAlternativesRoute
   '/glossary/$slug': typeof GlossarySlugRoute
   '/guides/aeo-audit': typeof GuidesAeoAuditRoute
+  '/guides/ai-search-readiness-checklist': typeof GuidesAiSearchReadinessChecklistRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
@@ -408,9 +531,14 @@ export interface FileRoutesByTo {
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
+  '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
+  '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
+  '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
+  '/tools/robots-txt-ai-crawler-checker': typeof ToolsRobotsTxtAiCrawlerCheckerRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -424,10 +552,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
+  '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sample-aeo-report': typeof SampleAeoReportRoute
   '/settings': typeof SettingsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/(legals)/cookie': typeof legalsCookieRoute
@@ -441,6 +572,8 @@ export interface FileRoutesById {
   '/(pages)/pricing': typeof pagesPricingRoute
   '/(pages)/references': typeof pagesReferencesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
+  '/api/conversion-events': typeof ApiConversionEventsRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
   '/api/rss.xml': typeof ApiRssDotxmlRoute
@@ -450,8 +583,13 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/aeo-checker-alternatives': typeof CompareAeoCheckerAlternativesRoute
+  '/compare/aeo-checker-vs-seo-tools': typeof CompareAeoCheckerVsSeoToolsRoute
+  '/compare/ai-search-readiness-report-worth-it': typeof CompareAiSearchReadinessReportWorthItRoute
+  '/compare/llms-txt-checker-alternatives': typeof CompareLlmsTxtCheckerAlternativesRoute
   '/glossary/$slug': typeof GlossarySlugRoute
   '/guides/aeo-audit': typeof GuidesAeoAuditRoute
+  '/guides/ai-search-readiness-checklist': typeof GuidesAiSearchReadinessChecklistRoute
   '/guides/llms-full-txt': typeof GuidesLlmsFullTxtRoute
   '/guides/llms-txt-file': typeof GuidesLlmsTxtFileRoute
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
@@ -462,9 +600,14 @@ export interface FileRoutesById {
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/security': typeof SettingsSecurityRoute
   '/tools/aeo-checker': typeof ToolsAeoCheckerRoute
+  '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
+  '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
+  '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
   '/tools/query-fan-out-tool': typeof ToolsQueryFanOutToolRoute
+  '/tools/robots-txt-ai-crawler-checker': typeof ToolsRobotsTxtAiCrawlerCheckerRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -479,10 +622,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/ai-search-audit'
     | '/auth'
     | '/dashboard'
+    | '/indexnow-key.txt'
     | '/manifest.json'
     | '/robots.txt'
+    | '/sample-aeo-report'
     | '/settings'
     | '/sitemap.xml'
     | '/cookie'
@@ -496,6 +642,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/references'
     | '/admin/users'
+    | '/ai-search-audit/thanks'
+    | '/api/conversion-events'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -505,8 +653,13 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/aeo-checker-alternatives'
+    | '/compare/aeo-checker-vs-seo-tools'
+    | '/compare/ai-search-readiness-report-worth-it'
+    | '/compare/llms-txt-checker-alternatives'
     | '/glossary/$slug'
     | '/guides/aeo-audit'
+    | '/guides/ai-search-readiness-checklist'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
@@ -517,9 +670,14 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
+    | '/tools/ai-crawler-checker'
+    | '/tools/ai-overview-readiness-checker'
+    | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/tools/query-fan-out-tool'
+    | '/tools/robots-txt-ai-crawler-checker'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
@@ -531,9 +689,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-search-audit'
     | '/auth'
+    | '/indexnow-key.txt'
     | '/manifest.json'
     | '/robots.txt'
+    | '/sample-aeo-report'
     | '/sitemap.xml'
     | '/cookie'
     | '/privacy'
@@ -546,6 +707,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/references'
     | '/admin/users'
+    | '/ai-search-audit/thanks'
+    | '/api/conversion-events'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -555,8 +718,13 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/aeo-checker-alternatives'
+    | '/compare/aeo-checker-vs-seo-tools'
+    | '/compare/ai-search-readiness-report-worth-it'
+    | '/compare/llms-txt-checker-alternatives'
     | '/glossary/$slug'
     | '/guides/aeo-audit'
+    | '/guides/ai-search-readiness-checklist'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
@@ -567,9 +735,14 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
+    | '/tools/ai-crawler-checker'
+    | '/tools/ai-overview-readiness-checker'
+    | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/tools/query-fan-out-tool'
+    | '/tools/robots-txt-ai-crawler-checker'
     | '/admin'
     | '/blog'
     | '/dashboard'
@@ -582,10 +755,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/ai-search-audit'
     | '/auth'
     | '/dashboard'
+    | '/indexnow-key.txt'
     | '/manifest.json'
     | '/robots.txt'
+    | '/sample-aeo-report'
     | '/settings'
     | '/sitemap.xml'
     | '/(legals)/cookie'
@@ -599,6 +775,8 @@ export interface FileRouteTypes {
     | '/(pages)/pricing'
     | '/(pages)/references'
     | '/admin/users'
+    | '/ai-search-audit/thanks'
+    | '/api/conversion-events'
     | '/api/ping'
     | '/api/rss'
     | '/api/rss.xml'
@@ -608,8 +786,13 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/blog/$slug'
+    | '/compare/aeo-checker-alternatives'
+    | '/compare/aeo-checker-vs-seo-tools'
+    | '/compare/ai-search-readiness-report-worth-it'
+    | '/compare/llms-txt-checker-alternatives'
     | '/glossary/$slug'
     | '/guides/aeo-audit'
+    | '/guides/ai-search-readiness-checklist'
     | '/guides/llms-full-txt'
     | '/guides/llms-txt-file'
     | '/guides/llms-txt-seo'
@@ -620,9 +803,14 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/security'
     | '/tools/aeo-checker'
+    | '/tools/ai-crawler-checker'
+    | '/tools/ai-overview-readiness-checker'
+    | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
     | '/tools/query-fan-out-tool'
+    | '/tools/robots-txt-ai-crawler-checker'
     | '/admin/'
     | '/blog/'
     | '/dashboard/'
@@ -636,10 +824,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AiSearchAuditRoute: typeof AiSearchAuditRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
+  IndexnowKeyDottxtRoute: typeof IndexnowKeyDottxtRoute
   ManifestDotjsonRoute: typeof ManifestDotjsonRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SampleAeoReportRoute: typeof SampleAeoReportRoute
   SettingsRoute: typeof SettingsRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   legalsCookieRoute: typeof legalsCookieRoute
@@ -652,21 +843,32 @@ export interface RootRouteChildren {
   pagesPressRoute: typeof pagesPressRoute
   pagesPricingRoute: typeof pagesPricingRoute
   pagesReferencesRoute: typeof pagesReferencesRoute
+  ApiConversionEventsRoute: typeof ApiConversionEventsRoute
   ApiPingRoute: typeof ApiPingRoute
   ApiRssRoute: typeof ApiRssRoute
   ApiRssDotxmlRoute: typeof ApiRssDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  CompareAeoCheckerAlternativesRoute: typeof CompareAeoCheckerAlternativesRoute
+  CompareAeoCheckerVsSeoToolsRoute: typeof CompareAeoCheckerVsSeoToolsRoute
+  CompareAiSearchReadinessReportWorthItRoute: typeof CompareAiSearchReadinessReportWorthItRoute
+  CompareLlmsTxtCheckerAlternativesRoute: typeof CompareLlmsTxtCheckerAlternativesRoute
   GlossarySlugRoute: typeof GlossarySlugRoute
   GuidesAeoAuditRoute: typeof GuidesAeoAuditRoute
+  GuidesAiSearchReadinessChecklistRoute: typeof GuidesAiSearchReadinessChecklistRoute
   GuidesLlmsFullTxtRoute: typeof GuidesLlmsFullTxtRoute
   GuidesLlmsTxtFileRoute: typeof GuidesLlmsTxtFileRoute
   GuidesLlmsTxtSeoRoute: typeof GuidesLlmsTxtSeoRoute
   GuidesQueryFanOutRoute: typeof GuidesQueryFanOutRoute
   ReportTokenRoute: typeof ReportTokenRoute
   ToolsAeoCheckerRoute: typeof ToolsAeoCheckerRoute
+  ToolsAiCrawlerCheckerRoute: typeof ToolsAiCrawlerCheckerRoute
+  ToolsAiOverviewReadinessCheckerRoute: typeof ToolsAiOverviewReadinessCheckerRoute
+  ToolsChatgptCitationReadinessCheckerRoute: typeof ToolsChatgptCitationReadinessCheckerRoute
+  ToolsGeoAuditRoute: typeof ToolsGeoAuditRoute
   ToolsLlmsTxtCheckerRoute: typeof ToolsLlmsTxtCheckerRoute
   ToolsLlmsTxtGeneratorRoute: typeof ToolsLlmsTxtGeneratorRoute
   ToolsQueryFanOutToolRoute: typeof ToolsQueryFanOutToolRoute
+  ToolsRobotsTxtAiCrawlerCheckerRoute: typeof ToolsRobotsTxtAiCrawlerCheckerRoute
   BlogIndexRoute: typeof BlogIndexRoute
   GlossaryIndexRoute: typeof GlossaryIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -690,6 +892,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sample-aeo-report': {
+      id: '/sample-aeo-report'
+      path: '/sample-aeo-report'
+      fullPath: '/sample-aeo-report'
+      preLoaderRoute: typeof SampleAeoReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/robots.txt': {
       id: '/robots.txt'
       path: '/robots.txt'
@@ -704,6 +913,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManifestDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/indexnow-key.txt': {
+      id: '/indexnow-key.txt'
+      path: '/indexnow-key.txt'
+      fullPath: '/indexnow-key.txt'
+      preLoaderRoute: typeof IndexnowKeyDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -716,6 +932,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-search-audit': {
+      id: '/ai-search-audit'
+      path: '/ai-search-audit'
+      fullPath: '/ai-search-audit'
+      preLoaderRoute: typeof AiSearchAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -767,6 +990,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/tools/robots-txt-ai-crawler-checker': {
+      id: '/tools/robots-txt-ai-crawler-checker'
+      path: '/tools/robots-txt-ai-crawler-checker'
+      fullPath: '/tools/robots-txt-ai-crawler-checker'
+      preLoaderRoute: typeof ToolsRobotsTxtAiCrawlerCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/query-fan-out-tool': {
       id: '/tools/query-fan-out-tool'
       path: '/tools/query-fan-out-tool'
@@ -786,6 +1016,34 @@ declare module '@tanstack/react-router' {
       path: '/tools/llms-txt-checker'
       fullPath: '/tools/llms-txt-checker'
       preLoaderRoute: typeof ToolsLlmsTxtCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/geo-audit': {
+      id: '/tools/geo-audit'
+      path: '/tools/geo-audit'
+      fullPath: '/tools/geo-audit'
+      preLoaderRoute: typeof ToolsGeoAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/chatgpt-citation-readiness-checker': {
+      id: '/tools/chatgpt-citation-readiness-checker'
+      path: '/tools/chatgpt-citation-readiness-checker'
+      fullPath: '/tools/chatgpt-citation-readiness-checker'
+      preLoaderRoute: typeof ToolsChatgptCitationReadinessCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/ai-overview-readiness-checker': {
+      id: '/tools/ai-overview-readiness-checker'
+      path: '/tools/ai-overview-readiness-checker'
+      fullPath: '/tools/ai-overview-readiness-checker'
+      preLoaderRoute: typeof ToolsAiOverviewReadinessCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/ai-crawler-checker': {
+      id: '/tools/ai-crawler-checker'
+      path: '/tools/ai-crawler-checker'
+      fullPath: '/tools/ai-crawler-checker'
+      preLoaderRoute: typeof ToolsAiCrawlerCheckerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/aeo-checker': {
@@ -858,6 +1116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesLlmsFullTxtRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guides/ai-search-readiness-checklist': {
+      id: '/guides/ai-search-readiness-checklist'
+      path: '/guides/ai-search-readiness-checklist'
+      fullPath: '/guides/ai-search-readiness-checklist'
+      preLoaderRoute: typeof GuidesAiSearchReadinessChecklistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/aeo-audit': {
       id: '/guides/aeo-audit'
       path: '/guides/aeo-audit'
@@ -870,6 +1135,34 @@ declare module '@tanstack/react-router' {
       path: '/glossary/$slug'
       fullPath: '/glossary/$slug'
       preLoaderRoute: typeof GlossarySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/llms-txt-checker-alternatives': {
+      id: '/compare/llms-txt-checker-alternatives'
+      path: '/compare/llms-txt-checker-alternatives'
+      fullPath: '/compare/llms-txt-checker-alternatives'
+      preLoaderRoute: typeof CompareLlmsTxtCheckerAlternativesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/ai-search-readiness-report-worth-it': {
+      id: '/compare/ai-search-readiness-report-worth-it'
+      path: '/compare/ai-search-readiness-report-worth-it'
+      fullPath: '/compare/ai-search-readiness-report-worth-it'
+      preLoaderRoute: typeof CompareAiSearchReadinessReportWorthItRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/aeo-checker-vs-seo-tools': {
+      id: '/compare/aeo-checker-vs-seo-tools'
+      path: '/compare/aeo-checker-vs-seo-tools'
+      fullPath: '/compare/aeo-checker-vs-seo-tools'
+      preLoaderRoute: typeof CompareAeoCheckerVsSeoToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/aeo-checker-alternatives': {
+      id: '/compare/aeo-checker-alternatives'
+      path: '/compare/aeo-checker-alternatives'
+      fullPath: '/compare/aeo-checker-alternatives'
+      preLoaderRoute: typeof CompareAeoCheckerAlternativesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
@@ -934,6 +1227,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/ping'
       preLoaderRoute: typeof ApiPingRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/conversion-events': {
+      id: '/api/conversion-events'
+      path: '/api/conversion-events'
+      fullPath: '/api/conversion-events'
+      preLoaderRoute: typeof ApiConversionEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-search-audit/thanks': {
+      id: '/ai-search-audit/thanks'
+      path: '/thanks'
+      fullPath: '/ai-search-audit/thanks'
+      preLoaderRoute: typeof AiSearchAuditThanksRouteImport
+      parentRoute: typeof AiSearchAuditRoute
     }
     '/admin/users': {
       id: '/admin/users'
@@ -1048,6 +1355,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AiSearchAuditRouteChildren {
+  AiSearchAuditThanksRoute: typeof AiSearchAuditThanksRoute
+}
+
+const AiSearchAuditRouteChildren: AiSearchAuditRouteChildren = {
+  AiSearchAuditThanksRoute: AiSearchAuditThanksRoute,
+}
+
+const AiSearchAuditRouteWithChildren = AiSearchAuditRoute._addFileChildren(
+  AiSearchAuditRouteChildren,
+)
+
 interface AuthRouteChildren {
   AuthErrorRoute: typeof AuthErrorRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
@@ -1101,10 +1420,13 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AiSearchAuditRoute: AiSearchAuditRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
+  IndexnowKeyDottxtRoute: IndexnowKeyDottxtRoute,
   ManifestDotjsonRoute: ManifestDotjsonRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SampleAeoReportRoute: SampleAeoReportRoute,
   SettingsRoute: SettingsRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   legalsCookieRoute: legalsCookieRoute,
@@ -1117,21 +1439,35 @@ const rootRouteChildren: RootRouteChildren = {
   pagesPressRoute: pagesPressRoute,
   pagesPricingRoute: pagesPricingRoute,
   pagesReferencesRoute: pagesReferencesRoute,
+  ApiConversionEventsRoute: ApiConversionEventsRoute,
   ApiPingRoute: ApiPingRoute,
   ApiRssRoute: ApiRssRoute,
   ApiRssDotxmlRoute: ApiRssDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,
+  CompareAeoCheckerAlternativesRoute: CompareAeoCheckerAlternativesRoute,
+  CompareAeoCheckerVsSeoToolsRoute: CompareAeoCheckerVsSeoToolsRoute,
+  CompareAiSearchReadinessReportWorthItRoute:
+    CompareAiSearchReadinessReportWorthItRoute,
+  CompareLlmsTxtCheckerAlternativesRoute:
+    CompareLlmsTxtCheckerAlternativesRoute,
   GlossarySlugRoute: GlossarySlugRoute,
   GuidesAeoAuditRoute: GuidesAeoAuditRoute,
+  GuidesAiSearchReadinessChecklistRoute: GuidesAiSearchReadinessChecklistRoute,
   GuidesLlmsFullTxtRoute: GuidesLlmsFullTxtRoute,
   GuidesLlmsTxtFileRoute: GuidesLlmsTxtFileRoute,
   GuidesLlmsTxtSeoRoute: GuidesLlmsTxtSeoRoute,
   GuidesQueryFanOutRoute: GuidesQueryFanOutRoute,
   ReportTokenRoute: ReportTokenRoute,
   ToolsAeoCheckerRoute: ToolsAeoCheckerRoute,
+  ToolsAiCrawlerCheckerRoute: ToolsAiCrawlerCheckerRoute,
+  ToolsAiOverviewReadinessCheckerRoute: ToolsAiOverviewReadinessCheckerRoute,
+  ToolsChatgptCitationReadinessCheckerRoute:
+    ToolsChatgptCitationReadinessCheckerRoute,
+  ToolsGeoAuditRoute: ToolsGeoAuditRoute,
   ToolsLlmsTxtCheckerRoute: ToolsLlmsTxtCheckerRoute,
   ToolsLlmsTxtGeneratorRoute: ToolsLlmsTxtGeneratorRoute,
   ToolsQueryFanOutToolRoute: ToolsQueryFanOutToolRoute,
+  ToolsRobotsTxtAiCrawlerCheckerRoute: ToolsRobotsTxtAiCrawlerCheckerRoute,
   BlogIndexRoute: BlogIndexRoute,
   GlossaryIndexRoute: GlossaryIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

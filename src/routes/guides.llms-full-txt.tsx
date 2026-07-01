@@ -1,5 +1,5 @@
 import { seo } from '@/lib/seo';
-import { jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
+import { faqSchema, jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { FAQ } from '@/components/ai-visibility/faq';
@@ -281,7 +281,7 @@ export const Route = createFileRoute('/guides/llms-full-txt')({
         'Learn what LLMs-full.txt is, when documentation sites may use it, and how it differs from a standard LLMs.txt file.',
       type: 'article',
     }),
-    scripts: [jsonLd(websiteSchema())],
+    scripts: [jsonLd(websiteSchema()), jsonLd(faqSchema(faqItems))],
   }),
   component: LLMsFullTxtGuidePage,
 });

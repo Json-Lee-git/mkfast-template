@@ -47,4 +47,5 @@ We reserve the right to modify these Terms at any time. If we make changes, we w
 
 ## Contact Us
 
-If you have any questions about these Terms, please [contact us](/contact).
+If you have any questions about these Terms, email
+support@aeocheck.xyz or use the [contact page](/contact).

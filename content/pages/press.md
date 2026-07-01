@@ -30,7 +30,7 @@ Claude, Gemini, Google AI Overviews, or any other product.
 ### Product facts
 
 - Product name: AI Search Readiness Tools
-- Website: [ai-search-readiness.s01071233604.workers.dev](https://ai-search-readiness.s01071233604.workers.dev)
+- Website: [aeocheck.xyz](https://aeocheck.xyz)
 - Category: Technical SEO, AEO, GEO, AI search readiness
 - Core tools: LLMs.txt Checker, LLMs.txt Generator, AEO Checker, Query Fan-Out
   Tool

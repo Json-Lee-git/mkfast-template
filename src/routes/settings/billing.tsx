@@ -15,6 +15,8 @@ export const Route = createFileRoute('/settings/billing')({
 });
 
 function BillingPage() {
+  const supportEmail =
+    websiteConfig.metadata?.supportEmail ?? 'support@aeocheck.xyz';
   const breadcrumbs = [
     { label: m.common_settings(), isCurrentPage: false },
     { label: m.settings_billing_breadcrumb(), isCurrentPage: true },
@@ -27,6 +29,19 @@ function BillingPage() {
     >
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <BillingCard />
+        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
+          <h2 className="text-lg font-semibold">Support</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            For billing, checkout, refund, or report access questions, email us
+            directly.
+          </p>
+          <a
+            href={`mailto:${supportEmail}`}
+            className="mt-4 inline-flex text-sm font-medium text-primary underline-offset-4 hover:underline"
+          >
+            {supportEmail}
+          </a>
+        </div>
       </div>
     </DashboardLayout>
   );

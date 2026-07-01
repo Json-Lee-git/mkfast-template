@@ -271,8 +271,8 @@ function QueryFanOutPage() {
                   content, then audit your page with the AEO Checker.
                 </p>
                 <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500">
-                  The AEO Checker also includes the $19 Full Report early access
-                  CTA.
+                  The AEO Checker also includes the $19 AI Search Readiness Fix
+                  Pack CTA.
                 </p>
               </div>
             </div>

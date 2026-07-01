@@ -44,6 +44,39 @@ Simulate how AI search engines expand a query into sub-queries, intents, and
 content gaps. Enter a query to see potential fan-out patterns that help you plan
 comprehensive, answer-ready content.
 
+## High-intent AI Search Readiness Pages
+
+The site now exposes focused entry points for searchers who already have a
+specific SEO, AEO, or GEO problem:
+
+- AI Crawler Checker:
+  https://aeocheck.xyz/tools/ai-crawler-checker
+- Robots.txt AI Crawler Checker:
+  https://aeocheck.xyz/tools/robots-txt-ai-crawler-checker
+- GEO Audit Tool:
+  https://aeocheck.xyz/tools/geo-audit
+- AI Overview Readiness Checker:
+  https://aeocheck.xyz/tools/ai-overview-readiness-checker
+- ChatGPT Citation Readiness Checker:
+  https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker
+- Sample AEO Report:
+  https://aeocheck.xyz/sample-aeo-report
+- AI Search Readiness Checklist:
+  https://aeocheck.xyz/guides/ai-search-readiness-checklist
+- Is the AI Search Readiness Report Worth It?:
+  https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it
+
+These pages route visitors toward the free AEO Checker and the optional $19 Full
+AI Search Readiness Report. The sample report shows the paid deliverable before
+checkout: prioritized fixes, schema recommendations, answer-ready content
+suggestions, query fan-out gaps, and an LLMs.txt improvement plan.
+
+The AI Search Readiness Checklist gives site owners a page-level implementation
+sequence for crawl access, AI crawler rules, machine-readable files, structured
+data, answer blocks, and trust signals. The report value guide helps buyers
+decide whether the paid Fix Pack is useful for their page by listing what is
+included, what is not included, and which situations are a good fit.
+
 ## Blog and Guides
 
 The blog covers practical AI search readiness topics, including AI crawler
@@ -64,11 +97,11 @@ entity clarity, and trust signals.
 The site publishes trust and evidence pages so people and AI systems can inspect
 the basis for recommendations:
 
-- About: https://ai-search-readiness.s01071233604.workers.dev/about
-- Methodology: https://ai-search-readiness.s01071233604.workers.dev/methodology
-- References: https://ai-search-readiness.s01071233604.workers.dev/references
-- Press and media kit: https://ai-search-readiness.s01071233604.workers.dev/press
-- Contact and corrections: https://ai-search-readiness.s01071233604.workers.dev/contact
+- About: https://aeocheck.xyz/about
+- Methodology: https://aeocheck.xyz/methodology
+- References: https://aeocheck.xyz/references
+- Press and media kit: https://aeocheck.xyz/press
+- Contact and corrections: https://aeocheck.xyz/contact
 
 The methodology page explains what the tools inspect, how the AEO readiness
 score is interpreted, what the tools do not infer, and which public standards
@@ -85,10 +118,10 @@ robots.txt, LLMs.txt, LLMs-full.txt, and an RSS feed. These files help search
 engines, AI crawlers, and answer engines discover the current tools, guides,
 glossary definitions, and blog posts without relying only on navigation links.
 
-- Sitemap: https://ai-search-readiness.s01071233604.workers.dev/sitemap.xml
-- Robots.txt: https://ai-search-readiness.s01071233604.workers.dev/robots.txt
-- RSS feed: https://ai-search-readiness.s01071233604.workers.dev/api/rss.xml
-- LLMs.txt: https://ai-search-readiness.s01071233604.workers.dev/llms.txt
+- Sitemap: https://aeocheck.xyz/sitemap.xml
+- Robots.txt: https://aeocheck.xyz/robots.txt
+- RSS feed: https://aeocheck.xyz/api/rss.xml
+- LLMs.txt: https://aeocheck.xyz/llms.txt
 
 ## What is AI Search Readiness?
 

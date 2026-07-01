@@ -34,6 +34,11 @@ function getAiCrawlerAllowRules() {
   ).join('\n\n');
 }
 
+const robotsHeaders = {
+  'Content-Type': 'text/plain; charset=utf-8',
+  'Cache-Control': 'public, max-age=3600',
+};
+
 /**
  * Dynamic robots.txt
  * https://tanstack.dev/start/latest/docs/framework/react/guide/seo#dynamic-robotstxt
@@ -41,6 +46,11 @@ function getAiCrawlerAllowRules() {
 export const Route = createFileRoute('/robots.txt')({
   server: {
     handlers: {
+      HEAD: async () => {
+        return new Response(null, {
+          headers: robotsHeaders,
+        });
+      },
       GET: async () => {
         const base = getBaseUrl().replace(/\/$/, '');
         const robots = `${getAiCrawlerAllowRules()}
@@ -52,10 +62,7 @@ ${getDisallowRules()}
 Sitemap: ${base}/sitemap.xml`;
 
         return new Response(robots, {
-          headers: {
-            'Content-Type': 'text/plain; charset=utf-8',
-            'Cache-Control': 'public, max-age=3600',
-          },
+          headers: robotsHeaders,
         });
       },
     },

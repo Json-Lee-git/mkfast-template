@@ -7,7 +7,7 @@ category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
 reviewedBy: AI Search Readiness Editorial Team
-image: https://ai-search-readiness.s01071233604.workers.dev/og.png
+image: https://aeocheck.xyz/og.png
 ---
 
 ## The citation problem
@@ -19,6 +19,17 @@ competitor, a documentation page, a forum thread, or an industry publication.
 This happens because AI search systems select sources, not just ranked pages.
 The work is partly technical and partly reputational: your content must be
 crawlable, extractable, trustworthy, and externally corroborated.
+
+## Key stats: AI citation readiness at a glance
+
+| Check | What to verify | Impact if missing |
+|-------|---------------|-------------------|
+| Crawl access | robots.txt allows GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot | Your content is invisible to AI search |
+| LLMs.txt | `/llms.txt` returns 200 with valid Markdown | AI models have to parse full HTML to understand your site |
+| Structured data | Organization, Article, FAQPage schema present | AI models can't disambiguate your entity or content type |
+| Answer positioning | Direct answer in first 100 words of each section | AI extraction misses your key claims |
+| Trust pages | About, Contact, Methodology, Privacy pages exist | AI models lack confidence to cite an unverified publisher |
+| External corroboration | Cited by Wikipedia, major publications, industry sources | Your claims lack independent verification |
 
 ## 1. Allow the relevant crawlers
 
@@ -138,6 +149,8 @@ question. Technical signals get you into consideration. Content quality and
 off-site authority determine whether you deserve the citation.
 
 Run a free [AEO audit](/tools/aeo-checker) on your site to see where you stand.
+Also check the [AEO checker alternatives comparison](/compare/aeo-checker-alternatives)
+if you are evaluating manual audits or traditional SEO platforms for AI search work.
 
 ## Sources and further reading
 
@@ -147,3 +160,59 @@ Run a free [AEO audit](/tools/aeo-checker) on your site to see where you stand.
 - [Google Search Central: Sitemaps overview](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)
 - [Schema.org: Organization](https://schema.org/Organization)
 - [AI Search Readiness references](/references)
+
+## Frequently asked questions
+
+### How do I get my content cited by ChatGPT?
+
+Make sure your content is crawlable (robots.txt allows GPTBot), well-structured
+(direct answers, clear headings, FAQ sections), and has strong entity signals
+(Organization schema, About page, consistent brand name). Add LLMs.txt for an
+AI-readable site summary. External corroboration — being cited by other
+authoritative sources — is the strongest signal, but it takes time to build.
+
+### Does ChatGPT use backlinks to rank sources?
+
+ChatGPT and similar AI systems don't use PageRank-style link algorithms the way
+Google does. But they do evaluate source authority, which correlates with
+backlinks from trusted sites. Being cited by Wikipedia, major publications, and
+academic sources signals trustworthiness. Think of it as "corroboration" rather
+than "link juice."
+
+### How long does it take to start appearing in ChatGPT citations?
+
+There's no fixed timeline. Technical readiness (crawl access, schema, structure)
+can be improved in days. Getting actually cited typically takes weeks to months
+because: (1) AI models don't re-crawl in real time, (2) new content needs to
+build external corroboration before it's trusted, (3) citation patterns depend
+on the AI model's refresh cycle.
+
+### Can I request ChatGPT to cite my website?
+
+No. There's no submission process or request mechanism for ChatGPT citations.
+The model autonomously selects sources based on relevance, crawlability, content
+quality, and external corroboration. Focus on making your content the best
+answer to a specific question, and make it technically easy for AI systems to
+find and understand it.
+
+### How do I track whether ChatGPT is citing my content?
+
+There is no universal "ChatGPT Search Console." Track it through: (1) GA4
+referral traffic filtering for chatgpt.com and openai.com as sources, (2) server
+logs for GPTBot and ChatGPT-User agent activity, (3) manual prompt-bank checks
+— run your target queries in ChatGPT every 1-2 weeks and record whether your
+site is cited. This is manual but currently the most reliable method.
+
+### Does ChatGPT use the same crawlers as Google?
+
+No. ChatGPT uses OpenAI's own crawlers: GPTBot (general indexing),
+OAI-SearchBot (search retrieval), and ChatGPT-User (on-demand fetching during
+conversations). These are separate from Googlebot. A page well-indexed by Google
+may still be invisible to ChatGPT if your robots.txt blocks OpenAI's crawlers.
+
+---
+> **Check your ChatGPT citation readiness** — free tool to audit the signals ChatGPT looks for.
+> Run the citation readiness checker and see exactly what's missing.
+>
+> 👉 [Check citation readiness](https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-chatgpt-citation)
+---

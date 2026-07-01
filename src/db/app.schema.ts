@@ -125,3 +125,26 @@ export const aiUsage = sqliteTable("ai_usage", {
   success: integer("success", { mode: "boolean" }).notNull().default(true),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 });
+
+/**
+ * First-party funnel events for validating copy, CTA, and checkout hypotheses.
+ */
+export const conversionEvents = sqliteTable(
+  "conversion_events",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    event: text("event").notNull(),
+    path: text("path"),
+    pageUrl: text("page_url"),
+    referrer: text("referrer"),
+    sessionId: text("session_id"),
+    variant: text("variant"),
+    payloadJson: text("payload_json"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    index("conversion_events_event_idx").on(table.event),
+    index("conversion_events_session_id_idx").on(table.sessionId),
+    index("conversion_events_created_at_idx").on(table.createdAt),
+  ]
+);

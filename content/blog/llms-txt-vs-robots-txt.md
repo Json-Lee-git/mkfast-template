@@ -7,7 +7,7 @@ category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
 reviewedBy: AI Search Readiness Editorial Team
-image: https://ai-search-readiness.s01071233604.workers.dev/og.png
+image: https://aeocheck.xyz/og.png
 ---
 
 ## The short answer
@@ -21,6 +21,19 @@ for content orientation and discovery.
 They serve different purposes. You need robots.txt for crawler control. LLMs.txt
 is optional, but useful when you want to summarize key pages for AI-assisted
 retrieval systems.
+
+## Key stats: LLMs.txt vs robots.txt at a glance
+
+| | robots.txt | LLMs.txt |
+|---|---|---|
+| **Purpose** | Crawl access control | Content discovery and orientation |
+| **Format** | Plain text with crawler directives | Markdown with links and descriptions |
+| **Audience** | Crawlers (Googlebot, GPTBot, etc.) | AI language models and AI-assisted systems |
+| **Required?** | Strongly recommended for any public site | Optional — useful for docs, SaaS, content sites |
+| **SEO impact** | Direct (blocked pages won't be indexed) | Indirect (not a ranking factor; aids AI discovery) |
+| **Location** | `/robots.txt` | `/llms.txt` |
+| **Standard status** | Web standard (Robots Exclusion Protocol) | Community convention (proposed 2024) |
+| **Companion files** | sitemap.xml (URL inventory) | LLMs-full.txt (expanded content) |
 
 ## robots.txt: the gatekeeper
 
@@ -116,3 +129,58 @@ readiness.
 - [The llms.txt proposal](https://llmstxt.org/)
 - [OpenAI: Crawlers and user agents](https://platform.openai.com/docs/bots)
 - [AI Search Readiness methodology](/methodology)
+
+## Frequently asked questions
+
+### What's the actual difference between LLMs.txt and robots.txt?
+
+robots.txt is a crawler instruction file that tells bots which paths they can
+and cannot access on your site. It's been a web standard for decades. LLMs.txt
+is a newer proposal — a Markdown file that summarizes your site's key content
+for AI models. robots.txt controls access; LLMs.txt provides orientation.
+
+### Do I need both files?
+
+robots.txt is essential for any website — it's the first thing crawlers check.
+LLMs.txt is optional but recommended if you want AI models to quickly understand
+your site. The two files work together: robots.txt ensures the right crawlers
+can access your content, LLMs.txt helps them understand what's important once
+they arrive.
+
+### Can LLMs.txt replace robots.txt?
+
+No. They serve completely different functions. robots.txt is for access control
+— telling crawlers what they can and cannot access. LLMs.txt is a content
+summary for AI orientation. You cannot use LLMs.txt directives to block or allow
+crawlers. You need both files for their respective purposes.
+
+### What happens if I don't have an LLMs.txt file?
+
+Nothing breaks. AI crawlers will still access your site and parse your HTML
+pages. But they'll have to work harder to understand your site structure. An
+LLMs.txt file is a convenience: it gives AI models a fast, clean summary of what
+matters on your site. Without it, the model has to infer structure from your
+HTML, which is slower and less reliable.
+
+### Does robots.txt affect AI search visibility?
+
+Yes, critically. If your robots.txt blocks GPTBot, OAI-SearchBot,
+PerplexityBot, or ClaudeBot, those AI systems cannot access your content at all.
+Your site will be invisible to ChatGPT, Perplexity, and Claude regardless of how
+good your content is. The most common accidental blocker is a `User-agent: *
+Disallow: /` rule that blocks everything.
+
+### What is LLMs-full.txt?
+
+LLMs-full.txt is an extended companion to LLMs.txt, served at `/llms-full.txt`.
+While LLMs.txt provides a curated index with short descriptions (10-30 links),
+LLMs-full.txt can include full Markdown content for your most important pages.
+It's useful for documentation sites and knowledge bases where deeper context
+helps AI models provide more accurate citations.
+
+---
+> **Check both files at once** — free LLMs.txt and robots.txt validator.
+> Run the checker to verify LLMs.txt, LLMs-full.txt, sitemap, and AI crawler access in one scan.
+>
+> 👉 [Check your files](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-vs-robots)
+---

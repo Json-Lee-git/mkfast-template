@@ -3,6 +3,7 @@ import { getBaseUrl } from '@/lib/urls';
 import { getSortedPosts } from '@/lib/blog';
 import { getGlossaryTerms } from '@/lib/glossary';
 import { websiteConfig } from '@/config/website';
+import { submitUrls } from '@/lib/indexnow';
 import {
   baseLocale,
   isLocalizedPath,
@@ -11,12 +12,25 @@ import {
   localizeHref,
 } from '@/lib/locale';
 
+// Cold-start flag: ping IndexNow once per Worker instance
+let didIndexNowPing = false;
+
+const sitemapHeaders = {
+  'Content-Type': 'application/xml; charset=utf-8',
+  'Cache-Control': 'public, max-age=3600',
+};
+
 /**
  * Dynamic sitemap.xml
  */
 export const Route = createFileRoute('/sitemap.xml')({
   server: {
     handlers: {
+      HEAD: async () => {
+        return new Response(null, {
+          headers: sitemapHeaders,
+        });
+      },
       GET: async () => {
         const base = getBaseUrl().replace(/\/$/, '');
         const staticUrls: {
@@ -46,6 +60,56 @@ export const Route = createFileRoute('/sitemap.xml')({
             priority: '0.8',
           },
           {
+            path: '/tools/ai-crawler-checker',
+            changefreq: 'weekly',
+            priority: '0.85',
+          },
+          {
+            path: '/tools/robots-txt-ai-crawler-checker',
+            changefreq: 'weekly',
+            priority: '0.85',
+          },
+          {
+            path: '/tools/geo-audit',
+            changefreq: 'weekly',
+            priority: '0.85',
+          },
+          {
+            path: '/tools/ai-overview-readiness-checker',
+            changefreq: 'weekly',
+            priority: '0.85',
+          },
+          {
+            path: '/tools/chatgpt-citation-readiness-checker',
+            changefreq: 'weekly',
+            priority: '0.85',
+          },
+          {
+            path: '/sample-aeo-report',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/compare/ai-search-readiness-report-worth-it',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/compare/aeo-checker-alternatives',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/compare/aeo-checker-vs-seo-tools',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/compare/llms-txt-checker-alternatives',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
             path: '/guides/llms-txt-file',
             changefreq: 'monthly',
             priority: '0.8',
@@ -62,6 +126,11 @@ export const Route = createFileRoute('/sitemap.xml')({
           },
           {
             path: '/guides/aeo-audit',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/guides/ai-search-readiness-checklist',
             changefreq: 'monthly',
             priority: '0.8',
           },
@@ -152,6 +221,26 @@ export const Route = createFileRoute('/sitemap.xml')({
           )
           .join('\n');
 
+        // Fire-and-forget IndexNow ping (once per deploy/cold-start)
+        if (!didIndexNowPing) {
+          didIndexNowPing = true;
+          const allUrls = [
+            ...staticUrls.map((u) => `${base}${u.path}`),
+            ...(websiteConfig.blog?.enable
+              ? getSortedPosts(baseLocale).map(
+                  (p) => `${base}/blog/${p.slug}`
+                )
+              : []),
+            ...getGlossaryTerms(baseLocale).map(
+              (term) => `${base}/glossary/${term.slug}`
+            ),
+          ];
+          // Fire and forget — don't block sitemap response
+          submitUrls(allUrls).then((count) => {
+            console.log(`IndexNow: submitted ${count} URLs`);
+          });
+        }
+
         const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -161,10 +250,7 @@ ${glossaryPart ? `\n${glossaryPart}` : ''}
 </urlset>`;
 
         return new Response(sitemap, {
-          headers: {
-            'Content-Type': 'application/xml; charset=utf-8',
-            'Cache-Control': 'public, max-age=3600',
-          },
+          headers: sitemapHeaders,
         });
       },
     },

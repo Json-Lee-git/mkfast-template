@@ -55,4 +55,5 @@ We may update our Cookie Policy from time to time. We will notify you of any cha
 
 ## Contact Us
 
-If you have any questions about this Cookie Policy, please [contact us](/contact).
+If you have any questions about this Cookie Policy, email
+support@aeocheck.xyz or use the [contact page](/contact).

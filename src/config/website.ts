@@ -37,6 +37,7 @@ export const websiteConfig: WebsiteConfig = {
     title: 'AI Search Readiness Tools - LLMs.txt, AEO Checker & Query Fan-Out',
     description:
       "Free tools to check your website's AI search readiness. Validate LLMs.txt, audit technical AEO signals, check AI crawler access, and simulate query fan-out.",
+    supportEmail: 'support@aeocheck.xyz',
     images: {
       ogImage: '/og.png',
       logoLight: '/logo.png',

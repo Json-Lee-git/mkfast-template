@@ -29,6 +29,11 @@ export function getFooterLinks(): MenuItemConfig[] {
       title: 'Guides',
       items: [
         {
+          title: 'AEO Checker Alternatives',
+          href: '/compare/aeo-checker-alternatives',
+          external: false,
+        },
+        {
           title: 'LLMs.txt File',
           href: '/guides/llms-txt-file',
           external: false,

@@ -3,6 +3,7 @@ import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
 import { reportTokens } from '@/db/app.schema';
 import { eq } from 'drizzle-orm';
+import { notifyManualAuditOrder } from '@/api/ai-readiness/service-checkout';
 
 /**
  * Creem webhook endpoint
@@ -25,7 +26,21 @@ export const Route = createFileRoute('/api/webhooks/creem')({
             if (raw.eventType === 'checkout.completed') {
               const metadata = raw.object?.metadata;
               if (metadata?.reportToken) {
+                await verifyCreemSignature(payload, signature);
                 await activateReportToken(metadata.reportToken);
+                return Response.json({ received: true }, { status: 200 });
+              }
+              if (metadata?.service === 'manual-audit') {
+                await verifyCreemSignature(payload, signature);
+                await notifyManualAuditOrder({
+                  checkoutId: raw.object?.id,
+                  order: {
+                    websiteUrl: String(metadata.websiteUrl ?? ''),
+                    email: String(metadata.email ?? ''),
+                    competitors: String(metadata.competitors ?? ''),
+                    notes: String(metadata.notes ?? ''),
+                  },
+                });
                 return Response.json({ received: true }, { status: 200 });
               }
             }
@@ -83,4 +98,36 @@ async function activateReportToken(token: string) {
     .where(eq(reportTokens.token, token));
 
   console.log('Report token activated:', token);
+}
+
+async function verifyCreemSignature(payload: string, signature: string) {
+  if (!signature) {
+    throw new Error('Missing Creem webhook signature');
+  }
+
+  const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    throw new Error('CREEM_WEBHOOK_SECRET environment variable is not set');
+  }
+
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(webhookSecret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const signatureBuffer = await crypto.subtle.sign(
+    'HMAC',
+    key,
+    encoder.encode(payload)
+  );
+  const computed = Array.from(new Uint8Array(signatureBuffer))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+
+  if (computed !== signature) {
+    throw new Error('Invalid Creem webhook signature');
+  }
 }

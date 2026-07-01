@@ -12,6 +12,7 @@ import {
   IconLoader2,
   IconDownload,
   IconPrinter,
+  IconCopy,
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
@@ -80,6 +81,7 @@ function ReportPage() {
   const [report, setReport] = useState<ReportData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
+  const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -94,7 +96,7 @@ function ReportPage() {
           setLoading(false);
           clearInterval(timer);
         } else if (data) {
-          // payment pending — keep polling
+          // payment pending - keep polling
           setLoading(false);
         }
       } catch {
@@ -232,11 +234,21 @@ function ReportPage() {
     const href = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
-    link.download = `aeo-full-report-${hostname}.md`;
+    link.download = `ai-search-readiness-fix-pack-${hostname}.md`;
     document.body.appendChild(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(href);
+  };
+
+  const handleCopyText = async (label: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedLabel(label);
+      window.setTimeout(() => setCopiedLabel(null), 2000);
+    } catch {
+      setCopiedLabel('Unable to copy');
+    }
   };
 
   return (
@@ -247,7 +259,7 @@ function ReportPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
-                Full AEO Audit Report
+                AI Search Readiness Fix Pack
               </h1>
               <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400">
                 {hostname}
@@ -278,7 +290,7 @@ function ReportPage() {
       {/* Print-only title */}
       <div className="hidden print:block p-8">
         <h1 className="text-2xl font-bold">
-          Full AEO Audit Report — {hostname}
+          AI Search Readiness Fix Pack - {hostname}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
           Generated {new Date(r.checkedAt).toLocaleDateString()} | Score:{' '}
@@ -348,7 +360,7 @@ function ReportPage() {
             </div>
           </div>
 
-          {/* AI Analysis — the core value of the paid report */}
+          {/* AI Analysis - the core value of the paid report */}
           {r.aiAnalysis && (
             <>
               <Card title="Analysis" status="neutral">
@@ -392,6 +404,34 @@ function ReportPage() {
                       </li>
                     ))}
                   </ul>
+                </Card>
+              )}
+
+              {r.aiAnalysis.actionPlan.length > 0 && (
+                <Card title="Do These 3 Things First" status="warning">
+                  <div className="space-y-3">
+                    {r.aiAnalysis.actionPlan.slice(0, 3).map((a, i) => (
+                      <div
+                        key={a.title}
+                        className="rounded-xl border border-blue-200 bg-white p-4 dark:border-blue-900/40 dark:bg-zinc-900/50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                            {i + 1}
+                          </span>
+                          <h4 className="font-semibold text-gray-800 dark:text-zinc-200">
+                            {a.title}
+                          </h4>
+                        </div>
+                        <p className="mt-2 text-sm text-gray-600 dark:text-zinc-400">
+                          {a.whatToDo}
+                        </p>
+                        <p className="mt-2 text-xs text-gray-400 dark:text-zinc-500">
+                          Impact: {a.why} Effort: {a.effort}.
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </Card>
               )}
 
@@ -828,6 +868,8 @@ function ReportPage() {
           {/* Schema Recommendations */}
           <SchemaRecommendations
             aiSchemaJson={r.aiAnalysis?.customSchemaJson}
+            copiedLabel={copiedLabel}
+            onCopy={handleCopyText}
             existingTypes={r.structuredData.schemaTypes}
             pageTitle={r.page.title || ''}
             brandName={r.entityClarity.inferredBrandName || hostname}
@@ -849,27 +891,36 @@ function ReportPage() {
                 <p className="text-gray-500 dark:text-zinc-400">
                   AI-generated /llms.txt tailored to your site:
                 </p>
-                <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-                  {r.aiAnalysis.customLlmsTxt}
-                </pre>
+                <CopyableCodeBlock
+                  code={r.aiAnalysis.customLlmsTxt}
+                  copiedLabel={copiedLabel}
+                  label="/llms.txt"
+                  onCopy={handleCopyText}
+                />
                 {r.aiAnalysis.customLlmsFullTxt && (
                   <>
                     <p className="text-gray-500 dark:text-zinc-400 mt-4">
                       AI-generated /llms-full.txt:
                     </p>
-                    <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300 max-h-96 overflow-y-auto">
-                      {r.aiAnalysis.customLlmsFullTxt}
-                    </pre>
+                    <CopyableCodeBlock
+                      code={r.aiAnalysis.customLlmsFullTxt}
+                      copiedLabel={copiedLabel}
+                      label="/llms-full.txt"
+                      maxHeight
+                      onCopy={handleCopyText}
+                    />
                   </>
                 )}
               </div>
             ) : (
               <LlmsTxtPlan
+                copiedLabel={copiedLabel}
                 hasLlmsTxt={r.aiFiles.llmsTxt.exists}
                 hasLlmsFullTxt={r.aiFiles.llmsFullTxt.exists}
                 websiteUrl={r.normalizedUrl}
                 brandName={r.entityClarity.inferredBrandName || hostname}
                 description={r.page.metaDescription || ''}
+                onCopy={handleCopyText}
               />
             )}
           </Card>
@@ -1038,18 +1089,59 @@ function Meta({ label, value }: { label: string; value: string }) {
   );
 }
 
+function CopyableCodeBlock({
+  code,
+  copiedLabel,
+  label,
+  maxHeight = false,
+  onCopy,
+}: {
+  code: string;
+  copiedLabel: string | null;
+  label: string;
+  maxHeight?: boolean;
+  onCopy: (label: string, text: string) => void;
+}) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800">
+      <div className="flex items-center justify-between border-b border-gray-200 px-3 py-2 dark:border-zinc-700">
+        <span className="text-xs font-medium text-gray-500 dark:text-zinc-400">
+          {label}
+        </span>
+        <button
+          type="button"
+          onClick={() => onCopy(label, code)}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-600 transition hover:border-gray-400 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-zinc-500"
+        >
+          <IconCopy size={13} />
+          {copiedLabel === label ? 'Copied' : 'Copy'}
+        </button>
+      </div>
+      <pre
+        className={`overflow-x-auto p-4 text-xs text-gray-700 dark:text-zinc-300 ${maxHeight ? 'max-h-96 overflow-y-auto' : ''}`}
+      >
+        {code}
+      </pre>
+    </div>
+  );
+}
+
 function LlmsTxtPlan({
+  copiedLabel,
   hasLlmsTxt,
   hasLlmsFullTxt,
   websiteUrl,
   brandName,
   description,
+  onCopy,
 }: {
+  copiedLabel: string | null;
   hasLlmsTxt: boolean;
   hasLlmsFullTxt: boolean;
   websiteUrl: string;
   brandName: string;
   description: string;
+  onCopy: (label: string, text: string) => void;
 }) {
   if (hasLlmsTxt && hasLlmsFullTxt) {
     return (
@@ -1059,6 +1151,29 @@ function LlmsTxtPlan({
       </p>
     );
   }
+
+  const llmsTxt = `# ${brandName}
+> ${description || `${brandName} - ${websiteUrl}`}
+
+## About
+- [Home](${websiteUrl}): ${description || `${brandName} official website`}
+
+## Getting Started
+- The llms.txt file helps AI systems understand your site structure.
+- Add links to your most important pages under ## Core Pages.
+- Add links to documentation or guides under ## Documentation.`;
+
+  const llmsFullTxt = `# ${brandName} - Full Content
+
+> ${description || `${brandName}`}
+
+## About
+This file provides expanded content to help AI systems understand
+your website's key information. Replace this template with actual
+content from your most important pages.
+
+Start by including your homepage content, product descriptions,
+and key documentation pages.`;
 
   return (
     <div className="space-y-4 text-sm">
@@ -1073,18 +1188,12 @@ function LlmsTxtPlan({
           <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
             Recommended LLMs.txt:
           </h4>
-          <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-            {`# ${brandName}
-> ${description || `${brandName} — ${websiteUrl}`}
-
-## About
-- [Home](${websiteUrl}): ${description || `${brandName} official website`}
-
-## Getting Started
-- The llms.txt file helps AI systems understand your site structure.
-- Add links to your most important pages under ## Core Pages.
-- Add links to documentation or guides under ## Documentation.`}
-          </pre>
+          <CopyableCodeBlock
+            code={llmsTxt}
+            copiedLabel={copiedLabel}
+            label="/llms.txt template"
+            onCopy={onCopy}
+          />
         </div>
       )}
 
@@ -1093,19 +1202,12 @@ function LlmsTxtPlan({
           <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
             Recommended LLMs-full.txt:
           </h4>
-          <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-            {`# ${brandName} — Full Content
-
-> ${description || `${brandName}`}
-
-## About
-This file provides expanded content to help AI systems understand
-your website's key information. Replace this template with actual
-content from your most important pages.
-
-Start by including your homepage content, product descriptions,
-and key documentation pages.`}
-          </pre>
+          <CopyableCodeBlock
+            code={llmsFullTxt}
+            copiedLabel={copiedLabel}
+            label="/llms-full.txt template"
+            onCopy={onCopy}
+          />
         </div>
       )}
     </div>
@@ -1193,6 +1295,7 @@ function ContentSuggestions({
 
 function SchemaRecommendations({
   aiSchemaJson,
+  copiedLabel,
   existingTypes,
   pageTitle,
   brandName,
@@ -1202,8 +1305,10 @@ function SchemaRecommendations({
   hasPublishedDate,
   hasFaq,
   hasQuestionHeadings,
+  onCopy,
 }: {
   aiSchemaJson?: string;
+  copiedLabel: string | null;
   existingTypes: string[];
   pageTitle: string;
   brandName: string;
@@ -1213,6 +1318,7 @@ function SchemaRecommendations({
   hasPublishedDate: boolean;
   hasFaq: boolean;
   hasQuestionHeadings: boolean;
+  onCopy: (label: string, text: string) => void;
 }) {
   if (aiSchemaJson) {
     return (
@@ -1221,9 +1327,12 @@ function SchemaRecommendations({
           <p className="text-gray-500 dark:text-zinc-400">
             AI-generated schema markup tailored to your page:
           </p>
-          <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-            {aiSchemaJson}
-          </pre>
+          <CopyableCodeBlock
+            code={aiSchemaJson}
+            copiedLabel={copiedLabel}
+            label="JSON-LD schema"
+            onCopy={onCopy}
+          />
         </div>
       </Card>
     );
@@ -1361,9 +1470,12 @@ function SchemaRecommendations({
             <h4 className="font-medium text-gray-800 dark:text-zinc-200 mb-2">
               {s.label} schema
             </h4>
-            <pre className="overflow-x-auto rounded-xl bg-gray-100 dark:bg-zinc-800 p-4 text-xs text-gray-700 dark:text-zinc-300">
-              {s.json}
-            </pre>
+            <CopyableCodeBlock
+              code={s.json}
+              copiedLabel={copiedLabel}
+              label={`${s.label} schema`}
+              onCopy={onCopy}
+            />
           </div>
         ))}
       </div>
@@ -1374,14 +1486,69 @@ function SchemaRecommendations({
 // ---------- Markdown export ----------
 
 function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
+  const ai = r.aiAnalysis;
   const lines = [
-    '# Full AEO Audit Report',
+    '# AI Search Readiness Fix Pack',
     '',
     `Website: ${new URL(r.normalizedUrl).hostname}`,
     `Checked URL: ${r.normalizedUrl}`,
     `Generated: ${new Date(r.checkedAt).toISOString()}`,
-    `Overall Score: ${r.score}/100 — ${scoreLabelText(r.score)}`,
+    `Overall Score: ${r.score}/100 - ${scoreLabelText(r.score)}`,
     '',
+    'This report improves the conditions for search engines and AI answer systems to crawl, understand, extract, and cite your content. It does not guarantee rankings, citations, traffic, or visibility in any specific search or AI product.',
+    '',
+  ];
+
+  if (ai?.summary) {
+    lines.push('## Executive Summary', '', ai.summary, '');
+  }
+
+  if (ai?.actionPlan?.length) {
+    lines.push('## Do These 3 Things First', '');
+    ai.actionPlan.slice(0, 3).forEach((item, index) => {
+      lines.push(
+        `${index + 1}. ${item.title}`,
+        `   - Priority: ${item.priority}`,
+        `   - Effort: ${item.effort}`,
+        `   - What to do: ${item.whatToDo}`,
+        `   - Why it matters: ${item.why}`,
+        ''
+      );
+    });
+  }
+
+  if (ai?.strengths?.length) {
+    lines.push('## Strengths', '');
+    ai.strengths.forEach((item) => {
+      lines.push(`- ${item}`);
+    });
+    lines.push('');
+  }
+
+  if (ai?.quickWins?.length) {
+    lines.push('## Quick Wins', '');
+    ai.quickWins.forEach((item) => {
+      lines.push(`- ${item}`);
+    });
+    lines.push('');
+  }
+
+  if (ai?.actionPlan?.length) {
+    lines.push('## Full Action Plan', '');
+    ai.actionPlan.forEach((item, index) => {
+      lines.push(
+        `### ${index + 1}. ${item.title}`,
+        '',
+        `- Priority: ${item.priority}`,
+        `- Effort: ${item.effort}`,
+        `- What to do: ${item.whatToDo}`,
+        `- Why it matters: ${item.why}`,
+        ''
+      );
+    });
+  }
+
+  lines.push(
     '## Technical Crawlability',
     '',
     `- HTTP Status: ${r.page.statusCode || 'N/A'}`,
@@ -1389,8 +1556,8 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     `- Title: ${r.page.title || 'Missing'}`,
     `- Meta Description: ${r.page.metaDescription || 'Missing'}`,
     `- Canonical: ${r.page.canonical || 'Missing'}`,
-    `- Meta Robots: ${r.page.metaRobots || 'Not detected'}`,
-  ];
+    `- Meta Robots: ${r.page.metaRobots || 'Not detected'}`
+  );
 
   if (r.page.issues.length > 0) {
     lines.push('', '### Issues', '');
@@ -1433,6 +1600,25 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     lines.push('');
   }
 
+  if (ai?.schemaSuggestions?.length) {
+    lines.push('### Schema Fix List', '');
+    ai.schemaSuggestions.forEach((item) => {
+      lines.push(`- ${item}`);
+    });
+    lines.push('');
+  }
+
+  if (ai?.customSchemaJson) {
+    lines.push(
+      '### Copy-Ready JSON-LD',
+      '',
+      '```json',
+      ai.customSchemaJson,
+      '```',
+      ''
+    );
+  }
+
   lines.push(
     '## Answer-Ready Content',
     '',
@@ -1443,7 +1629,45 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     `- Question Headings: ${formatYesNo(r.answerReadyContent.hasQuestionHeadings)}`,
     `- Lists: ${formatYesNo(r.answerReadyContent.hasLists)}`,
     `- Short Answers: ${formatYesNo(r.answerReadyContent.hasShortAnswerParagraphs)}`,
-    '',
+    ''
+  );
+
+  if (ai?.contentSuggestions?.length) {
+    lines.push('### Content Blocks To Add', '');
+    ai.contentSuggestions.forEach((item) => {
+      lines.push(`- ${item}`);
+    });
+    lines.push('');
+  }
+
+  if (ai?.missingTopics?.length) {
+    lines.push('### Query Fan-Out Gaps', '');
+    ai.missingTopics.forEach((item) => {
+      lines.push(`- ${item}`);
+    });
+    lines.push('');
+  }
+
+  if (ai?.customLlmsTxt || ai?.customLlmsFullTxt) {
+    lines.push('## Copy-Ready LLMs.txt Files', '');
+  }
+
+  if (ai?.customLlmsTxt) {
+    lines.push('### /llms.txt', '', '```txt', ai.customLlmsTxt, '```', '');
+  }
+
+  if (ai?.customLlmsFullTxt) {
+    lines.push(
+      '### /llms-full.txt',
+      '',
+      '```txt',
+      ai.customLlmsFullTxt,
+      '```',
+      ''
+    );
+  }
+
+  lines.push(
     '## Entity Clarity',
     '',
     `- Inferred Brand: ${r.entityClarity.inferredBrandName || 'N/A'}`,
@@ -1469,6 +1693,17 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     lines.push(`${i + 1}. ${rec}`);
   });
 
+  lines.push(
+    '',
+    '## Suggested 30-Day SEO/GEO Follow-Up',
+    '',
+    '1. Apply the top 3 fixes first, then re-run this checker.',
+    '2. Publish or update the answer-ready content blocks suggested above.',
+    '3. Add the JSON-LD and LLMs.txt files, then request recrawls in search tools.',
+    '4. Track whether brand, product, and problem queries return clearer snippets or AI answers.',
+    ''
+  );
+
   lines.push('');
   return lines.join('\n');
 }
@@ -1478,9 +1713,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 export const Route = createFileRoute('/report/$token')({
   head: () => ({
     ...seo('/report/$token', {
-      title: 'Full AEO Audit Report',
+      title: 'AI Search Readiness Fix Pack',
       description:
-        'Your full AEO audit report with detailed technical analysis, prioritized fixes, schema recommendations, and content improvement suggestions.',
+        'Your paid AI search readiness fix pack with prioritized fixes, copy-ready schema, llms.txt files, and content improvement suggestions.',
       noIndex: true,
     }),
   }),

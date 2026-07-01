@@ -1,10 +1,10 @@
 # External Evidence Launch Copy
 
 **Product:** AI Search Readiness Tools  
-**URL:** https://ai-search-readiness.s01071233604.workers.dev  
-**Press page:** https://ai-search-readiness.s01071233604.workers.dev/press  
-**Methodology:** https://ai-search-readiness.s01071233604.workers.dev/methodology  
-**References:** https://ai-search-readiness.s01071233604.workers.dev/references  
+**URL:** https://aeocheck.xyz  
+**Press page:** https://aeocheck.xyz/press  
+**Methodology:** https://aeocheck.xyz/methodology  
+**References:** https://aeocheck.xyz/references  
 **Tagline:** Free tools to check technical readiness for AI search, answer
 engines, and AI crawler discovery.
 
@@ -82,8 +82,8 @@ The tools check practical signals:
 
 I also published the methodology and references so the checks are transparent:
 
-- Methodology: https://ai-search-readiness.s01071233604.workers.dev/methodology
-- References: https://ai-search-readiness.s01071233604.workers.dev/references
+- Methodology: https://aeocheck.xyz/methodology
+- References: https://aeocheck.xyz/references
 
 Feedback welcome, especially from technical SEOs, indie hackers, and people
 working on documentation-heavy sites.
@@ -118,8 +118,8 @@ references.
 I also added public methodology and references pages so the tool's assumptions
 are inspectable:
 
-- https://ai-search-readiness.s01071233604.workers.dev/methodology
-- https://ai-search-readiness.s01071233604.workers.dev/references
+- https://aeocheck.xyz/methodology
+- https://aeocheck.xyz/references
 
 Tech stack: TanStack Start + React 19 SSR on Cloudflare Workers, D1, and
 Workers AI.
@@ -154,8 +154,8 @@ It audits:
 Important caveat: this does not guarantee rankings, traffic, or AI citations. It
 is a technical readiness checker, not a visibility tracker.
 
-Tool: https://ai-search-readiness.s01071233604.workers.dev/tools/aeo-checker  
-Methodology: https://ai-search-readiness.s01071233604.workers.dev/methodology
+Tool: https://aeocheck.xyz/tools/aeo-checker  
+Methodology: https://aeocheck.xyz/methodology
 
 I would appreciate feedback from SEOs on false positives, missing checks, and
 whether the scoring weights feel reasonable.
@@ -185,8 +185,8 @@ JSON-LD schema, heading structure, entity clarity, and trust pages.
 
 Stack: TanStack Start, React 19, Cloudflare Workers, D1, Workers AI.
 
-Product: https://ai-search-readiness.s01071233604.workers.dev  
-Press page: https://ai-search-readiness.s01071233604.workers.dev/press
+Product: https://aeocheck.xyz  
+Press page: https://aeocheck.xyz/press
 
 Looking for feedback on positioning: "AI search readiness" vs "AEO" vs "GEO".
 
@@ -208,16 +208,16 @@ I built free tools to check:
 - Answer-ready content structure
 - Entity and trust signals
 
-Try it: https://ai-search-readiness.s01071233604.workers.dev
+Try it: https://aeocheck.xyz
 
-Methodology: https://ai-search-readiness.s01071233604.workers.dev/methodology
+Methodology: https://aeocheck.xyz/methodology
 
 ---
 
 ## Directory Submission Fields
 
 **Name:** AI Search Readiness Tools  
-**Website:** https://ai-search-readiness.s01071233604.workers.dev  
+**Website:** https://aeocheck.xyz  
 **Category:** SEO tools, AI search, AEO, GEO, technical SEO  
 **Short description:** Free tools to check LLMs.txt, AI crawler access,
 structured data, and technical AEO readiness.  
@@ -226,8 +226,8 @@ teams evaluate public technical readiness signals for AI-assisted search. The
 toolkit includes an AEO Checker, LLMs.txt Checker, LLMs.txt Generator, and Query
 Fan-Out Tool. It checks crawlability, AI-readable files, sitemap discovery,
 structured data, answer-ready content, entity clarity, and trust signals.  
-**Press/media URL:** https://ai-search-readiness.s01071233604.workers.dev/press  
-**Methodology URL:** https://ai-search-readiness.s01071233604.workers.dev/methodology
+**Press/media URL:** https://aeocheck.xyz/press  
+**Methodology URL:** https://aeocheck.xyz/methodology
 
 ---
 
@@ -244,11 +244,11 @@ It checks LLMs.txt, AI crawler access, sitemap discovery, structured data,
 answer-ready content structure, entity clarity, and trust signals.
 
 The product is here:
-https://ai-search-readiness.s01071233604.workers.dev
+https://aeocheck.xyz
 
 I also published the methodology and references:
-https://ai-search-readiness.s01071233604.workers.dev/methodology
-https://ai-search-readiness.s01071233604.workers.dev/references
+https://aeocheck.xyz/methodology
+https://aeocheck.xyz/references
 
 If you cover SEO tools, technical SEO, AEO, GEO, or AI search visibility, I
 would be grateful for feedback or inclusion if it is useful to your audience.

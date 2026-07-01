@@ -37,6 +37,8 @@ export const serverEnv = createEnv({
     CREEM_DEBUG: z.string().optional(),
     CREEM_API_KEY: z.string().optional(),
     CREEM_WEBHOOK_SECRET: z.string().optional(),
+    CREEM_PRODUCT_FULL_REPORT: z.string().optional(),
+    CREEM_PRODUCT_MANUAL_AUDIT: z.string().optional(),
 
     // AI image generation (fal.ai)
     FAL_KEY: z.string().optional(),

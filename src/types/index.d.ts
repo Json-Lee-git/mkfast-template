@@ -28,6 +28,7 @@ export interface MetadataConfig {
   name?: string;         // The name of the website
   title?: string;        // The title of the website
   description?: string;  // The description of the website
+  supportEmail?: string; // Public support email for compliance and customers
   images?: ImagesConfig; // The images of the website
 }
 

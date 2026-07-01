@@ -7,7 +7,7 @@ category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
 reviewedBy: AI Search Readiness Editorial Team
-image: https://ai-search-readiness.s01071233604.workers.dev/og.png
+image: https://aeocheck.xyz/og.png
 ---
 
 I've looked at a lot of `/llms.txt` files over the past few months. Most of them are broken. Not in a "the server returns 500" way, but in a "this is a copy-pasted robots.txt with the wrong MIME type" way. A few are genuinely useful. This guide is about making yours one of the useful ones.
@@ -150,3 +150,59 @@ Use our [LLMs.txt Checker](/tools/llms-txt-checker) — it validates format, che
 No. Having an LLMs.txt file does not guarantee that ChatGPT, Claude, Perplexity, or Google AI Overviews will cite your site. It removes a barrier — making your site easy to understand — but the AI still needs to decide whether your content is relevant and trustworthy.
 
 That said, I've seen sites with well-maintained LLMs.txt files get cited more consistently than those without. It's not a ranking signal. It's just good communication.
+
+## Frequently asked questions
+
+### What is an LLMs.txt file?
+
+An LLMs.txt file is a plain Markdown file served at `/llms.txt` on your domain.
+It provides a structured, human-readable and machine-readable summary of your
+site's key pages — what they're about and how they connect. Think of it as a
+README.md for your website, designed for AI language models to quickly
+understand your site without parsing full HTML pages.
+
+### Do I need both LLMs.txt and robots.txt?
+
+Yes, they serve different purposes. robots.txt controls which crawlers can
+access which parts of your site (access management). LLMs.txt summarizes your
+key content for AI systems (content orientation). You need robots.txt for
+crawler control. LLMs.txt is optional but recommended if you want AI models to
+quickly understand your site structure.
+
+### Does LLMs.txt help with SEO?
+
+LLMs.txt is not a confirmed SEO ranking factor and doesn't directly affect
+Google rankings. It's a GEO (Generative Engine Optimization) tool: it helps AI
+models understand your site, which can lead to more accurate citations in AI
+search engines. The two surfaces are separate — LLMs.txt helps with AI search
+discovery, not traditional search rankings.
+
+### How many links should an LLMs.txt file have?
+
+10-30 links with one-line descriptions is the sweet spot. Don't dump your entire
+sitemap into LLMs.txt. Curate: pick the pages that best represent your site's
+value. More than 50 links and you lose the curation benefit. Less than 5 and
+you're not giving the AI enough context.
+
+### What's the difference between LLMs.txt and LLMs-full.txt?
+
+LLMs.txt is the summary: 10-30 key pages with one-line descriptions.
+LLMs-full.txt (at `/llms-full.txt`) is the expanded version with full Markdown
+content of your important pages. Use LLMs.txt as the curated index and
+LLMs-full.txt when you have documentation or guides where deeper context
+matters.
+
+### How do I verify my LLMs.txt is working?
+
+Three checks: (1) Visit `https://yourdomain.com/llms.txt` in a browser — it
+should return a 200 status with Markdown content, (2) Verify the `Content-Type`
+header is `text/plain` or `text/markdown` (not `text/html`), (3) Run our free
+LLMs.txt Checker which validates format, checks every link, tests content type,
+and verifies your LLMs-full.txt if you have one.
+
+---
+> **Validate your LLMs.txt file** — free checker to verify format, links, and AI accessibility.
+> Upload or point to your LLMs.txt and get instant feedback on what's right and what needs fixing.
+>
+> 👉 [Check your LLMs.txt](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-guide)
+---

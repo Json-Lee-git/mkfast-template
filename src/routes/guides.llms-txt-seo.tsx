@@ -1,5 +1,5 @@
 import { seo } from '@/lib/seo';
-import { jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
+import { faqSchema, jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { FAQ } from '@/components/ai-visibility/faq';
@@ -238,7 +238,7 @@ export const Route = createFileRoute('/guides/llms-txt-seo')({
         'Understand whether LLMs.txt helps SEO, AI search readiness, crawler access, and AI-readable site structure. Learn the limitations before adding one.',
       type: 'article',
     }),
-    scripts: [jsonLd(websiteSchema())],
+    scripts: [jsonLd(websiteSchema()), jsonLd(faqSchema(faqItems))],
   }),
   component: LLMsTxtSEO,
 });

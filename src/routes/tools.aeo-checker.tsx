@@ -6,6 +6,7 @@ import {
 } from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
+import { trackConversionEvent } from '@/lib/conversion-events';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { FAQ } from '@/components/ai-visibility/faq';
@@ -17,6 +18,7 @@ import {
   IconMail,
   IconCopy,
   IconDownload,
+  IconArrowRight,
 } from '@tabler/icons-react';
 import { runAeoAudit, type AeoAuditResult } from '@/api/ai-readiness/aeo';
 import { submitLeadCapture } from '@/api/ai-readiness/lead';
@@ -133,7 +135,7 @@ function buildFreeReportMarkdown(result: AeoAuditResult): string {
     `- Question headings: ${formatYesNo(result.answerReadyContent.hasQuestionHeadings)}`,
     `- Short answer paragraphs: ${formatYesNo(result.answerReadyContent.hasShortAnswerParagraphs)}`,
     '',
-    '## Locked Full Report Sections',
+    '## Locked Fix Pack Sections',
     '',
     '- Full issue list',
     '- Prioritized fixes',
@@ -182,10 +184,41 @@ const faqItems = [
   },
 ];
 
+const heroProofPoints = [
+  'Free page score before checkout',
+  'Built for SEO, AEO, and GEO page launches',
+  '$19 Fix Pack when you need implementation details',
+];
+
+const useCases = [
+  {
+    title: 'Publishing a new landing page',
+    desc: 'Confirm crawlers, schema, headings, FAQs, and trust signals before the page starts competing for search demand.',
+  },
+  {
+    title: 'Refreshing a page for AI search',
+    desc: 'Find whether the page gives answer engines direct answers, clear entities, and AI-readable support files.',
+  },
+  {
+    title: 'Handing fixes to a developer or SEO operator',
+    desc: 'Unlock the Fix Pack for copy-ready schema, LLMs.txt files, content gaps, and a prioritized repair order.',
+  },
+];
+
+const trustSignals = [
+  'No sign-up required for the free scan',
+  'One-time $19 checkout',
+  'Markdown handoff after purchase',
+  'No ranking or citation guarantees',
+];
+
 // ---------- Component ----------
 
 function AeoCheckerPage() {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return new URLSearchParams(window.location.search).get('url') ?? '';
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AeoAuditResult | null>(null);
@@ -207,11 +240,16 @@ function AeoCheckerPage() {
     setLoading(true);
     setError(null);
     setResult(null);
+    trackConversionEvent('aeo_audit_started', { url: trimmed });
     try {
       const data = await runAeoAudit({ data: { url: trimmed } });
       setResult(data);
       setLeadWebsiteUrl(data.normalizedUrl);
       setLeadMessage(null);
+      trackConversionEvent('aeo_audit_completed', {
+        url: data.normalizedUrl,
+        score: data.score,
+      });
     } catch (err: unknown) {
       setError(
         err instanceof Error
@@ -237,7 +275,12 @@ function AeoCheckerPage() {
       });
       setLeadMessage(res.message);
       setLeadSuccess(res.success);
-      if (res.success) setLeadEmail('');
+      if (res.success) {
+        trackConversionEvent('aeo_lead_capture_submitted', {
+          url: leadWebsiteUrl.trim(),
+        });
+        setLeadEmail('');
+      }
     } catch {
       setLeadMessage(
         'Unable to send the report at this time. Please try again later.'
@@ -252,6 +295,11 @@ function AeoCheckerPage() {
     if (!result) return;
     setCheckoutLoading(true);
     setReportMessage(null);
+    trackConversionEvent('full_report_checkout_clicked', {
+      url: result.normalizedUrl,
+      score: result.score,
+      price: 19,
+    });
     try {
       const res = await createReportCheckout({
         data: {
@@ -260,6 +308,9 @@ function AeoCheckerPage() {
         },
       });
       if (res.url) {
+        trackConversionEvent('full_report_checkout_redirected', {
+          url: result.normalizedUrl,
+        });
         window.location.href = res.url;
       } else {
         setReportMessage(
@@ -311,13 +362,22 @@ function AeoCheckerPage() {
         <Container className="relative py-20 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
-              AEO Checker
+              SEO audit for ChatGPT and AI answers
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Check whether your website is technically ready for answer
-              engines. Audit your LLMs.txt, AI crawler access, structured data,
-              answer-ready content, and trust signals.
+              Enter any landing page to see whether ChatGPT, Claude, Gemini,
+              Perplexity, and Google AI Overviews can crawl, understand, and
+              cite it. Get a free score first, then unlock a $19 Fix Pack only
+              when you need copy-ready fixes.
             </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-500 dark:text-zinc-400">
+              {heroProofPoints.map((point) => (
+                <span key={point} className="inline-flex items-center gap-1.5">
+                  <IconCheck size={13} className="text-emerald-500" />
+                  {point}
+                </span>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -346,13 +406,84 @@ function AeoCheckerPage() {
                     Auditing...
                   </>
                 ) : (
-                  'Run AEO audit'
+                  'Audit page free'
                 )}
               </button>
             </div>
+            <p className="mt-3 text-center text-xs text-gray-400 dark:text-zinc-500">
+              Free result: score, module status, and top issues. Paid Fix Pack:
+              copy-ready schema, LLMs.txt files, content gaps, and Markdown
+              handoff.
+            </p>
           </form>
         </Container>
       </section>
+
+      {!r && !loading && (
+        <>
+          <section className="pb-16">
+            <Container>
+              <div className="mx-auto max-w-4xl">
+                <div className="grid gap-4 md:grid-cols-3">
+                  {useCases.map((item) => (
+                    <div
+                      key={item.title}
+                      className="rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-zinc-800/60 dark:bg-zinc-900/30"
+                    >
+                      <h2 className="text-base font-semibold text-gray-900 dark:text-zinc-100">
+                        {item.title}
+                      </h2>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Container>
+          </section>
+
+          <section className="border-t border-gray-200 py-14 dark:border-zinc-800/50">
+            <Container>
+              <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-[1fr_0.85fr] md:items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
+                    From SEO traffic to AI-search readiness
+                  </h2>
+                  <p className="mt-4 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+                    Traditional SEO tools tell you rankings, links, and
+                    keywords. This checker focuses on the page-level structure
+                    AI answer systems need: crawl access, schema, concise
+                    answers, entity clarity, trust pages, and AI-readable files.
+                  </p>
+                  <a
+                    href="/sample-aeo-report"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    Preview the $19 Fix Pack <IconArrowRight size={14} />
+                  </a>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/40">
+                  <h3 className="font-semibold text-gray-900 dark:text-zinc-100">
+                    Trust and purchase boundaries
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-sm text-gray-600 dark:text-zinc-400">
+                    {trustSignals.map((point) => (
+                      <li key={point} className="flex items-start gap-2">
+                        <IconCheck
+                          size={15}
+                          className="mt-0.5 shrink-0 text-emerald-500"
+                        />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </Container>
+          </section>
+        </>
+      )}
 
       {/* Error */}
       {error && (
@@ -756,89 +887,30 @@ function AeoCheckerPage() {
                 </ul>
               </Card>
 
-              {/* AI Deep Analysis */}
+              {/* AI Preview */}
               {r.aiAnalysis && (
-                <Card title="AI-Powered Analysis" status="neutral">
-                  <div className="space-y-5">
+                <Card title="AI Readiness Preview" status="neutral">
+                  <div className="space-y-4">
                     <p className="text-sm text-gray-700 dark:text-zinc-300">
                       {r.aiAnalysis.summary}
                     </p>
 
-                    {r.aiAnalysis.strengths.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-2">
-                          Strengths
-                        </h4>
-                        <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                          {r.aiAnalysis.strengths.map((s) => (
-                            <li key={s} className="flex items-start gap-2">
-                              <IconCheck
-                                size={14}
-                                className="mt-0.5 shrink-0 text-emerald-500"
-                              />{' '}
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
                     {r.aiAnalysis.quickWins.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2">
-                          Quick Wins
+                      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm dark:border-blue-900/40 dark:bg-blue-950/20">
+                        <h4 className="font-medium text-blue-700 dark:text-blue-300">
+                          One quick win
                         </h4>
-                        <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                          {r.aiAnalysis.quickWins.map((w) => (
-                            <li key={w} className="flex items-start gap-2">
-                              <IconAlertTriangle
-                                size={14}
-                                className="mt-0.5 shrink-0 text-blue-500"
-                              />{' '}
-                              {w}
-                            </li>
-                          ))}
-                        </ul>
+                        <p className="mt-1 text-gray-600 dark:text-zinc-400">
+                          {r.aiAnalysis.quickWins[0]}
+                        </p>
                       </div>
                     )}
 
-                    {r.aiAnalysis.contentSuggestions.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-2">
-                          Content Suggestions
-                        </h4>
-                        <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                          {r.aiAnalysis.contentSuggestions.map((c) => (
-                            <li key={c} className="flex items-start gap-2">
-                              <IconCheck
-                                size={14}
-                                className="mt-0.5 shrink-0 text-purple-500"
-                              />{' '}
-                              {c}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {r.aiAnalysis.schemaSuggestions.length > 0 && (
-                      <div>
-                        <h4 className="text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
-                          Schema Suggestions
-                        </h4>
-                        <ul className="space-y-1.5 text-sm text-gray-600 dark:text-zinc-400">
-                          {r.aiAnalysis.schemaSuggestions.map((s) => (
-                            <li key={s} className="flex items-start gap-2">
-                              <IconCheck
-                                size={14}
-                                className="mt-0.5 shrink-0 text-amber-500"
-                              />{' '}
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    <p className="text-xs text-gray-400 dark:text-zinc-500">
+                      Fix pack includes the complete action plan, copy-ready
+                      schema, llms.txt files, content gaps, and implementation
+                      notes.
+                    </p>
                   </div>
                 </Card>
               )}
@@ -909,16 +981,16 @@ function AeoCheckerPage() {
                 </div>
               </div>
 
-              {/* Full Report CTA */}
+              {/* Fix Pack CTA */}
               <div className="rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 p-8 text-center">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
-                  Unlock the full AEO Audit Report for $19
+                  Unlock the AI Search Readiness Fix Pack for $19
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
                   We found {r.recommendations.length} technical issues. Unlock
-                  the full report to get prioritized fixes, schema
-                  recommendations, answer-ready content suggestions, and query
-                  fan-out content gaps.
+                  the full fix pack to get prioritized fixes, copy-ready schema,
+                  llms.txt files, answer-ready content blocks, and query fan-out
+                  content gaps.
                 </p>
 
                 {/* Free vs Paid comparison */}
@@ -933,23 +1005,22 @@ function AeoCheckerPage() {
                           Free Result
                         </th>
                         <th className="py-2 text-center font-medium text-blue-700 dark:text-blue-400">
-                          Full Report
+                          Fix Pack
                         </th>
                       </tr>
                     </thead>
                     <tbody className="text-gray-600 dark:text-zinc-400">
                       {[
                         ['Technical AEO Score', 'Yes', 'Yes'],
-                        ['AI Readiness Summary', 'Yes', 'Yes'],
+                        ['AI Readiness Preview', 'Yes', 'Yes'],
                         ['Top 3 Issues', 'Yes', 'Yes'],
                         ['Full Issue List', 'No', 'Yes'],
                         ['Prioritized Fixes', 'No', 'Yes'],
-                        ['Schema Recommendations', 'Basic', 'Detailed'],
-                        ['Content Suggestions', 'Basic', 'Detailed'],
+                        ['Copy-ready Schema', 'No', 'Yes'],
+                        ['Answer-ready Content Blocks', 'No', 'Yes'],
                         ['Query Fan-Out Content Gaps', 'No', 'Yes'],
-                        ['LLMs.txt Improvement Plan', 'Basic', 'Detailed'],
-                        ['PDF / Markdown Export', 'No', 'Yes'],
-                        ['Email Report', 'No', 'Yes'],
+                        ['Copy-ready LLMs.txt Plan', 'No', 'Yes'],
+                        ['Markdown Export', 'Free summary', 'Full fix pack'],
                       ].map(([f, free, paid]) => (
                         <tr
                           key={f}
@@ -979,9 +1050,31 @@ function AeoCheckerPage() {
                         Redirecting to checkout...
                       </>
                     ) : (
-                      'Unlock Full Report - $19'
+                      'Unlock Fix Pack - $19'
                     )}
                   </button>
+                  <a
+                    href="/ai-search-audit"
+                    onClick={() =>
+                      trackConversionEvent('aeo_manual_audit_clicked', {
+                        url: r.normalizedUrl,
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-white px-5 py-3 text-sm font-medium text-emerald-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 active:scale-[0.98] dark:border-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+                  >
+                    Get human audit - $99
+                  </a>
+                  <a
+                    href="/sample-aeo-report"
+                    onClick={() =>
+                      trackConversionEvent('aeo_sample_report_clicked', {
+                        url: r.normalizedUrl,
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-medium text-blue-700 transition-all hover:border-blue-300 hover:bg-blue-50 active:scale-[0.98] dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300 dark:hover:bg-blue-950/40"
+                  >
+                    View sample report
+                  </a>
                   <a
                     href="#free-aeo-summary"
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900/50 px-5 py-3 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-gray-400 dark:hover:border-zinc-600 active:scale-[0.98]"
@@ -1005,10 +1098,10 @@ function AeoCheckerPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 dark:text-zinc-200">
-                      Get the full AEO audit report
+                      Email me the free AEO summary
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-zinc-400">
-                      We'll email you the complete report for {r.normalizedUrl}.
+                      We'll email the free summary for {r.normalizedUrl}.
                     </p>
                   </div>
                 </div>
@@ -1134,6 +1227,34 @@ function AeoCheckerPage() {
               >
                 Query Fan-Out Tool
               </a>
+              ,{' '}
+              <a
+                href="/tools/geo-audit"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                GEO Audit Tool
+              </a>
+              ,{' '}
+              <a
+                href="/tools/ai-overview-readiness-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                AI Overview Readiness Checker
+              </a>
+              ,{' '}
+              <a
+                href="/tools/chatgpt-citation-readiness-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                ChatGPT Citation Readiness Checker
+              </a>
+              ,{' '}
+              <a
+                href="/sample-aeo-report"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Sample AEO Report
+              </a>
               , and{' '}
               <a
                 href="/guides/llms-txt-file"
@@ -1229,7 +1350,7 @@ export const Route = createFileRoute('/tools/aeo-checker')({
   head: () => ({
     ...seo('/tools/aeo-checker', {
       title:
-        'Free AEO Checker — AI Search Readiness & Answer Engine Optimization Audit',
+        'Free AEO Checker - AI Search Readiness & Answer Engine Optimization Audit',
       description:
         'Run a technical AEO audit for any website. Check if your site is ready for ChatGPT, Perplexity, Google AI Overviews, and other AI search engines. Get an AEO score, prioritized fixes, and schema recommendations.',
     }),

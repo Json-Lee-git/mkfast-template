@@ -1,5 +1,6 @@
 import { seo } from '@/lib/seo';
 import { jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
+import { trackConversionEvent } from '@/lib/conversion-events';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import {
@@ -8,6 +9,7 @@ import {
   IconAlertTriangle,
   IconLoader2,
   IconMail,
+  IconArrowRight,
 } from '@tabler/icons-react';
 import { checkAiReadiness, type CheckResult } from '@/api/ai-readiness/checker';
 import { submitLeadCapture } from '@/api/ai-readiness/lead';
@@ -90,10 +92,15 @@ function CheckerPage() {
     setLoading(true);
     setError(null);
     setResult(null);
+    trackConversionEvent('llms_checker_started', { url: trimmed });
 
     try {
       const data = await checkAiReadiness({ data: { url: trimmed } });
       setResult(data);
+      trackConversionEvent('llms_checker_completed', {
+        url: data.normalizedUrl,
+        score: data.score,
+      });
     } catch (err: any) {
       const message = err?.message || 'Something went wrong. Please try again.';
       setError(message);
@@ -116,6 +123,9 @@ function CheckerPage() {
       setLeadMessage(res.message);
       setLeadSuccess(res.success);
       if (res.success) {
+        trackConversionEvent('llms_lead_capture_submitted', {
+          url: r.normalizedUrl,
+        });
         setLeadEmail('');
       }
     } catch {
@@ -502,6 +512,43 @@ function CheckerPage() {
                 </p>
               </div>
 
+              <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-8 text-center dark:border-blue-800 dark:bg-blue-950/20">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
+                  Need the full AEO fix plan?
+                </h3>
+                <p className="mx-auto mt-2 max-w-2xl text-sm text-gray-500 dark:text-zinc-400">
+                  LLMs.txt is one part of AI search readiness. Run the AEO audit
+                  to get prioritized fixes for crawlability, schema,
+                  answer-ready content, trust signals, and query fan-out gaps.
+                </p>
+                <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                  <a
+                    href={`/tools/aeo-checker?url=${encodeURIComponent(
+                      r.normalizedUrl
+                    )}`}
+                    onClick={() =>
+                      trackConversionEvent('llms_to_aeo_report_clicked', {
+                        url: r.normalizedUrl,
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 active:scale-[0.98]"
+                  >
+                    Run AEO audit <IconArrowRight size={16} />
+                  </a>
+                  <a
+                    href="/sample-aeo-report"
+                    onClick={() =>
+                      trackConversionEvent('llms_sample_report_clicked', {
+                        url: r.normalizedUrl,
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-medium text-blue-700 transition-all hover:border-blue-300 hover:bg-blue-50 active:scale-[0.98] dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300 dark:hover:bg-blue-950/40"
+                  >
+                    View sample report
+                  </a>
+                </div>
+              </div>
+
               {/* Lead capture */}
               <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 mt-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -569,7 +616,7 @@ function CheckerPage() {
       {/* Internal link: guide */}
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
         <Container>
-          <div className="mx-auto max-w-xl text-center">
+          <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm text-gray-500 dark:text-zinc-400">
               Need an LLMs.txt file? Start with the{' '}
               <a
@@ -577,6 +624,27 @@ function CheckerPage() {
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
                 LLMs.txt guide
+              </a>
+              , then check{' '}
+              <a
+                href="/tools/ai-crawler-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                AI crawler access
+              </a>
+              ,{' '}
+              <a
+                href="/tools/robots-txt-ai-crawler-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                robots.txt AI rules
+              </a>
+              , or run the{' '}
+              <a
+                href="/tools/aeo-checker"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                AEO Checker
               </a>
               .
             </p>

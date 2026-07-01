@@ -42,10 +42,19 @@
     }
   },
 
-  // Custom domains
-  // https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
-  // Custom domains: add your own domain here later
-  // https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+  // Custom domains for the production site.
+  "routes": [
+    { "pattern": "aeocheck.xyz", "custom_domain": true },
+    { "pattern": "www.aeocheck.xyz", "custom_domain": true }
+  ],
+
+  // Custom domain: aeocheck.xyz
+  // Bind via Cloudflare Dashboard → Workers → ai-search-readiness → Custom Domains
+  // Routes (legacy):
+  // "routes": [
+  //   { "pattern": "aeocheck.xyz", "custom_domain": true },
+  //   { "pattern": "www.aeocheck.xyz", "custom_domain": true }
+  // ]
 
   /**
    * Bindings

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "gingiris-seo-geo": {
+      "source": "Gingiris-1031/gingiris-seo-geo",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "f523838fe16fc686b0fa4c17bd366c73d442576ff9a06ca9b5adc4ad81e31f7f"
+    },
+    "gingiris-seo-geo-agent": {
+      "source": "Gingiris-1031/gingiris-seo-geo-agent",
+      "sourceType": "github",
+      "skillPath": "skills/gingiris-seo-geo-agent/SKILL.md",
+      "computedHash": "a0424c093af8d2be8941826410b1e9161de4c1346ceca736912bd6d7c2cb71f4"
+    }
+  }
+}

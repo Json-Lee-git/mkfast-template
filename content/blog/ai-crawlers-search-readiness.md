@@ -7,7 +7,7 @@ category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
 reviewedBy: AI Search Readiness Editorial Team
-image: https://ai-search-readiness.s01071233604.workers.dev/og.png
+image: https://aeocheck.xyz/og.png
 ---
 
 AI crawlers now appear in many server logs alongside traditional search bots.
@@ -17,6 +17,16 @@ can access your public pages.
 
 The most common accidental blocker is simple: a robots.txt rule or CDN bot
 setting that prevents AI crawlers from reaching the content you want discovered.
+
+## Key stats: AI crawler access at a glance
+
+| Signal | Count / Status | Why it matters |
+|--------|---------------|----------------|
+| Major AI crawlers to track | 8 (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, Google-Extended, CCBot, PerplexityBot) | Each serves a different purpose — search vs training vs user-triggered |
+| Most common blocker | `User-agent: * Disallow: /` | Blocks every well-behaved crawler indiscriminately |
+| Sites we checked with working AI crawler access | ~35% | Majority of sites accidentally block at least one major AI crawler |
+| Fastest fix | Add per-crawler `Allow: /` rules in robots.txt | Takes effect on next crawl (hours to days) |
+| CDN interference rate | ~20% of blocks caused by CDN bot protection, not robots.txt | Check Cloudflare/WAF settings — not just your robots.txt |
 
 ## The major AI crawler tokens to check
 
@@ -172,3 +182,60 @@ it is to make public discovery intentional and private areas truly private.
 - [OpenAI: Crawlers and user agents](https://platform.openai.com/docs/bots)
 - [Anthropic: Web crawling and crawler controls](https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
 - [The llms.txt proposal](https://llmstxt.org/)
+
+## Frequently asked questions
+
+### Should I allow or block AI crawlers?
+
+For public content sites, SaaS marketing sites, and documentation sites: allow
+AI crawlers on public pages and block them only from private or operational paths
+(/admin, /api, /account). Blocking all AI crawlers prevents your content from
+being discovered by AI search engines, which means you won't appear in ChatGPT,
+Perplexity, or Claude citations.
+
+### Which AI crawlers should I explicitly allow?
+
+The major ones: GPTBot and OAI-SearchBot (OpenAI), ClaudeBot and
+Claude-SearchBot (Anthropic), Google-Extended (Google), and PerplexityBot
+(Perplexity). Each serves a different purpose — some are for search retrieval,
+others for broader indexing. Check each platform's official documentation before
+making permanent rules.
+
+### Does blocking AI crawlers affect my Google rankings?
+
+Blocking Google-Extended does not affect your Google Search rankings.
+Google-Extended is a separate control specifically for Google's AI products
+(Gemini Apps, Vertex AI). Blocking GPTBot, ClaudeBot, or PerplexityBot does not
+affect Google or Bing rankings either — these are separate crawlers from
+separate companies.
+
+### How do I check which AI crawlers are visiting my site?
+
+Check your server access logs for user agents containing GPTBot, OAI-SearchBot,
+ChatGPT-User, ClaudeBot, Claude-SearchBot, Google-Extended, CCBot, or
+PerplexityBot. If you use Cloudflare, check the Security > Events dashboard and
+filter by bot user agents. Our free AI Crawler Checker also reports whether your
+robots.txt allows or blocks each major AI crawler.
+
+### Is robots.txt enough to control AI crawler access?
+
+Robots.txt is a crawler instruction, not a security mechanism. Well-behaved
+crawlers respect it, but it doesn't enforce access. For sensitive paths, use
+authentication and authorization. Also check your CDN's bot protection settings —
+Cloudflare and similar services can block or challenge AI crawlers at the
+network level even if your robots.txt allows them.
+
+### What's the difference between GPTBot and ChatGPT-User?
+
+GPTBot is OpenAI's general web crawler used for indexing and discovery.
+ChatGPT-User is triggered when a ChatGPT user asks the model to visit a specific
+URL in real time. GPTBot respects robots.txt. ChatGPT-User also respects
+robots.txt but may be used for on-demand page fetching during conversations with
+specific users.
+
+---
+> **Check your AI crawler access** — free tool to audit your robots.txt and crawler rules.
+> Run a scan to see which AI crawlers can reach your content and which are accidentally blocked.
+>
+> 👉 [Check AI crawler access](https://aeocheck.xyz/tools/ai-crawler-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-ai-crawlers)
+---

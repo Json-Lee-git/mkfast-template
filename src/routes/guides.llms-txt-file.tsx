@@ -1,5 +1,5 @@
 import { seo } from '@/lib/seo';
-import { jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
+import { faqSchema, jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { FAQ } from '@/components/ai-visibility/faq';
@@ -267,7 +267,7 @@ export const Route = createFileRoute('/guides/llms-txt-file')({
         'Learn what an LLMs.txt file is, how it works, what to include, and how to create one for your website.',
       type: 'article',
     }),
-    scripts: [jsonLd(websiteSchema())],
+    scripts: [jsonLd(websiteSchema()), jsonLd(faqSchema(faqItems))],
   }),
   component: LLMsTxtFileGuidePage,
 });
