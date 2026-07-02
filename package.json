@@ -27,6 +27,7 @@
     "db:migrate:local": "tsx scripts/migrate-d1.ts --local",
     "db:migrate:remote": "tsx scripts/migrate-d1.ts --remote",
     "manual-audit:smoke": "tsx scripts/smoke-manual-audit-webhook.ts",
+    "manual-audit:notification-payload": "tsx scripts/test-manual-audit-notification-payload.ts",
     "smoke:route-tree": "tsx scripts/smoke-route-tree.ts",
     "smoke:seo-funnel": "tsx scripts/smoke-seo-funnel.ts"
   },

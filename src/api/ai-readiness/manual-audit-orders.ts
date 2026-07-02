@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { manualAuditOrders } from '@/db/app.schema';
 import { websiteConfig } from '@/config/website';
+import { buildManualAuditNotificationPayload } from './manual-audit-notification';
 import { normalizeUrlKeepPath } from './shared';
 
 export type ManualAuditOrder = {
@@ -257,16 +258,12 @@ async function notifyManualAuditOrder(data: {
   order: ManualAuditOrder;
 }) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
-  const payload = {
-    type: 'manual-audit-order',
+  const payload = buildManualAuditNotificationPayload({
+    checkoutId: data.checkoutId,
+    order: data.order,
     orderId: data.orderId,
-    checkoutId: data.checkoutId ?? '',
-    websiteUrl: data.order.websiteUrl.trim(),
-    email: data.order.email.trim(),
-    competitors: data.order.competitors?.trim() ?? '',
-    notes: data.order.notes?.trim() ?? '',
-    submittedAt: new Date().toISOString(),
-  };
+    webhookUrl: webhookUrl ?? '',
+  });
 
   if (!webhookUrl) {
     if (!isConsoleFallbackEnabled()) {
