@@ -16,6 +16,7 @@ export const serverEnv = createEnv({
 
     // Mail and Newsletter (Resend)
     RESEND_API_KEY: z.string().optional(),
+    RESEND_FROM_EMAIL: z.string().optional(),
 
     // Mail (Cloudflare Email)
     CLOUDFLARE_ACCOUNT_ID: z.string().optional(),

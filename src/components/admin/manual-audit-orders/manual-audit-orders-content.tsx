@@ -135,7 +135,7 @@ export function ManualAuditOrdersContent() {
             delete next[row.id];
             return next;
           });
-          toast.success('Manual audit order marked delivered');
+          toast.success('Manual audit delivery email sent');
         },
         onError: (error) => {
           const message =
@@ -370,7 +370,7 @@ function DeliveryAction({
           <Input
             aria-label="Report URL"
             className="h-8 text-xs"
-            placeholder="Report URL"
+            placeholder="Report URL required"
             value={reportUrl}
             onChange={(event) =>
               onUpdateDraft(row.id, 'reportUrl', event.target.value)
@@ -388,10 +388,10 @@ function DeliveryAction({
           <Button
             type="button"
             size="sm"
-            disabled={isDelivering}
+            disabled={isDelivering || !reportUrl.trim()}
             onClick={() => onDeliver(row)}
           >
-            Deliver
+            Send delivery
           </Button>
         </div>
       ) : null}
