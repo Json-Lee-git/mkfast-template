@@ -8,6 +8,7 @@ import { trackConversionEvent } from '@/lib/conversion-events';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
 import { createFileRoute } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 import Container from '@/components/layout/container';
 import {
   IconArrowRight,
@@ -18,7 +19,6 @@ import {
   IconMail,
   IconShieldCheck,
 } from '@tabler/icons-react';
-import { useState } from 'react';
 
 const includedItems = [
   'AI search readiness score for one important page',
@@ -109,6 +109,10 @@ function AuditServicePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    trackConversionEvent('manual_audit_page_viewed');
+  }, []);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
@@ -131,9 +135,16 @@ function AuditServicePage() {
         throw new Error('Checkout URL was not returned');
       }
 
+      trackConversionEvent('manual_audit_checkout_redirected', {
+        url: websiteUrl,
+      });
       window.location.href = res.url;
     } catch (err) {
       console.error(err);
+      trackConversionEvent('manual_audit_checkout_failed', {
+        url: websiteUrl,
+        reason: err instanceof Error ? err.message : 'unknown',
+      });
       setError(
         err instanceof Error
           ? err.message
@@ -178,6 +189,9 @@ function AuditServicePage() {
               </div>
               <a
                 href="#manual-audit-order"
+                onClick={() =>
+                  trackConversionEvent('manual_audit_primary_cta_clicked')
+                }
                 className="mt-7 inline-flex items-center gap-2 rounded-lg bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
               >
                 Start audit <IconArrowRight size={16} />

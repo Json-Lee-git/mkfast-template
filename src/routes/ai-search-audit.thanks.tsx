@@ -1,5 +1,7 @@
+import { trackConversionEvent } from '@/lib/conversion-events';
 import { seo } from '@/lib/seo';
 import { createFileRoute } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import Container from '@/components/layout/container';
 import {
   IconArrowRight,
@@ -10,6 +12,10 @@ import {
 
 function AuditThanksPage() {
   const { site } = Route.useSearch();
+
+  useEffect(() => {
+    trackConversionEvent('manual_audit_thanks_viewed', { site });
+  }, [site]);
 
   return (
     <div className="min-h-screen">

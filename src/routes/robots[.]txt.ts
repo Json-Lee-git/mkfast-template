@@ -11,7 +11,6 @@ const disallowedPaths = [
   '/settings',
   '/dashboard',
   '/ai',
-  '/pricing',
   '/changelog',
   '/roadmap',
   '/waitlist',
