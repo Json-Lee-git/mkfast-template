@@ -77,7 +77,7 @@ function AuditThanksPage() {
   );
 }
 
-export const Route = createFileRoute('/ai-search-audit/thanks')({
+export const Route = createFileRoute('/ai-search-audit_/thanks')({
   validateSearch: (search: Record<string, unknown>) => ({
     site: typeof search.site === 'string' ? search.site : '',
   }),

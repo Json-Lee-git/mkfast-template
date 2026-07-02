@@ -60,7 +60,7 @@ import { Route as ApiRssDotxmlRouteImport } from './routes/api/rss[.]xml'
 import { Route as ApiRssRouteImport } from './routes/api/rss'
 import { Route as ApiPingRouteImport } from './routes/api/ping'
 import { Route as ApiConversionEventsRouteImport } from './routes/api/conversion-events'
-import { Route as AiSearchAuditThanksRouteImport } from './routes/ai-search-audit.thanks'
+import { Route as AiSearchAuditThanksRouteImport } from './routes/ai-search-audit_.thanks'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminManualAuditOrdersRouteImport } from './routes/admin/manual-audit-orders'
 import { Route as pagesReferencesRouteImport } from './routes/(pages)/references'
@@ -341,9 +341,9 @@ const ApiConversionEventsRoute = ApiConversionEventsRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiSearchAuditThanksRoute = AiSearchAuditThanksRouteImport.update({
-  id: '/thanks',
-  path: '/thanks',
-  getParentRoute: () => AiSearchAuditRoute,
+  id: '/ai-search-audit_/thanks',
+  path: '/ai-search-audit/thanks',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -424,7 +424,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
+  '/ai-search-audit': typeof AiSearchAuditRoute
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
@@ -492,7 +492,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
+  '/ai-search-audit': typeof AiSearchAuditRoute
   '/auth': typeof AuthRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
@@ -560,7 +560,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/ai-search-audit': typeof AiSearchAuditRouteWithChildren
+  '/ai-search-audit': typeof AiSearchAuditRoute
   '/auth': typeof AuthRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
@@ -581,7 +581,7 @@ export interface FileRoutesById {
   '/(pages)/references': typeof pagesReferencesRoute
   '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
   '/admin/users': typeof AdminUsersRoute
-  '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
+  '/ai-search-audit_/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
   '/api/ping': typeof ApiPingRoute
   '/api/rss': typeof ApiRssRoute
@@ -787,7 +787,7 @@ export interface FileRouteTypes {
     | '/(pages)/references'
     | '/admin/manual-audit-orders'
     | '/admin/users'
-    | '/ai-search-audit/thanks'
+    | '/ai-search-audit_/thanks'
     | '/api/conversion-events'
     | '/api/ping'
     | '/api/rss'
@@ -836,7 +836,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AiSearchAuditRoute: typeof AiSearchAuditRouteWithChildren
+  AiSearchAuditRoute: typeof AiSearchAuditRoute
   AuthRoute: typeof AuthRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   IndexnowKeyDottxtRoute: typeof IndexnowKeyDottxtRoute
@@ -855,6 +855,7 @@ export interface RootRouteChildren {
   pagesPressRoute: typeof pagesPressRoute
   pagesPricingRoute: typeof pagesPricingRoute
   pagesReferencesRoute: typeof pagesReferencesRoute
+  AiSearchAuditThanksRoute: typeof AiSearchAuditThanksRoute
   ApiConversionEventsRoute: typeof ApiConversionEventsRoute
   ApiPingRoute: typeof ApiPingRoute
   ApiRssRoute: typeof ApiRssRoute
@@ -1247,12 +1248,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiConversionEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ai-search-audit/thanks': {
-      id: '/ai-search-audit/thanks'
-      path: '/thanks'
+    '/ai-search-audit_/thanks': {
+      id: '/ai-search-audit_/thanks'
+      path: '/ai-search-audit/thanks'
       fullPath: '/ai-search-audit/thanks'
       preLoaderRoute: typeof AiSearchAuditThanksRouteImport
-      parentRoute: typeof AiSearchAuditRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
       id: '/admin/users'
@@ -1376,18 +1377,6 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface AiSearchAuditRouteChildren {
-  AiSearchAuditThanksRoute: typeof AiSearchAuditThanksRoute
-}
-
-const AiSearchAuditRouteChildren: AiSearchAuditRouteChildren = {
-  AiSearchAuditThanksRoute: AiSearchAuditThanksRoute,
-}
-
-const AiSearchAuditRouteWithChildren = AiSearchAuditRoute._addFileChildren(
-  AiSearchAuditRouteChildren,
-)
-
 interface AuthRouteChildren {
   AuthErrorRoute: typeof AuthErrorRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
@@ -1441,7 +1430,7 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  AiSearchAuditRoute: AiSearchAuditRouteWithChildren,
+  AiSearchAuditRoute: AiSearchAuditRoute,
   AuthRoute: AuthRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   IndexnowKeyDottxtRoute: IndexnowKeyDottxtRoute,
@@ -1460,6 +1449,7 @@ const rootRouteChildren: RootRouteChildren = {
   pagesPressRoute: pagesPressRoute,
   pagesPricingRoute: pagesPricingRoute,
   pagesReferencesRoute: pagesReferencesRoute,
+  AiSearchAuditThanksRoute: AiSearchAuditThanksRoute,
   ApiConversionEventsRoute: ApiConversionEventsRoute,
   ApiPingRoute: ApiPingRoute,
   ApiRssRoute: ApiRssRoute,
