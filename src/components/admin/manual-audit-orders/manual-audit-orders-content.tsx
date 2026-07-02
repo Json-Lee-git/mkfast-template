@@ -1,11 +1,13 @@
 import {
   type ManualAuditOrderStatus,
+  useDeliverManualAuditOrder,
   useManualAuditOrders,
   useRetryManualAuditOrderNotification,
 } from '@/hooks/use-manual-audit-orders';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   NativeSelect,
   NativeSelectOption,
@@ -33,7 +35,7 @@ import {
   parseAsString,
   useQueryStates,
 } from 'nuqs';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 const STATUS_OPTIONS: Array<{
@@ -45,6 +47,7 @@ const STATUS_OPTIONS: Array<{
   { label: 'Paid', value: 'paid' },
   { label: 'Notified', value: 'notified' },
   { label: 'Notification failed', value: 'notification_failed' },
+  { label: 'Delivered', value: 'delivered' },
 ];
 
 type ManualAuditOrderRow = {
@@ -55,13 +58,19 @@ type ManualAuditOrderRow = {
   websiteUrl: string;
   email: string;
   notificationError: string | null;
+  reportUrl: string | null;
+  deliveryNotes: string | null;
   createdAt: Date;
   paidAt: Date | null;
   notifiedAt: Date | null;
+  deliveredAt: Date | null;
 };
 
 export function ManualAuditOrdersContent() {
   const [, startTransition] = useTransition();
+  const [deliveryDrafts, setDeliveryDrafts] = useState<
+    Record<string, { reportUrl: string; deliveryNotes: string }>
+  >({});
   const [state, setQueryStates] = useQueryStates(
     {
       page: parseAsIndex.withDefault(0),
@@ -81,6 +90,7 @@ export function ManualAuditOrdersContent() {
     status
   );
   const retryNotification = useRetryManualAuditOrderNotification();
+  const deliverOrder = useDeliverManualAuditOrder();
   const total = data?.total ?? 0;
   const pageCount = Math.max(1, Math.ceil(total / state.size));
   const rows = (data?.items ?? []) as ManualAuditOrderRow[];
@@ -93,6 +103,47 @@ export function ManualAuditOrdersContent() {
         toast.error(message);
       },
     });
+  };
+
+  const updateDeliveryDraft = (
+    orderId: string,
+    field: 'reportUrl' | 'deliveryNotes',
+    value: string
+  ) => {
+    setDeliveryDrafts((current) => ({
+      ...current,
+      [orderId]: {
+        reportUrl: current[orderId]?.reportUrl ?? '',
+        deliveryNotes: current[orderId]?.deliveryNotes ?? '',
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleDeliver = (row: ManualAuditOrderRow) => {
+    const draft = deliveryDrafts[row.id];
+    deliverOrder.mutate(
+      {
+        orderId: row.id,
+        reportUrl: draft?.reportUrl || row.reportUrl || undefined,
+        deliveryNotes: draft?.deliveryNotes || row.deliveryNotes || undefined,
+      },
+      {
+        onSuccess: () => {
+          setDeliveryDrafts((current) => {
+            const next = { ...current };
+            delete next[row.id];
+            return next;
+          });
+          toast.success('Manual audit order marked delivered');
+        },
+        onError: (error) => {
+          const message =
+            error instanceof Error ? error.message : String(error);
+          toast.error(message);
+        },
+      }
+    );
   };
 
   return (
@@ -144,7 +195,7 @@ export function ManualAuditOrdersContent() {
               <TableHead>Customer</TableHead>
               <TableHead>Website</TableHead>
               <TableHead>Checkout</TableHead>
-              <TableHead>Last notification</TableHead>
+              <TableHead>Progress</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -191,9 +242,27 @@ export function ManualAuditOrdersContent() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="whitespace-nowrap text-sm">
-                      {formatOptionalDate(row.notifiedAt ?? row.paidAt)}
+                    <div className="space-y-1 text-sm">
+                      <div className="whitespace-nowrap">
+                        Paid: {formatOptionalDate(row.paidAt)}
+                      </div>
+                      <div className="whitespace-nowrap text-muted-foreground">
+                        Notified: {formatOptionalDate(row.notifiedAt)}
+                      </div>
+                      <div className="whitespace-nowrap text-muted-foreground">
+                        Delivered: {formatOptionalDate(row.deliveredAt)}
+                      </div>
                     </div>
+                    {row.reportUrl ? (
+                      <a
+                        href={row.reportUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-1 block max-w-[260px] truncate text-xs underline-offset-4 hover:underline"
+                      >
+                        {row.reportUrl}
+                      </a>
+                    ) : null}
                     {row.notificationError ? (
                       <div className="mt-1 max-w-[260px] text-destructive text-xs">
                         {row.notificationError}
@@ -201,18 +270,15 @@ export function ManualAuditOrdersContent() {
                     ) : null}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={
-                        !canRetry(row.status) || retryNotification.isPending
-                      }
-                      onClick={() => handleRetry(row.id)}
-                    >
-                      <IconRefresh />
-                      Retry
-                    </Button>
+                    <DeliveryAction
+                      draft={deliveryDrafts[row.id]}
+                      isDelivering={deliverOrder.isPending}
+                      isRetrying={retryNotification.isPending}
+                      row={row}
+                      onDeliver={handleDeliver}
+                      onRetry={handleRetry}
+                      onUpdateDraft={updateDeliveryDraft}
+                    />
                   </TableCell>
                 </TableRow>
               ))
@@ -273,14 +339,86 @@ export function ManualAuditOrdersContent() {
   );
 }
 
+function DeliveryAction({
+  draft,
+  isDelivering,
+  isRetrying,
+  row,
+  onDeliver,
+  onRetry,
+  onUpdateDraft,
+}: {
+  draft?: { reportUrl: string; deliveryNotes: string };
+  isDelivering: boolean;
+  isRetrying: boolean;
+  row: ManualAuditOrderRow;
+  onDeliver: (row: ManualAuditOrderRow) => void;
+  onRetry: (orderId: string) => void;
+  onUpdateDraft: (
+    orderId: string,
+    field: 'reportUrl' | 'deliveryNotes',
+    value: string
+  ) => void;
+}) {
+  const reportUrl = draft?.reportUrl ?? row.reportUrl ?? '';
+  const deliveryNotes = draft?.deliveryNotes ?? row.deliveryNotes ?? '';
+
+  return (
+    <div className="ml-auto flex max-w-[280px] flex-col items-end gap-2">
+      {canDeliver(row.status) ? (
+        <div className="w-full space-y-2 text-left">
+          <Input
+            aria-label="Report URL"
+            className="h-8 text-xs"
+            placeholder="Report URL"
+            value={reportUrl}
+            onChange={(event) =>
+              onUpdateDraft(row.id, 'reportUrl', event.target.value)
+            }
+          />
+          <Textarea
+            aria-label="Delivery notes"
+            className="min-h-16 text-xs"
+            placeholder="Delivery notes"
+            value={deliveryNotes}
+            onChange={(event) =>
+              onUpdateDraft(row.id, 'deliveryNotes', event.target.value)
+            }
+          />
+          <Button
+            type="button"
+            size="sm"
+            disabled={isDelivering}
+            onClick={() => onDeliver(row)}
+          >
+            Deliver
+          </Button>
+        </div>
+      ) : null}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        disabled={!canRetry(row.status) || isRetrying}
+        onClick={() => onRetry(row.id)}
+      >
+        <IconRefresh />
+        Retry
+      </Button>
+    </div>
+  );
+}
+
 function StatusBadge({ status }: { status: ManualAuditOrderStatus }) {
   return (
     <Badge
       variant="outline"
       className={cn(
         'border-transparent px-1.5',
-        status === 'notified' &&
+        status === 'delivered' &&
           'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400',
+        status === 'notified' &&
+          'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400',
         status === 'notification_failed' &&
           'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400',
         status === 'paid' &&
@@ -303,6 +441,15 @@ function statusLabel(status: ManualAuditOrderStatus) {
 
 function canRetry(status: ManualAuditOrderStatus) {
   return status === 'paid' || status === 'notification_failed';
+}
+
+function canDeliver(status: ManualAuditOrderStatus) {
+  return (
+    status === 'paid' ||
+    status === 'notified' ||
+    status === 'notification_failed' ||
+    status === 'delivered'
+  );
 }
 
 function isManualAuditOrderStatus(

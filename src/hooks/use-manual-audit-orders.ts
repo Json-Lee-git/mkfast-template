@@ -1,4 +1,5 @@
 import {
+  deliverManualAuditOrder,
   listManualAuditOrders,
   retryManualAuditOrderNotification,
 } from '@/api/ai-readiness/manual-audit-admin';
@@ -9,7 +10,8 @@ export type ManualAuditOrderStatus =
   | 'checkout_failed'
   | 'paid'
   | 'notified'
-  | 'notification_failed';
+  | 'notification_failed'
+  | 'delivered';
 
 export const manualAuditOrdersKeys = {
   all: ['manual-audit-orders'] as const,
@@ -53,6 +55,23 @@ export function useRetryManualAuditOrderNotification() {
   return useMutation({
     mutationFn: async (orderId: string) =>
       retryManualAuditOrderNotification({ data: { orderId } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: manualAuditOrdersKeys.all,
+      });
+    },
+  });
+}
+
+export function useDeliverManualAuditOrder() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      orderId: string;
+      reportUrl?: string;
+      deliveryNotes?: string;
+    }) => deliverManualAuditOrder({ data }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: manualAuditOrdersKeys.all,

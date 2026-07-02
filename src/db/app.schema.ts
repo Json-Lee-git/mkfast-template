@@ -145,6 +145,7 @@ export const manualAuditOrders = sqliteTable(
         | "paid"
         | "notified"
         | "notification_failed"
+        | "delivered"
       >(),
     checkoutId: text("checkout_id"),
     requestId: text("request_id").notNull(),
@@ -153,9 +154,12 @@ export const manualAuditOrders = sqliteTable(
     competitors: text("competitors"),
     notes: text("notes"),
     notificationError: text("notification_error"),
+    reportUrl: text("report_url"),
+    deliveryNotes: text("delivery_notes"),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
     paidAt: integer("paid_at", { mode: "timestamp_ms" }),
     notifiedAt: integer("notified_at", { mode: "timestamp_ms" }),
+    deliveredAt: integer("delivered_at", { mode: "timestamp_ms" }),
     updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [

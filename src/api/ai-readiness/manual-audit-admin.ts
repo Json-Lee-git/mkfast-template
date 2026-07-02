@@ -5,7 +5,10 @@ import { createServerFn } from '@tanstack/react-start';
 import { and, count as countFn, desc, eq, or, sql } from 'drizzle-orm';
 import type { SQL } from 'drizzle-orm';
 import { z } from 'zod';
-import { resendManualAuditOrderNotification } from './manual-audit-orders';
+import {
+  markManualAuditOrderDelivered,
+  resendManualAuditOrderNotification,
+} from './manual-audit-orders';
 
 const manualAuditOrderStatusSchema = z.enum([
   'pending',
@@ -13,6 +16,7 @@ const manualAuditOrderStatusSchema = z.enum([
   'paid',
   'notified',
   'notification_failed',
+  'delivered',
 ]);
 
 const listManualAuditOrdersInputSchema = z.object({
@@ -24,6 +28,12 @@ const listManualAuditOrdersInputSchema = z.object({
 
 const retryManualAuditOrderNotificationInputSchema = z.object({
   orderId: z.string().min(1),
+});
+
+const deliverManualAuditOrderInputSchema = z.object({
+  orderId: z.string().min(1),
+  reportUrl: z.string().trim().url().max(2000).optional().or(z.literal('')),
+  deliveryNotes: z.string().trim().max(5000).optional(),
 });
 
 export const listManualAuditOrders = createServerFn({ method: 'GET' })
@@ -80,6 +90,18 @@ export const retryManualAuditOrderNotification = createServerFn({
   .middleware([adminApiMiddleware])
   .handler(async ({ data }) => {
     await resendManualAuditOrderNotification(data.orderId);
+    return { success: true };
+  });
+
+export const deliverManualAuditOrder = createServerFn({ method: 'POST' })
+  .inputValidator(deliverManualAuditOrderInputSchema)
+  .middleware([adminApiMiddleware])
+  .handler(async ({ data }) => {
+    await markManualAuditOrderDelivered({
+      orderId: data.orderId,
+      reportUrl: data.reportUrl || undefined,
+      deliveryNotes: data.deliveryNotes || undefined,
+    });
     return { success: true };
   });
 

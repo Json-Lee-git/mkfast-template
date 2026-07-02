@@ -80,7 +80,7 @@ export async function completeManualAuditOrder(data: {
       : data.order
   );
 
-  if (existing?.status === 'notified') {
+  if (existing?.status === 'notified' || existing?.status === 'delivered') {
     return;
   }
 
@@ -143,6 +143,35 @@ export async function completeManualAuditOrder(data: {
       .where(eq(manualAuditOrders.id, orderId));
     throw error;
   }
+}
+
+export async function markManualAuditOrderDelivered(data: {
+  orderId: string;
+  reportUrl?: string;
+  deliveryNotes?: string;
+}) {
+  const existing = await findManualAuditOrder({ orderId: data.orderId });
+
+  if (!existing) {
+    throw new Error('Manual audit order not found');
+  }
+
+  if (existing.status === 'pending' || existing.status === 'checkout_failed') {
+    throw new Error('Only paid manual audit orders can be delivered');
+  }
+
+  const now = new Date();
+  await getDb()
+    .update(manualAuditOrders)
+    .set({
+      status: 'delivered',
+      reportUrl: trimOptional(data.reportUrl) ?? null,
+      deliveryNotes: trimOptional(data.deliveryNotes) ?? null,
+      deliveredAt: existing.deliveredAt ?? now,
+      notificationError: null,
+      updatedAt: now,
+    })
+    .where(eq(manualAuditOrders.id, existing.id));
 }
 
 export async function resendManualAuditOrderNotification(orderId: string) {
