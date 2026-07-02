@@ -3,6 +3,8 @@ import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import { getBaseUrl } from '@/lib/urls';
 import { baseLocale, locales, localizeHref } from '@/lib/locale';
 
+const allowedPaths = ['/ai-search-audit'];
+
 const disallowedPaths = [
   '/auth',
   '/admin',
@@ -14,6 +16,18 @@ const disallowedPaths = [
   '/roadmap',
   '/waitlist',
 ];
+
+function getAllowRules() {
+  return allowedPaths
+    .flatMap((path) => [
+      path,
+      ...locales
+        .filter((locale) => locale !== baseLocale)
+        .map((locale) => localizeHref(path, { locale })),
+    ])
+    .map((path) => `Allow: ${path}`)
+    .join('\n');
+}
 
 function getDisallowRules() {
   return disallowedPaths
@@ -30,13 +44,13 @@ function getDisallowRules() {
 function getAiCrawlerAllowRules() {
   return AI_CRAWLERS.map(
     (crawler) =>
-      `User-agent: ${crawler.userAgent}\nAllow: /\n${getDisallowRules()}`
+      `User-agent: ${crawler.userAgent}\nAllow: /\n${getAllowRules()}\n${getDisallowRules()}`
   ).join('\n\n');
 }
 
 const robotsHeaders = {
   'Content-Type': 'text/plain; charset=utf-8',
-  'Cache-Control': 'public, max-age=3600',
+  'Cache-Control': 'public, max-age=300',
 };
 
 /**
@@ -57,6 +71,7 @@ export const Route = createFileRoute('/robots.txt')({
 
 User-agent: *
 Allow: /
+${getAllowRules()}
 ${getDisallowRules()}
 
 Sitemap: ${base}/sitemap.xml`;

@@ -19,6 +19,21 @@ export function getFooterLinks(): MenuItemConfig[] {
         },
         { title: 'AEO Checker', href: '/tools/aeo-checker', external: false },
         {
+          title: 'AI Crawler Checker',
+          href: '/tools/ai-crawler-checker',
+          external: false,
+        },
+        {
+          title: 'AI Overview Checker',
+          href: '/tools/ai-overview-readiness-checker',
+          external: false,
+        },
+        {
+          title: 'GEO Audit Tool',
+          href: '/tools/geo-audit',
+          external: false,
+        },
+        {
           title: 'Query Fan-Out Tool',
           href: '/tools/query-fan-out-tool',
           external: false,
@@ -29,8 +44,28 @@ export function getFooterLinks(): MenuItemConfig[] {
       title: 'Guides',
       items: [
         {
+          title: 'Manual Audit',
+          href: '/ai-search-audit',
+          external: false,
+        },
+        {
+          title: 'Sample AEO Report',
+          href: '/sample-aeo-report',
+          external: false,
+        },
+        {
+          title: 'AI Search Readiness Checklist',
+          href: '/guides/ai-search-readiness-checklist',
+          external: false,
+        },
+        {
           title: 'AEO Checker Alternatives',
           href: '/compare/aeo-checker-alternatives',
+          external: false,
+        },
+        {
+          title: 'AEO Checker vs SEO Tools',
+          href: '/compare/aeo-checker-vs-seo-tools',
           external: false,
         },
         {

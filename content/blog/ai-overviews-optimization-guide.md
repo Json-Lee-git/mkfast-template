@@ -126,7 +126,9 @@ Traditional rank tracking is not enough for AI search. Track proxies instead:
 5. Changes in branded search demand and third-party mentions.
 
 Run a free [AI Overview readiness check](/tools/aeo-checker) on your pages to
-find and fix technical gaps.
+find and fix technical gaps. If you need a broader page-level checklist, follow
+the [AI search readiness audit framework](/blog/ai-search-readiness-audit) before
+changing crawler rules, schema, or page structure.
 
 ## Sources and further reading
 

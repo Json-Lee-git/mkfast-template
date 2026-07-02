@@ -149,8 +149,10 @@ question. Technical signals get you into consideration. Content quality and
 off-site authority determine whether you deserve the citation.
 
 Run a free [AEO audit](/tools/aeo-checker) on your site to see where you stand.
-Also check the [AEO checker alternatives comparison](/compare/aeo-checker-alternatives)
-if you are evaluating manual audits or traditional SEO platforms for AI search work.
+For a page-by-page process, use the [AI search readiness audit framework](/blog/ai-search-readiness-audit)
+before you rewrite content or change crawler rules. Also check the
+[AEO checker alternatives comparison](/compare/aeo-checker-alternatives) if you
+are evaluating manual audits or traditional SEO platforms for AI search work.
 
 ## Sources and further reading
 

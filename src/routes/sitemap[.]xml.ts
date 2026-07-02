@@ -85,6 +85,11 @@ export const Route = createFileRoute('/sitemap.xml')({
             priority: '0.85',
           },
           {
+            path: '/ai-search-audit',
+            changefreq: 'weekly',
+            priority: '0.9',
+          },
+          {
             path: '/sample-aeo-report',
             changefreq: 'monthly',
             priority: '0.8',
