@@ -33,10 +33,10 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   metadata: {
-    name: 'AI Search Readiness Tools',
-    title: 'AI Search Readiness Tools - LLMs.txt, AEO Checker & Query Fan-Out',
+    name: 'AEOCheck',
+    title: 'AEOCheck - AI Search Readiness Audit, Fix Pack & Manual Review',
     description:
-      "Free tools to check your website's AI search readiness. Validate LLMs.txt, audit technical AEO signals, check AI crawler access, and simulate query fan-out.",
+      'Run a free AI search readiness audit, then choose a $19 Fix Pack or $99 human review when you need implementation help.',
     supportEmail: 'support@aeocheck.xyz',
     images: {
       ogImage: '/og.png',

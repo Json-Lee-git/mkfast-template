@@ -123,8 +123,7 @@ function WorthItPage() {
             <p className="mt-3 text-gray-700 dark:text-zinc-300">
               The $19 Fix Pack is worth it if you need specific fixes you can
               paste into a page or hand to a developer. It is not worth it if
-              you expect guaranteed rankings, citations, or a full SEO
-              platform.
+              you expect guaranteed rankings, citations, or a full SEO platform.
             </p>
           </div>
         </Container>

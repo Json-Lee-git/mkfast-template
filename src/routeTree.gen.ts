@@ -62,6 +62,7 @@ import { Route as ApiPingRouteImport } from './routes/api/ping'
 import { Route as ApiConversionEventsRouteImport } from './routes/api/conversion-events'
 import { Route as AiSearchAuditThanksRouteImport } from './routes/ai-search-audit.thanks'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminManualAuditOrdersRouteImport } from './routes/admin/manual-audit-orders'
 import { Route as pagesReferencesRouteImport } from './routes/(pages)/references'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
 import { Route as pagesPressRouteImport } from './routes/(pages)/press'
@@ -349,6 +350,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminManualAuditOrdersRoute = AdminManualAuditOrdersRouteImport.update({
+  id: '/manual-audit-orders',
+  path: '/manual-audit-orders',
+  getParentRoute: () => AdminRoute,
+} as any)
 const pagesReferencesRoute = pagesReferencesRouteImport.update({
   id: '/(pages)/references',
   path: '/references',
@@ -437,6 +443,7 @@ export interface FileRoutesByFullPath {
   '/press': typeof pagesPressRoute
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
+  '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -502,6 +509,7 @@ export interface FileRoutesByTo {
   '/press': typeof pagesPressRoute
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
+  '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -571,6 +579,7 @@ export interface FileRoutesById {
   '/(pages)/press': typeof pagesPressRoute
   '/(pages)/pricing': typeof pagesPricingRoute
   '/(pages)/references': typeof pagesReferencesRoute
+  '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -641,6 +650,7 @@ export interface FileRouteTypes {
     | '/press'
     | '/pricing'
     | '/references'
+    | '/admin/manual-audit-orders'
     | '/admin/users'
     | '/ai-search-audit/thanks'
     | '/api/conversion-events'
@@ -706,6 +716,7 @@ export interface FileRouteTypes {
     | '/press'
     | '/pricing'
     | '/references'
+    | '/admin/manual-audit-orders'
     | '/admin/users'
     | '/ai-search-audit/thanks'
     | '/api/conversion-events'
@@ -774,6 +785,7 @@ export interface FileRouteTypes {
     | '/(pages)/press'
     | '/(pages)/pricing'
     | '/(pages)/references'
+    | '/admin/manual-audit-orders'
     | '/admin/users'
     | '/ai-search-audit/thanks'
     | '/api/conversion-events'
@@ -1249,6 +1261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/manual-audit-orders': {
+      id: '/admin/manual-audit-orders'
+      path: '/manual-audit-orders'
+      fullPath: '/admin/manual-audit-orders'
+      preLoaderRoute: typeof AdminManualAuditOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/(pages)/references': {
       id: '/(pages)/references'
       path: '/references'
@@ -1344,11 +1363,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminManualAuditOrdersRoute: typeof AdminManualAuditOrdersRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminManualAuditOrdersRoute: AdminManualAuditOrdersRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

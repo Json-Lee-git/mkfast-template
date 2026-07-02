@@ -24,8 +24,9 @@
     "db:push": "drizzle-kit push",
     "db:studio:local": "drizzle-kit studio --config drizzle.config.local.ts",
     "db:studio:remote": "drizzle-kit studio --config drizzle.config.ts",
-    "db:migrate:local": "wrangler d1 migrations apply $(tsx scripts/get-db-name.ts) --local",
-    "db:migrate:remote": "wrangler d1 migrations apply $(tsx scripts/get-db-name.ts) --remote"
+    "db:migrate:local": "tsx scripts/migrate-d1.ts --local",
+    "db:migrate:remote": "tsx scripts/migrate-d1.ts --remote",
+    "manual-audit:smoke": "tsx scripts/smoke-manual-audit-webhook.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

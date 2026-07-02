@@ -4,9 +4,20 @@
  */
 
 import { relations } from 'drizzle-orm';
-import { integer, sqliteTable, text, index } from 'drizzle-orm/sqlite-core';
+import {
+  integer,
+  sqliteTable,
+  text,
+  index,
+  uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 import { user } from './auth.schema';
-import type { PaymentScene, PaymentStatus, PaymentType, PlanInterval } from '@/payment/types';
+import type {
+  PaymentScene,
+  PaymentStatus,
+  PaymentType,
+  PlanInterval,
+} from '@/payment/types';
 
 /** 
  * Payment: subscription and one-time 
@@ -119,6 +130,73 @@ export const reportTokens = sqliteTable("report_tokens", {
 /**
  * AI usage tracking — daily per-feature limits
  */
+/**
+ * Manual audit orders for the $99 human-reviewed service.
+ */
+export const manualAuditOrders = sqliteTable(
+  "manual_audit_orders",
+  {
+    id: text("id").primaryKey(),
+    status: text("status")
+      .notNull()
+      .$type<
+        | "pending"
+        | "checkout_failed"
+        | "paid"
+        | "notified"
+        | "notification_failed"
+      >(),
+    checkoutId: text("checkout_id"),
+    requestId: text("request_id").notNull(),
+    websiteUrl: text("website_url").notNull(),
+    email: text("email").notNull(),
+    competitors: text("competitors"),
+    notes: text("notes"),
+    notificationError: text("notification_error"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+    paidAt: integer("paid_at", { mode: "timestamp_ms" }),
+    notifiedAt: integer("notified_at", { mode: "timestamp_ms" }),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    uniqueIndex("manual_audit_orders_request_id_idx").on(table.requestId),
+    uniqueIndex("manual_audit_orders_checkout_id_idx").on(table.checkoutId),
+    index("manual_audit_orders_status_idx").on(table.status),
+    index("manual_audit_orders_email_idx").on(table.email),
+    index("manual_audit_orders_created_at_idx").on(table.createdAt),
+  ]
+);
+
+/**
+ * External webhook delivery ledger.
+ */
+export const webhookEvents = sqliteTable(
+  "webhook_events",
+  {
+    id: text("id").primaryKey(),
+    provider: text("provider").notNull(),
+    eventId: text("event_id").notNull(),
+    eventType: text("event_type").notNull(),
+    target: text("target"),
+    status: text("status")
+      .notNull()
+      .$type<"processing" | "processed" | "failed">(),
+    error: text("error"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+    processedAt: integer("processed_at", { mode: "timestamp_ms" }),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    uniqueIndex("webhook_events_provider_event_id_idx").on(
+      table.provider,
+      table.eventId
+    ),
+    index("webhook_events_status_idx").on(table.status),
+    index("webhook_events_event_type_idx").on(table.eventType),
+    index("webhook_events_created_at_idx").on(table.createdAt),
+  ]
+);
+
 export const aiUsage = sqliteTable("ai_usage", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   feature: text("feature").notNull(), // 'query-fan-out' | 'aeo-analysis' | 'llms-polish'

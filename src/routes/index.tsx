@@ -14,15 +14,15 @@ export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
       title:
-        'Free AI Search Readiness Tools - LLMs.txt Checker, AEO Audit & Query Fan-Out',
+        'AEOCheck - Free AI Search Readiness Audit, Fix Pack & Manual Review',
       description:
-        "Free tools to check your website's AI search readiness. Validate LLMs.txt, audit technical AEO signals, check AI crawler access for ChatGPT and Perplexity, and simulate AI query fan-out. No sign-up required.",
+        'Audit one important page for AI search readiness. Start with a free AEO scan, unlock a $19 Fix Pack for implementation assets, or order a $99 human review.',
     });
     return {
       ...pageSeo,
       meta: [
         ...pageSeo.meta,
-        { name: 'author', content: 'AI Search Readiness Tools' },
+        { name: 'author', content: 'AEOCheck' },
         { property: 'article:published_time', content: '2026-02-15T00:00:00Z' },
         {
           property: 'article:modified_time',
@@ -96,7 +96,7 @@ export const Route = createFileRoute('/')({
             },
             {
               q: 'Are these tools free?',
-              a: 'All three tools are free to use. We also offer an optional AI Search Readiness Fix Pack for $19, with detailed findings, prioritized fixes, copy-ready schema, LLMs.txt files, and downloadable Markdown.',
+              a: 'The scan and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with implementation assets and a $99 manual audit when you want a human-reviewed fix plan.',
             },
             {
               q: 'Do these tools guarantee AI search visibility?',

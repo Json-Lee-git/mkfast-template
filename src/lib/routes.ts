@@ -33,6 +33,7 @@ export const Routes = {
   // Admin routes
   Admin: '/admin',
   AdminUsers: '/admin/users',
+  AdminManualAuditOrders: '/admin/manual-audit-orders',
 } as const;
 
 /** Default login redirect route */

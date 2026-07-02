@@ -78,7 +78,8 @@ const beforeAfterRows = [
   },
   {
     area: 'LLMs.txt',
-    before: 'No curated AI-readable index for tools, methodology, reports, or contact pages.',
+    before:
+      'No curated AI-readable index for tools, methodology, reports, or contact pages.',
     after:
       'Publish a concise /llms.txt that points AI crawlers to core tools, guides, references, and support paths.',
   },

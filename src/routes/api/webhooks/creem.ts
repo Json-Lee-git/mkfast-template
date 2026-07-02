@@ -1,9 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
-import { reportTokens } from '@/db/app.schema';
-import { eq } from 'drizzle-orm';
-import { notifyManualAuditOrder } from '@/api/ai-readiness/service-checkout';
+import { reportTokens, webhookEvents } from '@/db/app.schema';
+import { and, eq } from 'drizzle-orm';
 
 /**
  * Creem webhook endpoint
@@ -19,39 +18,6 @@ export const Route = createFileRoute('/api/webhooks/creem')({
         const payload = await request.text();
         const signature = request.headers.get('creem-signature') ?? '';
 
-        // Handle report checkout (lightweight, no full payment provider needed)
-        if (payload) {
-          try {
-            const raw = JSON.parse(payload);
-            if (raw.eventType === 'checkout.completed') {
-              const metadata = raw.object?.metadata;
-              if (metadata?.reportToken) {
-                await verifyCreemSignature(payload, signature);
-                await activateReportToken(metadata.reportToken);
-                return Response.json({ received: true }, { status: 200 });
-              }
-              if (metadata?.service === 'manual-audit') {
-                await verifyCreemSignature(payload, signature);
-                await notifyManualAuditOrder({
-                  checkoutId: raw.object?.id,
-                  order: {
-                    websiteUrl: String(metadata.websiteUrl ?? ''),
-                    email: String(metadata.email ?? ''),
-                    competitors: String(metadata.competitors ?? ''),
-                    notes: String(metadata.notes ?? ''),
-                  },
-                });
-                return Response.json({ received: true }, { status: 200 });
-              }
-            }
-          } catch {
-            // Fall through to normal payment handling
-          }
-        }
-
-        if (!isPaymentEnabled()) {
-          return Response.json({ received: true }, { status: 200 });
-        }
         if (!payload || !signature) {
           console.warn('Creem webhook: missing payload or signature');
           return Response.json(
@@ -59,20 +25,115 @@ export const Route = createFileRoute('/api/webhooks/creem')({
             { status: 400 }
           );
         }
+
+        const raw = safeParseJson(payload);
+        if (raw?.eventType === 'checkout.completed') {
+          const metadata = raw.object?.metadata;
+          if (metadata?.reportToken) {
+            let event: ClaimedWebhookEvent | undefined;
+            try {
+              await verifyCreemSignature(payload, signature);
+              event = await claimCreemWebhookEvent(
+                raw,
+                payload,
+                'report-checkout'
+              );
+              if (!event.shouldProcess) {
+                return Response.json(
+                  { received: true, duplicate: true },
+                  { status: 200 }
+                );
+              }
+              await activateReportToken(String(metadata.reportToken));
+              await markCreemWebhookEventProcessed(event.eventId);
+              return Response.json({ received: true }, { status: 200 });
+            } catch (err) {
+              console.error('Report checkout webhook error:', err);
+              if (event) await markCreemWebhookEventFailed(event.eventId, err);
+              return Response.json(
+                { error: 'Report webhook processing failed' },
+                { status: 500 }
+              );
+            }
+          }
+          if (metadata?.service === 'manual-audit') {
+            let event: ClaimedWebhookEvent | undefined;
+            try {
+              await verifyCreemSignature(payload, signature);
+              event = await claimCreemWebhookEvent(
+                raw,
+                payload,
+                'manual-audit'
+              );
+              if (!event.shouldProcess) {
+                return Response.json(
+                  { received: true, duplicate: true },
+                  { status: 200 }
+                );
+              }
+              const { completeManualAuditOrder } = await import(
+                '@/api/ai-readiness/manual-audit-orders'
+              );
+              await completeManualAuditOrder({
+                checkoutId: optionalString(raw.object?.id),
+                orderId: optionalString(metadata.manualAuditOrderId),
+                requestId:
+                  optionalString(raw.object?.request_id) ??
+                  optionalString(raw.object?.requestId) ??
+                  optionalString(metadata.requestId),
+                order: {
+                  websiteUrl: String(metadata.websiteUrl ?? ''),
+                  email: String(metadata.email ?? ''),
+                  competitors: String(metadata.competitors ?? ''),
+                  notes: String(metadata.notes ?? ''),
+                },
+              });
+              await markCreemWebhookEventProcessed(event.eventId);
+              return Response.json({ received: true }, { status: 200 });
+            } catch (err) {
+              console.error('Manual audit webhook error:', err);
+              if (event) await markCreemWebhookEventFailed(event.eventId, err);
+              return Response.json(
+                { error: 'Manual audit webhook processing failed' },
+                { status: 500 }
+              );
+            }
+          }
+        }
+
+        if (!isPaymentEnabled()) {
+          return Response.json({ received: true }, { status: 200 });
+        }
+        let event: ClaimedWebhookEvent | undefined;
         try {
+          await verifyCreemSignature(payload, signature);
+          event = await claimCreemWebhookEvent(raw, payload, 'payment');
+          if (!event.shouldProcess) {
+            return Response.json(
+              { received: true, duplicate: true },
+              { status: 200 }
+            );
+          }
           await handleWebhookEvent(payload, signature);
+          await markCreemWebhookEventProcessed(event.eventId);
           return Response.json({ received: true }, { status: 200 });
         } catch (err) {
           console.error('Creem webhook error:', err);
+          if (event) await markCreemWebhookEventFailed(event.eventId, err);
           return Response.json(
-            { error: 'Webhook processing failed', received: true },
-            { status: 200 }
+            { error: 'Webhook processing failed' },
+            { status: 500 }
           );
         }
       },
     },
   },
 });
+
+type ClaimedWebhookEvent = {
+  eventId: string;
+  shouldProcess: boolean;
+};
 
 async function activateReportToken(token: string) {
   const db = getDb();
@@ -98,6 +159,153 @@ async function activateReportToken(token: string) {
     .where(eq(reportTokens.token, token));
 
   console.log('Report token activated:', token);
+}
+
+async function claimCreemWebhookEvent(
+  raw: ReturnType<typeof safeParseJson>,
+  payload: string,
+  target: string
+): Promise<ClaimedWebhookEvent> {
+  const db = getDb();
+  const now = new Date();
+  const eventId = await getCreemWebhookEventId(raw, payload);
+  const eventType =
+    optionalString(raw?.eventType) ?? optionalString(raw?.type) ?? 'unknown';
+  const where = and(
+    eq(webhookEvents.provider, 'creem'),
+    eq(webhookEvents.eventId, eventId)
+  );
+  const [existing] = await db
+    .select()
+    .from(webhookEvents)
+    .where(where)
+    .limit(1);
+
+  if (existing?.status === 'processed' || existing?.status === 'processing') {
+    return { eventId, shouldProcess: false };
+  }
+
+  if (existing) {
+    await db
+      .update(webhookEvents)
+      .set({
+        eventType,
+        target,
+        status: 'processing',
+        error: null,
+        updatedAt: now,
+      })
+      .where(where);
+    return { eventId, shouldProcess: true };
+  }
+
+  try {
+    await db.insert(webhookEvents).values({
+      id: crypto.randomUUID(),
+      provider: 'creem',
+      eventId,
+      eventType,
+      target,
+      status: 'processing',
+      createdAt: now,
+      updatedAt: now,
+    });
+  } catch (error) {
+    if (!isUniqueConstraintError(error)) throw error;
+
+    const [conflict] = await db
+      .select()
+      .from(webhookEvents)
+      .where(where)
+      .limit(1);
+
+    if (conflict?.status === 'processed' || conflict?.status === 'processing') {
+      return { eventId, shouldProcess: false };
+    }
+
+    await db
+      .update(webhookEvents)
+      .set({
+        eventType,
+        target,
+        status: 'processing',
+        error: null,
+        updatedAt: now,
+      })
+      .where(where);
+  }
+
+  return { eventId, shouldProcess: true };
+}
+
+async function markCreemWebhookEventProcessed(eventId: string) {
+  await getDb()
+    .update(webhookEvents)
+    .set({
+      status: 'processed',
+      error: null,
+      processedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(webhookEvents.provider, 'creem'),
+        eq(webhookEvents.eventId, eventId)
+      )
+    );
+}
+
+async function markCreemWebhookEventFailed(eventId: string, error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  await getDb()
+    .update(webhookEvents)
+    .set({
+      status: 'failed',
+      error: message.slice(0, 1000),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(webhookEvents.provider, 'creem'),
+        eq(webhookEvents.eventId, eventId)
+      )
+    );
+}
+
+async function getCreemWebhookEventId(
+  raw: ReturnType<typeof safeParseJson>,
+  payload: string
+) {
+  const explicitId =
+    optionalString(raw?.id) ??
+    optionalString(raw?.eventId) ??
+    optionalString(raw?.event_id);
+  if (explicitId) return explicitId;
+
+  const eventType =
+    optionalString(raw?.eventType) ?? optionalString(raw?.type) ?? 'unknown';
+  const objectId =
+    optionalString(raw?.object?.id) ??
+    optionalString(raw?.data?.object?.id) ??
+    optionalString(raw?.data?.id);
+  if (objectId) return `${eventType}:${objectId}`;
+
+  return `${eventType}:${await sha256Hex(payload)}`;
+}
+
+async function sha256Hex(value: string) {
+  const buffer = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(value)
+  );
+  return Array.from(new Uint8Array(buffer))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function isUniqueConstraintError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.toLowerCase().includes('unique constraint failed');
 }
 
 async function verifyCreemSignature(payload: string, signature: string) {
@@ -127,7 +335,32 @@ async function verifyCreemSignature(payload: string, signature: string) {
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
 
-  if (computed !== signature) {
+  if (!constantTimeEqual(computed, signature.trim().toLowerCase())) {
     throw new Error('Invalid Creem webhook signature');
   }
+}
+
+function safeParseJson(payload: string) {
+  try {
+    return JSON.parse(payload);
+  } catch {
+    return undefined;
+  }
+}
+
+function optionalString(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function constantTimeEqual(left: string, right: string) {
+  if (left.length !== right.length) return false;
+
+  let mismatch = 0;
+  for (let i = 0; i < left.length; i += 1) {
+    mismatch |= left.charCodeAt(i) ^ right.charCodeAt(i);
+  }
+
+  return mismatch === 0;
 }

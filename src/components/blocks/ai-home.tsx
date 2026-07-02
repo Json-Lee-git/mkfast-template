@@ -124,7 +124,7 @@ const homeFAQ = [
   },
   {
     q: 'Are these tools free?',
-    a: 'All three tools are free to use. We also offer an optional AI Search Readiness Fix Pack for $19 and a $99 manual audit when you want a human-reviewed fix plan.',
+    a: 'The scan and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with implementation assets and a $99 manual audit when you want a human-reviewed fix plan.',
   },
   {
     q: 'Do these tools guarantee AI search visibility?',
@@ -142,18 +142,18 @@ export function AIHomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700/50 bg-gray-100 dark:bg-zinc-900/50 px-4 py-1.5 text-sm text-gray-500 dark:text-zinc-400">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Free AI-answer SEO audit before checkout
+              Free AI search readiness audit before checkout
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
-              SEO audit for{' '}
-              <span className="gradient-text">ChatGPT and AI answers</span>
+              Free audit for{' '}
+              <span className="gradient-text">AI search readiness</span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               Check whether a landing page can be crawled, understood, and cited
               by ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews.
-              Free score first, $19 copy-ready Fix Pack when you need
-              implementation assets, or a $99 manual audit when you need a human
-              fix plan.
+              Start with a free scan, unlock a $19 copy-ready Fix Pack when you
+              need implementation assets, or order a $99 manual audit when you
+              need a human fix plan.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
@@ -487,7 +487,7 @@ export function AIHomePage() {
                       size={14}
                       className="mt-0.5 text-emerald-500 shrink-0"
                     />{' '}
-                    Basic AEO Score
+                    Technical AEO summary
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck

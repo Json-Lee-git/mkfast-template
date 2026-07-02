@@ -227,9 +227,7 @@ export const Route = createFileRoute('/sitemap.xml')({
           const allUrls = [
             ...staticUrls.map((u) => `${base}${u.path}`),
             ...(websiteConfig.blog?.enable
-              ? getSortedPosts(baseLocale).map(
-                  (p) => `${base}/blog/${p.slug}`
-                )
+              ? getSortedPosts(baseLocale).map((p) => `${base}/blog/${p.slug}`)
               : []),
             ...getGlossaryTerms(baseLocale).map(
               (term) => `${base}/glossary/${term.slug}`

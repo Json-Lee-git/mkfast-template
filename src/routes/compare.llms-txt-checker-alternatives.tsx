@@ -47,7 +47,8 @@ const comparisonRows = [
     criteria: 'AI crawler check',
     aiSearchReadiness:
       'Scans robots.txt for GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended',
-    manualCheck: 'Requires reading robots.txt line by line and cross-referencing docs',
+    manualCheck:
+      'Requires reading robots.txt line by line and cross-referencing docs',
     genericValidator: 'No AI crawler awareness',
   },
   {
@@ -92,7 +93,7 @@ const whenToUseChecker = [
 const whenToUseManual = [
   'Your file has fewer than 5 links and can be checked visually',
   'You want to read the descriptions and verify human-facing copy quality',
-  'You are iterating on a draft and don\'t need a full audit yet',
+  "You are iterating on a draft and don't need a full audit yet",
 ];
 
 const faqItems = [
@@ -134,8 +135,14 @@ export const Route = createFileRoute('/compare/llms-txt-checker-alternatives')({
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
-          { name: 'Compare', url: getCanonicalUrl('/compare/llms-txt-checker-alternatives') },
-          { name: 'LLMs.txt Checker Alternatives', url: getCanonicalUrl('/compare/llms-txt-checker-alternatives') },
+          {
+            name: 'Compare',
+            url: getCanonicalUrl('/compare/llms-txt-checker-alternatives'),
+          },
+          {
+            name: 'LLMs.txt Checker Alternatives',
+            url: getCanonicalUrl('/compare/llms-txt-checker-alternatives'),
+          },
         ])
       ),
       jsonLd(faqSchema(faqItems)),
@@ -213,12 +220,12 @@ function LLMsTxtCheckerAlternativesPage() {
               </h2>
               <p className="mt-3 text-gray-700 dark:text-zinc-300">
                 The best LLMs.txt checker alternative depends on your file size
-                and update frequency. Use our free LLMs.txt Checker when you need
-                automated format validation, link checking, and AI crawler audit
-                in one scan. Use manual inspection for small files with fewer
-                than 5 links. Use a generic Markdown validator only when you need
-                basic syntax checking and already have a separate AI crawler
-                audit workflow.
+                and update frequency. Use our free LLMs.txt Checker when you
+                need automated format validation, link checking, and AI crawler
+                audit in one scan. Use manual inspection for small files with
+                fewer than 5 links. Use a generic Markdown validator only when
+                you need basic syntax checking and already have a separate AI
+                crawler audit workflow.
               </p>
             </div>
           </div>
@@ -235,9 +242,15 @@ function LLMsTxtCheckerAlternativesPage() {
             <div className="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { label: 'Our checker', value: 'Free, 7 checks in one scan' },
-                { label: 'Checks per scan', value: 'Format + links + headers + AI crawlers' },
+                {
+                  label: 'Checks per scan',
+                  value: 'Format + links + headers + AI crawlers',
+                },
                 { label: 'Manual check time', value: '5-15 min per file' },
-                { label: 'Sites with working LLMs.txt', value: '~2 out of 13 we tested' },
+                {
+                  label: 'Sites with working LLMs.txt',
+                  value: '~2 out of 13 we tested',
+                },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -381,8 +394,9 @@ function LLMsTxtCheckerAlternativesPage() {
               Validate your LLMs.txt before your next deploy
             </h2>
             <p className="mt-3 text-sm text-gray-300 dark:text-zinc-600">
-              Run the free checker to validate format, test links, verify content
-              type headers, and audit AI crawler access — all in one scan.
+              Run the free checker to validate format, test links, verify
+              content type headers, and audit AI crawler access — all in one
+              scan.
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
               <a

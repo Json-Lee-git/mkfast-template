@@ -32,7 +32,8 @@ const comparisonRows = [
     criteria: 'AI search coverage',
     aiSearchReadiness:
       'Built for it — checks 7 AI-readiness dimensions with targeted fixes',
-    ahrefs: 'Indirect — SEO data can inform AI strategy, but no AI-specific checks',
+    ahrefs:
+      'Indirect — SEO data can inform AI strategy, but no AI-specific checks',
     semrush: 'Indirect — SEO data informs AI strategy, no AI-specific checks',
     sitechecker:
       'Limited — technical SEO audit covers crawlability but not AI-specific signals',
@@ -49,7 +50,8 @@ const comparisonRows = [
     criteria: 'Schema / structured data check',
     aiSearchReadiness:
       'Checks for JSON-LD presence, FAQPage, HowTo, Article, BreadcrumbList, Organization schema',
-    ahrefs: 'Site Audit flags missing schema but no AI-specific schema guidance',
+    ahrefs:
+      'Site Audit flags missing schema but no AI-specific schema guidance',
     semrush: 'Site Audit flags schema issues but no AI citation optimization',
     sitechecker: 'Checks basic schema presence — no AI-specific schema types',
   },
@@ -129,8 +131,7 @@ const faqItems = [
 export const Route = createFileRoute('/compare/aeo-checker-vs-seo-tools')({
   head: () => ({
     ...seo('/compare/aeo-checker-vs-seo-tools', {
-      title:
-        'AEO Checker vs SEO Tools — Which One Do You Actually Need?',
+      title: 'AEO Checker vs SEO Tools — Which One Do You Actually Need?',
       description:
         'Compare AEO checkers and traditional SEO tools (Ahrefs, Semrush, Sitechecker) side by side. Learn which tool fits your workflow: AI search readiness, SEO monitoring, or both.',
     }),
@@ -138,8 +139,14 @@ export const Route = createFileRoute('/compare/aeo-checker-vs-seo-tools')({
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
-          { name: 'Compare', url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools') },
-          { name: 'AEO Checker vs SEO Tools', url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools') },
+          {
+            name: 'Compare',
+            url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools'),
+          },
+          {
+            name: 'AEO Checker vs SEO Tools',
+            url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools'),
+          },
         ])
       ),
       jsonLd(faqSchema(faqItems)),
@@ -383,18 +390,22 @@ function AeoCheckerVsSeoToolsPage() {
             <ol className="mt-5 space-y-4 text-gray-700 dark:text-zinc-300">
               <li>
                 <strong>1. Start with the free AEO checker.</strong> Enter your
-                URL and get an AI readiness score. Fix the flagged issues first —
-                they are usually quick wins (add LLMs.txt, update robots.txt for
-                AI crawlers, add schema).
+                URL and get an AI readiness score. Fix the flagged issues first
+                — they are usually quick wins (add LLMs.txt, update robots.txt
+                for AI crawlers, add schema).
               </li>
               <li>
-                <strong>2. Set up Google Search Console and Bing Webmaster Tools.</strong>{' '}
+                <strong>
+                  2. Set up Google Search Console and Bing Webmaster Tools.
+                </strong>{' '}
                 Both are free. Submit your sitemap. These give you real ranking
                 and indexing data — the foundation before paying for any SEO
                 tool.
               </li>
               <li>
-                <strong>3. Add an SEO tool when you need ongoing monitoring.</strong>{' '}
+                <strong>
+                  3. Add an SEO tool when you need ongoing monitoring.
+                </strong>{' '}
                 Once you have more than a handful of pages and want keyword rank
                 tracking, backlink data, and competitor analysis, pick an SEO
                 platform that fits your budget and scale.

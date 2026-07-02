@@ -341,7 +341,8 @@ export const Route = createFileRoute('/ai-search-audit')({
           'Human-reviewed AI search readiness audit for SaaS pages, including technical blockers, schema, LLMs.txt readiness, answer-ready content, and prioritized fixes.',
         provider: {
           '@type': 'Organization',
-          name: 'AEO Check',
+          name: 'AEOCheck',
+          alternateName: 'AI Search Readiness Tools',
           url: getCanonicalUrl('/'),
         },
         areaServed: 'Worldwide',

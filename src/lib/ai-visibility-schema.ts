@@ -34,6 +34,7 @@ export function organizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: websiteConfig.metadata?.name,
+    alternateName: ['AI Search Readiness Tools'],
     description: websiteConfig.metadata?.description,
     url: getCanonicalUrl('/'),
     logo: {
@@ -79,6 +80,7 @@ export function websiteSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: websiteConfig.metadata?.name,
+    alternateName: ['AI Search Readiness Tools'],
     description: websiteConfig.metadata?.description,
     url: getCanonicalUrl('/'),
     publisher: {

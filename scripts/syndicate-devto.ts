@@ -152,7 +152,7 @@ function categoryToTags(category: string): string[] {
   return mapping[category] ?? ['seo', 'ai', 'webdev'];
 }
 
-function transformBody(body: string, slug: string, title: string): string {
+function transformBody(body: string, slug: string, _title: string): string {
   // Remove the CTA block at the end (starts with ---\n> **...** followed by ---)
   // Keep the main content, add a "Originally published" link at the bottom
   let cleaned = body;
@@ -188,7 +188,9 @@ async function main() {
   for (const a of existing) {
     if (a.canonical_url) byCanonical.set(a.canonical_url, a);
   }
-  console.log(`Found ${existing.length} existing articles, ${byCanonical.size} with canonical URLs\n`);
+  console.log(
+    `Found ${existing.length} existing articles, ${byCanonical.size} with canonical URLs\n`
+  );
 
   const files = fs
     .readdirSync(CONTENT_DIR)
@@ -197,7 +199,7 @@ async function main() {
 
   let created = 0;
   let updated = 0;
-  let skipped = 0;
+  const skipped = 0;
 
   for (const file of files) {
     const raw = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
@@ -240,7 +242,9 @@ async function main() {
     await new Promise((r) => setTimeout(r, 35_000));
   }
 
-  console.log(`\nDone. Created: ${created}, Updated: ${updated}, Skipped: ${skipped}`);
+  console.log(
+    `\nDone. Created: ${created}, Updated: ${updated}, Skipped: ${skipped}`
+  );
 }
 
 main().catch((err) => {

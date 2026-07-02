@@ -1,6 +1,6 @@
-# AI Search Readiness Tools
+# AEOCheck
 
-> Free tools to check and generate LLMs.txt files. Validate your website's AI crawler access, sitemap, and technical readiness for AI-powered search.
+> Free AI search readiness audit tools. Start with a free AEO scan, then choose a $19 Fix Pack or $99 human-reviewed audit when you need implementation help.
 
 ## Tools
 
@@ -13,7 +13,8 @@
 - [GEO Audit Tool](https://aeocheck.xyz/tools/geo-audit): Audit generative engine optimization readiness signals across crawlability, schema, content, and trust.
 - [AI Overview Readiness Checker](https://aeocheck.xyz/tools/ai-overview-readiness-checker): Check readiness signals for AI-assisted search summaries.
 - [ChatGPT Citation Readiness Checker](https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker): Review public citation-readiness signals for AI retrieval systems.
-- [Sample AEO Report](https://aeocheck.xyz/sample-aeo-report): Preview the $19 Full AI Search Readiness Report before running an audit.
+- [Sample AEO Report](https://aeocheck.xyz/sample-aeo-report): Preview the $19 AI Search Readiness Fix Pack before running an audit.
+- [Manual AI Search Readiness Audit](https://aeocheck.xyz/ai-search-audit): Order a $99 human-reviewed fix plan for one important SaaS page.
 
 ## Decision pages
 
