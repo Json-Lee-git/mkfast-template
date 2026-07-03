@@ -1,0 +1,65 @@
+{
+  "productName": "AEOCheck",
+  "primaryCta": "Run the free AEO checker",
+  "targets": [
+    {
+      "keyword": "AEO checker alternatives",
+      "intent": "Compare AEO checker options before choosing a readiness workflow",
+      "funnel": "BOFU",
+      "pageType": "Compare page",
+      "targetUrl": "/compare/aeo-checker-alternatives",
+      "audience": "SaaS, AI tool, and B2B marketing teams comparing AEO software",
+      "painPoint": "They need a low-friction way to find gaps before paying for a manual audit.",
+      "relatedUrls": [
+        "/tools/aeo-checker",
+        "/sample-aeo-report",
+        "/ai-search-audit"
+      ],
+      "questions": [
+        "What are the best AEO checker alternatives for SaaS websites?",
+        "Which tools can audit whether a website is ready for AI search?",
+        "How do I compare AEO tools before buying a manual audit?",
+        "What should an AEO checker inspect besides traditional SEO issues?",
+        "Which AEO checker helps find gaps for ChatGPT, Perplexity, and Google AI results?"
+      ]
+    },
+    {
+      "keyword": "AI search readiness audit checklist",
+      "intent": "Understand what to inspect before buying or running an AI search audit",
+      "funnel": "MOFU",
+      "pageType": "Blog guide",
+      "targetUrl": "/blog/ai-search-readiness-audit-checklist",
+      "audience": "Founders and marketers preparing a site for AI search visibility checks",
+      "painPoint": "They do not know which technical, content, and trust signals affect answer readiness.",
+      "relatedUrls": ["/ai-search-audit", "/sample-aeo-report", "/methodology"],
+      "questions": [
+        "What should be included in an AI search readiness audit?",
+        "How do I know if my website is ready for ChatGPT search?",
+        "What technical issues stop AI search engines from understanding my website?",
+        "How should a SaaS team prepare a product page for AI answers?",
+        "What is the difference between a traditional SEO audit and an AI search readiness audit?"
+      ]
+    },
+    {
+      "keyword": "GEO audit tools",
+      "intent": "Compare tools for generative engine optimization audits",
+      "funnel": "BOFU",
+      "pageType": "Compare page",
+      "targetUrl": "/compare/geo-audit-tools",
+      "audience": "SEO consultants and B2B teams evaluating GEO workflows",
+      "painPoint": "They need to separate generic SEO audits from checks that help AI systems parse and cite pages.",
+      "relatedUrls": [
+        "/tools/geo-audit",
+        "/tools/aeo-checker",
+        "/ai-search-audit"
+      ],
+      "questions": [
+        "What are the best GEO audit tools for B2B SaaS websites?",
+        "How do I check whether AI search engines can understand my product pages?",
+        "Which GEO tools compare technical crawlability, content structure, and answer readiness?",
+        "What is the best workflow for auditing generative engine optimization?",
+        "How can SEO consultants audit websites for AI search visibility?"
+      ]
+    }
+  ]
+}
