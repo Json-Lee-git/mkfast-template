@@ -1,4 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
+import {
+  formatWebhookErrorMessage,
+  shouldExposeManualAuditSmokeErrorDetail,
+} from './creem-diagnostics';
 import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
 import { reportTokens, webhookEvents } from '@/db/app.schema';
@@ -93,6 +97,15 @@ export const Route = createFileRoute('/api/webhooks/creem')({
             } catch (err) {
               console.error('Manual audit webhook error:', err);
               if (event) await markCreemWebhookEventFailed(event.eventId, err);
+              if (shouldExposeManualAuditSmokeErrorDetail(raw)) {
+                return Response.json(
+                  {
+                    error: 'Manual audit webhook processing failed',
+                    detail: formatWebhookErrorMessage(err),
+                  },
+                  { status: 500 }
+                );
+              }
               return Response.json(
                 { error: 'Manual audit webhook processing failed' },
                 { status: 500 }
