@@ -1,0 +1,13 @@
+diff --git a/README.md b/README.md
+index 0000000..0000000 100644
+--- a/README.md
++++ b/README.md
+@@ -294,6 +294,8 @@ Ensure your website's foundation is solid for search engines and user experience.
+ 
+ - [XML Sitemap Checker](https://www.xml-sitemaps.com/validate-xml-sitemap.html) - Validates XML sitemaps for errors.
+ 
++- [AEOCheck](https://aeocheck.xyz/tools/aeo-checker) - Free technical AEO checker for AI crawler access, robots.txt, LLMs.txt, sitemap discovery, structured data, and answer-ready page signals.
++
+ 
+ ## Social Media & Open Graph
+ 

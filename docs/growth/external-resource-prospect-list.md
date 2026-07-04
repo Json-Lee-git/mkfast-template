@@ -82,6 +82,8 @@ AEOCheck helps SaaS, AI tool, B2B, marketing, and SEO teams inspect whether publ
 
 ## First Manual Sequence
 
+Prepared PR patches and copy live in `github-pr-prep/`.
+
 1. Open SerpApi Awesome SEO Tools and check whether AEOCheck already exists.
 2. If absent, prepare a one-line PR under `Technical SEO` or `Validator / Checker`.
 3. Open Awesome AI Tools by mahseema and check whether AEOCheck already exists.
