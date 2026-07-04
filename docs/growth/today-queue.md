@@ -8,6 +8,8 @@ Prepare the first public growth push for AEOCheck around free tool usage, SEO/GE
 
 ## First 60 Minutes
 
+If time is limited, open `docs/growth/manual-clipboard-queue.md` first and copy the relevant prepared block.
+
 1. Open `docs/growth/marketing-execution-pack.md`.
 2. Copy the tracking table into a spreadsheet or keep it in markdown.
 3. Add 10 candidate rows:
