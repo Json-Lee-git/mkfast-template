@@ -4,6 +4,8 @@ Purpose: prepare the first distribution batch for free tool user growth, SEO/GEO
 
 Rule: this tracker is preparation only. Do not deploy, run production smoke tests, validate paid order delivery, or submit anything that requires login until the operator is at the computer.
 
+Non-manual baseline: public URL, canonical, noindex, sitemap, robots, and production smoke checks are recorded in `first-batch-non-manual-baseline.md`.
+
 ## Priority Order
 
 1. LinkedIn post: fastest feedback loop, low risk.

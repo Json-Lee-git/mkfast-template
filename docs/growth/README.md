@@ -44,6 +44,7 @@ Use these files when preparing or running the first marketing push:
 - `today-queue.md`: the first-hour checklist for preparing posts, directory rows, and outreach.
 - `marketing-execution-pack.md`: the 7-day plan, community drafts, outreach templates, and tracking table.
 - `first-batch-channel-tracker.md`: the first batch of prepared channels, target links, asset choices, and status fields.
+- `first-batch-non-manual-baseline.md`: completed public URL, canonical, noindex, sitemap, robots, and production smoke checks for the first growth batch.
 - `copy-snippets.md`: short one-liners, directory descriptions, social hooks, replies, and disclaimer copy.
 - `outreach-prospecting-template.md`: prospect segments, search queries, scoring rules, outreach table, message variants, and objection handling.
 
