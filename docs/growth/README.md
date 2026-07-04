@@ -44,6 +44,7 @@ Use these files when preparing or running the first marketing push:
 - `today-queue.md`: the first-hour checklist for preparing posts, directory rows, and outreach.
 - `marketing-execution-pack.md`: the 7-day plan, community drafts, outreach templates, and tracking table.
 - `first-batch-channel-tracker.md`: the first batch of prepared channels, target links, asset choices, and status fields.
+- `external-resource-prospect-list.md`: researched external resource, GitHub awesome list, and directory candidates with submit/adapt/skip judgments.
 - `first-batch-non-manual-baseline.md`: completed public URL, canonical, noindex, sitemap, robots, and production smoke checks for the first growth batch.
 - `SUBMISSION-ASSETS.md`: directory, launch, resource-list, and product submission copy blocks.
 - `manual-clipboard-queue.md`: copy/paste queue for GSC indexing, LinkedIn, Reddit, Hacker News, Product Hunt, directories, and outreach.
