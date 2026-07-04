@@ -15,6 +15,9 @@ const canonicalBaseUrl = (
   process.env.SMOKE_CANONICAL_BASE ??
   baseUrl
 ).replace(/\/$/, '');
+const shouldCheckCanonicalRedirects =
+  args.includes('--check-canonical-redirects') ||
+  process.env.SMOKE_CHECK_CANONICAL_REDIRECTS === '1';
 
 type CheckResult = {
   name: string;
@@ -61,6 +64,23 @@ function assertNotIncludes(name: string, text: string, unexpected: string) {
   }
 }
 
+async function checkRedirect(
+  name: string,
+  fromUrl: string,
+  expectedLocation: string
+) {
+  const response = await fetch(fromUrl, {
+    headers: { 'user-agent': 'aeocheck-smoke-test/1.0' },
+    redirect: 'manual',
+  });
+  const location = response.headers.get('location') ?? '';
+  if (response.status === 301 && location === expectedLocation) {
+    pass(name, `${response.status} ${location}`);
+  } else {
+    fail(name, `${response.status} ${location}`);
+  }
+}
+
 async function checkPage(
   path: string,
   expected: string,
@@ -91,6 +111,20 @@ await checkPage('/ai-search-audit', 'Manual AI Search Readiness Audit');
 await checkPage('/sample-aeo-report', 'Sample Fix Pack');
 await checkPage('/blog/ai-search-readiness-audit', 'AI Search Readiness Audit');
 await checkPage('/methodology', 'Methodology');
+
+const { text: auditBlogHtml } = await fetchText(
+  '/blog/ai-search-readiness-audit'
+);
+assertIncludes(
+  '/blog/ai-search-readiness-audit SSR body',
+  auditBlogHtml,
+  'What is an AI search readiness audit?'
+);
+assertNotIncludes(
+  '/blog/ai-search-readiness-audit loading fallback',
+  auditBlogHtml,
+  '>Loading...<'
+);
 await checkPage(
   '/ai-search-audit/thanks?site=https%3A%2F%2Fexample.com',
   'Payment received',
@@ -142,6 +176,19 @@ assertNotIncludes(
   sitemap,
   `<loc>${canonicalBaseUrl}/ai-search-audit/thanks</loc>`
 );
+
+if (shouldCheckCanonicalRedirects) {
+  await checkRedirect(
+    'http canonical redirect',
+    'http://aeocheck.xyz/ai-search-audit',
+    'https://aeocheck.xyz/ai-search-audit'
+  );
+  await checkRedirect(
+    'www canonical redirect',
+    'https://www.aeocheck.xyz/ai-search-audit',
+    'https://aeocheck.xyz/ai-search-audit'
+  );
+}
 
 const failed = results.filter((result) => !result.ok);
 for (const result of results) {

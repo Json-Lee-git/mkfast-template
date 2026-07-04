@@ -11,24 +11,29 @@ export type MarkdownResult = {
   markup: string;
 };
 
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
+  .use(rehypeSlug)
+  .use(rehypeAutolinkHeadings, {
+    behavior: 'wrap',
+    properties: { className: ['anchor'] },
+  })
+  .use(rehypeStringify);
+
 /**
  * Renders markdown to HTML using unified (remark/rehype) with GFM,
  * heading IDs, and autolink headings.
  * https://tanstack.dev/start/latest/docs/framework/react/guide/rendering-markdown
  */
-export async function renderMarkdown(content: string): Promise<MarkdownResult> {
-  const result = await unified()
-    .use(remarkParse) // Parse markdown
-    .use(remarkGfm) // Support GitHub Flavored Markdown
-    .use(remarkRehype, { allowDangerousHtml: true }) // Convert to HTML AST
-    .use(rehypeRaw) // Process raw HTML in markdown
-    .use(rehypeSlug) // Add IDs to headings
-    .use(rehypeAutolinkHeadings, {
-      behavior: 'wrap',
-      properties: { className: ['anchor'] },
-    })
-    .use(rehypeStringify)
-    .process(content);
+export function renderMarkdownSync(content: string): MarkdownResult {
+  const result = processor.processSync(content);
+  return { markup: String(result) };
+}
 
+export async function renderMarkdown(content: string): Promise<MarkdownResult> {
+  const result = await processor.process(content);
   return { markup: String(result) };
 }
