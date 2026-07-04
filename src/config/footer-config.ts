@@ -79,6 +79,16 @@ export function getFooterLinks(): MenuItemConfig[] {
           external: false,
         },
         {
+          title: 'GPTBot vs OAI-SearchBot',
+          href: '/blog/gptbot-vs-oai-searchbot',
+          external: false,
+        },
+        {
+          title: 'LLMs.txt for Google AI Overviews',
+          href: '/blog/llms-txt-google-ai-overviews',
+          external: false,
+        },
+        {
           title: 'LLMs-full.txt',
           href: '/guides/llms-full-txt',
           external: false,

@@ -19,6 +19,11 @@ Depending on the tool and the target URL, checks may include:
   directives.
 - Robots.txt availability, sitemap discovery, and whether major AI crawler
   user agents are explicitly allowed or blocked.
+- Separate crawler-control signals for search, AI search, and model-training
+  user agents such as Googlebot, GPTBot, OAI-SearchBot, PerplexityBot,
+  Perplexity-User, ClaudeBot, and Google-Extended.
+- Possible access issues caused by WAF, bot-management, or CDN rules when those
+  controls are likely to affect AI crawler access.
 - LLMs.txt and LLMs-full.txt availability, formatting, links, and relationship
   to the sitemap.
 - JSON-LD structured data, including Organization, WebSite, Article, FAQPage,
@@ -37,9 +42,10 @@ data, answer-ready content, entity clarity, trust signals, and recommendations.
 The score is a product readiness estimate based on visible technical signals.
 
 It does not claim that a page will rank, be cited, appear in an AI Overview, or
-receive traffic from any search product. Platforms do not publish complete
-ranking or citation systems, and many signals are outside the scope of a public
-page audit.
+receive traffic from any search product. Google says there are no extra
+technical requirements, special schema, or AI-specific files required for AI
+Overviews or AI Mode. Platforms do not publish complete ranking or citation
+systems, and many signals are outside the scope of a public page audit.
 
 ### External standards we use
 
@@ -53,11 +59,13 @@ Our checks are informed by public documentation and open standards, including:
   [helpful, reliable content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content).
 - The public [Schema.org](https://schema.org/) vocabulary for structured data.
 - OpenAI's crawler documentation for
-  [GPTBot and related user agents](https://platform.openai.com/docs/bots).
+  [GPTBot, OAI-SearchBot, and related user agents](https://platform.openai.com/docs/bots).
+- Perplexity's crawler documentation for
+  [PerplexityBot, Perplexity-User, and crawler controls](https://docs.perplexity.ai/guides/bots).
 - Anthropic's guidance on
   [ClaudeBot and crawler controls](https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler).
-- The public [llms.txt proposal](https://llmstxt.org/) for AI-readable site
-  summaries.
+- The public [llms.txt proposal](https://llmstxt.org/) for optional
+  AI-readable site summaries.
 - Bing Webmaster Tools guidance for
   [sitemap submission](https://www.bing.com/webmasters/help/Sitemaps-3b5cf6ed).
 

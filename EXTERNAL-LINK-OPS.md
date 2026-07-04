@@ -61,20 +61,24 @@ Use natural mentions. Do not repeat one exact-match anchor.
 | --- | --- | --- |
 | Brand | AI Search Readiness Tools, AEOCheck | 40% |
 | URL | aeocheck.xyz, https://aeocheck.xyz | 20% |
-| Descriptive | free AEO checker, AI search readiness checker | 25% |
-| Deep-link context | LLMs.txt checker, AI crawler access checklist | 15% |
+| Descriptive | free technical AI search readiness checker, free AEO checker | 25% |
+| Deep-link context | AI crawler checker, robots.txt AI crawler rules, LLMs.txt checker | 15% |
 
 ### Target URL Rotation
 
 | URL | Use case | Share |
 | --- | --- | --- |
-| https://aeocheck.xyz/ | Directories, founder posts, profile links | 25% |
-| https://aeocheck.xyz/tools/aeo-checker | SEO communities, tool lists, feedback posts | 20% |
-| https://aeocheck.xyz/guides/ai-search-readiness-checklist | Articles, newsletters, educational links | 20% |
-| https://aeocheck.xyz/tools/llms-txt-checker | Technical SEO and developer lists | 10% |
-| https://aeocheck.xyz/tools/llms-txt-generator | LLMs.txt/AI crawler discussions | 10% |
-| https://aeocheck.xyz/methodology | Trust/context links | 10% |
-| https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it | Pricing/value objections | 5% |
+| https://aeocheck.xyz/ | Directories, founder posts, profile links | 18% |
+| https://aeocheck.xyz/tools/aeo-checker | SEO communities, tool lists, feedback posts | 16% |
+| https://aeocheck.xyz/guides/ai-search-readiness-checklist | Articles, newsletters, educational links | 15% |
+| https://aeocheck.xyz/tools/ai-crawler-checker | Technical SEO, developer, crawler-control, and WAF discussions | 12% |
+| https://aeocheck.xyz/blog/gptbot-vs-oai-searchbot | OpenAI crawler policy, robots.txt, GPTBot/OAI-SearchBot discussions | 8% |
+| https://aeocheck.xyz/blog/perplexitybot-cloudflare-waf | Cloudflare, WAF, PerplexityBot, and bot-protection discussions | 8% |
+| https://aeocheck.xyz/tools/llms-txt-checker | LLMs.txt validation and technical SEO discussions | 7% |
+| https://aeocheck.xyz/blog/llms-txt-google-ai-overviews | Google AI Overviews and LLMs.txt overclaim correction | 6% |
+| https://aeocheck.xyz/tools/llms-txt-generator | LLMs.txt creation threads | 4% |
+| https://aeocheck.xyz/methodology | Trust/context links | 4% |
+| https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it | Pricing/value objections | 2% |
 
 ### Sprint 1 Queue
 
@@ -84,8 +88,9 @@ Use natural mentions. Do not repeat one exact-match anchor.
 | Submit new deep links to IndexNow | New guide/value pages | Done | Batch API request returned 200 OK. |
 | Publish checklist article | Medium or Hashnode | Account required | Use canonical link to checklist page. |
 | Second Dev.to article | Checklist + AEO checker | Draft ready | Use educational angle, not product launch angle. |
-| Submit PR to awesome SEO tools | serpapi/awesome-seo-tools | Candidate | Repo invites PRs to README; place under technical/audit tools only if accepted. |
-| Submit PR/issue to AI SEO list | best-of-ai/awesome-ai-seo | Best GitHub candidate | Repo is active as of June 2026 and already includes GEO/AEO-style tooling. Draft entry below; publish only after final owner confirmation. |
+| Submit PR to awesome SEO tools | serpapi/awesome-seo-tools | Candidate | Public repo still invites README PRs; place under Technical SEO or Validator / Checker with concise, non-promotional copy. |
+| Submit PR/issue to AI SEO list | best-of-ai/awesome-ai-seo | Best GitHub candidate | Public repo has Technical SEO section and existing AI SEO/GEO-adjacent tools. Draft entry below; publish only after final owner confirmation. |
+| Promote new crawler guides | Technical SEO communities/newsletters | Draft ready | Use GPTBot/OAI-SearchBot, PerplexityBot/WAF, and LLMs.txt/Google AI Overviews links as educational deep links, not homepage drops. |
 | Research SaaS directory candidates | Free SaaS directory lists | Candidate | Use curated lists only as leads; verify each direct submit page before using it. |
 | Submit to ToolScout.ai | AI tool directory | Submitted | Free listing submitted on July 1, 2026; status is In review. |
 | Submit to AISuperHub | AI tool directory | Submitted | Free listing submitted on July 1, 2026; standard review queue can take 90+ days. |
@@ -141,8 +146,8 @@ Use natural mentions. Do not repeat one exact-match anchor.
 | X/Twitter | Founder post | Homepage + Methodology | Draft ready | Needs owner account and final approval. |
 | GitHub repo/profile | Source trust | Homepage | Needs repo decision | Best if code or public docs repo is available. |
 | Awesome lists | Curated lists | Specific tool pages | Research needed | Submit only to relevant, maintained repos. |
-| serpapi/awesome-seo-tools | Curated GitHub list | AEO Checker | Candidate | 1,007 stars, 258 forks, last pushed February 24, 2026. Contributing note invites PRs to README. Place under Technical SEO with concise, non-promotional copy. |
-| best-of-ai/awesome-ai-seo | Curated GitHub list | AEO Checker | Best candidate | 256 stars, 69 forks, last pushed June 14, 2026. Technical SEO section already includes AI SEO/GEO-adjacent tools; submit first. |
+| serpapi/awesome-seo-tools | Curated GitHub list | AI Crawler Checker | Candidate | Public GitHub page shows about 1k stars and 263 forks; contributing note invites PRs to README only. Place under Technical SEO or Validator / Checker with concise, non-promotional copy. |
+| best-of-ai/awesome-ai-seo | Curated GitHub list | AI Crawler Checker | Best candidate | Public GitHub page shows 256 stars and 71 forks; Technical SEO section already includes AI SEO/GEO-adjacent tools. Submit first. |
 | RizwanAkramSEO/seo-tools-collection | Curated GitHub list | AEO Checker | Low priority | Low distribution value currently: 0 stars, 0 forks, last pushed November 4, 2025. Keep as optional later. |
 
 ## GitHub PR Drafts
@@ -155,7 +160,7 @@ avoid implying rankings or AI citations are guaranteed.
 Target section: `Technical SEO`
 
 ```md
-* **[AI Search Readiness Tools](https://aeocheck.xyz/tools/aeo-checker)** – Free AEO/GEO readiness checker for auditing AI crawler access, LLMs.txt, structured data, sitemap discovery, and answer-ready content signals.
+* **[AI Search Readiness Tools](https://aeocheck.xyz/tools/ai-crawler-checker)** – Free technical AI search readiness checker for auditing GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, robots.txt, LLMs.txt, sitemap discovery, and answer-ready content signals.
 ```
 
 ### serpapi/awesome-seo-tools
@@ -163,16 +168,20 @@ Target section: `Technical SEO`
 Target section: `Technical SEO`
 
 ```md
-- [AI Search Readiness Tools](https://aeocheck.xyz/tools/aeo-checker) - Free technical AEO checker for AI crawler access, LLMs.txt, structured data, sitemap discovery, and answer-ready page signals.
+- [AI Search Readiness Tools](https://aeocheck.xyz/tools/ai-crawler-checker) - Free technical AI search readiness checker for AI crawler access, robots.txt, LLMs.txt, sitemap discovery, structured data, and answer-ready page signals.
 ```
 
 ## Core URLs To Promote
 
 - https://aeocheck.xyz/
 - https://aeocheck.xyz/tools/aeo-checker
+- https://aeocheck.xyz/tools/ai-crawler-checker
 - https://aeocheck.xyz/tools/llms-txt-checker
 - https://aeocheck.xyz/tools/llms-txt-generator
 - https://aeocheck.xyz/tools/query-fan-out-tool
+- https://aeocheck.xyz/blog/gptbot-vs-oai-searchbot
+- https://aeocheck.xyz/blog/perplexitybot-cloudflare-waf
+- https://aeocheck.xyz/blog/llms-txt-google-ai-overviews
 - https://aeocheck.xyz/guides/ai-search-readiness-checklist
 - https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it
 - https://aeocheck.xyz/sample-aeo-report

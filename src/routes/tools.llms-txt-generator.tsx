@@ -228,7 +228,9 @@ function GeneratorPage() {
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               Create a clean AI-readable LLMs.txt file from your sitemap or
-              manual inputs. Copy, edit, and download it in seconds.
+              manual inputs. Copy, edit, and download it in seconds. Use it as
+              optional AI-readable context, not as a Google AI Overview
+              requirement.
             </p>
           </div>
         </Container>
@@ -581,9 +583,10 @@ function GeneratorPage() {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm text-gray-400 dark:text-zinc-500">
-              LLMs.txt is an emerging convention. This tool checks technical
-              readiness signals and does not guarantee rankings, citations, or
-              visibility in AI search products.
+              LLMs.txt is an emerging convention. Google says there are no
+              special files required for AI Overviews or AI Mode. This tool
+              creates optional AI-readable context and does not guarantee
+              rankings, citations, or visibility in AI search products.
             </p>
           </div>
         </Container>
@@ -602,7 +605,7 @@ export const Route = createFileRoute('/tools/llms-txt-generator')({
       title:
         'Free LLMs.txt Generator from Sitemap | Create an AI-Readable File',
       description:
-        'Generate a clean, AI-readable LLMs.txt file for your website from your sitemap or manual inputs. Create, edit, copy, and download your file. Works with any site. Free, no sign-up required.',
+        'Generate a clean, AI-readable LLMs.txt file for your website from your sitemap or manual inputs. Optional AI-readable context, not a Google AI Overview requirement. Free, no sign-up required.',
     }),
     scripts: [jsonLd(websiteSchema())],
   }),

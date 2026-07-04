@@ -37,6 +37,16 @@ Each generated file includes:
 
 Generated copy is a starting point. Keep public posts specific, cite real observations, and avoid claims that rankings, AI citations, traffic, or revenue are guaranteed.
 
+## Manual Execution Assets
+
+Use these files when preparing or running the first marketing push:
+
+- `today-queue.md`: the first-hour checklist for preparing posts, directory rows, and outreach.
+- `marketing-execution-pack.md`: the 7-day plan, community drafts, outreach templates, and tracking table.
+- `first-batch-channel-tracker.md`: the first batch of prepared channels, target links, asset choices, and status fields.
+- `copy-snippets.md`: short one-liners, directory descriptions, social hooks, replies, and disclaimer copy.
+- `outreach-prospecting-template.md`: prospect segments, search queries, scoring rules, outreach table, message variants, and objection handling.
+
 ## Brand Entity Source
 
 Use `aeocheck-entity-sheet.md` as the source of truth for consistent AEOCheck wording across website copy, directory submissions, external posts, outreach, and GEO monitoring notes.

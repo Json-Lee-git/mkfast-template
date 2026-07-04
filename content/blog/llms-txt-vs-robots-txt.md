@@ -22,6 +22,10 @@ They serve different purposes. You need robots.txt for crawler control. LLMs.txt
 is optional, but useful when you want to summarize key pages for AI-assisted
 retrieval systems.
 
+Important limit: LLMs.txt is not required for Google AI Overviews or AI Mode.
+For the Google-specific answer, see
+[Do you need LLMs.txt for Google AI Overviews?](/blog/llms-txt-google-ai-overviews).
+
 ## Key stats: LLMs.txt vs robots.txt at a glance
 
 | | robots.txt | LLMs.txt |
@@ -129,6 +133,7 @@ readiness.
 - [The llms.txt proposal](https://llmstxt.org/)
 - [OpenAI: Crawlers and user agents](https://platform.openai.com/docs/bots)
 - [AI Search Readiness methodology](/methodology)
+- [Do you need LLMs.txt for Google AI Overviews?](/blog/llms-txt-google-ai-overviews)
 
 ## Frequently asked questions
 

@@ -153,6 +153,8 @@ function CheckerPage() {
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               Check whether your website has a valid LLMs.txt file, accessible
               AI-readable links, LLMs-full.txt, sitemap, and AI crawler access.
+              LLMs.txt is useful context for some AI systems, but it is not
+              required for Google AI Overviews or AI Mode.
             </p>
           </div>
         </Container>
@@ -657,9 +659,10 @@ function CheckerPage() {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm text-gray-400 dark:text-zinc-500">
-              LLMs.txt is an emerging convention. This tool checks technical
-              readiness signals and does not guarantee rankings, citations, or
-              visibility in AI search products.
+              LLMs.txt is an emerging convention. Google says there are no
+              special files required for AI Overviews or AI Mode. This tool
+              checks technical readiness signals and does not guarantee
+              rankings, citations, or visibility in AI search products.
             </p>
           </div>
         </Container>
@@ -720,7 +723,7 @@ export const Route = createFileRoute('/tools/llms-txt-checker')({
     ...seo('/tools/llms-txt-checker', {
       title: 'Free LLMs.txt Checker & Validator | AI Search Readiness',
       description:
-        'Check if your website has a valid LLMs.txt file. Validate structure, links, LLMs-full.txt, sitemap, and AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and more. Free, no sign-up required.',
+        'Check if your website has a valid LLMs.txt file. Validate structure, links, LLMs-full.txt, sitemap, and AI crawler access without treating LLMs.txt as a Google AI Overview requirement. Free, no sign-up required.',
     }),
     scripts: [jsonLd(websiteSchema())],
   }),

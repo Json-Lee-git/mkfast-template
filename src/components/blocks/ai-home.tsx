@@ -40,7 +40,7 @@ const growthPages = [
   {
     title: 'AI Crawler Checker',
     href: '/tools/ai-crawler-checker',
-    desc: 'Check GPTBot, ClaudeBot, PerplexityBot, robots.txt, sitemap, and AI-readable file access.',
+    desc: 'Check GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, robots.txt, sitemap, and AI-readable file access.',
   },
   {
     title: 'Robots.txt AI Crawler Checker',
@@ -95,10 +95,10 @@ const useCases = [
 ];
 
 const trustPoints = [
-  'Free scan before checkout',
-  'One-time $19 fix pack',
+  'Free technical scan',
+  'Crawler and robots.txt checks',
+  'Optional $19 fix pack',
   '$99 manual audit available',
-  'Copy-ready schema and LLMs.txt',
 ];
 
 const howItWorks = [
@@ -142,18 +142,18 @@ export function AIHomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700/50 bg-gray-100 dark:bg-zinc-900/50 px-4 py-1.5 text-sm text-gray-500 dark:text-zinc-400">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Free AI search readiness audit before checkout
+              Free technical AI search readiness checker
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
-              Free audit for{' '}
+              Free technical checker for{' '}
               <span className="gradient-text">AI search readiness</span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Check whether a landing page can be crawled, understood, and cited
-              by ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews.
-              Start with a free scan, unlock a $19 copy-ready Fix Pack when you
-              need implementation assets, or order a $99 manual audit when you
-              need a human fix plan.
+              Check crawler access, robots.txt, LLMs.txt, schema, sitemap, and
+              answer-ready content before chasing AI citations. Start with a
+              free scan, unlock a $19 copy-ready Fix Pack when you need
+              implementation assets, or order a $99 manual audit when you need a
+              human fix plan.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
@@ -389,16 +389,19 @@ export function AIHomePage() {
             <p className="mt-6 text-center text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               AI Search Readiness means your website is technically easy for
               search engines, answer engines, and AI-assisted retrieval systems
-              to understand, as defined by the{' '}
+              to crawl, parse, and understand. It starts with controllable
+              technical signals: robots.txt, sitemap discovery, AI crawler
+              access, structured data, crawlable content, and optional
+              AI-readable files such as{' '}
               <a
                 href="https://llmstxt.org/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
-                llms.txt proposal
+                llms.txt
               </a>{' '}
-              and{' '}
+              plus{' '}
               <a
                 href="https://schema.org/"
                 target="_blank"
@@ -407,7 +410,7 @@ export function AIHomePage() {
               >
                 Schema.org
               </a>{' '}
-              structured data standards.
+              structured data.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {readinessPoints.map((point) => (
@@ -648,7 +651,8 @@ export function AIHomePage() {
               These tools provide technical readiness checks. They do not
               guarantee rankings, citations, traffic, or visibility in ChatGPT,
               Perplexity, Gemini, Claude, Google AI Overviews, or other AI
-              search products.
+              search products. Google says there are no special files or schema
+              required for AI Overviews or AI Mode.
             </p>
           </div>
         </Container>

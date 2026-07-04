@@ -55,6 +55,10 @@ OpenAI documents several user agents, including GPTBot, OAI-SearchBot, and
 ChatGPT-User. Treat crawler names and purposes as platform-specific, and review
 official docs before changing sitewide rules.
 
+If you are deciding which OpenAI crawler rules to allow, use the narrower
+[GPTBot vs OAI-SearchBot guide](/blog/gptbot-vs-oai-searchbot) before changing
+sitewide robots.txt rules.
+
 ## 2. Make sure search indexes can find you
 
 AI search systems often rely on web search indexes, direct crawling, or both.
@@ -153,6 +157,8 @@ For a page-by-page process, use the [AI search readiness audit framework](/blog/
 before you rewrite content or change crawler rules. Also check the
 [AEO checker alternatives comparison](/compare/aeo-checker-alternatives) if you
 are evaluating manual audits or traditional SEO platforms for AI search work.
+If Cloudflare or another WAF may be blocking crawler access, review
+[PerplexityBot and Cloudflare WAF](/blog/perplexitybot-cloudflare-waf).
 
 ## Sources and further reading
 

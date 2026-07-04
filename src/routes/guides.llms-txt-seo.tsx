@@ -8,7 +8,7 @@ import { IconArrowRight } from '@tabler/icons-react';
 const faqItems = [
   {
     q: 'Does LLMs.txt help with SEO?',
-    a: 'LLMs.txt is not a confirmed ranking factor. It does not directly improve Google rankings. However, it may help AI-powered search products like ChatGPT and Perplexity understand your site structure better, which could lead to more accurate citations.',
+    a: 'LLMs.txt is not a confirmed ranking factor. It does not directly improve Google rankings, and Google says there are no special files required for AI Overviews or AI Mode. It may still help some AI-powered products understand your site structure better as optional context.',
   },
   {
     q: 'What is LLMs.txt GEO?',
@@ -24,7 +24,7 @@ const faqItems = [
   },
   {
     q: 'Will Google use my LLMs.txt for ranking?',
-    a: 'There is no evidence that Google uses LLMs.txt as a ranking signal. Google has its own crawl and indexing infrastructure. LLMs.txt is more relevant for AI chat products and language models that may consume web content differently.',
+    a: 'There is no evidence that Google uses LLMs.txt as a ranking signal. Google has its own crawl and indexing infrastructure, and its AI features documentation says there are no extra technical requirements, special schema, or AI-specific files required for AI Overviews or AI Mode.',
   },
   {
     q: 'Does adding LLMs.txt guarantee I appear in ChatGPT responses?',
@@ -72,10 +72,11 @@ function LLMsTxtSEO() {
               </strong>
             </p>
             <p>
-              It may still be a useful, low-cost technical readiness step —
-              especially for documentation sites, SaaS products, developer
-              tools, and content-heavy sites — but it should not replace your
-              existing SEO work.
+              Google also says there are no special files required for AI
+              Overviews or AI Mode. LLMs.txt may still be a useful, low-cost
+              technical readiness step — especially for documentation sites,
+              SaaS products, developer tools, and content-heavy sites — but it
+              should not replace your existing SEO work.
             </p>
 
             <h2>What LLMs.txt can do</h2>

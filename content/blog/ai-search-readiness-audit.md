@@ -60,7 +60,7 @@ Review `robots.txt` for these user agents:
 
 Blocking a crawler may be the right choice for private, paid, or sensitive content. Blocking public marketing and documentation pages by accident is the problem.
 
-Use the [AI crawler checker](/tools/ai-crawler-checker) if you need to review common AI crawler rules quickly.
+Use the [AI crawler checker](/tools/ai-crawler-checker) if you need to review common AI crawler rules quickly. For OpenAI-specific crawler policy, see [GPTBot vs OAI-SearchBot](/blog/gptbot-vs-oai-searchbot). For CDN and WAF issues, see [PerplexityBot and Cloudflare WAF](/blog/perplexitybot-cloudflare-waf).
 
 ## 3. Check AI-readable site files
 
@@ -76,7 +76,7 @@ A useful readiness audit checks whether:
 - The sitemap includes canonical URLs for key public pages.
 - RSS exposes fresh editorial content when the site publishes articles.
 
-If you already have an LLMs.txt file, validate it with the [LLMs.txt Checker](/tools/llms-txt-checker). If you do not have one, generate a draft with the [LLMs.txt Generator](/tools/llms-txt-generator).
+If you already have an LLMs.txt file, validate it with the [LLMs.txt Checker](/tools/llms-txt-checker). If you do not have one, generate a draft with the [LLMs.txt Generator](/tools/llms-txt-generator). For Google AI Overviews specifically, remember that LLMs.txt is optional context, not a required Google AI feature file. See [Do you need LLMs.txt for Google AI Overviews?](/blog/llms-txt-google-ai-overviews).
 
 ## 4. Add schema that matches the visible page
 

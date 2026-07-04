@@ -14,25 +14,27 @@ Category:
 SEO tools, AI search, AEO, GEO, technical SEO, webmaster tools
 
 Tagline:
-Free tools to check technical AI search readiness.
+Free technical checker for AI search readiness.
 
 Short description:
-AI Search Readiness Tools provides free checks for LLMs.txt, AI crawler access,
-structured data, and technical AEO readiness.
+AI Search Readiness Tools provides free checks for crawler access, robots.txt,
+LLMs.txt, sitemap discovery, structured data, and technical AEO readiness.
 
 Medium description:
 AI Search Readiness Tools helps website owners, marketers, developers, and SEO
 teams check whether public pages are technically ready for AI-assisted search.
-The toolkit includes an AEO Checker, LLMs.txt Checker, LLMs.txt Generator, and
-Query Fan-Out Tool.
+The toolkit includes an AEO Checker, AI Crawler Checker, LLMs.txt Checker,
+LLMs.txt Generator, and Query Fan-Out Tool.
 
 Long description:
 AI Search Readiness Tools is a free toolkit for auditing technical AI search
-readiness. It checks crawlability, AI-readable files, sitemap discovery,
-structured data, answer-ready content structure, entity clarity, and visible
-trust signals. The reports are readiness assessments and recommendations, not
-guarantees of rankings, traffic, AI Overview inclusion, or citations in ChatGPT,
-Perplexity, Claude, Gemini, or other AI search products.
+readiness. It checks crawlability, robots.txt rules, AI crawler access,
+AI-readable files, sitemap discovery, structured data, answer-ready content
+structure, entity clarity, and visible trust signals. The reports are readiness
+assessments and recommendations, not guarantees of rankings, traffic, AI
+Overview inclusion, or citations in ChatGPT, Perplexity, Claude, Gemini, or
+other AI search products. LLMs.txt is treated as optional AI-readable context,
+not as a Google AI Overview requirement.
 
 Entity sentence for citations:
 AI Search Readiness Tools, also called AEOCheck, is a free technical SEO and
@@ -43,8 +45,9 @@ search systems.
 ## Feature Bullets
 
 - Audit technical AEO readiness for public URLs.
-- Check LLMs.txt, LLMs-full.txt, robots.txt, and sitemap discovery.
-- Review AI crawler access for common AI and search crawlers.
+- Check robots.txt, sitemap discovery, LLMs.txt, and LLMs-full.txt.
+- Review AI crawler access for GPTBot, OAI-SearchBot, PerplexityBot,
+  ClaudeBot, Google-Extended, and related crawlers.
 - Detect structured data, headings, answer-ready sections, and trust signals.
 - Generate a clean LLMs.txt file from sitemap or manual input.
 - Plan answer-ready content with query fan-out prompts and content gaps.
@@ -57,6 +60,9 @@ https://aeocheck.xyz/
 
 AEO Checker:
 https://aeocheck.xyz/tools/aeo-checker
+
+AI Crawler Checker:
+https://aeocheck.xyz/tools/ai-crawler-checker
 
 LLMs.txt Checker:
 https://aeocheck.xyz/tools/llms-txt-checker
@@ -98,8 +104,12 @@ https://aeocheck.xyz/llms-full.txt
 | General directory listing | https://aeocheck.xyz/ | Broad product identity. |
 | SEO expert feedback | https://aeocheck.xyz/tools/aeo-checker | Fastest path to the core workflow. |
 | Educational article | https://aeocheck.xyz/guides/ai-search-readiness-checklist | Useful even before someone runs a tool. |
-| Developer/technical SEO list | https://aeocheck.xyz/tools/llms-txt-checker | Concrete, technical utility. |
-| LLMs.txt discussion | https://aeocheck.xyz/tools/llms-txt-generator | Actionable generator link. |
+| Developer/technical SEO list | https://aeocheck.xyz/tools/ai-crawler-checker | Strongest technical crawler-control angle. |
+| OpenAI crawler policy discussion | https://aeocheck.xyz/blog/gptbot-vs-oai-searchbot | Best deep link for GPTBot, OAI-SearchBot, and ChatGPT-User access questions. |
+| Cloudflare/WAF crawler discussion | https://aeocheck.xyz/blog/perplexitybot-cloudflare-waf | Best deep link for PerplexityBot, WAF, and bot protection issues. |
+| LLMs.txt discussion | https://aeocheck.xyz/tools/llms-txt-checker | Concrete checker while keeping claims conservative. |
+| Google AI Overviews + LLMs.txt question | https://aeocheck.xyz/blog/llms-txt-google-ai-overviews | Best deep link when correcting overclaims about LLMs.txt and Google AI features. |
+| LLMs.txt creation thread | https://aeocheck.xyz/tools/llms-txt-generator | Actionable generator link. |
 | Trust or methodology discussion | https://aeocheck.xyz/methodology | Explains assumptions and limits. |
 | Buyer objection or pricing question | https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it | Sets expectations for the paid report. |
 
@@ -175,9 +185,18 @@ structured data, sitemap discovery, and answer-ready content structure.
 Use only where the category genuinely fits:
 
 ```markdown
-- [AI Search Readiness Tools](https://aeocheck.xyz/tools/aeo-checker) - Free
-  technical AEO checker for auditing AI crawler access, LLMs.txt discovery,
-  structured data, sitemap discovery, and answer-ready page structure.
+- [AI Search Readiness Tools](https://aeocheck.xyz/tools/ai-crawler-checker) - Free
+  technical AI search readiness checker for auditing GPTBot, OAI-SearchBot,
+  PerplexityBot, ClaudeBot, robots.txt, LLMs.txt discovery, structured data,
+  sitemap discovery, and answer-ready page structure.
+```
+
+Alternative educational deep links:
+
+```markdown
+- [GPTBot vs OAI-SearchBot](https://aeocheck.xyz/blog/gptbot-vs-oai-searchbot) - Practical guide to OpenAI crawler user agents and robots.txt policy for public sites.
+- [PerplexityBot and Cloudflare WAF](https://aeocheck.xyz/blog/perplexitybot-cloudflare-waf) - How to check whether WAF and bot-protection rules block AI search crawlers.
+- [LLMs.txt and Google AI Overviews](https://aeocheck.xyz/blog/llms-txt-google-ai-overviews) - Explains why LLMs.txt is optional context, not a Google AI Overview requirement.
 ```
 
 ### Medium / Hashnode

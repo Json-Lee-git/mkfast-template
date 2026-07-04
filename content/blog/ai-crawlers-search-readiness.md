@@ -17,6 +17,10 @@ can access your public pages.
 
 The most common accidental blocker is simple: a robots.txt rule or CDN bot
 setting that prevents AI crawlers from reaching the content you want discovered.
+If you are reviewing OpenAI crawler rules specifically, see
+[GPTBot vs OAI-SearchBot](/blog/gptbot-vs-oai-searchbot). If you use Cloudflare
+or another WAF, also check
+[PerplexityBot and Cloudflare WAF](/blog/perplexitybot-cloudflare-waf).
 
 ## Key stats: AI crawler access at a glance
 
@@ -181,7 +185,10 @@ it is to make public discovery intentional and private areas truly private.
 - [Google Search Central: Google crawlers and fetchers](https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers)
 - [OpenAI: Crawlers and user agents](https://platform.openai.com/docs/bots)
 - [Anthropic: Web crawling and crawler controls](https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
+- [Perplexity: Crawlers](https://docs.perplexity.ai/guides/bots)
 - [The llms.txt proposal](https://llmstxt.org/)
+- [GPTBot vs OAI-SearchBot](/blog/gptbot-vs-oai-searchbot)
+- [PerplexityBot and Cloudflare WAF](/blog/perplexitybot-cloudflare-waf)
 
 ## Frequently asked questions
 

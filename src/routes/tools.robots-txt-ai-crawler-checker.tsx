@@ -42,6 +42,7 @@ const page: HighIntentToolPageProps = {
   ],
   related: [
     { label: 'AI Crawler Checker', href: '/tools/ai-crawler-checker' },
+    { label: 'GPTBot vs OAI-SearchBot', href: '/blog/gptbot-vs-oai-searchbot' },
     { label: 'LLMs.txt Checker', href: '/tools/llms-txt-checker' },
     { label: 'AEO Checker', href: '/tools/aeo-checker' },
     { label: 'LLMs.txt vs Robots.txt', href: '/blog/llms-txt-vs-robots-txt' },

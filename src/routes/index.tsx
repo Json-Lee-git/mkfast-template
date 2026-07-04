@@ -13,10 +13,9 @@ import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
-      title:
-        'AEOCheck - Free AI Search Readiness Audit, Fix Pack & Manual Review',
+      title: 'AEOCheck - Free Technical AI Search Readiness Checker',
       description:
-        'Audit one important page for AI search readiness. Start with a free AEO scan, unlock a $19 Fix Pack for implementation assets, or order a $99 human review.',
+        'Check crawler access, robots.txt, LLMs.txt, schema, sitemap, and answer-ready content before chasing AI citations. Free technical AI search readiness tools.',
     });
     return {
       ...pageSeo,
@@ -92,7 +91,7 @@ export const Route = createFileRoute('/')({
           faqSchema([
             {
               q: 'What is AI search readiness?',
-              a: 'AI search readiness means your website is technically easy for search engines, answer engines, and AI-assisted retrieval systems to understand. It includes crawlability, structured data, LLMs.txt files, answer-ready content formatting, clear entity signals, and trust indicators.',
+              a: 'AI search readiness means your website is technically easy for search engines, answer engines, and AI-assisted retrieval systems to crawl, parse, and understand. It includes crawlability, robots.txt rules, AI crawler access, structured data, sitemap discovery, optional LLMs.txt files, answer-ready content formatting, clear entity signals, and trust indicators.',
             },
             {
               q: 'Are these tools free?',
