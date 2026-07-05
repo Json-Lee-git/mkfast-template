@@ -67,8 +67,12 @@ Three quick diagnostic steps:
    rules.
 2. Confirm the sitemap is listed in robots.txt or discoverable at
    `/sitemap.xml`.
-3. Use our [AEO Checker](/tools/aeo-checker) to validate robots.txt and flag
-   restrictive AI crawler rules.
+3. Use our [AI Crawler Checker](/tools/ai-crawler-checker) for a focused
+   crawler-access scan, or run the broader [AEO Checker](/tools/aeo-checker)
+   to validate robots.txt and flag restrictive AI crawler rules.
+
+For a step-by-step diagnostic workflow, see
+[AI Crawler Checker: see if ChatGPT, Perplexity, and AI bots can access your site](/blog/ai-crawler-checker-chatgpt-perplexity).
 
 ## The most common mistake
 

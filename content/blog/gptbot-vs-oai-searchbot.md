@@ -84,7 +84,7 @@ Look for:
 - A missing sitemap reference.
 - Rules copied from a staging environment.
 
-Use the [AI Crawler Checker](/tools/ai-crawler-checker) to review common AI crawler access rules quickly, or run the broader [AEO Checker](/tools/aeo-checker) for crawlability, schema, sitemap, and answer-readiness checks.
+Use the [AI Crawler Checker](/tools/ai-crawler-checker) to review common AI crawler access rules quickly, follow the [AI crawler checker workflow](/blog/ai-crawler-checker-chatgpt-perplexity) for a step-by-step diagnostic process, or run the broader [AEO Checker](/tools/aeo-checker) for crawlability, schema, sitemap, and answer-readiness checks.
 
 ## Check Cloudflare or WAF rules too
 
