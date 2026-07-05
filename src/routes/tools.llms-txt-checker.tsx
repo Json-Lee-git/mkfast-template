@@ -164,6 +164,12 @@ function CheckerPage() {
               , verify response headers, find broken links, and check whether AI
               crawlers can reach the public pages listed in your file.
             </p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+              This checker also works as a free LLMs.txt validation tool for
+              teams that need to verify headers, Markdown structure, link
+              health, and AI crawler access before submitting a site for AI
+              search review.
+            </p>
           </div>
         </Container>
       </section>

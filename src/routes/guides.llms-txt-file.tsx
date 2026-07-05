@@ -92,7 +92,11 @@ function LLMsTxtFileGuidePage() {
             <p>
               The file should be publicly accessible and served with a{' '}
               <code>text/plain</code> or <code>text/markdown</code> content
-              type.
+              type. After publishing the file, validate it with the{' '}
+              <a href="/tools/llms-txt-checker?utm_source=guide&utm_medium=organic&utm_campaign=seo-llms-txt-validator&utm_content=llms-txt-file-inline">
+                free LLMs.txt validator
+              </a>{' '}
+              to confirm headers, links, and AI crawler access.
             </p>
 
             <h2>Basic LLMs.txt format</h2>
