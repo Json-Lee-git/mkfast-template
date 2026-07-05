@@ -156,6 +156,14 @@ function CheckerPage() {
               LLMs.txt is useful context for some AI systems, but it is not
               required for Google AI Overviews or AI Mode.
             </p>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+              Use this free LLMs.txt validator to test the file at
+              <code className="mx-1 rounded bg-gray-100 px-1 py-0.5 text-xs dark:bg-zinc-900">
+                /llms.txt
+              </code>
+              , verify response headers, find broken links, and check whether AI
+              crawlers can reach the public pages listed in your file.
+            </p>
           </div>
         </Container>
       </section>
@@ -184,7 +192,7 @@ function CheckerPage() {
                     Checking...
                   </>
                 ) : (
-                  'Check'
+                  'Validate LLMs.txt'
                 )}
               </button>
             </div>
@@ -626,6 +634,13 @@ function CheckerPage() {
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
                 LLMs.txt guide
+              </a>
+              , compare{' '}
+              <a
+                href="/compare/llms-txt-checker-alternatives"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt checker alternatives
               </a>
               , then check{' '}
               <a

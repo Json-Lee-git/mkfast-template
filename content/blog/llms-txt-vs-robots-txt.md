@@ -184,8 +184,8 @@ It's useful for documentation sites and knowledge bases where deeper context
 helps AI models provide more accurate citations.
 
 ---
-> **Check both files at once** — free LLMs.txt and robots.txt validator.
+> **Check both files at once** — free LLMs.txt checker and robots.txt validator.
 > Run the checker to verify LLMs.txt, LLMs-full.txt, sitemap, and AI crawler access in one scan.
 >
-> 👉 [Check your files](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-vs-robots)
+> 👉 [Run the LLMs.txt Checker](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-vs-robots)
 ---

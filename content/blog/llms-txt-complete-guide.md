@@ -201,8 +201,8 @@ LLMs.txt Checker which validates format, checks every link, tests content type,
 and verifies your LLMs-full.txt if you have one.
 
 ---
-> **Validate your LLMs.txt file** — free checker to verify format, links, and AI accessibility.
+> **Validate your LLMs.txt file** — free LLMs.txt checker and validator for format, links, headers, and AI accessibility.
 > Upload or point to your LLMs.txt and get instant feedback on what's right and what needs fixing.
 >
-> 👉 [Check your LLMs.txt](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-guide)
+> 👉 [Run the LLMs.txt Checker](https://aeocheck.xyz/tools/llms-txt-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-llms-txt-guide)
 ---

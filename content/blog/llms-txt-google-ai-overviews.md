@@ -97,7 +97,7 @@ Bad claim:
 
 > Adding this file guarantees ChatGPT, Perplexity, or Google AI citations.
 
-If you create one, validate it with the [LLMs.txt Checker](/tools/llms-txt-checker). If you need a draft, use the [LLMs.txt Generator](/tools/llms-txt-generator).
+If you create one, validate it with the [LLMs.txt Checker and Validator](/tools/llms-txt-checker) so you can confirm the file is accessible, correctly served, and free of broken links. If you need a draft, use the [LLMs.txt Generator](/tools/llms-txt-generator).
 
 ## What to optimize for Google AI features instead
 

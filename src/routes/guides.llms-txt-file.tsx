@@ -211,10 +211,10 @@ function LLMsTxtFileGuidePage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
-                href="/tools/llms-txt-checker"
+                href="/tools/llms-txt-checker?utm_source=guide&utm_medium=organic&utm_campaign=seo-llms-txt-file&utm_content=cta-validator"
                 className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 active:scale-[0.98] dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
               >
-                LLMs.txt Checker <IconArrowRight size={16} />
+                Run the LLMs.txt Validator <IconArrowRight size={16} />
               </a>
             </div>
           </div>
