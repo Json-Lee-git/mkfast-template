@@ -1,5 +1,7 @@
 import { m } from '@/locale/paraglide/messages';
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 const schema = z.object({
   name: z.string().min(3, m.contact_name_min()).max(30, m.contact_name_max()),
@@ -10,8 +12,10 @@ const schema = z.object({
     .max(500, m.contact_message_max()),
 });
 export const sendContactMessage = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(schema)
   .handler(async ({ data }) => {
+    await enforceRateLimit('contact');
     const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
     if (!webhookUrl) {
       console.log('Contact message:', data);

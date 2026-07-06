@@ -1,6 +1,7 @@
 import { getDb } from '@/db';
 import { conversionEvents } from '@/db/app.schema';
 import { createFileRoute } from '@tanstack/react-router';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const payloadValueSchema = z.union([
@@ -24,6 +25,15 @@ export const Route = createFileRoute('/api/conversion-events')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // Rate-limit: check before DB write (fails open, D1-backed)
+        const rateLimit = await checkRateLimit('conversionEvent');
+        if (!rateLimit.allowed) {
+          return Response.json(
+            { error: 'Too many requests' },
+            { status: 429, headers: rateLimitHeaders(rateLimit) }
+          );
+        }
+
         let raw: unknown;
 
         try {

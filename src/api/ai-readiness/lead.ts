@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -17,8 +19,10 @@ function parseWebhookUrl(raw: string): string | null {
 }
 
 export const submitLeadCapture = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(schema)
   .handler(async ({ data }) => {
+    await enforceRateLimit('leadCapture');
     const webhookUrl = process.env.LEAD_WEBHOOK_URL;
 
     if (!webhookUrl) {

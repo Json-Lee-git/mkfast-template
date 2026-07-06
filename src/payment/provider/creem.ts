@@ -1,6 +1,7 @@
 import { getDb } from '@/db';
 import { payment } from '@/db/app.schema';
 import { user } from '@/db/auth.schema';
+import { verifyCreemWebhookSignature } from '@/lib/creem-webhook';
 
 import { Creem } from 'creem';
 import type {
@@ -332,40 +333,14 @@ export class CreemProvider implements PaymentProvider {
   }
 
   /**
-   * Verify Creem webhook signature using HMAC-SHA256
-   *
-   * Uses Web Crypto API for Cloudflare Workers compatibility.
+   * Verify Creem webhook signature using HMAC-SHA256.
+   * Delegates to the shared utility (constant-time comparison).
    */
   private async verifySignature(
     payload: string,
     signature: string
   ): Promise<void> {
-    if (!signature) {
-      throw new Error('Missing Creem webhook signature');
-    }
-
-    const encoder = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      'raw',
-      encoder.encode(this.webhookSecret),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-
-    const signatureBuffer = await crypto.subtle.sign(
-      'HMAC',
-      key,
-      encoder.encode(payload)
-    );
-
-    const computed = Array.from(new Uint8Array(signatureBuffer))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
-
-    if (computed !== signature) {
-      throw new Error('Invalid Creem webhook signature');
-    }
+    await verifyCreemWebhookSignature(payload, signature, this.webhookSecret);
   }
 
   // ─── Event Handlers ───────────────────────────────────────

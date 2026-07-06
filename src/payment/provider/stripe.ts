@@ -386,7 +386,10 @@ export class StripeProvider implements PaymentProvider {
       }
     } catch (error) {
       console.error('handle webhook event error:', error);
-      throw new Error('Failed to handle webhook event');
+      // Preserve original error type so the route handler can
+      // distinguish signature verification failures (400) from
+      // processing failures (500 – Stripe will retry).
+      throw error;
     }
   }
 

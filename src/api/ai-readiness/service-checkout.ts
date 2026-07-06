@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
 import { z } from 'zod';
 import { getBaseUrl } from '@/lib/urls';
 import { normalizeUrlKeepPath } from './shared';
@@ -16,6 +17,7 @@ const manualAuditCheckoutInputSchema = z.object({
  * webhook metadata as the only durable record.
  */
 export const createManualAuditCheckout = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(manualAuditCheckoutInputSchema)
   .handler(async ({ data }) => {
     const apiKey = process.env.CREEM_API_KEY;

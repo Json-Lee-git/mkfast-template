@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import { runAi, parseAiJson } from './ai';
 
@@ -103,8 +105,10 @@ function buildDefaultResult(topic: string): FanOutResult {
 }
 
 export const runQueryFanOut = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(inputSchema)
   .handler(async ({ data }): Promise<FanOutResult> => {
+    await enforceRateLimit('queryFanOut');
     const topic = data.query.trim();
 
     // Try AI-powered fan-out

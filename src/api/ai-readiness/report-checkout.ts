@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
 import { z } from 'zod';
 import { getDb } from '@/db';
 import { reportTokens } from '@/db/app.schema';
@@ -22,6 +23,7 @@ const checkoutInputSchema = z.object({
  * activates the token.
  */
 export const createReportCheckout = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(checkoutInputSchema)
   .handler(async ({ data }) => {
     const apiKey = process.env.CREEM_API_KEY;

@@ -10,7 +10,9 @@ export const serverEnv = createEnv({
     VITE_BASE_URL: z.url().default('http://localhost:3000'),
 
     // Auth (Better Auth)
-    BETTER_AUTH_SECRET: z.string().default('better-auth-secret'),
+    // Required in all environments. For local dev set BETTER_AUTH_SECRET in .env.local.
+    // Generate with: pnpm dlx @better-auth/cli@latest secret
+    BETTER_AUTH_SECRET: z.string(),
     GOOGLE_CLIENT_ID: z.string().optional(),
     GOOGLE_CLIENT_SECRET: z.string().optional(),
 

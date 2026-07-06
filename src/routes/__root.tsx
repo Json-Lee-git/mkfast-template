@@ -54,7 +54,7 @@ export const Route = createRootRouteWithContext<{
         },
         { title: websiteConfig.metadata?.title },
         { name: 'description', content: websiteConfig.metadata?.description },
-        { name: 'theme-color', content: '#1a1740' },
+        { name: 'theme-color', content: '#0f172a' },
         // Default OG / Twitter / canonical — pages with their own head()
         // override these with page-specific values. These ensure 404 / error
         // pages and any future route that forgets to call seo() still get

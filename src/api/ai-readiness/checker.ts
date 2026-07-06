@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import {
@@ -501,8 +503,10 @@ function generateRecommendations(result: CheckResult): string[] {
 // ---------- Main server function ----------
 
 export const checkAiReadiness = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(inputSchema)
   .handler(async ({ data }): Promise<CheckResult> => {
+    await enforceRateLimit('llmsTxtCheck');
     const normalizedUrl = normalizeOrigin(data.url);
     const checkedAt = new Date().toISOString();
 

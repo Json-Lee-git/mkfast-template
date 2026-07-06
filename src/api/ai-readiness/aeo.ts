@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import { AI_CRAWLERS } from '@/lib/ai-crawlers';
 import {
@@ -763,8 +765,10 @@ function generateRecommendations(result: AeoAuditResult): string[] {
 // ---------- Main server function ----------
 
 export const runAeoAudit = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(inputSchema)
   .handler(async ({ data }): Promise<AeoAuditResult> => {
+    await enforceRateLimit('aeoCheck');
     const normalizedUrl = normalizeInputUrl(data.url);
     const checkedAt = new Date().toISOString();
 

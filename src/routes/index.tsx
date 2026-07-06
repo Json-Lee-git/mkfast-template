@@ -13,9 +13,9 @@ import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
-      title: 'AEOCheck - Free Technical AI Search Readiness Checker',
+      title: 'Free AEO Checker, LLMs.txt Validator & AI Search Readiness Tools',
       description:
-        'Check crawler access, robots.txt, LLMs.txt, schema, sitemap, and answer-ready content before chasing AI citations. Free technical AI search readiness tools.',
+        'Is your website invisible to AI search? Run a free AEO audit, validate your llms.txt file, check AI crawler access, and get a readiness score in seconds. No signup, no credit card.',
     });
     return {
       ...pageSeo,

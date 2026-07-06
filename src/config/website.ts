@@ -34,9 +34,9 @@ export const websiteConfig: WebsiteConfig = {
   },
   metadata: {
     name: 'AEOCheck',
-    title: 'AEOCheck - AI Search Readiness Audit, Fix Pack & Manual Review',
+    title: 'AEOCheck — Free AEO Checker, LLMs.txt Validator & AI Search Tools',
     description:
-      'Run a free AI search readiness audit, then choose a $19 Fix Pack or $99 human review when you need implementation help.',
+      'Free tools to check if your site is visible to ChatGPT, Perplexity, and AI search. AEO audit, LLMs.txt validator, AI crawler checker, and more. No signup required.',
     supportEmail: 'support@aeocheck.xyz',
     images: {
       ogImage: '/og.png',

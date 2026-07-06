@@ -3,6 +3,7 @@ import { getDb } from '@/db';
 import { manualAuditOrders } from '@/db/app.schema';
 import { websiteConfig } from '@/config/website';
 import { buildManualAuditNotificationPayload } from './manual-audit-notification';
+import { sendEmail } from '@/mail';
 import { normalizeUrlKeepPath } from './shared';
 
 export type ManualAuditOrder = {
@@ -273,21 +274,78 @@ async function notifyManualAuditOrder(data: {
     return;
   }
 
-  const response = await fetch(webhookUrl, {
+  await fetchWithRetry(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
+}
 
-  if (!response.ok) {
-    const body = await response.text().catch(() => '');
-    throw new Error(
-      `Manual audit notification failed (${response.status}): ${body.slice(
-        0,
-        1000
-      )}`
-    );
+// ─── Retry helpers ──────────────────────────────────────────
+
+/** Max attempts for webhook delivery (1 initial + 2 retries). */
+const NOTIFY_MAX_ATTEMPTS = 3;
+/** Base delay in ms for exponential backoff. */
+const NOTIFY_RETRY_BASE_MS = 1000;
+
+/**
+ * Fetch with exponential backoff retry for transient failures.
+ *
+ * Retries on: network errors (fetch throws) and 5xx responses.
+ * Does NOT retry on: 4xx responses (bad request, won't become valid).
+ */
+async function fetchWithRetry(
+  url: string,
+  init: RequestInit
+): Promise<Response> {
+  let lastError: unknown;
+  for (let i = 0; i < NOTIFY_MAX_ATTEMPTS; i++) {
+    try {
+      const response = await fetch(url, init);
+      if (response.ok) return response;
+
+      // 4xx errors are not retryable — they indicate a client-side problem
+      if (response.status >= 400 && response.status < 500) {
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Manual audit notification failed (${response.status}): ${body.slice(0, 1000)}`
+        );
+      }
+
+      // 5xx: log and retry
+      const body = await response.text().catch(() => '');
+      lastError = new Error(
+        `Manual audit notification failed (${response.status}): ${body.slice(0, 1000)}`
+      );
+      console.warn(
+        `Webhook attempt ${i + 1}/${NOTIFY_MAX_ATTEMPTS} failed (${response.status}), retrying...`
+      );
+    } catch (err) {
+      // Don't retry if the error is already a "not retryable" 4xx error
+      if (
+        err instanceof Error &&
+        err.message.startsWith('Manual audit notification failed (4')
+      ) {
+        throw err;
+      }
+      lastError = err;
+      console.warn(
+        `Webhook attempt ${i + 1}/${NOTIFY_MAX_ATTEMPTS} error, retrying...`
+      );
+    }
+
+    if (i < NOTIFY_MAX_ATTEMPTS - 1) {
+      await sleep(NOTIFY_RETRY_BASE_MS * 2 ** i);
+    }
   }
+
+  throw (
+    lastError ?? new Error('Manual audit notification failed after all retries')
+  );
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function sendManualAuditDeliveryEmail(data: {
@@ -297,7 +355,6 @@ async function sendManualAuditDeliveryEmail(data: {
   reportUrl: string;
   websiteUrl: string;
 }) {
-  const apiKey = process.env.RESEND_API_KEY;
   const fromEmail =
     process.env.RESEND_FROM_EMAIL ??
     websiteConfig.mail?.fromEmail ??
@@ -310,44 +367,14 @@ async function sendManualAuditDeliveryEmail(data: {
   const text = buildManualAuditDeliveryText({ ...data, supportEmail });
   const html = buildManualAuditDeliveryHtml({ ...data, supportEmail });
 
-  if (!apiKey) {
-    if (!isConsoleFallbackEnabled()) {
-      throw new Error('RESEND_API_KEY environment variable is not set');
-    }
-    console.log('Manual audit delivery email:', {
-      from: fromEmail,
-      to: data.email,
-      subject,
-      text,
-    });
-    return;
-  }
-
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: data.email,
-      reply_to: supportEmail,
-      subject,
-      html,
-      text,
-    }),
+  await sendEmail({
+    from: fromEmail,
+    to: data.email,
+    replyTo: supportEmail,
+    subject,
+    html,
+    text,
   });
-
-  if (!response.ok) {
-    const body = await response.text().catch(() => '');
-    throw new Error(
-      `Manual audit delivery email failed (${response.status}): ${body.slice(
-        0,
-        1000
-      )}`
-    );
-  }
 }
 
 function buildManualAuditDeliveryText(data: {

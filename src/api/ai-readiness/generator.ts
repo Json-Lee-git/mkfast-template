@@ -1,4 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
+import { csrfMiddleware } from '@/lib/csrf';
+import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import {
   MAX_REDIRECTS,
@@ -333,8 +335,10 @@ function handleManualMode(
 // ---------- Main server function ----------
 
 export const generateLlmsTxt = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(inputSchema)
   .handler(async ({ data }): Promise<GeneratorResult> => {
+    await enforceRateLimit('llmsGenerate');
     if (data.mode === 'sitemap') {
       return handleSitemapMode(data.url);
     }
@@ -366,8 +370,10 @@ Return ONLY valid JSON:
 Preserve the exact H1 site name. Keep all links and URLs unchanged.`;
 
 export const enhanceLlmsTxt = createServerFn({ method: 'POST' })
+  .middleware([csrfMiddleware])
   .inputValidator(enhanceInputSchema)
   .handler(async ({ data }): Promise<EnhanceResult> => {
+    await enforceRateLimit('llmsGenerate');
     const aiResult = await runAi({
       feature: 'llms-polish',
       systemPrompt: ENHANCE_PROMPT,

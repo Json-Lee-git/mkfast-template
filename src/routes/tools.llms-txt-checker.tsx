@@ -1,5 +1,11 @@
 import { seo } from '@/lib/seo';
-import { jsonLd, websiteSchema } from '@/lib/ai-visibility-schema';
+import {
+  faqSchema,
+  jsonLd,
+  softwareApplicationSchema,
+  websiteSchema,
+} from '@/lib/ai-visibility-schema';
+import { getCanonicalUrl } from '@/lib/urls';
 import { trackConversionEvent } from '@/lib/conversion-events';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
@@ -742,11 +748,45 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 export const Route = createFileRoute('/tools/llms-txt-checker')({
   head: () => ({
     ...seo('/tools/llms-txt-checker', {
-      title: 'Free LLMs.txt Checker & Validator | AI Search Readiness',
+      title: 'Free LLMs.txt Checker & Validator — Test Your AI Crawler Access',
       description:
-        'Check if your website has a valid LLMs.txt file. Validate structure, links, LLMs-full.txt, sitemap, and AI crawler access without treating LLMs.txt as a Google AI Overview requirement. Free, no sign-up required.',
+        'Validate your llms.txt, llms-full.txt, sitemap, and AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and more. See what AI sees. Free, instant, no signup.',
     }),
-    scripts: [jsonLd(websiteSchema())],
+    scripts: [
+      jsonLd(
+        softwareApplicationSchema({
+          name: 'LLMs.txt Checker & Validator',
+          websiteUrl: getCanonicalUrl('/tools/llms-txt-checker'),
+          longDescription:
+            'Free validator that checks llms.txt structure, link health, llms-full.txt discoverability, sitemap presence, and AI crawler access across GPTBot, ClaudeBot, PerplexityBot, and more.',
+          startingPrice: '$0',
+          keyFeatures: [
+            'LLMs.txt structure validation',
+            'Link health & broken link detection',
+            'AI crawler access analysis',
+            'Sitemap & llms-full.txt checks',
+            'Readiness score (0-100)',
+          ],
+        })
+      ),
+      jsonLd(
+        faqSchema([
+          {
+            q: 'What is an LLMs.txt validator?',
+            a: 'An LLMs.txt validator checks whether your website has a correctly structured /llms.txt file, validates its internal links, confirms llms-full.txt and sitemap discoverability, and reports AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and other AI user agents.',
+          },
+          {
+            q: 'Why does my site need an llms.txt file?',
+            a: 'LLMs.txt helps AI systems and LLM-based search tools discover, crawl, and understand your key content. Without one, AI crawlers may miss important pages or get an incomplete picture of your site.',
+          },
+          {
+            q: 'Is this tool free?',
+            a: 'Yes — the LLMs.txt Checker & Validator is free to use. No account, no signup required.',
+          },
+        ])
+      ),
+      jsonLd(websiteSchema()),
+    ],
   }),
   component: CheckerPage,
 });

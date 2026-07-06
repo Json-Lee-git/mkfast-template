@@ -6,6 +6,7 @@ import {
 import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
 import { reportTokens, webhookEvents } from '@/db/app.schema';
+import { verifyCreemWebhookSignature } from '@/lib/creem-webhook';
 import { and, eq } from 'drizzle-orm';
 
 /**
@@ -36,7 +37,7 @@ export const Route = createFileRoute('/api/webhooks/creem')({
           if (metadata?.reportToken) {
             let event: ClaimedWebhookEvent | undefined;
             try {
-              await verifyCreemSignature(payload, signature);
+              await verifySignature(payload, signature);
               event = await claimCreemWebhookEvent(
                 raw,
                 payload,
@@ -63,7 +64,7 @@ export const Route = createFileRoute('/api/webhooks/creem')({
           if (metadata?.service === 'manual-audit') {
             let event: ClaimedWebhookEvent | undefined;
             try {
-              await verifyCreemSignature(payload, signature);
+              await verifySignature(payload, signature);
               event = await claimCreemWebhookEvent(
                 raw,
                 payload,
@@ -119,7 +120,7 @@ export const Route = createFileRoute('/api/webhooks/creem')({
         }
         let event: ClaimedWebhookEvent | undefined;
         try {
-          await verifyCreemSignature(payload, signature);
+          await verifySignature(payload, signature);
           event = await claimCreemWebhookEvent(raw, payload, 'payment');
           if (!event.shouldProcess) {
             return Response.json(
@@ -321,36 +322,13 @@ function isUniqueConstraintError(error: unknown) {
   return message.toLowerCase().includes('unique constraint failed');
 }
 
-async function verifyCreemSignature(payload: string, signature: string) {
-  if (!signature) {
-    throw new Error('Missing Creem webhook signature');
-  }
-
-  const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
-  if (!webhookSecret) {
+/** Thin wrapper: reads CREEM_WEBHOOK_SECRET from env and delegates to shared utility. */
+async function verifySignature(payload: string, signature: string) {
+  const secret = process.env.CREEM_WEBHOOK_SECRET;
+  if (!secret) {
     throw new Error('CREEM_WEBHOOK_SECRET environment variable is not set');
   }
-
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    'raw',
-    encoder.encode(webhookSecret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  );
-  const signatureBuffer = await crypto.subtle.sign(
-    'HMAC',
-    key,
-    encoder.encode(payload)
-  );
-  const computed = Array.from(new Uint8Array(signatureBuffer))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-
-  if (!constantTimeEqual(computed, signature.trim().toLowerCase())) {
-    throw new Error('Invalid Creem webhook signature');
-  }
+  await verifyCreemWebhookSignature(payload, signature, secret);
 }
 
 function safeParseJson(payload: string) {
@@ -365,15 +343,4 @@ function optionalString(value: unknown) {
   if (typeof value !== 'string') return undefined;
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
-}
-
-function constantTimeEqual(left: string, right: string) {
-  if (left.length !== right.length) return false;
-
-  let mismatch = 0;
-  for (let i = 0; i < left.length; i += 1) {
-    mismatch |= left.charCodeAt(i) ^ right.charCodeAt(i);
-  }
-
-  return mismatch === 0;
 }
