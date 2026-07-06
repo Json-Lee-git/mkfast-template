@@ -230,3 +230,27 @@ export const conversionEvents = sqliteTable(
     index("conversion_events_created_at_idx").on(table.createdAt),
   ]
 );
+
+/**
+ * AI visibility tracking snapshots — Pro subscribers get weekly
+ * automated AEO re-audits stored here so they can see trends.
+ */
+export const aiVisibilitySnapshots = sqliteTable(
+  "ai_visibility_snapshots",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    url: text("url").notNull(),
+    score: integer("score").notNull(),
+    scoreLabel: text("score_label").notNull(),
+    resultJson: text("result_json").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    index("ai_vis_snapshots_user_idx").on(table.userId),
+    index("ai_vis_snapshots_url_idx").on(table.url),
+    index("ai_vis_snapshots_created_idx").on(table.createdAt),
+  ]
+);
