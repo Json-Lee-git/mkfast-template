@@ -22,6 +22,7 @@ export function getNavbarLinks(): MenuItemConfig[] {
       external: false,
     },
     { title: 'Guides', href: '/guides/llms-txt-file', external: false },
+    { title: 'Pricing', href: Routes.Pricing, external: false },
   ];
   if (websiteConfig.blog?.enable) {
     links.push({ title: 'Blog', href: Routes.Blog, external: false });
