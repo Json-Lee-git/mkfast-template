@@ -10,6 +10,8 @@
     "check": "biome check",
     "lint": "biome check --write .",
     "format": "biome format --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "locale:sort": "tsx scripts/sort-locale-keys.ts",
     "locale:check": "tsx scripts/check-locale-keys.ts",
     "locale:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/locale/paraglide --strategy url cookie baseLocale --emit-ts-declarations --is-server 'import.meta.env.SSR'",
@@ -104,12 +106,14 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/coverage-v8": "^4.1.9",
     "drizzle-kit": "^0.31.9",
     "knip": "^5.84.1",
     "react-email": "5.2.5",
     "tsx": "^4.21.0",
     "typescript": "^5.7.2",
     "vite": "^7.1.7",
+    "vitest": "^4.1.9",
     "wrangler": "^4.84.1"
   }
 }
