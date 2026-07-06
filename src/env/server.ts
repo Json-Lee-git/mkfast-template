@@ -2,12 +2,16 @@ import { createEnv } from '@t3-oss/env-core';
 import * as z from 'zod';
 
 /**
- * Server-side env (runtime process.env; Worker vars/secrets populate it)
+ * Server-side env (runtime process.env; Worker vars/secrets populate it).
+ *
+ * NOTE: VITE_BASE_URL is no longer validated on the server side.
+ * getBaseUrl() reads PUBLIC_SITE_URL (Worker runtime var) first, then falls
+ * back to build-time clientEnv.VITE_BASE_URL. See src/lib/urls.ts.
  */
 export const serverEnv = createEnv({
   server: {
     // Defaults so CLI (e.g. auth:schema:generate via pnpm dlx) can run without loading .env.local
-    VITE_BASE_URL: z.url().default('http://localhost:3000'),
+    PUBLIC_SITE_URL: z.string().url().optional(),
 
     // Auth (Better Auth)
     // Required in all environments. For local dev set BETTER_AUTH_SECRET in .env.local.

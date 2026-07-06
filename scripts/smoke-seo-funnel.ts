@@ -105,6 +105,25 @@ async function checkPage(
   } else {
     pass(`${path} noindex`, 'not present');
   }
+
+  const canonicalPath = path.split('?')[0];
+  assertNotIncludes(`${path} localhost URLs`, text, 'http://localhost:3000');
+  assertNotIncludes(`${path} localhost URLs`, text, 'https://localhost:3000');
+  assertIncludes(
+    `${path} canonical`,
+    text,
+    `<link rel="canonical" href="${canonicalBaseUrl}${canonicalPath}"`
+  );
+  assertIncludes(
+    `${path} og:url`,
+    text,
+    `<meta property="og:url" content="${canonicalBaseUrl}${canonicalPath}"`
+  );
+  assertIncludes(
+    `${path} twitter:url`,
+    text,
+    `<meta name="twitter:url" content="${canonicalBaseUrl}${canonicalPath}"`
+  );
 }
 
 await checkPage('/ai-search-audit', 'Manual AI Search Readiness Audit');

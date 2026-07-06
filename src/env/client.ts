@@ -4,10 +4,14 @@ import * as z from 'zod';
 /**
  * Client-side env (build-time from Vite, import.meta.env)
  */
+const defaultBaseUrl = import.meta.env.PROD
+  ? 'https://aeocheck.xyz'
+  : 'http://localhost:3000';
+
 export const clientEnv = createEnv({
   clientPrefix: 'VITE_',
   client: {
-    VITE_BASE_URL: z.url().default('http://localhost:3000'),
+    VITE_BASE_URL: z.url().default(defaultBaseUrl),
 
     // Payment provider: 'stripe' | 'creem' | '' (empty = disabled)
     VITE_PAYMENT_PROVIDER: z.enum(['stripe', 'creem', '']).default(''),

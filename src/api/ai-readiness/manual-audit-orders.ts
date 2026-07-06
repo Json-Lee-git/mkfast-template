@@ -4,6 +4,7 @@ import { manualAuditOrders } from '@/db/app.schema';
 import { websiteConfig } from '@/config/website';
 import { buildManualAuditNotificationPayload } from './manual-audit-notification';
 import { sendEmail } from '@/mail';
+import { getBaseUrl } from '@/lib/urls';
 import { normalizeUrlKeepPath } from './shared';
 
 export type ManualAuditOrder = {
@@ -453,7 +454,7 @@ function escapeAttribute(value: string) {
 }
 
 function isConsoleFallbackEnabled() {
-  const baseUrl = process.env.VITE_BASE_URL ?? '';
+  const baseUrl = getBaseUrl();
   return (
     process.env.MANUAL_AUDIT_LOG_FALLBACK === 'true' ||
     baseUrl.includes('localhost') ||

@@ -22,7 +22,7 @@ Values are read by Vite from `.env*` during `pnpm dev` / `pnpm build` and inline
 | Variable | Purpose | Required | Notes |
 |----------|---------|----------|--------|
 | **Base** | | | |
-| `VITE_BASE_URL` | Site origin (e.g. `getBaseUrl()`) | No | Default: `http://localhost:3000` |
+| `VITE_BASE_URL` | Fallback site origin for local dev / preview | No | Default: `http://localhost:3000` in dev, `https://aeocheck.xyz` in production. Server-side uses `PUBLIC_SITE_URL` first — see §3 below. |
 | **Payment** | | | |
 | `VITE_PAYMENT_PROVIDER` | Payment provider (`stripe`, `creem`, or `''`) | No | Default: `''` (payment disabled); set to `stripe` or `creem` to enable |
 | **Payment (Stripe)** | | | |
@@ -42,7 +42,7 @@ Values are read by Vite from `.env*` during `pnpm dev` / `pnpm build` and inline
 | **Chat & support** | | | |
 | `VITE_CRISP_WEBSITE_ID` | Crisp chat | No | When set, `CrispChat` loads the Crisp SDK after browser idle time |
 
-Do **not** put `VITE_*` in Wrangler `vars` or `wrangler secret`—they are build-time only.
+Most `VITE_*` values are build-time only and never read at Worker runtime.
 
 ---
 
@@ -57,7 +57,7 @@ Read at **Worker request time**. Used for secrets, API keys, and server-only con
 | Variable | Purpose | Required | Used by |
 |----------|---------|----------|---------|
 | **Base** | | | |
-| `VITE_BASE_URL` | URL (schema validation at runtime) | No | Default: `http://localhost:3000`; same value as build |
+| `PUBLIC_SITE_URL` | Production site origin (e.g. `https://aeocheck.xyz`) | No | Only needed at Worker runtime for SSR, canonical, robots, sitemap. No default; falls back to build-time `VITE_BASE_URL`. |
 | **Auth** | | | |
 | `BETTER_AUTH_SECRET` | Better Auth session signing | Yes (prod) | Auth; default only for CLI; [Mail](./mail.md) for verification/reset |
 | `GOOGLE_CLIENT_ID` | Google OAuth | No | Auth when Google login enabled |
@@ -85,12 +85,27 @@ Read at **Worker request time**. Used for secrets, API keys, and server-only con
 
 ---
 
-## 3. VITE_BASE_URL and getBaseUrl()
+## 3. getBaseUrl() resolution order
 
-`getBaseUrl()` in `src/lib/urls.ts` reads **clientEnv.VITE_BASE_URL** (build-time).
+`getBaseUrl()` in `src/lib/urls.ts` resolves the site origin in this order:
 
-- **Local:** Set in `.env.local` or omit to use default `http://localhost:3000`.
-- **Production:** Set in the **build environment** (e.g. `.env.production` or CI). You do **not** set it in Worker runtime vars.
+1. **`process.env.PUBLIC_SITE_URL`** — Worker runtime var (set via `wrangler.jsonc` `vars`, `wrangler deploy --var`, or Cloudflare Dashboard).
+2. **`clientEnv.VITE_BASE_URL`** — build-time fallback (inlined by Vite, available in both client and server bundles).
+
+**Why two sources?**  
+- At **Worker runtime** (SSR, canonical URLs, robots, sitemap, social metadata), `PUBLIC_SITE_URL` is the authoritative value.  
+- On the **client side** and in **local dev**, there is no `PUBLIC_SITE_URL`, so `VITE_BASE_URL` handles hydration and development.
+
+**Example — Production:**
+- `wrangler.jsonc` `vars` contains `{ "PUBLIC_SITE_URL": "https://aeocheck.xyz" }`
+- Worker runtime → `getBaseUrl()` → `https://aeocheck.xyz`
+
+**Example — Local dev:**
+- `PUBLIC_SITE_URL` is not set
+- `clientEnv.VITE_BASE_URL` defaults to `http://localhost:3000`
+- `getBaseUrl()` → `http://localhost:3000`
+
+No code path reads `process.env.VITE_BASE_URL`.
 
 ---
 
@@ -100,7 +115,8 @@ Read at **Worker request time**. Used for secrets, API keys, and server-only con
 |------------------|-----------------|--------|
 | `.env.local` | Present during `pnpm dev` | Build + runtime locally; git-ignored |
 | `.env.production` | During `pnpm build` | Production build (e.g. `VITE_BASE_URL`); do not commit secrets |
-| `wrangler.jsonc` `vars` | Worker runtime | Non-sensitive config → `process.env` when nodejs compat is on |
+| `wrangler.jsonc` `vars` | Worker runtime | Non-sensitive config → `process.env` when nodejs compat is on. Currently only `PUBLIC_SITE_URL`. |
+| `wrangler deploy --var KEY=VALUE` | Deploy time | Injected during CI deploy (see `deploy.yml`). Replaces `vars` at deploy time. |
 | `wrangler secret put <NAME>` | Worker runtime | Secrets → `process.env` |
 
 Copy **`.env.example`** to **`.env.local`** and fill in values. See module docs ([Auth](./auth.md), [Mail](./mail.md), [Payment](./payment.md), etc.) for which vars each feature needs.

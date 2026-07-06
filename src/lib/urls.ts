@@ -8,10 +8,39 @@ import {
 } from '@/lib/locale';
 
 /**
- * Site origin (build-time). Safe to call from both client and server:
- * Vite inlines import.meta.env at build time, so server bundle gets the same value.
+ * Site origin.
+ *
+ * Priority:
+ *  1. PUBLIC_SITE_URL — Worker runtime var (see wrangler.jsonc `vars`).
+ *     Requires `nodejs_compat` + `nodejs_compat_populate_process_env`.
+ *  2. VITE_BASE_URL — build-time inlined import.meta.env.VITE_BASE_URL,
+ *     used for client-side hydration and local dev (defaults to localhost:3000).
+ *
+ * No code path reads process.env.VITE_BASE_URL.
+ * Server runtime + production → 1; client / dev / preview → 2.
+ *
+ * Security: CI deploy gate (deploy.yml) validates PUBLIC_SITE_URL before
+ * deploying to production. If it is still missing at Worker runtime in
+ * production, this function throws — the site must not serve pages with
+ * incorrect canonical / OG / sitemap URLs.
  */
 export function getBaseUrl(): string {
+  // Worker runtime: prefer the explicitly-set production URL
+  if (typeof process !== 'undefined' && typeof process.env !== 'undefined') {
+    if (process.env.PUBLIC_SITE_URL) return process.env.PUBLIC_SITE_URL;
+  }
+
+  // Production SSR safety net: PUBLIC_SITE_URL is missing at runtime.
+  // This should never happen — CI deploy gate enforces it.
+  if (import.meta.env.PROD && import.meta.env.SSR) {
+    throw new Error(
+      '[getBaseUrl] CRITICAL: PUBLIC_SITE_URL is not set at Worker runtime. ' +
+        'Canonical, sitemap, OG, and social metadata URLs cannot be generated correctly. ' +
+        'Set PUBLIC_SITE_URL via wrangler.jsonc vars, wrangler deploy --var, or Cloudflare Dashboard.'
+    );
+  }
+
+  // Fallback: build-time inlined (client side, local dev, preview)
   return clientEnv.VITE_BASE_URL;
 }
 

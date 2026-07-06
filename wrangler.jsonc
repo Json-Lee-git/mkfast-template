@@ -75,6 +75,16 @@
   ],
   "ai": {
     "binding": "AI"
+  },
+  /**
+   * Runtime vars (populate process.env at Worker runtime).
+   * PUBLIC_SITE_URL sets the production site origin for SSR, canonical, robots, social metadata.
+   * getBaseUrl() in src/lib/urls.ts reads this via process.env (Worker runtime).
+   * Requires `nodejs_compat` + `nodejs_compat_populate_process_env` in compatibility_flags above.
+   * Override via Cloudflare Dashboard or `wrangler deploy --var` in CI (see deploy.yml).
+   */
+  "vars": {
+    "PUBLIC_SITE_URL": "https://aeocheck.xyz"
   }
   /**
    * R2: disabled (not yet enabled on account)
