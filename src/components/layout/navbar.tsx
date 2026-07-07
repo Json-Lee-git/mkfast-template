@@ -50,16 +50,10 @@ export function Navbar({ scroll = true }: NavbarProps) {
   return (
     <header
       className={cn(
-        'sticky inset-x-0 top-0 z-40 py-3 transition-all duration-300',
-        showBarBg && 'border-b'
+        'sticky inset-x-0 top-0 z-40 border-b border-border/60 bg-background/90 py-3 backdrop-blur-md transition-all duration-300',
+        showBarBg && 'shadow-sm'
       )}
     >
-      {showBarBg && (
-        <div
-          className="absolute inset-0 z-0 bg-background/80 backdrop-blur-md"
-          aria-hidden="true"
-        />
-      )}
       <div className="relative z-10">
         <Container className="px-4">
           <nav
@@ -99,24 +93,24 @@ export function Navbar({ scroll = true }: NavbarProps) {
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <div className="flex gap-0">
-                          <div className="grid grid-cols-3 gap-6 p-6 min-w-[580px] max-w-[720px]">
+                        <div className="flex max-w-[min(920px,calc(100vw-2rem))] overflow-hidden rounded-xl border border-border/70 bg-background shadow-[0_24px_80px_rgba(15,23,42,0.14)]">
+                          <div className="grid w-[660px] grid-cols-3 gap-3 p-4">
                             {item.items.map((group) => (
                               <div key={group.title}>
-                                <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                <h4 className="px-3 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                                   {group.title}
                                 </h4>
-                                <ul className="space-y-1">
+                                <ul className="space-y-0.5">
                                   {group.items?.map((sub) => (
                                     <li key={sub.title}>
                                       <NavigationMenuLink
                                         closeOnClick
                                         className={cn(
-                                          'group flex select-none flex-col rounded-md px-3 py-2 leading-none no-underline outline-hidden transition-colors',
-                                          'hover:bg-accent hover:text-accent-foreground',
+                                          'group flex min-h-16 select-none flex-col items-start rounded-lg px-3 py-2.5 leading-none no-underline outline-hidden transition-colors',
+                                          'hover:bg-muted/80 hover:text-foreground',
                                           'focus:bg-accent focus:text-accent-foreground',
                                           isLinkActive(sub.href, pathname) &&
-                                            'bg-accent text-accent-foreground'
+                                            'bg-muted text-foreground'
                                         )}
                                         render={
                                           <Link
@@ -138,7 +132,7 @@ export function Navbar({ scroll = true }: NavbarProps) {
                                           {sub.title}
                                         </span>
                                         {sub.description ? (
-                                          <span className="mt-0.5 text-xs text-muted-foreground leading-snug">
+                                          <span className="mt-1.5 text-xs leading-snug text-muted-foreground">
                                             {sub.description}
                                           </span>
                                         ) : null}
@@ -149,13 +143,25 @@ export function Navbar({ scroll = true }: NavbarProps) {
                               </div>
                             ))}
                           </div>
-                          {/* Promo card */}
-                          <div className="hidden xl:flex w-[220px] shrink-0 flex-col justify-between border-l bg-muted/30 p-5">
+                          <div className="hidden w-[250px] shrink-0 border-l bg-stone-50 p-5 dark:bg-zinc-950 xl:flex xl:flex-col xl:justify-between">
                             <div>
-                              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                              <div className="mb-4 rounded-lg border border-border/70 bg-background p-3 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                  <span className="h-2 w-14 rounded-full bg-blue-500" />
+                                  <span className="text-xs font-semibold text-foreground">
+                                    64/100
+                                  </span>
+                                </div>
+                                <div className="mt-3 space-y-2">
+                                  <span className="block h-2 w-full rounded-full bg-muted" />
+                                  <span className="block h-2 w-4/5 rounded-full bg-muted" />
+                                  <span className="block h-2 w-2/3 rounded-full bg-muted" />
+                                </div>
+                              </div>
+                              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Sample Fix Pack
                               </p>
-                              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                                 See what a $19 repair plan looks like before you
                                 commit. Copy-ready schema, LLMs.txt guidance,
                                 and prioritized fixes.
@@ -163,9 +169,9 @@ export function Navbar({ scroll = true }: NavbarProps) {
                             </div>
                             <Link
                               to="/sample-aeo-report"
-                              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                              className="mt-5 inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-gray-950 px-3 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
                             >
-                              Preview the Fix Pack
+                              Preview Fix Pack
                               <IconArrowRight size={14} />
                             </Link>
                           </div>
