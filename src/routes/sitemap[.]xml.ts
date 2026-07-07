@@ -95,6 +95,11 @@ export const Route = createFileRoute('/sitemap.xml')({
             priority: '0.8',
           },
           {
+            path: '/playbooks',
+            changefreq: 'monthly',
+            priority: '0.85',
+          },
+          {
             path: '/compare/ai-search-readiness-report-worth-it',
             changefreq: 'monthly',
             priority: '0.8',

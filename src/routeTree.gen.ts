@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SampleAeoReportRouteImport } from './routes/sample-aeo-report'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as PlaybooksRouteImport } from './routes/playbooks'
 import { Route as ManifestDotjsonRouteImport } from './routes/manifest[.]json'
 import { Route as IndexnowKeyDottxtRouteImport } from './routes/indexnow-key[.]txt'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -95,6 +96,11 @@ const SampleAeoReportRoute = SampleAeoReportRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaybooksRoute = PlaybooksRouteImport.update({
+  id: '/playbooks',
+  path: '/playbooks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ManifestDotjsonRoute = ManifestDotjsonRouteImport.update({
@@ -429,6 +435,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
+  '/playbooks': typeof PlaybooksRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sample-aeo-report': typeof SampleAeoReportRoute
   '/settings': typeof SettingsRouteWithChildren
@@ -496,6 +503,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
+  '/playbooks': typeof PlaybooksRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sample-aeo-report': typeof SampleAeoReportRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -565,6 +573,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
   '/manifest.json': typeof ManifestDotjsonRoute
+  '/playbooks': typeof PlaybooksRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sample-aeo-report': typeof SampleAeoReportRoute
   '/settings': typeof SettingsRouteWithChildren
@@ -636,6 +645,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/indexnow-key.txt'
     | '/manifest.json'
+    | '/playbooks'
     | '/robots.txt'
     | '/sample-aeo-report'
     | '/settings'
@@ -703,6 +713,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/indexnow-key.txt'
     | '/manifest.json'
+    | '/playbooks'
     | '/robots.txt'
     | '/sample-aeo-report'
     | '/sitemap.xml'
@@ -771,6 +782,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/indexnow-key.txt'
     | '/manifest.json'
+    | '/playbooks'
     | '/robots.txt'
     | '/sample-aeo-report'
     | '/settings'
@@ -841,6 +853,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   IndexnowKeyDottxtRoute: typeof IndexnowKeyDottxtRoute
   ManifestDotjsonRoute: typeof ManifestDotjsonRoute
+  PlaybooksRoute: typeof PlaybooksRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SampleAeoReportRoute: typeof SampleAeoReportRoute
   SettingsRoute: typeof SettingsRouteWithChildren
@@ -917,6 +930,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playbooks': {
+      id: '/playbooks'
+      path: '/playbooks'
+      fullPath: '/playbooks'
+      preLoaderRoute: typeof PlaybooksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/manifest.json': {
@@ -1435,6 +1455,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   IndexnowKeyDottxtRoute: IndexnowKeyDottxtRoute,
   ManifestDotjsonRoute: ManifestDotjsonRoute,
+  PlaybooksRoute: PlaybooksRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SampleAeoReportRoute: SampleAeoReportRoute,
   SettingsRoute: SettingsRouteWithChildren,

@@ -15,6 +15,7 @@ export function getNavbarLinks(): MenuItemConfig[] {
       external: false,
     },
     { title: 'AEO Checker', href: '/tools/aeo-checker', external: false },
+    { title: 'Playbooks', href: '/playbooks', external: false },
     { title: 'Manual Audit', href: '/ai-search-audit', external: false },
     {
       title: 'Query Fan-Out',

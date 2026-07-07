@@ -44,6 +44,11 @@ export function getFooterLinks(): MenuItemConfig[] {
       title: 'Guides',
       items: [
         {
+          title: 'AI Search Playbooks',
+          href: '/playbooks',
+          external: false,
+        },
+        {
           title: 'Manual Audit',
           href: '/ai-search-audit',
           external: false,
