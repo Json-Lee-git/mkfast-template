@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import {
   formatWebhookErrorMessage,
   shouldExposeManualAuditSmokeErrorDetail,
-} from './creem-diagnostics';
+} from './-creem-diagnostics';
 
 describe('Creem webhook diagnostics', () => {
   it('exposes processing error detail only for manual audit smoke events', () => {

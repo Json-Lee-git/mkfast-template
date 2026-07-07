@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import {
   formatWebhookErrorMessage,
   shouldExposeManualAuditSmokeErrorDetail,
-} from './creem-diagnostics';
+} from './-creem-diagnostics';
 import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
 import { reportTokens, webhookEvents } from '@/db/app.schema';
