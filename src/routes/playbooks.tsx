@@ -6,6 +6,7 @@ import {
   itemListSchema,
   jsonLd,
 } from '@/lib/ai-visibility-schema';
+import { trackConversionEvent } from '@/lib/conversion-events';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
 import {
@@ -56,7 +57,7 @@ const playbooks = [
       'Find whether important AI crawlers can reach your site and whether robots.txt, redirects, or headers are blocking discovery.',
     href: '/tools/robots-txt-ai-crawler-checker',
     cta: 'Check robots.txt',
-    toolHref: '/guides/gptbot-vs-oai-searchbot',
+    toolHref: '/blog/gptbot-vs-oai-searchbot',
     toolLabel: 'Compare crawlers',
     icon: IconRobot,
     steps: [
@@ -109,6 +110,33 @@ const playbooks = [
       'Compare GSC impressions with GA4 landing pages and referrers.',
       'Use directional trends rather than single-day AI referral counts.',
     ],
+  },
+];
+
+const conversionPaths = [
+  {
+    title: 'Start with a free scan',
+    description:
+      'Use this when you have one URL and need to know which blockers are real before editing.',
+    href: '/tools/aeo-checker?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_conversion&utm_content=free-scan',
+    label: 'Run AEO Checker',
+    event: 'playbooks_free_scan_clicked',
+  },
+  {
+    title: 'Preview the $19 Fix Pack',
+    description:
+      'Use this when the scan is useful, but you want to see the implementation handoff before unlocking it.',
+    href: '/sample-aeo-report?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_conversion&utm_content=sample-report',
+    label: 'View sample report',
+    event: 'playbooks_sample_report_clicked',
+  },
+  {
+    title: 'Get a human priority order',
+    description:
+      'Use this for one commercial page where the first fixes matter and you want a human-reviewed plan.',
+    href: '/ai-search-audit?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_conversion&utm_content=manual-audit',
+    label: 'Order human audit',
+    event: 'playbooks_manual_audit_clicked',
   },
 ];
 
@@ -193,14 +221,20 @@ function PlaybooksPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 font-medium text-primary-foreground text-sm transition-colors hover:bg-primary/90"
-                href="/tools/aeo-checker"
+                href="/tools/aeo-checker?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_hero&utm_content=free-scan"
+                onClick={() =>
+                  trackConversionEvent('playbooks_hero_free_scan_clicked')
+                }
               >
                 Run free AEO Checker
                 <IconArrowRight size={16} />
               </a>
               <a
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background px-5 py-3 font-medium text-sm transition-colors hover:bg-muted"
-                href="/sample-aeo-report"
+                href="/sample-aeo-report?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_hero&utm_content=sample-report"
+                onClick={() =>
+                  trackConversionEvent('playbooks_hero_sample_report_clicked')
+                }
               >
                 View sample report
               </a>
@@ -316,6 +350,44 @@ function PlaybooksPage() {
                     {step.body}
                   </p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-border border-t">
+        <Container className="py-14 md:py-16">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div>
+              <p className="font-medium text-primary text-sm">Next action</p>
+              <h2 className="mt-3 font-bold text-2xl tracking-tight md:text-3xl">
+                Turn the playbook into a concrete next step
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-7">
+                Pick the path that matches your confidence level. Scan first if
+                the problem is unclear, preview the paid handoff if you need
+                implementation detail, or order a human review when the page is
+                commercially important.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {conversionPaths.map((path) => (
+                <a
+                  className="flex min-h-full flex-col rounded-lg border border-border bg-card p-5 transition-colors hover:bg-muted/40"
+                  href={path.href}
+                  key={path.title}
+                  onClick={() => trackConversionEvent(path.event)}
+                >
+                  <h3 className="font-semibold">{path.title}</h3>
+                  <p className="mt-2 text-muted-foreground text-sm leading-6">
+                    {path.description}
+                  </p>
+                  <span className="mt-auto inline-flex items-center gap-2 pt-5 font-medium text-primary text-sm">
+                    {path.label}
+                    <IconArrowRight size={15} />
+                  </span>
+                </a>
               ))}
             </div>
           </div>
