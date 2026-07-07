@@ -81,30 +81,30 @@ const growthPages = [
 
 const useCases = [
   {
-    title: 'Before publishing a new SEO page',
-    desc: 'Check whether the page has crawl access, schema, direct answers, and trust signals before you ask Google or AI systems to find it.',
+    title: 'Before editing a money page',
+    desc: 'Find the crawl, schema, answer structure, and trust gaps before you rewrite a homepage, product page, or comparison page.',
   },
   {
-    title: 'When a page gets traffic but no AI mentions',
-    desc: 'Find the missing AI-search signals that normal keyword tools often skip: LLMs.txt, AI crawler access, answer-ready structure, and entity clarity.',
+    title: 'When SEO tools stop at diagnosis',
+    desc: 'Use the Fix Pack when you need copy-ready JSON-LD, answer blocks, and an implementation order instead of another dashboard.',
   },
   {
-    title: 'When you need an implementation handoff',
-    desc: 'Use the $19 Fix Pack for copy-ready assets, or order the $99 manual audit when you want a human-reviewed fix plan.',
+    title: 'When the page is important enough for review',
+    desc: 'Order the manual audit only when a human should check the priorities, competitor context, and limits before you ship edits.',
   },
 ];
 
 const trustPoints = [
-  'Free technical scan',
-  'Crawler and robots.txt checks',
-  'Optional $19 fix pack',
-  '$99 manual audit available',
+  'Free scan first',
+  'No sign-up for the first audit',
+  'Sample report before paying',
+  'No ranking or citation promises',
 ];
 
 const howItWorks = [
-  'Use the LLMs.txt Checker to validate AI-readable site files.',
-  'Use the AEO Checker to audit technical answer engine readiness.',
-  'Use the Query Fan-Out Tool to find content gaps and related sub-queries.',
+  'Run the free page audit to see the controllable readiness signals.',
+  'Preview the sample report before unlocking a paid implementation handoff.',
+  'Use manual review only when one page is commercially important enough.',
 ];
 
 const readinessPoints = [
@@ -124,7 +124,7 @@ const homeFAQ = [
   },
   {
     q: 'Are these tools free?',
-    a: 'The scan and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with implementation assets and a $99 manual audit when you want a human-reviewed fix plan.',
+    a: 'The focused checkers and first diagnosis are free. The paid Fix Pack is for implementation assets, and the manual audit is for pages that need human prioritization.',
   },
   {
     q: 'Do these tools guarantee AI search visibility?',
@@ -136,58 +136,110 @@ export function AIHomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-gray-200 dark:border-zinc-800/50">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-indigo-950/40 dark:via-zinc-950 dark:to-blue-950/20" />
-        <Container className="relative py-24 lg:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700/50 bg-gray-100 dark:bg-zinc-900/50 px-4 py-1.5 text-sm text-gray-500 dark:text-zinc-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Free technical AI search readiness checker
+      <section className="relative overflow-hidden border-b border-gray-200 bg-stone-50 dark:border-zinc-800/50 dark:bg-zinc-950">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(68,64,60,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(68,64,60,0.08)_1px,transparent_1px)] bg-[size:44px_44px] opacity-60 dark:bg-[linear-gradient(to_right,rgba(244,244,245,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(244,244,245,0.06)_1px,transparent_1px)]" />
+        <Container className="relative py-20 lg:py-28">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_430px] lg:items-center">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm text-stone-600 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+                <span className="h-2 w-2 rounded-sm bg-emerald-500" />
+                Technical audit before AI search fixes
+              </div>
+              <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-gray-950 text-balance dark:text-zinc-50 sm:text-5xl lg:text-6xl">
+                Find the page fixes AI search tools can act on
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-zinc-400">
+                Check crawler access, robots.txt, LLMs.txt, schema, sitemap,
+                answer-ready content, and trust signals. Start with a free
+                diagnosis, then unlock a copy-ready Fix Pack only when the page
+                needs implementation help.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="/tools/aeo-checker"
+                  onClick={() =>
+                    trackConversionEvent('home_primary_cta_clicked', {
+                      target: '/tools/aeo-checker',
+                    })
+                  }
+                  className="inline-flex items-center gap-2 rounded-lg bg-gray-950 px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-gray-800 active:translate-y-0 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
+                >
+                  Run free audit <IconArrowRight size={16} />
+                </a>
+                <a
+                  href="/sample-aeo-report"
+                  onClick={() =>
+                    trackConversionEvent('home_sample_report_cta_clicked')
+                  }
+                  className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-800 transition-all hover:-translate-y-0.5 hover:border-gray-400 hover:bg-stone-100 active:translate-y-0 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800"
+                >
+                  View sample report
+                </a>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs text-gray-500 dark:text-zinc-400">
+                {trustPoints.map((point) => (
+                  <span
+                    key={point}
+                    className="inline-flex items-center gap-1.5"
+                  >
+                    <IconCheck size={13} className="text-emerald-500" />
+                    {point}
+                  </span>
+                ))}
+              </div>
             </div>
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
-              Free technical checker for{' '}
-              <span className="gradient-text">AI search readiness</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Check crawler access, robots.txt, LLMs.txt, schema, sitemap, and
-              answer-ready content before chasing AI citations. Start with a
-              free scan, unlock a $19 copy-ready Fix Pack when you need
-              implementation assets, or order a $99 manual audit when you need a
-              human fix plan.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
-                href="/tools/aeo-checker"
-                onClick={() =>
-                  trackConversionEvent('home_primary_cta_clicked', {
-                    target: '/tools/aeo-checker',
-                  })
-                }
-                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-500 active:scale-[0.98] dark:bg-indigo-500 dark:text-white dark:hover:bg-indigo-400"
-              >
-                Audit page free <IconArrowRight size={16} />
-              </a>
-              <a
-                href="/ai-search-audit"
-                onClick={() =>
-                  trackConversionEvent('home_manual_audit_cta_clicked')
-                }
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-900/50 px-6 py-3 text-sm font-medium text-gray-700 dark:text-zinc-300 transition-all hover:border-gray-400 dark:hover:border-zinc-600 hover:bg-gray-200 dark:hover:bg-zinc-800/50 active:scale-[0.98]"
-              >
-                Order $99 manual audit
-              </a>
-            </div>
-            <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-500 dark:text-zinc-400">
-              {trustPoints.map((point) => (
-                <span key={point} className="inline-flex items-center gap-1.5">
-                  <IconCheck size={13} className="text-emerald-500" />
-                  {point}
+
+            <aside
+              aria-label="Example audit output"
+              className="rounded-lg border border-stone-300 bg-white/90 p-5 shadow-[0_24px_80px_rgba(41,37,36,0.12)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80 dark:shadow-none"
+            >
+              <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-4 dark:border-zinc-800">
+                <div>
+                  <p className="text-sm font-semibold text-gray-950 dark:text-zinc-50">
+                    Readiness audit
+                  </p>
+                  <p className="mt-1 text-xs text-gray-500 dark:text-zinc-500">
+                    One page, controllable signals only
+                  </p>
+                </div>
+                <span className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                  Free scan
                 </span>
-              ))}
-            </div>
+              </div>
+              <div className="mt-5 space-y-3">
+                {[
+                  ['Crawler access', 'pass'],
+                  ['Structured data', 'needs work'],
+                  ['LLMs.txt readiness', 'missing'],
+                  ['Answer blocks', 'thin'],
+                  ['Trust signals', 'needs review'],
+                ].map(([label, status]) => (
+                  <div
+                    key={label}
+                    className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm"
+                  >
+                    <span className="text-gray-700 dark:text-zinc-300">
+                      {label}
+                    </span>
+                    <span className="rounded-md bg-stone-100 px-2 py-1 text-xs text-stone-600 dark:bg-zinc-800 dark:text-zinc-400">
+                      {status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 rounded-md bg-stone-100 p-4 dark:bg-zinc-950">
+                <p className="text-xs font-semibold uppercase tracking-wide text-stone-500 dark:text-zinc-500">
+                  Fix order
+                </p>
+                <ol className="mt-3 space-y-2 text-sm text-gray-700 dark:text-zinc-300">
+                  <li>01. Add copy-ready Organization and WebSite schema.</li>
+                  <li>02. Rewrite the first answer block for extraction.</li>
+                  <li>03. Publish a short methodology note for trust.</li>
+                </ol>
+              </div>
+            </aside>
           </div>
         </Container>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-700/50 to-transparent" />
       </section>
 
       {/* Use cases */}
@@ -225,17 +277,18 @@ export function AIHomePage() {
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 dark:border-blue-900/70 dark:bg-blue-950/30 dark:text-blue-300">
+              <div className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-stone-100 px-3 py-1 text-sm font-medium text-stone-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
                 <IconFileAnalytics size={15} />
-                Service option
+                Upgrade path
               </div>
               <h2 className="mt-4 text-2xl font-bold text-gray-900 dark:text-zinc-100">
-                Want a human to turn the scan into a fix plan?
+                Use human review when the page is worth editing carefully
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
-                Order a $99 manual AI Search Readiness Audit for one important
-                SaaS page. No Zoom call required. Submit the URL, pay through
-                Creem, and receive a prioritized report within 48 hours.
+                The free scan is the right first step. If the page affects
+                revenue, launch positioning, or a comparison query, order a $99
+                manual AI Search Readiness Audit for a human-reviewed fix order
+                within 48 hours.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
@@ -243,16 +296,16 @@ export function AIHomePage() {
                   onClick={() =>
                     trackConversionEvent('home_service_section_clicked')
                   }
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 active:scale-[0.98] dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
                 >
-                  Order manual audit <IconArrowRight size={16} />
+                  Review manual audit option <IconArrowRight size={16} />
                 </a>
                 <a
                   href="/sample-aeo-report"
                   onClick={() =>
                     trackConversionEvent('home_sample_report_cta_clicked')
                   }
-                  className="inline-flex items-center justify-center text-sm font-medium text-blue-700 hover:underline dark:text-blue-400"
+                  className="inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:underline dark:text-zinc-300"
                 >
                   View sample Fix Pack
                 </a>
@@ -336,6 +389,50 @@ export function AIHomePage() {
                 </div>
               )
             )}
+          </div>
+        </Container>
+      </section>
+
+      {/* Positioning */}
+      <section className="border-t border-gray-200 py-16 dark:border-zinc-800/50">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div>
+              <p className="text-sm font-semibold text-stone-600 dark:text-zinc-400">
+                Built for fix delivery
+              </p>
+              <h2 className="mt-3 text-2xl font-bold text-gray-900 dark:text-zinc-100">
+                Not another AI visibility dashboard
+              </h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: 'Search suites monitor',
+                  desc: 'Large SEO platforms are useful for ongoing visibility, rankings, and broad account workflows.',
+                },
+                {
+                  title: 'Search Console reports',
+                  desc: 'Official data helps you understand performance, but it does not tell you which page edits to ship first.',
+                },
+                {
+                  title: 'AEOCheck hands off fixes',
+                  desc: 'Use it when one page needs crawl, schema, content, and trust recommendations a developer or operator can act on.',
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-lg border border-gray-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/40"
+                >
+                  <h3 className="font-semibold text-gray-900 dark:text-zinc-100">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -460,10 +557,14 @@ export function AIHomePage() {
         <Container>
           <div className="mx-auto max-w-4xl">
             <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
-              Free diagnosis, then choose the help level
+              Start free, pay only when you need a handoff
             </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
+              The main path is intentionally narrow: diagnose the page, preview
+              the output, then choose software-generated assets or human review.
+            </p>
             <div className="mt-8 grid gap-6 lg:grid-cols-3">
-              <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/30 p-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900/30">
                 <p className="text-sm text-gray-500 dark:text-zinc-400">
                   Free Tools
                 </p>
@@ -501,8 +602,8 @@ export function AIHomePage() {
                   </li>
                 </ul>
               </div>
-              <div className="rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 p-8">
-                <p className="text-sm text-blue-700 dark:text-blue-400">
+              <div className="rounded-lg border border-amber-300 bg-amber-50/70 p-8 dark:border-amber-900/60 dark:bg-amber-950/20">
+                <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
                   AI Search Readiness Fix Pack
                 </p>
                 <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-zinc-100">
@@ -515,42 +616,42 @@ export function AIHomePage() {
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Top 3 fixes to do first
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Prioritized fixes
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Copy-ready JSON-LD schema
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Answer-ready content blocks
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Query fan-out content gaps
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
                       size={14}
-                      className="mt-0.5 text-blue-500 shrink-0"
+                      className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
                     Downloadable Markdown handoff
                   </li>
@@ -561,7 +662,7 @@ export function AIHomePage() {
                     onClick={() =>
                       trackConversionEvent('pricing_run_audit_clicked')
                     }
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
                   >
                     Run audit first <IconArrowRight size={16} />
                   </a>
@@ -570,13 +671,13 @@ export function AIHomePage() {
                     onClick={() =>
                       trackConversionEvent('pricing_sample_report_clicked')
                     }
-                    className="inline-flex items-center justify-center text-sm font-medium text-blue-700 hover:underline dark:text-blue-400"
+                    className="inline-flex items-center justify-center text-sm font-medium text-amber-800 hover:underline dark:text-amber-300"
                   >
                     View sample report
                   </a>
                 </div>
               </div>
-              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-8 dark:border-zinc-800 dark:bg-zinc-900/30">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900/30">
                 <p className="text-sm text-gray-500 dark:text-zinc-400">
                   Manual Audit
                 </p>
@@ -621,9 +722,9 @@ export function AIHomePage() {
                   onClick={() =>
                     trackConversionEvent('pricing_manual_audit_clicked')
                   }
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-gray-900 dark:hover:bg-zinc-200"
                 >
-                  Order manual audit <IconArrowRight size={16} />
+                  Review manual option <IconArrowRight size={16} />
                 </a>
               </div>
             </div>

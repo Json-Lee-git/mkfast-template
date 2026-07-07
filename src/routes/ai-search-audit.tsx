@@ -30,9 +30,9 @@ const includedItems = [
 ];
 
 const proofItems = [
-  '$99 one-time audit',
-  '48-hour delivery window',
-  'No subscription or sales call',
+  '$99 one-time review',
+  'Use after the free scan',
+  '48-hour email delivery',
 ];
 
 const checkoutSummaryItems = [
@@ -55,12 +55,12 @@ const notFitItems = [
 ];
 
 const relatedResources = [
+  { label: 'Run the free AEO checker first', href: '/tools/aeo-checker' },
   { label: 'Preview a sample AEO report', href: '/sample-aeo-report' },
   {
     label: 'Read the AI search readiness audit framework',
     href: '/blog/ai-search-readiness-audit',
   },
-  { label: 'Run the free AEO checker first', href: '/tools/aeo-checker' },
 ];
 
 const processSteps = [
@@ -160,18 +160,18 @@ function AuditServicePage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1fr_420px] lg:items-start">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 dark:border-blue-900/70 dark:bg-blue-950/30 dark:text-blue-300">
+              <div className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-stone-100 px-3 py-1 text-sm font-medium text-stone-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
                 <IconFileAnalytics size={15} />
-                Done-for-you AI Search Readiness Audit
+                Human review for high-value pages
               </div>
               <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-tight text-gray-950 dark:text-zinc-50 sm:text-5xl">
-                Manual AI Search Readiness Audit for one high-value page
+                When the free scan needs a human fix order
               </h1>
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-zinc-400">
-                Get a human-reviewed fix plan for crawl access, answer
-                structure, schema, LLMs.txt readiness, trust signals, and
-                competitor context. Built for founders and small SaaS teams that
-                need the next edits, not another dashboard.
+                Use this for one commercial page where the next edits matter.
+                You get a human-reviewed priority order across crawl access,
+                answer structure, schema, LLMs.txt readiness, trust signals, and
+                competitor context.
               </p>
               <div className="mt-7 grid gap-3 text-sm text-gray-600 dark:text-zinc-400 sm:grid-cols-3">
                 {proofItems.map((item) => (
@@ -194,7 +194,7 @@ function AuditServicePage() {
                 }
                 className="mt-7 inline-flex items-center gap-2 rounded-lg bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
               >
-                Start audit <IconArrowRight size={16} />
+                Go to order form <IconArrowRight size={16} />
               </a>
             </div>
 
@@ -206,13 +206,13 @@ function AuditServicePage() {
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-gray-500 dark:text-zinc-400">
-                    Manual audit
+                    Human review
                   </p>
                   <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-zinc-50">
                     $99
                   </p>
                   <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-                    One page, one report, delivered by email.
+                    One page, one priority order, delivered by email.
                   </p>
                 </div>
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-600 text-white">
@@ -306,7 +306,7 @@ function AuditServicePage() {
                   </>
                 ) : (
                   <>
-                    Order $99 audit <IconArrowRight size={16} />
+                    Order human review - $99 <IconArrowRight size={16} />
                   </>
                 )}
               </button>
@@ -464,9 +464,9 @@ function AuditServicePage() {
 export const Route = createFileRoute('/ai-search-audit')({
   head: () => ({
     ...seo('/ai-search-audit', {
-      title: 'Manual AI Search Readiness Audit - Human Fix Plan in 48 Hours',
+      title: 'Manual AI Search Readiness Audit - Human Fix Order in 48 Hours',
       description:
-        'Order a $99 human AI Search Readiness Audit for one important SaaS page. Get crawlability, schema, LLMs.txt, answer-ready content, and competitor visibility fixes.',
+        'Order a $99 human AI Search Readiness Audit after the free scan. Get a priority order for crawlability, schema, LLMs.txt, answer-ready content, and competitor context.',
     }),
     scripts: [
       jsonLd(
