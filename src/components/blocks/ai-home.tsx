@@ -68,6 +68,11 @@ const growthPages = [
     desc: 'Use a page-level checklist for crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, and trust signals.',
   },
   {
+    title: 'AI Search Readiness Playbooks',
+    href: '/playbooks',
+    desc: 'Follow practical workflows for AEO fixes, LLMs.txt, AI crawler access, comparison pages, and AI referral measurement.',
+  },
+  {
     title: 'Sample AEO Report',
     href: '/sample-aeo-report',
     desc: 'Preview the paid fix pack before running your own AEO audit.',

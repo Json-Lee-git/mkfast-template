@@ -198,6 +198,16 @@ function AiSearchReadinessChecklistPage() {
                 after publishing to catch regressions before submitting URLs.
               </li>
             </ol>
+            <p className="mt-5 text-sm text-gray-600 dark:text-zinc-400">
+              Need the repair path by blocker? Use the{' '}
+              <a
+                href="/playbooks?utm_source=guide&utm_medium=organic&utm_campaign=ai-search-readiness-checklist&utm_content=workflow"
+                className="text-blue-600 hover:underline dark:text-blue-400"
+              >
+                AI Search Readiness Playbooks
+              </a>{' '}
+              to choose the next fix workflow.
+            </p>
           </div>
         </Container>
       </section>
@@ -236,6 +246,10 @@ export const Route = createFileRoute('/guides/ai-search-readiness-checklist')({
           {
             name: 'Preview Sample AEO Report',
             url: getCanonicalUrl('/sample-aeo-report'),
+          },
+          {
+            name: 'AI Search Readiness Playbooks',
+            url: getCanonicalUrl('/playbooks'),
           },
           {
             name: 'AEO Audit Guide',

@@ -45,6 +45,7 @@ const page: HighIntentToolPageProps = {
   ],
   related: [
     { label: 'AEO Checker', href: '/tools/aeo-checker' },
+    { label: 'AI Crawler Access Playbook', href: '/playbooks' },
     { label: 'GPTBot vs OAI-SearchBot', href: '/blog/gptbot-vs-oai-searchbot' },
     {
       label: 'PerplexityBot and Cloudflare WAF',

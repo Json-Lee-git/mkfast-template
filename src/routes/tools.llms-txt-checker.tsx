@@ -647,6 +647,13 @@ function CheckerPage() {
               >
                 LLMs.txt guide
               </a>
+              , follow the{' '}
+              <a
+                href="/playbooks?utm_source=tool&utm_medium=organic&utm_campaign=llms-txt-checker&utm_content=footer-link"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                LLMs.txt implementation playbook
+              </a>
               , compare{' '}
               <a
                 href="/compare/llms-txt-checker-alternatives"

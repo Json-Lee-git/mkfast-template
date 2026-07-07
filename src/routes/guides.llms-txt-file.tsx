@@ -220,6 +220,12 @@ function LLMsTxtFileGuidePage() {
               >
                 Run the LLMs.txt Validator <IconArrowRight size={16} />
               </a>
+              <a
+                href="/playbooks?utm_source=guide&utm_medium=organic&utm_campaign=llms-txt-file&utm_content=cta-playbook"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-800 transition-all hover:border-gray-400 active:scale-[0.98] dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
+              >
+                Follow the LLMs.txt playbook <IconArrowRight size={16} />
+              </a>
             </div>
           </div>
         </Container>

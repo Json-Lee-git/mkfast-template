@@ -1250,6 +1250,13 @@ function AeoCheckerPage() {
               </a>
               ,{' '}
               <a
+                href="/playbooks?utm_source=tool&utm_medium=organic&utm_campaign=aeo-checker&utm_content=footer-link"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                AI Search Readiness Playbooks
+              </a>
+              ,{' '}
+              <a
                 href="/sample-aeo-report"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
