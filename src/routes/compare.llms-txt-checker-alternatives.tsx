@@ -33,14 +33,14 @@ const comparisonRows = [
     manualCheck:
       'Visual inspection of Markdown syntax, link destinations, file accessibility',
     genericValidator:
-      'Markdown syntax errors, line length, heading structure — no AI-specific awareness',
+      'Markdown syntax errors, line length, heading structure - no AI-specific awareness',
   },
   {
     criteria: 'Link validation',
     aiSearchReadiness:
-      'Tests every link in LLMs.txt and LLMs-full.txt — reports HTTP status codes for broken links',
+      'Tests every link in LLMs.txt and LLMs-full.txt - reports HTTP status codes for broken links',
     manualCheck:
-      'Manual click-through of each link — fast for small files, tedious for large ones',
+      'Manual click-through of each link - fast for small files, tedious for large ones',
     genericValidator:
       'Checks link syntax (Markdown format) but not whether the URL actually resolves',
   },
@@ -58,7 +58,7 @@ const comparisonRows = [
       'Confirms LLMs.txt is served as text/plain or text/markdown, not text/html',
     manualCheck:
       'Requires curl or browser dev tools to inspect response headers',
-    genericValidator: 'No — validates file content, not HTTP headers',
+    genericValidator: 'No - validates file content, not HTTP headers',
   },
   {
     criteria: 'Companion file check',
@@ -70,7 +70,7 @@ const comparisonRows = [
   {
     criteria: 'Speed',
     aiSearchReadiness:
-      'Enter URL, get results in seconds — includes link checking and header inspection',
+      'Enter URL, get results in seconds - includes link checking and header inspection',
     manualCheck:
       '5-15 minutes depending on file size and number of links to verify',
     genericValidator: 'Seconds for syntax only; no link resolution',
@@ -129,7 +129,7 @@ const faqItems = [
   },
   {
     q: 'What is the difference between an LLMs.txt checker and an LLMs.txt generator?',
-    a: 'A checker validates an existing LLMs.txt file — format, links, headers, and AI crawler access. A generator creates a new LLMs.txt file from scratch, usually by scanning your sitemap. Use the checker when you already have a file and want to verify it. Use the generator when you need to create one from scratch. We offer both tools for free.',
+    a: 'A checker validates an existing LLMs.txt file - format, links, headers, and AI crawler access. A generator creates a new LLMs.txt file from scratch, usually by scanning your sitemap. Use the checker when you already have a file and want to verify it. Use the generator when you need to create one from scratch. We offer both tools for free.',
   },
   {
     q: 'How do I validate an LLMs.txt file?',
@@ -149,7 +149,7 @@ export const Route = createFileRoute('/compare/llms-txt-checker-alternatives')({
   head: () => ({
     ...seo('/compare/llms-txt-checker-alternatives', {
       title:
-        'Best LLMs.txt Checker & Validator Alternatives — Compare Free Tools',
+        'Best LLMs.txt Checker & Validator Alternatives - Compare Free Tools',
       description:
         'Compare free LLMs.txt checker and validator tools for format validation, link checking, AI crawler access, headers, and file readiness.',
     }),
@@ -485,7 +485,7 @@ function LLMsTxtCheckerAlternativesPage() {
             </h2>
             <p className="mt-3 text-sm text-gray-300 dark:text-zinc-600">
               Run the free checker to validate format, test links, verify
-              content type headers, and audit AI crawler access — all in one
+              content type headers, and audit AI crawler access - all in one
               scan.
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">

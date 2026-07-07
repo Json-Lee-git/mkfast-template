@@ -74,8 +74,8 @@ function LLMsTxtSEO() {
             <p>
               Google also says there are no special files required for AI
               Overviews or AI Mode. LLMs.txt may still be a useful, low-cost
-              technical readiness step — especially for documentation sites,
-              SaaS products, developer tools, and content-heavy sites — but it
+              technical readiness step - especially for documentation sites,
+              SaaS products, developer tools, and content-heavy sites - but it
               should not replace your existing SEO work.
             </p>
 
@@ -211,7 +211,7 @@ function LLMsTxtSEO() {
               documentation site also serves one at{' '}
               <code>docs.stripe.com/llms.txt</code>, mapping their entire API
               reference surface. These companies are not adding LLMs.txt as an
-              SEO tactic — they are using it to make their content more
+              SEO tactic - they are using it to make their content more
               accessible to AI systems that consume web content directly. If
               Stripe and Anthropic see value in it, the file is past the
               "experiment" stage.

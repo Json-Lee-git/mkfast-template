@@ -748,7 +748,7 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 export const Route = createFileRoute('/tools/llms-txt-checker')({
   head: () => ({
     ...seo('/tools/llms-txt-checker', {
-      title: 'Free LLMs.txt Checker & Validator — Test Your AI Crawler Access',
+      title: 'Free LLMs.txt Checker & Validator - Test Your AI Crawler Access',
       description:
         'Validate your llms.txt, llms-full.txt, sitemap, and AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and more. See what AI sees. Free, instant, no signup.',
     }),
@@ -781,7 +781,7 @@ export const Route = createFileRoute('/tools/llms-txt-checker')({
           },
           {
             q: 'Is this tool free?',
-            a: 'Yes — the LLMs.txt Checker & Validator is free to use. No account, no signup required.',
+            a: 'Yes - the LLMs.txt Checker & Validator is free to use. No account, no signup required.',
           },
         ])
       ),

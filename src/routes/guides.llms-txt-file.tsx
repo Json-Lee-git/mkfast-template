@@ -75,7 +75,7 @@ function LLMsTxtFileGuidePage() {
               how your content is organized.
             </p>
             <p>
-              LLMs.txt is an emerging convention — not an official standard or a
+              LLMs.txt is an emerging convention - not an official standard or a
               confirmed ranking factor. It is a low-cost technical preparation
               step that some AI systems may use to improve how they discover and
               represent your content.
@@ -153,7 +153,7 @@ function LLMsTxtFileGuidePage() {
             <p>
               <strong>LLMs.txt</strong> is a human-and-AI-readable Markdown file
               that describes your site content and structure. It does not
-              control access — it helps AI systems understand your site once
+              control access - it helps AI systems understand your site once
               they have access.
             </p>
             <p>Think of it this way:</p>
@@ -172,7 +172,7 @@ function LLMsTxtFileGuidePage() {
             </p>
             <p>
               <strong>LLMs.txt</strong> is a Markdown file that adds human
-              context — descriptions, structure, and priorities — to the pages
+              context - descriptions, structure, and priorities - to the pages
               it references. It is designed more for AI comprehension than for
               search engine indexing.
             </p>
@@ -195,7 +195,7 @@ function LLMsTxtFileGuidePage() {
               LLMs.txt is not a confirmed ranking factor. There is no guarantee
               that adding one will increase AI citations, improve your search
               rankings, or get your brand mentioned by ChatGPT or other AI
-              products. It is a low-cost, low-risk technical preparation step —
+              products. It is a low-cost, low-risk technical preparation step -
               nothing more, nothing less.
             </p>
           </article>
@@ -239,7 +239,7 @@ function LLMsTxtFileGuidePage() {
               ("Product," "Documentation," "Community") with one-line
               descriptions for each link. The file is under 30 lines, follows
               every best practice, and shows exactly how a SaaS tool should
-              structure its AI-readable summary. Open it for inspiration — it is
+              structure its AI-readable summary. Open it for inspiration - it is
               a textbook example of the format in production.
             </p>
           </div>
