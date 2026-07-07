@@ -23,13 +23,15 @@ import { NavbarMobile } from '@/components/layout/navbar-mobile';
 import { LocaleSwitcher } from '@/components/layout/locale-switcher';
 import { UserButton } from '@/components/shared/user-button';
 import { LoginWrapper } from '@/components/auth/login-wrapper';
-import { IconArrowUpRight } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { websiteConfig } from '@/config/website';
+
 interface NavbarProps {
   scroll?: boolean;
 }
+
 export function Navbar({ scroll = true }: NavbarProps) {
   const pathname = useLocation().pathname;
   const scrolled = useScroll(50);
@@ -39,21 +41,22 @@ export function Navbar({ scroll = true }: NavbarProps) {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
   const showBarBg = scroll && scrolled;
-  // Sync mount (avoid auth hydration mismatch) and close menu on route change
+
   useEffect(() => {
     setMounted(true);
     setMenuValue(null);
   }, [pathname]);
+
   return (
     <header
       className={cn(
-        'sticky inset-x-0 top-0 z-40 py-4 transition-all duration-300',
+        'sticky inset-x-0 top-0 z-40 py-3 transition-all duration-300',
         showBarBg && 'border-b'
       )}
     >
       {showBarBg && (
         <div
-          className="absolute inset-0 z-0 bg-muted/50 backdrop-blur-md"
+          className="absolute inset-0 z-0 bg-background/80 backdrop-blur-md"
           aria-hidden="true"
         />
       )}
@@ -69,7 +72,7 @@ export function Navbar({ scroll = true }: NavbarProps) {
               className="flex items-center gap-2 shrink-0"
             >
               <Logo />
-              <span className="text-xl font-semibold">
+              <span className="text-lg font-semibold tracking-tight">
                 {websiteConfig.metadata?.name}
               </span>
             </Link>
@@ -85,60 +88,88 @@ export function Navbar({ scroll = true }: NavbarProps) {
                     <NavigationMenuItem key={item.title} value={item.title}>
                       <NavigationMenuTrigger
                         className={cn(
-                          'bg-transparent',
-                          item.items.some((sub) =>
-                            isLinkActive(sub.href, pathname)
+                          'bg-transparent text-sm',
+                          item.items.some((group) =>
+                            group.items?.some((sub) =>
+                              isLinkActive(sub.href, pathname)
+                            )
                           ) && 'font-semibold text-foreground'
                         )}
                       >
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className="grid w-100 gap-3 p-3 md:w-125 md:grid-cols-2 lg:w-150">
-                          {item.items.map((sub) => (
-                            <li key={sub.title}>
-                              <NavigationMenuLink
-                                closeOnClick
-                                className={cn(
-                                  'group flex select-none flex-row items-center gap-4 rounded-md',
-                                  'p-2 leading-none no-underline outline-hidden transition-colors',
-                                  'hover:bg-accent hover:text-accent-foreground',
-                                  'focus:bg-accent focus:text-accent-foreground',
-                                  isLinkActive(sub.href, pathname) &&
-                                    'bg-accent text-accent-foreground'
-                                )}
-                                render={
-                                  <Link
-                                    to={sub.href ?? '#'}
-                                    target={sub.external ? '_blank' : undefined}
-                                    rel={
-                                      sub.external
-                                        ? 'noopener noreferrer'
-                                        : undefined
-                                    }
-                                  />
-                                }
-                              >
-                                {sub.icon ? (
-                                  <sub.icon className="size-4 shrink-0" />
-                                ) : null}
-                                <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-medium">
-                                    {sub.title}
-                                  </div>
-                                  {sub.description ? (
-                                    <p className="text-xs text-muted-foreground">
-                                      {sub.description}
-                                    </p>
-                                  ) : null}
-                                </div>
-                                {sub.external ? (
-                                  <IconArrowUpRight className="size-4 shrink-0" />
-                                ) : null}
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="flex gap-0">
+                          <div className="grid grid-cols-3 gap-6 p-6 min-w-[580px] max-w-[720px]">
+                            {item.items.map((group) => (
+                              <div key={group.title}>
+                                <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                  {group.title}
+                                </h4>
+                                <ul className="space-y-1">
+                                  {group.items?.map((sub) => (
+                                    <li key={sub.title}>
+                                      <NavigationMenuLink
+                                        closeOnClick
+                                        className={cn(
+                                          'group flex select-none flex-col rounded-md px-3 py-2 leading-none no-underline outline-hidden transition-colors',
+                                          'hover:bg-accent hover:text-accent-foreground',
+                                          'focus:bg-accent focus:text-accent-foreground',
+                                          isLinkActive(sub.href, pathname) &&
+                                            'bg-accent text-accent-foreground'
+                                        )}
+                                        render={
+                                          <Link
+                                            to={sub.href ?? '#'}
+                                            target={
+                                              sub.external
+                                                ? '_blank'
+                                                : undefined
+                                            }
+                                            rel={
+                                              sub.external
+                                                ? 'noopener noreferrer'
+                                                : undefined
+                                            }
+                                          />
+                                        }
+                                      >
+                                        <span className="text-sm font-medium">
+                                          {sub.title}
+                                        </span>
+                                        {sub.description ? (
+                                          <span className="mt-0.5 text-xs text-muted-foreground leading-snug">
+                                            {sub.description}
+                                          </span>
+                                        ) : null}
+                                      </NavigationMenuLink>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          {/* Promo card */}
+                          <div className="hidden xl:flex w-[220px] shrink-0 flex-col justify-between border-l bg-muted/30 p-5">
+                            <div>
+                              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                Sample Fix Pack
+                              </p>
+                              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                                See what a $19 repair plan looks like before you
+                                commit. Copy-ready schema, LLMs.txt guidance,
+                                and prioritized fixes.
+                              </p>
+                            </div>
+                            <Link
+                              to="/sample-aeo-report"
+                              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                            >
+                              Preview the Fix Pack
+                              <IconArrowRight size={14} />
+                            </Link>
+                          </div>
+                        </div>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                   ) : (
@@ -147,7 +178,7 @@ export function Navbar({ scroll = true }: NavbarProps) {
                         render={<Link to={item.href ?? '#'} />}
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          'bg-transparent',
+                          'bg-transparent text-sm',
                           isLinkActive(item.href, pathname) &&
                             'font-semibold text-primary'
                         )}
