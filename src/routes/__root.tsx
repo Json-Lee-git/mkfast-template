@@ -177,11 +177,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang={localeConfig[getLocale()].hreflang} suppressHydrationWarning>
       <head>
         <HeadContent />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-4EK6XN9BVY"
-        ></script>
-        <script>{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-4EK6XN9BVY');`}</script>
       </head>
       <body>
         <ThemeProvider>

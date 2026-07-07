@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { shouldSuppressClientAnalytics } from '@/lib/analytics-guard';
 
 /**
  * Injects a script into document.head on the client.
@@ -6,7 +7,7 @@ import { useEffect } from 'react';
  * IMPORTANT: injection is deferred until the browser is idle (via
  * requestIdleCallback, with setTimeout fallback). This keeps analytics /
  * chat scripts from competing with the LCP hero image and
- * initial React hydration — critical for Core Web Vitals on a content-heavy
+ * initial React hydration - critical for Core Web Vitals on a content-heavy
  * landing page.
  */
 export function ClientScript({
@@ -16,6 +17,7 @@ export function ClientScript({
   id,
   dataAttributes,
   inlineHtml,
+  respectAnalyticsGuard,
 }: {
   src?: string;
   async?: boolean;
@@ -23,6 +25,7 @@ export function ClientScript({
   id?: string;
   dataAttributes?: Record<string, string>;
   inlineHtml?: string;
+  respectAnalyticsGuard?: boolean;
 }) {
   useEffect(() => {
     if (!import.meta.env.PROD) return;
@@ -31,6 +34,8 @@ export function ClientScript({
     let cancel: (() => void) | null = null;
 
     const inject = () => {
+      if (respectAnalyticsGuard && shouldSuppressClientAnalytics()) return;
+
       script = document.createElement('script');
       if (id) script.id = id;
       if (src) script.src = src;

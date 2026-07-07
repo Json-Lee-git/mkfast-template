@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { clientEnv } from '@/env/client';
+import { shouldSuppressClientAnalytics } from '@/lib/analytics-guard';
 
 /**
  * Crisp chat widget for customer support
@@ -15,6 +16,10 @@ export function CrispChat() {
   const configured = useRef(false);
 
   useEffect(() => {
+    if (shouldSuppressClientAnalytics()) {
+      return;
+    }
+
     const websiteId = clientEnv.VITE_CRISP_WEBSITE_ID;
     if (!websiteId || configured.current) {
       return;

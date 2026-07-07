@@ -17,8 +17,17 @@ export function PlausibleAnalytics() {
 
   return (
     <>
-      <ClientScript id="plausible-analytics" src={script} async />
-      <ClientScript id="plausible-analytics-init" inlineHtml={inlineHtml} />
+      <ClientScript
+        id="plausible-analytics"
+        src={script}
+        async
+        respectAnalyticsGuard
+      />
+      <ClientScript
+        id="plausible-analytics-init"
+        inlineHtml={inlineHtml}
+        respectAnalyticsGuard
+      />
     </>
   );
 }
