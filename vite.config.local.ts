@@ -20,7 +20,7 @@ function fixExtensionlessImports(): Plugin {
   return {
     name: 'fix-extensionless-imports',
     enforce: 'pre',
-    async resolveId(source, importer, options) {
+    async resolveId(source, importer, _options) {
       // Only handle relative imports from node_modules
       if (!source.startsWith('.') || !importer) return null;
       // Check if importer is inside node_modules

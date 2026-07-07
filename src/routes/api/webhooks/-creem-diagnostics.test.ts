@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { describe, expect, it } from 'vitest';
 import {
   formatWebhookErrorMessage,
   shouldExposeManualAuditSmokeErrorDetail,
@@ -7,24 +6,21 @@ import {
 
 describe('Creem webhook diagnostics', () => {
   it('exposes processing error detail only for manual audit smoke events', () => {
-    assert.equal(
+    expect(
       shouldExposeManualAuditSmokeErrorDetail({
         id: 'evt_manual_audit_smoke_1782982655854',
-      }),
-      true
-    );
-    assert.equal(
-      shouldExposeManualAuditSmokeErrorDetail({ id: 'evt_real_checkout' }),
-      false
-    );
-    assert.equal(shouldExposeManualAuditSmokeErrorDetail(undefined), false);
+      })
+    ).toBe(true);
+    expect(
+      shouldExposeManualAuditSmokeErrorDetail({ id: 'evt_real_checkout' })
+    ).toBe(false);
+    expect(shouldExposeManualAuditSmokeErrorDetail(undefined)).toBe(false);
   });
 
   it('formats unknown webhook errors without throwing', () => {
-    assert.equal(
-      formatWebhookErrorMessage(new Error('D1 unavailable')),
+    expect(formatWebhookErrorMessage(new Error('D1 unavailable'))).toBe(
       'D1 unavailable'
     );
-    assert.equal(formatWebhookErrorMessage('plain failure'), 'plain failure');
+    expect(formatWebhookErrorMessage('plain failure')).toBe('plain failure');
   });
 });
