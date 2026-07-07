@@ -185,22 +185,22 @@ const faqItems = [
 ];
 
 const heroProofPoints = [
-  'Free page score before checkout',
-  'Built for SEO, AEO, and GEO page launches',
-  '$19 Fix Pack when you need implementation details',
+  'Free page diagnosis first',
+  'Built for landing pages, product pages, and comparison pages',
+  '$19 Fix Pack when you need copy-ready edits',
 ];
 
 const useCases = [
   {
-    title: 'Publishing a new landing page',
+    title: 'Before publishing a new page',
     desc: 'Confirm crawlers, schema, headings, FAQs, and trust signals before the page starts competing for search demand.',
   },
   {
-    title: 'Refreshing a page for AI search',
-    desc: 'Find whether the page gives answer engines direct answers, clear entities, and AI-readable support files.',
+    title: 'Before refreshing an old page',
+    desc: 'Find whether the page gives answer engines direct answers, clear entities, and AI-readable support files before you rewrite it.',
   },
   {
-    title: 'Handing fixes to a developer or SEO operator',
+    title: 'Before handing work to an operator',
     desc: 'Unlock the Fix Pack for copy-ready schema, LLMs.txt files, content gaps, and a prioritized repair order.',
   },
 ];
@@ -208,7 +208,7 @@ const useCases = [
 const trustSignals = [
   'No sign-up required for the free scan',
   'One-time $19 checkout',
-  'Markdown handoff after purchase',
+  'Implementation handoff after purchase',
   'No ranking or citation guarantees',
 ];
 
@@ -362,13 +362,12 @@ function AeoCheckerPage() {
         <Container className="relative py-20 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
-              SEO audit for ChatGPT and AI answers
+              Audit one page before editing it for AI answers
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Enter any landing page to see whether ChatGPT, Claude, Gemini,
-              Perplexity, and Google AI Overviews can crawl, understand, and
-              cite it. Get a free score first, then unlock a $19 Fix Pack only
-              when you need copy-ready fixes.
+              Enter a landing page, product page, or comparison page to find the
+              crawl, schema, answer-block, LLMs.txt, and trust gaps to fix
+              before you ship changes.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-500 dark:text-zinc-400">
               {heroProofPoints.map((point) => (
@@ -389,7 +388,7 @@ function AeoCheckerPage() {
             <div className="flex gap-3">
               <input
                 type="text"
-                placeholder="Enter a domain or page URL"
+                placeholder="Enter the page URL you plan to fix"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 disabled={loading}
@@ -406,14 +405,14 @@ function AeoCheckerPage() {
                     Auditing...
                   </>
                 ) : (
-                  'Audit page free'
+                  'Audit this page free'
                 )}
               </button>
             </div>
             <p className="mt-3 text-center text-xs text-gray-400 dark:text-zinc-500">
               Free result: score, module status, and top issues. Paid Fix Pack:
-              copy-ready schema, LLMs.txt files, content gaps, and Markdown
-              handoff.
+              copy-ready schema, LLMs.txt guidance, answer blocks, and a repair
+              order.
             </p>
           </form>
         </Container>
@@ -448,13 +447,14 @@ function AeoCheckerPage() {
               <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-[1fr_0.85fr] md:items-center">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
-                    From SEO traffic to AI-search readiness
+                    From audit score to page repair
                   </h2>
                   <p className="mt-4 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
                     Traditional SEO tools tell you rankings, links, and
                     keywords. This checker focuses on the page-level structure
-                    AI answer systems need: crawl access, schema, concise
-                    answers, entity clarity, trust pages, and AI-readable files.
+                    AI answer systems need before they can understand your
+                    content: crawl access, schema, concise answers, entity
+                    clarity, trust pages, and AI-readable files.
                   </p>
                   <a
                     href="/sample-aeo-report"
@@ -984,13 +984,13 @@ function AeoCheckerPage() {
               {/* Fix Pack CTA */}
               <div className="rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 p-8 text-center">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
-                  Unlock the AI Search Readiness Fix Pack for $19
+                  Turn this scan into a repair plan for $19
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
-                  We found {r.recommendations.length} technical issues. Unlock
-                  the full fix pack to get prioritized fixes, copy-ready schema,
-                  llms.txt files, answer-ready content blocks, and query fan-out
-                  content gaps.
+                  We found {r.recommendations.length} issues on this page. The
+                  Fix Pack turns the diagnosis into prioritized edits,
+                  copy-ready schema, LLMs.txt guidance, answer blocks, and query
+                  fan-out gaps.
                 </p>
 
                 {/* Free vs Paid comparison */}
@@ -1015,7 +1015,7 @@ function AeoCheckerPage() {
                         ['AI Readiness Preview', 'Yes', 'Yes'],
                         ['Top 3 Issues', 'Yes', 'Yes'],
                         ['Full Issue List', 'No', 'Yes'],
-                        ['Prioritized Fixes', 'No', 'Yes'],
+                        ['Prioritized Repair Order', 'No', 'Yes'],
                         ['Copy-ready Schema', 'No', 'Yes'],
                         ['Answer-ready Content Blocks', 'No', 'Yes'],
                         ['Query Fan-Out Content Gaps', 'No', 'Yes'],
@@ -1050,7 +1050,7 @@ function AeoCheckerPage() {
                         Redirecting to checkout...
                       </>
                     ) : (
-                      'Unlock Fix Pack - $19'
+                      'Get the repair plan - $19'
                     )}
                   </button>
                   <a
@@ -1062,7 +1062,7 @@ function AeoCheckerPage() {
                     }
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-white px-5 py-3 text-sm font-medium text-emerald-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 active:scale-[0.98] dark:border-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
                   >
-                    Get human audit - $99
+                    Human review - $99
                   </a>
                   <a
                     href="/sample-aeo-report"

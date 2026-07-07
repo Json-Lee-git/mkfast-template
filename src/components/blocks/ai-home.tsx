@@ -86,30 +86,30 @@ const growthPages = [
 
 const useCases = [
   {
-    title: 'Before editing a money page',
-    desc: 'Find the crawl, schema, answer structure, and trust gaps before you rewrite a homepage, product page, or comparison page.',
+    title: 'Before changing one revenue page',
+    desc: 'Check the crawl, schema, answer structure, and trust gaps before you rewrite a homepage, product page, or comparison page.',
   },
   {
-    title: 'When SEO tools stop at diagnosis',
-    desc: 'Use the Fix Pack when you need copy-ready JSON-LD, answer blocks, and an implementation order instead of another dashboard.',
+    title: 'When a score is not enough',
+    desc: 'Use the Fix Pack when you need copy-ready JSON-LD, answer blocks, and a repair order instead of another dashboard.',
   },
   {
-    title: 'When the page is important enough for review',
-    desc: 'Order the manual audit only when a human should check the priorities, competitor context, and limits before you ship edits.',
+    title: 'When the edit needs judgment',
+    desc: 'Order the manual audit when a human should check priorities, competitor context, and limits before you ship changes.',
   },
 ];
 
 const trustPoints = [
-  'Free scan first',
+  'Audit one page first',
   'No sign-up for the first audit',
-  'Sample report before paying',
+  'See the sample before paying',
   'No ranking or citation promises',
 ];
 
 const howItWorks = [
-  'Run the free page audit to see the controllable readiness signals.',
-  'Preview the sample report before unlocking a paid implementation handoff.',
-  'Use manual review only when one page is commercially important enough.',
+  'Run the free audit on the page you are about to edit.',
+  'Preview the sample handoff before unlocking copy-ready fixes.',
+  'Use manual review only when the page is commercially important enough.',
 ];
 
 const readinessPoints = [
@@ -148,16 +148,16 @@ export function AIHomePage() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm text-stone-600 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
                 <span className="h-2 w-2 rounded-sm bg-emerald-500" />
-                Technical audit before AI search fixes
+                Page audit before AI search edits
               </div>
               <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-gray-950 text-balance dark:text-zinc-50 sm:text-5xl lg:text-6xl">
-                Find the page fixes AI search tools can act on
+                Audit one important page before you edit it
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-zinc-400">
-                Check crawler access, robots.txt, LLMs.txt, schema, sitemap,
-                answer-ready content, and trust signals. Start with a free
-                diagnosis, then unlock a copy-ready Fix Pack only when the page
-                needs implementation help.
+                See the crawl, schema, answer-block, LLMs.txt, and trust gaps
+                that can block AI search understanding. Start with a free scan,
+                then unlock a copy-ready Fix Pack only when the page needs
+                implementation help.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -169,7 +169,7 @@ export function AIHomePage() {
                   }
                   className="inline-flex items-center gap-2 rounded-lg bg-gray-950 px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-gray-800 active:translate-y-0 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
                 >
-                  Run free audit <IconArrowRight size={16} />
+                  Audit one page free <IconArrowRight size={16} />
                 </a>
                 <a
                   href="/sample-aeo-report"
@@ -178,7 +178,7 @@ export function AIHomePage() {
                   }
                   className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-800 transition-all hover:-translate-y-0.5 hover:border-gray-400 hover:bg-stone-100 active:translate-y-0 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800"
                 >
-                  View sample report
+                  Preview the Fix Pack
                 </a>
               </div>
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs text-gray-500 dark:text-zinc-400">
@@ -252,11 +252,12 @@ export function AIHomePage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100">
-              Use it when AI search visibility depends on one page
+              Use it when one page is worth fixing carefully
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
-              The free tools are for quick diagnosis. The paid Fix Pack is for
-              the moment you need a concrete repair list, not another dashboard.
+              The free scan is for quick diagnosis. The paid Fix Pack is for the
+              moment you need concrete edits a founder, developer, or SEO
+              operator can ship.
             </p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
