@@ -38,7 +38,7 @@ const page: HighIntentToolPageProps = {
     'Citation-readiness findings across technical and content signals.',
     'Schema, trust, and answer-format recommendations.',
     'Query fan-out gaps for pages that should support the main topic.',
-    'Downloadable full report after checkout.',
+    'Downloadable Fix Pack after checkout.',
   ],
   related: [
     { label: 'GEO Audit Tool', href: '/tools/geo-audit' },

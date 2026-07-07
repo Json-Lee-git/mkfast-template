@@ -38,7 +38,7 @@ const page: HighIntentToolPageProps = {
     'A technical readiness score for AI-assisted answer extraction.',
     'Fix priorities for metadata, schema, answer formatting, and trust.',
     'Suggested FAQs and content sections for clearer topical coverage.',
-    'Downloadable report for the page you audited.',
+    'Downloadable Fix Pack for the page you audited.',
   ],
   related: [
     { label: 'GEO Audit Tool', href: '/tools/geo-audit' },

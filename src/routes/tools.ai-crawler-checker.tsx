@@ -41,7 +41,7 @@ const page: HighIntentToolPageProps = {
     'OpenAI, Perplexity, Anthropic, and Google crawler-control notes.',
     'AI-readable file recommendations for LLMs.txt and LLMs-full.txt.',
     'Schema and answer-ready content suggestions for the audited page.',
-    'Downloadable report you can hand to a developer or SEO lead.',
+    'Downloadable implementation handoff for a developer or SEO lead.',
   ],
   related: [
     { label: 'AEO Checker', href: '/tools/aeo-checker' },

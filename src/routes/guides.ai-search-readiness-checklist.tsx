@@ -120,7 +120,7 @@ function AiSearchReadinessChecklistPage() {
                 href="/sample-aeo-report?utm_source=guide&utm_medium=organic&utm_campaign=ai-search-readiness-checklist&utm_content=cta-top"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
-                Preview the $19 report
+                Preview the $19 Fix Pack
               </a>
             </div>
           </div>
@@ -244,7 +244,7 @@ export const Route = createFileRoute('/guides/ai-search-readiness-checklist')({
             url: getCanonicalUrl('/tools/aeo-checker'),
           },
           {
-            name: 'Preview Sample AEO Report',
+            name: 'Preview Sample Fix Pack',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
           {

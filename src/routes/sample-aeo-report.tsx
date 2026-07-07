@@ -60,7 +60,7 @@ const includedSections = [
   'Entity and trust signal review',
   'Query fan-out content gaps',
   'Copy-ready LLMs.txt files',
-  'Downloadable Markdown handoff',
+  'Downloadable implementation handoff',
 ];
 
 const beforeAfterRows = [
@@ -125,7 +125,7 @@ const fitRows = [
 const sampleFaqItems = [
   {
     q: 'What do I get after paying $19?',
-    a: 'You get a full AI Search Readiness Fix Pack with prioritized fixes, copy-ready JSON-LD, answer-ready content blocks, AI file recommendations, query fan-out gaps, and a downloadable Markdown handoff.',
+    a: 'You get an AI Search Readiness Fix Pack with a prioritized repair order, copy-ready JSON-LD, answer-ready content blocks, AI file recommendations, query fan-out gaps, and a downloadable implementation handoff.',
   },
   {
     q: 'Is the report useful if I am not technical?',
@@ -144,16 +144,15 @@ function SampleAeoReportPage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">
-              Sample $19 AI-answer SEO audit
+              Sample $19 Fix Pack
             </p>
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
               Sample Fix Pack for ChatGPT and AI answers
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
-              Preview what customers get after checkout: the first page fixes to
-              do, copy-ready schema, LLMs.txt files, answer-ready content
-              blocks, query fan-out gaps, and a Markdown handoff for
-              implementation.
+              Preview what customers get after checkout: the repair order,
+              copy-ready schema, LLMs.txt guidance, answer-ready content blocks,
+              query fan-out gaps, and an implementation handoff.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <a
@@ -359,9 +358,9 @@ function SampleAeoReportPage() {
 export const Route = createFileRoute('/sample-aeo-report')({
   head: () => ({
     ...seo('/sample-aeo-report', {
-      title: 'Sample AI Search Readiness Fix Pack - $19 AEO Report Preview',
+      title: 'Sample AI Search Readiness Fix Pack - $19 Repair Plan Preview',
       description:
-        'Preview the $19 AI Search Readiness Fix Pack with prioritized fixes, copy-ready schema, answer-ready content blocks, query fan-out gaps, and LLMs.txt files.',
+        'Preview the $19 AI Search Readiness Fix Pack with a prioritized repair order, copy-ready schema, answer-ready content blocks, query fan-out gaps, and LLMs.txt guidance.',
     }),
     scripts: [
       jsonLd(
@@ -395,7 +394,7 @@ export const Route = createFileRoute('/sample-aeo-report')({
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
           {
-            name: 'Sample AEO Report',
+            name: 'Sample Fix Pack',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
         ])

@@ -73,14 +73,14 @@ const growthPages = [
     desc: 'Follow practical workflows for AEO fixes, LLMs.txt, AI crawler access, comparison pages, and AI referral measurement.',
   },
   {
-    title: 'Sample AEO Report',
+    title: 'Sample Fix Pack',
     href: '/sample-aeo-report',
-    desc: 'Preview the paid fix pack before running your own AEO audit.',
+    desc: 'Preview the $19 repair plan before running your own page audit.',
   },
   {
-    title: '$19 Report Value Guide',
+    title: '$19 Fix Pack Value Guide',
     href: '/compare/ai-search-readiness-report-worth-it',
-    desc: 'Compare the free scan with the paid Fix Pack so buyers can decide whether the $19 report is useful for their page.',
+    desc: 'Compare the free scan with the paid Fix Pack so buyers can decide whether the repair plan is useful for their page.',
   },
 ];
 
@@ -129,7 +129,7 @@ const homeFAQ = [
   },
   {
     q: 'Are these tools free?',
-    a: 'The focused checkers and first diagnosis are free. The paid Fix Pack is for implementation assets, and the manual audit is for pages that need human prioritization.',
+    a: 'The focused checkers and first page audit are free. The paid Fix Pack adds a repair plan and copy-ready assets, and the manual audit is for pages that need human judgment.',
   },
   {
     q: 'Do these tools guarantee AI search visibility?',
@@ -631,7 +631,7 @@ export function AIHomePage() {
                       size={14}
                       className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
-                    Prioritized fixes
+                    Prioritized repair order
                   </li>
                   <li className="flex items-start gap-2">
                     <IconCheck
@@ -659,7 +659,7 @@ export function AIHomePage() {
                       size={14}
                       className="mt-0.5 text-amber-600 shrink-0"
                     />{' '}
-                    Downloadable Markdown handoff
+                    Downloadable implementation handoff
                   </li>
                 </ul>
                 <div className="mt-6 flex flex-col gap-2">
@@ -679,7 +679,7 @@ export function AIHomePage() {
                     }
                     className="inline-flex items-center justify-center text-sm font-medium text-amber-800 hover:underline dark:text-amber-300"
                   >
-                    View sample report
+                    Preview sample Fix Pack
                   </a>
                 </div>
               </div>

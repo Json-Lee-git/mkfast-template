@@ -72,7 +72,7 @@ const comparisonRows = [
   },
   {
     criteria: 'Pricing for individuals',
-    aiSearchReadiness: 'Free tools + optional $19 full report',
+    aiSearchReadiness: 'Free page audit + optional $19 Fix Pack',
     ahrefs: 'From $129/month',
     semrush: 'From $139.95/month',
     sitechecker: 'From $49/month',
@@ -120,11 +120,11 @@ const faqItems = [
   },
   {
     q: 'Can I use the free AEO checker without paying for an SEO tool?',
-    a: 'Yes. The free AEO checker gives you an AI readiness score and a prioritized fix list without any cost. The optional $19 full report adds detailed recommendations and a second round of scoring. But for ongoing keyword tracking and competitive analysis, you will still want an SEO tool.',
+    a: 'Yes. The free AEO checker gives you an AI readiness score and priority issues without any cost. The optional $19 Fix Pack adds a repair plan, copy-ready assets, and implementation guidance. But for ongoing keyword tracking and competitive analysis, you will still want an SEO tool.',
   },
   {
     q: 'How do SEO tools and AEO tools work together?',
-    a: 'SEO tools tell you how you rank and who links to you. AEO tools tell you whether AI models can understand and cite you. Together they cover both search surfaces: traditional search (SEO tools monitor rankings) and AI search (AEO tools verify readiness for AI citation). The $19 report bridges them by connecting AI readiness gaps to SEO impact.',
+    a: 'SEO tools tell you how you rank and who links to you. AEO tools tell you whether AI models can understand and cite you. Together they cover both search surfaces: traditional search and AI search. The $19 Fix Pack bridges them by turning AI readiness gaps into page-level repairs.',
   },
 ];
 
@@ -213,7 +213,7 @@ function AeoCheckerVsSeoToolsPage() {
                 href="/sample-aeo-report?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-vs-seo-tools&utm_content=cta-top"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
-                View sample report
+                Preview sample Fix Pack
               </a>
             </div>
           </div>
@@ -253,7 +253,7 @@ function AeoCheckerVsSeoToolsPage() {
             </h2>
             <div className="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { label: 'AEO Checker price', value: 'Free + $19 report' },
+                { label: 'AEO Checker price', value: 'Free + $19 Fix Pack' },
                 { label: 'Ahrefs starting price', value: '$129/month' },
                 { label: 'Semrush starting price', value: '$139.95/month' },
                 { label: 'Sitechecker starting price', value: '$49/month' },

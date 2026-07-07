@@ -38,7 +38,7 @@ const page: HighIntentToolPageProps = {
     'Clear crawler access findings with blocked, allowed, or unknown status.',
     'Fix priorities for robots.txt, sitemap, and AI-readable site files.',
     'AEO recommendations that connect crawl access to content readiness.',
-    'Downloadable report after the full AEO audit.',
+    'Downloadable Fix Pack after the AEO audit.',
   ],
   related: [
     { label: 'AI Crawler Checker', href: '/tools/ai-crawler-checker' },

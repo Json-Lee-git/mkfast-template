@@ -15,7 +15,7 @@ export const Route = createFileRoute('/')({
     const pageSeo = seo('/', {
       title: 'Free AEO Checker, LLMs.txt Validator & AI Search Readiness Tools',
       description:
-        'Is your website invisible to AI search? Run a free AEO audit, validate your llms.txt file, check AI crawler access, and get a readiness score in seconds. No signup, no credit card.',
+        'Audit one important page for AI search readiness. Check crawl access, LLMs.txt, schema, answer blocks, and trust gaps before editing. No signup required.',
     });
     return {
       ...pageSeo,
@@ -48,7 +48,7 @@ export const Route = createFileRoute('/')({
               name: 'AEO Checker',
               url: getCanonicalUrl('/tools/aeo-checker'),
               description:
-                'Run a technical AEO audit for your website or page.',
+                'Run a free page audit before editing for AI answers.',
             },
             {
               name: 'Query Fan-Out Tool',
@@ -81,9 +81,9 @@ export const Route = createFileRoute('/')({
                 'Review public citation-readiness signals for AI retrieval systems.',
             },
             {
-              name: 'Sample AEO Report',
+              name: 'Sample Fix Pack',
               url: getCanonicalUrl('/sample-aeo-report'),
-              description: 'Preview the paid AI Search Readiness Fix Pack.',
+              description: 'Preview the $19 AI Search Readiness Fix Pack.',
             },
           ])
         ),
@@ -95,7 +95,7 @@ export const Route = createFileRoute('/')({
             },
             {
               q: 'Are these tools free?',
-              a: 'The scan and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with implementation assets and a $99 manual audit when you want a human-reviewed fix plan.',
+              a: 'The first page audit and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with a repair plan and copy-ready assets, plus a $99 manual audit when you want human judgment.',
             },
             {
               q: 'Do these tools guarantee AI search visibility?',

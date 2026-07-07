@@ -38,7 +38,7 @@ const page: HighIntentToolPageProps = {
     'Full issue list across technical AEO and GEO readiness signals.',
     'Prioritized fixes for crawlability, schema, content, and trust.',
     'Query fan-out gaps that suggest what supporting pages to publish.',
-    'Downloadable Markdown report for implementation.',
+    'Downloadable implementation handoff.',
   ],
   related: [
     { label: 'AEO Checker', href: '/tools/aeo-checker' },

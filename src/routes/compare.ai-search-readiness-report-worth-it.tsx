@@ -26,7 +26,7 @@ const valueRows = [
   {
     question: 'Can I hand this to a developer?',
     freeTool: 'Needs interpretation',
-    fullReport: 'Downloadable Markdown handoff with copy-ready snippets',
+    fullReport: 'Implementation handoff with copy-ready snippets',
   },
   {
     question: 'Do I get schema I can paste?',
@@ -61,20 +61,20 @@ const notFit = [
 
 const faqItems = [
   {
-    q: 'Is the $19 AI Search Readiness report worth it?',
-    a: 'It is worth it when you need a concrete one-page implementation handoff: prioritized fixes, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and query fan-out gaps. It is not a replacement for rank tracking, backlink research, or a full agency audit.',
+    q: 'Is the $19 AI Search Readiness Fix Pack worth it?',
+    a: 'It is worth it when you need a concrete one-page repair plan: prioritized fixes, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and query fan-out gaps. It is not a replacement for rank tracking, backlink research, or a full agency audit.',
   },
   {
-    q: 'What is the difference between the free scan and the paid report?',
-    a: 'The free scan gives a quick score and readiness signals. The paid report expands that into a prioritized fix plan, copy-ready JSON-LD, content blocks, AI file recommendations, and Markdown you can hand to a developer or SEO operator.',
+    q: 'What is the difference between the free scan and the $19 Fix Pack?',
+    a: 'The free scan gives a quick score and readiness signals. The Fix Pack expands that into a prioritized repair plan, copy-ready JSON-LD, content blocks, AI file recommendations, and a handoff you can give to a developer or SEO operator.',
   },
   {
-    q: 'Will the report get my site cited by ChatGPT?',
-    a: 'No. No report can guarantee citations in ChatGPT, Claude, Gemini, Perplexity, or Google AI Overviews. The report helps remove technical and content blockers that make citation less likely.',
+    q: 'Will the Fix Pack get my site cited by ChatGPT?',
+    a: 'No. No Fix Pack can guarantee citations in ChatGPT, Claude, Gemini, Perplexity, or Google AI Overviews. It helps remove technical and content blockers that make citation less likely.',
   },
   {
     q: 'Should I buy this before using Google Search Console?',
-    a: 'No. Set up Google Search Console and submit your sitemap first. Use the report when a specific page matters and you need implementation-ready fixes.',
+    a: 'No. Set up Google Search Console and submit your sitemap first. Use the Fix Pack when a specific page matters and you need implementation-ready fixes.',
   },
 ];
 
@@ -85,14 +85,14 @@ function WorthItPage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">
-              $19 report decision guide
+              $19 Fix Pack decision guide
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-950 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
               Is the AI Search Readiness Fix Pack worth it?
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-gray-600 dark:text-zinc-400">
               Use this page to decide whether the free scan is enough, or
-              whether the $19 report gives you a useful implementation handoff
+              whether the $19 Fix Pack gives you a useful implementation handoff
               for one important page.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -100,7 +100,7 @@ function WorthItPage() {
                 href="/sample-aeo-report?utm_source=compare&utm_medium=organic&utm_campaign=report-worth-it&utm_content=cta-top"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
-                View sample report
+                Preview sample Fix Pack
                 <IconArrowRight size={16} />
               </a>
               <a
@@ -138,7 +138,7 @@ function WorthItPage() {
                 className="text-blue-600 dark:text-blue-400"
               />
               <h2 className="text-2xl font-bold text-gray-950 dark:text-zinc-50">
-                Free scan vs $19 report
+                Free scan vs $19 Fix Pack
               </h2>
             </div>
             <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-zinc-800">
@@ -147,7 +147,7 @@ function WorthItPage() {
                   <tr>
                     <th className="px-4 py-3 font-semibold">Question</th>
                     <th className="px-4 py-3 font-semibold">Free scan</th>
-                    <th className="px-4 py-3 font-semibold">$19 report</th>
+                    <th className="px-4 py-3 font-semibold">$19 Fix Pack</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-zinc-800">
@@ -218,7 +218,7 @@ function WorthItPage() {
             </h2>
             <p className="mt-4 text-gray-700 dark:text-zinc-300">
               If the page can make or save more than $19 and you do not already
-              know the next implementation steps, the report is a reasonable
+              know the next implementation steps, the Fix Pack is a reasonable
               purchase. If you only want to learn the concept, use the free
               checklist and free scan first.
             </p>
@@ -245,9 +245,9 @@ export const Route = createFileRoute(
 )({
   head: () => ({
     ...seo('/compare/ai-search-readiness-report-worth-it', {
-      title: 'Is the AI Search Readiness Report Worth It? $19 Fix Pack Guide',
+      title: 'Is the AI Search Readiness Fix Pack Worth It? $19 Guide',
       description:
-        'Decide whether the $19 AI Search Readiness Fix Pack is worth it. Compare the free scan with the paid report, deliverables, limits, and best-fit use cases.',
+        'Decide whether the $19 AI Search Readiness Fix Pack is worth it. Compare the free scan with the repair plan, deliverables, limits, and best-fit use cases.',
     }),
     scripts: [
       jsonLd(
@@ -257,7 +257,7 @@ export const Route = createFileRoute(
             '/compare/ai-search-readiness-report-worth-it'
           ),
           longDescription:
-            'A one-page AI search readiness report with prioritized fixes, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and Markdown handoff.',
+            'A one-page AI search readiness Fix Pack with a prioritized repair plan, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and implementation handoff.',
           startingPrice: '$19',
           keyFeatures: [
             'Prioritized AEO fixes',
@@ -265,7 +265,7 @@ export const Route = createFileRoute(
             'Answer-ready content blocks',
             'Query fan-out gaps',
             'LLMs.txt recommendations',
-            'Downloadable Markdown handoff',
+            'Implementation handoff',
           ],
         })
       ),
@@ -273,7 +273,7 @@ export const Route = createFileRoute(
       jsonLd(
         itemListSchema('/compare/ai-search-readiness-report-worth-it', [
           {
-            name: 'Sample AEO Report',
+            name: 'Sample Fix Pack',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
           {

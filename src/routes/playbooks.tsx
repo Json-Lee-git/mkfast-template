@@ -103,7 +103,7 @@ const playbooks = [
     href: '/references',
     cta: 'Review references',
     toolHref: '/sample-aeo-report',
-    toolLabel: 'View sample report',
+    toolLabel: 'Preview sample Fix Pack',
     icon: IconChartBar,
     steps: [
       'Filter internal tests, previews, uptime checks, and suspicious spikes.',
@@ -127,7 +127,7 @@ const conversionPaths = [
     description:
       'Use this when the scan is useful, but you want to see the implementation handoff before unlocking it.',
     href: '/sample-aeo-report?utm_source=playbooks&utm_medium=organic&utm_campaign=playbooks_conversion&utm_content=sample-report',
-    label: 'View sample report',
+    label: 'Preview sample Fix Pack',
     event: 'playbooks_sample_report_clicked',
   },
   {
@@ -236,7 +236,7 @@ function PlaybooksPage() {
                   trackConversionEvent('playbooks_hero_sample_report_clicked')
                 }
               >
-                View sample report
+                Preview sample Fix Pack
               </a>
             </div>
           </div>

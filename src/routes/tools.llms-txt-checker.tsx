@@ -566,7 +566,7 @@ function CheckerPage() {
                     }
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-medium text-blue-700 transition-all hover:border-blue-300 hover:bg-blue-50 active:scale-[0.98] dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300 dark:hover:bg-blue-950/40"
                   >
-                    View sample report
+                    Preview sample Fix Pack
                   </a>
                 </div>
               </div>
@@ -582,10 +582,11 @@ function CheckerPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 dark:text-zinc-200">
-                      Get the full AI Search Readiness report
+                      Get the AI Search Readiness Fix Pack
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-zinc-400">
-                      We'll email you the complete report for {r.normalizedUrl}.
+                      We'll email you the complete handoff for {r.normalizedUrl}
+                      .
                     </p>
                   </div>
                 </div>

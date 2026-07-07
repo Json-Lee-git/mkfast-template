@@ -70,7 +70,7 @@ export function HighIntentToolPage({
                 }
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-gray-100 px-6 py-3 text-sm font-medium text-gray-700 transition-all hover:border-gray-400 hover:bg-gray-200 active:scale-[0.98] dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800/50"
               >
-                View sample $19 report
+                Preview sample Fix Pack
               </a>
             </div>
           </div>
@@ -124,7 +124,7 @@ export function HighIntentToolPage({
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-800 dark:bg-blue-950/20">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-                What the full report adds
+                What the Fix Pack adds
               </h2>
               <ul className="mt-4 space-y-3 text-sm text-gray-600 dark:text-zinc-400">
                 {deliverables.map((deliverable) => (

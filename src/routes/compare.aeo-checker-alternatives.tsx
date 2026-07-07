@@ -26,7 +26,8 @@ const comparisonRows = [
   },
   {
     criteria: 'Primary output',
-    aiSearchReadiness: 'A readiness score, prioritized fixes, and report flow',
+    aiSearchReadiness:
+      'A readiness score, repair priorities, and Fix Pack path',
     manualAudit: 'A custom document created by an expert or agency',
     genericSeoTool: 'Rank, backlink, crawl, and keyword reports',
   },
@@ -44,7 +45,7 @@ const comparisonRows = [
   },
   {
     criteria: 'Conversion path',
-    aiSearchReadiness: 'Free audit, sample report, and $19 full report',
+    aiSearchReadiness: 'Free page audit, sample Fix Pack, and $19 repair plan',
     manualAudit: 'Usually sales call or proposal first',
     genericSeoTool: 'Subscription trial or dashboard signup',
   },
@@ -159,7 +160,7 @@ function AeoCheckerAlternativesPage() {
                 href="/sample-aeo-report?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-alternatives&utm_content=cta-top"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
-                View sample report
+                Preview sample Fix Pack
               </a>
             </div>
           </div>
@@ -345,8 +346,8 @@ function AeoCheckerAlternativesPage() {
               Check your site before choosing a bigger AEO workflow
             </h2>
             <p className="mt-3 text-sm text-gray-300 dark:text-zinc-600">
-              Run the free audit first, then use the sample report to decide
-              whether you need the full $19 report, a manual review, or a larger
+              Run the free audit first, then use the sample Fix Pack to decide
+              whether you need the $19 repair plan, a manual review, or a larger
               SEO platform.
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">

@@ -94,7 +94,7 @@ function formatYesNo(value: boolean): string {
 function buildFreeReportMarkdown(result: AeoAuditResult): string {
   const topIssues = result.recommendations.slice(0, 3);
   const lines = [
-    '# AI Search Readiness Report',
+    '# Free AI Search Readiness Audit',
     '',
     `Website: ${new URL(result.normalizedUrl).hostname}`,
     `Checked URL: ${result.normalizedUrl}`,
@@ -138,12 +138,12 @@ function buildFreeReportMarkdown(result: AeoAuditResult): string {
     '## Locked Fix Pack Sections',
     '',
     '- Full issue list',
-    '- Prioritized fixes',
-    '- Detailed schema recommendations',
+    '- Prioritized repair order',
+    '- Copy-ready schema recommendations',
     '- Answer-ready content rewrite suggestions',
     '- Query fan-out content gap analysis',
     '- LLMs.txt improvement plan',
-    '- Full Markdown / PDF export',
+    '- Downloadable implementation handoff',
     '',
     'These tools provide technical readiness checks. They do not guarantee rankings, citations, traffic, or visibility in ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews, or other AI search products.',
   ];
@@ -1073,7 +1073,7 @@ function AeoCheckerPage() {
                     }
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-medium text-blue-700 transition-all hover:border-blue-300 hover:bg-blue-50 active:scale-[0.98] dark:border-blue-800 dark:bg-blue-950/20 dark:text-blue-300 dark:hover:bg-blue-950/40"
                   >
-                    View sample report
+                    Preview sample Fix Pack
                   </a>
                   <a
                     href="#free-aeo-summary"
@@ -1260,7 +1260,7 @@ function AeoCheckerPage() {
                 href="/sample-aeo-report"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
-                Sample AEO Report
+                Sample Fix Pack
               </a>
               , and{' '}
               <a
@@ -1356,9 +1356,9 @@ function Meta({ label, value }: { label: string; value: string }) {
 export const Route = createFileRoute('/tools/aeo-checker')({
   head: () => ({
     ...seo('/tools/aeo-checker', {
-      title: 'Free AEO Checker: Test Your AI Search Visibility in 30 Seconds',
+      title: 'Free AEO Checker: Audit One Page Before AI Search Edits',
       description:
-        'Is your site invisible to ChatGPT, Perplexity, and Google AI Overviews? Run a free AEO audit now — get a readiness score, prioritized fixes, and schema recommendations. No signup required.',
+        'Audit one landing, product, or comparison page before editing it for AI answers. Check crawl access, schema, LLMs.txt, answer blocks, and trust gaps.',
     }),
     scripts: [
       jsonLd(
@@ -1366,15 +1366,15 @@ export const Route = createFileRoute('/tools/aeo-checker')({
           name: 'AEO Checker',
           websiteUrl: getCanonicalUrl('/tools/aeo-checker'),
           longDescription:
-            'Free tool that audits any URL for AI search readiness: crawlability, LLMs.txt, structured data, entity clarity, trust signals, and answer-ready formatting. Get a score and prioritized fix list in seconds.',
+            'Free tool that audits one URL for AI search readiness before you edit it: crawlability, LLMs.txt, structured data, entity clarity, trust signals, and answer-ready formatting.',
           startingPrice: '$0',
           keyFeatures: [
             'Technical AEO Score (0-100)',
             'AI crawler & LLMs.txt checks',
             'Structured data validation',
             'Answer-ready content analysis',
-            'Prioritized fix recommendations',
-            'Downloadable Markdown report',
+            'Prioritized repair recommendations',
+            '$19 Fix Pack with implementation handoff',
           ],
         })
       ),
@@ -1382,15 +1382,15 @@ export const Route = createFileRoute('/tools/aeo-checker')({
         faqSchema([
           {
             q: 'What does the AEO Checker audit?',
-            a: 'It checks crawlability, LLMs.txt, AI crawler access, structured data, entity clarity, trust signals, and answer-ready page structure — then gives you a readiness score and a prioritized list of fixes.',
+            a: 'It checks crawlability, LLMs.txt, AI crawler access, structured data, entity clarity, trust signals, and answer-ready page structure, then gives you a readiness score and prioritized repair recommendations.',
           },
           {
             q: 'Is the AEO Checker really free?',
-            a: 'Yes — one scan is free. If you want implementation assets (schema templates, content briefs, fix scripts), a $19 Fix Pack is available. For a human-reviewed audit of your full site, a $99 manual audit option exists.',
+            a: 'Yes. One page audit is free. If you want copy-ready schema, answer blocks, LLMs.txt guidance, and an implementation handoff, a $19 Fix Pack is available. For human judgment on one important page, a $99 manual audit option exists.',
           },
           {
             q: 'Does AEO guarantee AI search visibility?',
-            a: 'No tool can guarantee rankings or citations. The AEO Checker measures technical readiness signals that search engines and AI systems use to understand your content — it shows you what to fix, not what will rank.',
+            a: 'No tool can guarantee rankings or citations. The AEO Checker measures readiness signals that search engines and AI systems use to understand your content. It shows you what to repair, not what will rank.',
           },
         ])
       ),
