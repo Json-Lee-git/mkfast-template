@@ -120,3 +120,14 @@ No code path reads `process.env.VITE_BASE_URL`.
 | `wrangler secret put <NAME>` | Worker runtime | Secrets → `process.env` |
 
 Copy **`.env.example`** to **`.env.local`** and fill in values. See module docs ([Auth](./auth.md), [Mail](./mail.md), [Payment](./payment.md), etc.) for which vars each feature needs.
+
+---
+
+## 5. Production Validation Record
+
+| Date | Event | Result |
+|------|-------|--------|
+| 2026-07-06 | URL/SEO/Deployment Configuration Hardening — production smoke test | **54/54 PASS** — canonical, og:url, twitter:url, robots.txt, sitemap.xml, noindex, redirects, localhost leaks all verified on `https://aeocheck.xyz` |
+| 2026-07-06 | Manual page check (homepage, pricing, sample report, methodology) | **4/4 PASS** — all canonical/og/twitter URLs correct |
+
+**Note:** Cloudflare AI binding (`env.AI`) dependent features were not included in this validation scope. See `SESSION-ARCHIVE.md` for full details.

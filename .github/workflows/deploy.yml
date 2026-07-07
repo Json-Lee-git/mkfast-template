@@ -56,9 +56,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: pnpm build
-
       - name: Validate PUBLIC_SITE_URL
         env:
           PUBLIC_SITE_URL: ${{ secrets.PUBLIC_SITE_URL }}
@@ -74,5 +71,10 @@ jobs:
           echo "PUBLIC_SITE_URL=${PUBLIC_SITE_URL}"
           echo "PUBLIC_SITE_URL validation passed."
 
+      - name: Build
+        env:
+          PUBLIC_SITE_URL: ${{ secrets.PUBLIC_SITE_URL }}
+        run: pnpm build
+
       - name: Deploy to Cloudflare Workers
-        run: pnpx wrangler deploy --var PUBLIC_SITE_URL:${{ secrets.PUBLIC_SITE_URL }}
+        run: pnpx wrangler deploy --var "PUBLIC_SITE_URL=${{ secrets.PUBLIC_SITE_URL }}"

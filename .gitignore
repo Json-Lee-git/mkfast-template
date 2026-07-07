@@ -33,6 +33,12 @@ src/locale/paraglide
 # kiro
 .kiro
 
+# dev log
+dev-server.log
+
+# Windows artifacts
+nul
+
 # Auto Claude data directory
 .auto-claude/
 

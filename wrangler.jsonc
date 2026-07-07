@@ -85,6 +85,13 @@
    */
   "vars": {
     "PUBLIC_SITE_URL": "https://aeocheck.xyz"
+  },
+  "env": {
+    "preview": {
+      "vars": {
+        // PUBLIC_SITE_URL is set dynamically via --var in CI deploy command
+      }
+    }
   }
   /**
    * R2: disabled (not yet enabled on account)

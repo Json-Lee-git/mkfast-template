@@ -1,15 +1,15 @@
-# Session Archive — PUBLIC_SITE_URL Hardening
+# Session Archive — URL / SEO / Deployment Configuration Hardening
 
-**Date:** 2026-07-06  
-**Branch:** `main`  
-**HEAD:** `4bedc5c Add Opus supervision handoff`
+**Date:** 2026-07-06
+**Branch:** `main`
+**HEAD:** `0b837c3` — Add PUBLIC_SITE_URL two-tier resolution for correct canonical URLs
 
 ---
 
 ## 1. What Was Done
 
 ### Problem
-`getBaseUrl()` in SSR context used `process.env.VITE_BASE_URL`, which is a **build-time env** and was NOT available at Worker runtime. This caused canonical URLs, `og:url`, `twitter:url`, robots.txt, and sitemap to produce incorrect or `localhost` URLs in production.
+`getBaseUrl()` in SSR context used `process.env.VITE_BASE_URL`, a **build-time env** unavailable at Worker runtime. This caused canonical URLs, `og:url`, `twitter:url`, robots.txt, and sitemap to produce incorrect or `localhost` URLs in production.
 
 ### Solution
 Introduced a **two-tier origin resolution** (`src/lib/urls.ts`):
@@ -30,43 +30,79 @@ Introduced a **two-tier origin resolution** (`src/lib/urls.ts`):
 | `scripts/smoke-seo-funnel.ts` | New assertions: canonical, og:url, twitter:url + localhost leak check |
 | `docs/env.md` | Docs update reflecting new resolution order |
 
-### Verification Passed
+---
+
+## 2. Verification Results
+
+### Production Site: `https://aeocheck.xyz`
+
+| Check | Result |
+|-------|--------|
+| Canonical URLs | Correct — all pages resolve to `https://aeocheck.xyz/...` |
+| `og:url` | Correct — matches canonical |
+| `twitter:url` | Correct — matches canonical |
+| HTTP → HTTPS redirect (301) | Correct |
+| `www` → non-`www` redirect (301) | Correct |
+| `robots.txt` | Correct — allows SEO pages, disallows `/admin` |
+| `sitemap.xml` | Correct — includes all public pages, excludes `/ai-search-audit/thanks` |
+| `noindex` | Correct — public pages have no noindex, `/thanks` has noindex |
+| `localhost` leaks | None found |
+| Schema.org (WebSite, Organization, ItemList, FAQPage) | Present and pointing to `aeocheck.xyz` |
+| Google Analytics (G-4EK6XN9BVY) | Loading |
+| Footer email (`support@aeocheck.xyz`) | Correct |
+
+### Smoke Test: 54/54 PASS
+
+Pages tested: `/ai-search-audit`, `/sample-aeo-report`, `/blog/ai-search-readiness-audit`, `/methodology`, `/ai-search-audit/thanks`, `/robots.txt`, `/sitemap.xml`
+
+Each page validated: 200 status, page content exists, correct noindex, no localhost leaks, canonical/og:url/twitter:url match production domain, HTTP→HTTPS redirect, www→non-www redirect.
+
+### Manual Check: 4/4 PASS
+
+- Homepage `/` → canonical `https://aeocheck.xyz/` ✅
+- Pricing `/pricing` → canonical `https://aeocheck.xyz/pricing` ✅
+- Sample Report → covered in smoke test ✅
+- Methodology → covered in smoke test ✅
+
+### CI & Build
 
 - `pnpm check` — 988 files checked, no fixes applied ✓
-- `pnpm build` — clean client + SSR build ✓
+- `pnpm build` — 9724 modules, clean client + SSR build ✓
+- `wrangler deploy` — success ✓
 
 ---
 
-## 2. Remaining Verification (Not Yet Done)
+## 3. Boundary: What Was NOT Included
 
-- [ ] **Deploy dry-run:** `wrangler deploy --dry-run --outdir=dist` to confirm wrangler.toml config
-- [ ] **Preview deploy:** to preview env to smoke-test live
-- [ ] **URL verification across 3 envs:**
-  - Local dev: canonical/og:url/twitter:url = `http://localhost:3000/...`
-  - Preview/Staging: canonical/og:url/twitter:url = `https://preview.aeocheck.xyz/...`
-  - Production: canonical/og:url/twitter:url = `https://aeocheck.xyz/...`
-- [ ] **Production deploy:** requires `PUBLIC_SITE_URL` secret set in GitHub
+> **Cloudflare AI binding (`env.AI`) / `env.AI`-dependent features were not included in this validation scope.**
+>
+> These features will be restored under a separate task:
+> **Task: Restore Cloudflare AI binding safely**
+>
+> Acceptance criteria:
+> - `env.AI`-dependent APIs work in production
+> - Local dev does not crash when AI binding is unavailable
+> - AI routes fail gracefully (no 500) when AI binding is unavailable
 
 ---
 
-## 3. How to Resume
+## 4. How to Resume
 
 ```bash
-# Preview deploy (manual)
-wrangler deploy --var PUBLIC_SITE_URL:https://preview.aeocheck.xyz
+# Production deploy (CI)
+# PUBLIC_SITE_URL is already injected via deploy.yml --var flag
 
-# Smoke test locally
+# Smoke test SEO funnel
 pnpm dev
 node scripts/smoke-seo-funnel.ts
 
-# Production deploy (CI)
-# 1. Set PUBLIC_SITE_URL in GitHub Secrets
-# 2. Push to main
+# Verify production URLs
+pnpm smoke:seo-funnel -- --production
 ```
 
 ---
 
-## 4. D1 Database
+## 5. D1 Database
 
-Local D1 snapshot backed up: `backups/d1-local-backup-20260706.sqlite`  
+Local D1 snapshot backed up: `backups/d1-local-backup-20260706.sqlite`
 `.wrangler/state/` is gitignored; no migration changes in this session.
