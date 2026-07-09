@@ -171,6 +171,31 @@ export const manualAuditOrders = sqliteTable(
   ]
 );
 
+export const monitorRequests = sqliteTable(
+  "monitor_requests",
+  {
+    id: text("id").primaryKey(),
+    status: text("status")
+      .notNull()
+      .$type<
+        "new" | "reviewing" | "accepted" | "rejected" | "active" | "paused"
+      >(),
+    email: text("email").notNull(),
+    name: text("name"),
+    url: text("url").notNull(),
+    source: text("source").notNull(),
+    notes: text("notes"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    index("monitor_requests_status_idx").on(table.status),
+    index("monitor_requests_email_idx").on(table.email),
+    index("monitor_requests_url_idx").on(table.url),
+    index("monitor_requests_created_at_idx").on(table.createdAt),
+  ]
+);
+
 /**
  * External webhook delivery ledger.
  */

@@ -63,6 +63,7 @@ import { Route as ApiPingRouteImport } from './routes/api/ping'
 import { Route as ApiConversionEventsRouteImport } from './routes/api/conversion-events'
 import { Route as AiSearchAuditThanksRouteImport } from './routes/ai-search-audit_.thanks'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminMonitorRequestsRouteImport } from './routes/admin/monitor-requests'
 import { Route as AdminManualAuditOrdersRouteImport } from './routes/admin/manual-audit-orders'
 import { Route as pagesReferencesRouteImport } from './routes/(pages)/references'
 import { Route as pagesPricingRouteImport } from './routes/(pages)/pricing'
@@ -356,6 +357,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMonitorRequestsRoute = AdminMonitorRequestsRouteImport.update({
+  id: '/monitor-requests',
+  path: '/monitor-requests',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminManualAuditOrdersRoute = AdminManualAuditOrdersRouteImport.update({
   id: '/manual-audit-orders',
   path: '/manual-audit-orders',
@@ -451,6 +457,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
   '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
+  '/admin/monitor-requests': typeof AdminMonitorRequestsRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -518,6 +525,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof pagesPricingRoute
   '/references': typeof pagesReferencesRoute
   '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
+  '/admin/monitor-requests': typeof AdminMonitorRequestsRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -589,6 +597,7 @@ export interface FileRoutesById {
   '/(pages)/pricing': typeof pagesPricingRoute
   '/(pages)/references': typeof pagesReferencesRoute
   '/admin/manual-audit-orders': typeof AdminManualAuditOrdersRoute
+  '/admin/monitor-requests': typeof AdminMonitorRequestsRoute
   '/admin/users': typeof AdminUsersRoute
   '/ai-search-audit_/thanks': typeof AiSearchAuditThanksRoute
   '/api/conversion-events': typeof ApiConversionEventsRoute
@@ -661,6 +670,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/references'
     | '/admin/manual-audit-orders'
+    | '/admin/monitor-requests'
     | '/admin/users'
     | '/ai-search-audit/thanks'
     | '/api/conversion-events'
@@ -728,6 +738,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/references'
     | '/admin/manual-audit-orders'
+    | '/admin/monitor-requests'
     | '/admin/users'
     | '/ai-search-audit/thanks'
     | '/api/conversion-events'
@@ -798,6 +809,7 @@ export interface FileRouteTypes {
     | '/(pages)/pricing'
     | '/(pages)/references'
     | '/admin/manual-audit-orders'
+    | '/admin/monitor-requests'
     | '/admin/users'
     | '/ai-search-audit_/thanks'
     | '/api/conversion-events'
@@ -1282,6 +1294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/monitor-requests': {
+      id: '/admin/monitor-requests'
+      path: '/monitor-requests'
+      fullPath: '/admin/monitor-requests'
+      preLoaderRoute: typeof AdminMonitorRequestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/manual-audit-orders': {
       id: '/admin/manual-audit-orders'
       path: '/manual-audit-orders'
@@ -1385,12 +1404,14 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminManualAuditOrdersRoute: typeof AdminManualAuditOrdersRoute
+  AdminMonitorRequestsRoute: typeof AdminMonitorRequestsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminManualAuditOrdersRoute: AdminManualAuditOrdersRoute,
+  AdminMonitorRequestsRoute: AdminMonitorRequestsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

@@ -1,4 +1,4 @@
-import { m } from '@/locale/paraglide/messages';
+import { createMonitorRequest } from '@/api/ai-readiness/monitor-requests';
 import { sendContactMessage } from '@/api/contact';
 import { FormError } from '@/components/shared/form-error';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { m } from '@/locale/paraglide/messages';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,6 +28,7 @@ import { z } from 'zod';
 const schema = z.object({
   name: z.string().min(3, m.contact_name_min()).max(30, m.contact_name_max()),
   email: z.email(m.contact_email_invalid()),
+  url: z.string().trim().max(2000).optional(),
   message: z
     .string()
     .min(10, m.contact_message_min())
@@ -38,6 +40,9 @@ type ContactFormCardProps = {
   title?: string;
   submitLabel?: string;
   successMessage?: string;
+  monitorRequest?: boolean;
+  defaultUrl?: string;
+  monitorSource?: string;
 };
 
 export function ContactFormCard({
@@ -45,17 +50,52 @@ export function ContactFormCard({
   title,
   submitLabel,
   successMessage,
+  monitorRequest = false,
+  defaultUrl = '',
+  monitorSource = 'contact',
 }: ContactFormCardProps) {
   const [error, setError] = useState<string | undefined>();
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: '', email: '', message: defaultMessage },
+    defaultValues: {
+      name: '',
+      email: '',
+      message: defaultMessage,
+      url: defaultUrl,
+    },
   });
   const isPending = form.formState.isSubmitting;
   async function onSubmit(values: FormValues) {
     setError(undefined);
     try {
-      await sendContactMessage({ data: values });
+      if (monitorRequest) {
+        const url = values.url?.trim() ?? '';
+        if (!url) {
+          form.setError('url', {
+            message: 'Enter the URL you want monitored.',
+            type: 'required',
+          });
+          return;
+        }
+
+        await createMonitorRequest({
+          data: {
+            email: values.email,
+            name: values.name,
+            notes: values.message,
+            source: monitorSource,
+            url,
+          },
+        });
+      } else {
+        await sendContactMessage({
+          data: {
+            email: values.email,
+            message: values.message,
+            name: values.name,
+          },
+        });
+      }
       toast.success(successMessage ?? m.contact_success());
       form.reset();
     } catch (err) {
@@ -107,6 +147,25 @@ export function ContactFormCard({
                 </FormItem>
               )}
             />
+            {monitorRequest ? (
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://example.com/pricing"
+                        type="url"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
             <FormField
               control={form.control}
               name="message"

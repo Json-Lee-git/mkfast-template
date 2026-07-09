@@ -1,11 +1,11 @@
+import { ContactFormCard } from '@/components/contact/contact-form-card';
+import Container from '@/components/layout/container';
+import { websiteConfig } from '@/config/website';
+import { jsonLd } from '@/lib/ai-visibility-schema';
+import { seo } from '@/lib/seo';
+import { getCanonicalUrl } from '@/lib/urls';
 import { m } from '@/locale/paraglide/messages';
 import { createFileRoute } from '@tanstack/react-router';
-import Container from '@/components/layout/container';
-import { ContactFormCard } from '@/components/contact/contact-form-card';
-import { websiteConfig } from '@/config/website';
-import { seo } from '@/lib/seo';
-import { jsonLd } from '@/lib/ai-visibility-schema';
-import { getCanonicalUrl } from '@/lib/urls';
 
 export const Route = createFileRoute('/(pages)/contact')({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -43,12 +43,8 @@ function ContactPage() {
   const supportEmail =
     websiteConfig.metadata?.supportEmail ?? 'support@aeocheck.xyz';
   const isMonitorRequest = intent === 'monitor';
-  const monitorMessage = [
-    'I want to request managed Monitor early access for this page:',
-    url || '[paste URL here]',
-    '',
-    'Please review the URL and send setup instructions for the $29/mo managed monitoring MVP.',
-  ].join('\n');
+  const monitorMessage =
+    'Please review this URL and send setup instructions for the $29/mo managed monitoring MVP.';
 
   return (
     <Container className="py-16 px-4">
@@ -79,6 +75,9 @@ function ContactPage() {
         </div>
         <ContactFormCard
           defaultMessage={isMonitorRequest ? monitorMessage : undefined}
+          defaultUrl={isMonitorRequest ? url : undefined}
+          monitorRequest={isMonitorRequest}
+          monitorSource="contact:monitor"
           successMessage={
             isMonitorRequest
               ? 'We will review the URL and send setup instructions.'

@@ -1,5 +1,6 @@
 import { m } from '@/locale/paraglide/messages';
 import {
+  IconChartBar,
   IconClipboardList,
   IconLayoutDashboard,
   IconLock,
@@ -36,6 +37,12 @@ export function getSidebarLinks(): MenuItemConfig[] {
           title: 'Manual audits',
           icon: IconClipboardList,
           href: Routes.AdminManualAuditOrders,
+          external: false,
+        },
+        {
+          title: 'Monitor requests',
+          icon: IconChartBar,
+          href: Routes.AdminMonitorRequests,
           external: false,
         },
       ],
