@@ -1361,7 +1361,7 @@ function AeoCheckerPage() {
                       },
                       {
                         title: 'Monitor',
-                        desc: 'Catch silent readiness regressions after publishing.',
+                        desc: 'Request managed monitoring after publishing.',
                       },
                     ].map((step) => (
                       <div
@@ -1405,7 +1405,7 @@ function AeoCheckerPage() {
                       }
                       className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-background px-5 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/10 active:scale-[0.98]"
                     >
-                      Monitor this page - $29/mo
+                      Request managed monitor - $29/mo
                     </a>
                     <a
                       href="/ai-search-audit"

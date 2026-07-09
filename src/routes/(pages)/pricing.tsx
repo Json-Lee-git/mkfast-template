@@ -17,6 +17,10 @@ import {
 } from '@tabler/icons-react';
 
 export const Route = createFileRoute('/(pages)/pricing')({
+  validateSearch: (search: Record<string, unknown>) => ({
+    intent: typeof search.intent === 'string' ? search.intent : '',
+    url: typeof search.url === 'string' ? search.url : '',
+  }),
   head: () =>
     seo('/pricing', {
       title: `Pricing - AI Search Readiness Workflow | ${websiteConfig.metadata?.name}`,
@@ -73,20 +77,20 @@ const tiers = [
     name: 'Monitor',
     price: '$29',
     period: '/mo',
-    description: 'Keep important pages from silently losing AI readiness.',
-    cta: 'Monitor this site',
-    href: '/tools/aeo-checker?intent=monitor',
+    description: 'Managed MVP monitoring for important published pages.',
+    cta: 'Request managed monitor',
+    href: '/contact?intent=monitor',
     highlight: true,
     badge: 'Best after publishing',
     features: [
       'Monitor one site',
       'Track important URLs',
-      'Recurring readiness re-scan',
-      'Score change alerts',
-      'Robots and AI crawler access alerts',
-      'LLMs.txt missing or broken alerts',
-      'Schema disappearance alerts',
-      'New critical issue summary',
+      'Managed recurring readiness re-check',
+      'Meaningful regression email summary',
+      'Robots and AI crawler access review',
+      'LLMs.txt missing or broken review',
+      'Schema disappearance review',
+      'Monitored manually during MVP',
     ],
   },
   {
@@ -130,21 +134,21 @@ const comparisonRows = [
     feature: 'Crawl and AI file checks',
     free: 'Yes',
     fix: 'Yes',
-    monitor: 'Alerts',
+    monitor: 'Managed review',
     manual: 'Yes',
   },
   {
     feature: 'Structured data validation',
     free: 'Yes',
     fix: 'Yes',
-    monitor: 'Alerts',
+    monitor: 'Managed review',
     manual: 'Yes',
   },
   {
     feature: 'Content structure analysis',
     free: 'Yes',
     fix: 'Yes',
-    monitor: 'Alerts',
+    monitor: 'Managed review',
     manual: 'Yes',
   },
   {
@@ -158,21 +162,21 @@ const comparisonRows = [
     feature: 'Markdown export',
     free: 'Free summary',
     fix: 'Full fix pack',
-    monitor: 'Alert summary',
+    monitor: 'Email summary',
     manual: 'Full audit report',
   },
   {
     feature: 'Copy-ready schema',
     free: 'No',
     fix: 'Yes',
-    monitor: 'Schema change alerts',
+    monitor: 'Schema review',
     manual: 'Yes',
   },
   {
     feature: 'Answer-ready content blocks',
     free: 'No',
     fix: 'Yes',
-    monitor: 'Structure alerts',
+    monitor: 'Structure review',
     manual: 'Yes',
   },
   {
@@ -186,7 +190,7 @@ const comparisonRows = [
     feature: 'LLMs.txt plan',
     free: 'No',
     fix: 'Yes',
-    monitor: 'Broken file alerts',
+    monitor: 'Broken file review',
     manual: 'Yes',
   },
   {
@@ -241,10 +245,15 @@ const comparisonRows = [
 ];
 
 function PricingPage() {
+  const { intent, url } = Route.useSearch();
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
   const { data: planData } = useCurrentPlan(!!userId);
   const currentPlan = planData?.currentPlan ?? null;
+  const monitorRequestHref = `/contact?intent=monitor${
+    url ? `&url=${encodeURIComponent(url)}` : ''
+  }`;
+  const showMonitorIntent = intent === 'monitor';
 
   return (
     <div className="min-h-screen">
@@ -265,6 +274,18 @@ function PricingPage() {
 
       <section className="py-16">
         <Container>
+          {showMonitorIntent && (
+            <div className="mx-auto mb-8 max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center">
+              <p className="text-sm font-semibold text-primary">
+                Managed Monitor early access
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Monitor is currently offered as a managed MVP at $29/mo. We
+                review the submitted URL, confirm setup, and send monitoring
+                instructions before anything is considered active.
+              </p>
+            </div>
+          )}
           <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2 xl:grid-cols-4">
             {tiers.map((tier) => (
               <div
@@ -304,7 +325,9 @@ function PricingPage() {
                 </div>
 
                 <a
-                  href={tier.href}
+                  href={
+                    tier.name === 'Monitor' ? monitorRequestHref : tier.href
+                  }
                   className={`inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all active:scale-[0.98] ${
                     tier.highlight
                       ? 'bg-primary text-primary-foreground hover:opacity-90'

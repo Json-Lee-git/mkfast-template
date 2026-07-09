@@ -33,18 +33,30 @@ const schema = z.object({
     .max(500, m.contact_message_max()),
 });
 type FormValues = z.infer<typeof schema>;
-export function ContactFormCard() {
+type ContactFormCardProps = {
+  defaultMessage?: string;
+  title?: string;
+  submitLabel?: string;
+  successMessage?: string;
+};
+
+export function ContactFormCard({
+  defaultMessage = '',
+  title,
+  submitLabel,
+  successMessage,
+}: ContactFormCardProps) {
   const [error, setError] = useState<string | undefined>();
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: '', email: '', message: '' },
+    defaultValues: { name: '', email: '', message: defaultMessage },
   });
   const isPending = form.formState.isSubmitting;
   async function onSubmit(values: FormValues) {
     setError(undefined);
     try {
       await sendContactMessage({ data: values });
-      toast.success(m.contact_success());
+      toast.success(successMessage ?? m.contact_success());
       form.reset();
     } catch (err) {
       const msg = err instanceof Error ? err.message : m.contact_error();
@@ -56,7 +68,7 @@ export function ContactFormCard() {
     <Card className="mx-auto max-w-lg overflow-hidden pt-6 pb-0">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">
-          {m.contact_form_title()}
+          {title ?? m.contact_form_title()}
         </CardTitle>
       </CardHeader>
       <Form {...form}>
@@ -116,7 +128,9 @@ export function ContactFormCard() {
           </CardContent>
           <CardFooter className="mt-6 flex items-center justify-between rounded-none border-t bg-muted px-6 py-4">
             <Button type="submit" disabled={isPending}>
-              {isPending ? m.contact_sending() : m.contact_send()}
+              {isPending
+                ? m.contact_sending()
+                : (submitLabel ?? m.contact_send())}
             </Button>
           </CardFooter>
         </form>
