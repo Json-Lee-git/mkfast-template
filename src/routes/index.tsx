@@ -4,6 +4,7 @@ import {
   itemListSchema,
   jsonLd,
   organizationSchema,
+  softwareApplicationSchema,
   websiteSchema,
 } from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
@@ -13,9 +14,9 @@ import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
-      title: 'Free AEO Checker, LLMs.txt Validator & AI Search Readiness Tools',
+      title: 'AI Search Readiness Checker and Monitor | AEOCheck',
       description:
-        'Audit one important page for AI search readiness. Check crawl access, LLMs.txt, schema, answer blocks, and trust gaps before editing. No signup required.',
+        'Run a free AEO scan, unlock a $19 Fix Pack, then monitor important pages for crawl access, schema, LLMs.txt, and answer-readiness regressions.',
     });
     return {
       ...pageSeo,
@@ -25,12 +26,27 @@ export const Route = createFileRoute('/')({
         { property: 'article:published_time', content: '2026-02-15T00:00:00Z' },
         {
           property: 'article:modified_time',
-          content: '2026-06-26T00:00:00Z',
+          content: '2026-07-09T00:00:00Z',
         },
       ],
       scripts: [
         jsonLd(websiteSchema()),
         jsonLd(organizationSchema()),
+        jsonLd(
+          softwareApplicationSchema({
+            name: 'AEOCheck',
+            websiteUrl: getCanonicalUrl('/'),
+            longDescription:
+              'AI search readiness tool for free URL scans, one-time Fix Packs, managed monitoring requests, and manual audits. It checks crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, and trust signals.',
+            startingPrice: '$0',
+            keyFeatures: [
+              'Free AI search readiness scan',
+              '$19 one-time Fix Pack',
+              '$29/mo managed Monitor request path',
+              '$99 Manual Audit for human review',
+            ],
+          })
+        ),
         jsonLd(
           itemListSchema('/', [
             {
@@ -48,7 +64,7 @@ export const Route = createFileRoute('/')({
               name: 'AEO Checker',
               url: getCanonicalUrl('/tools/aeo-checker'),
               description:
-                'Run a free page audit before editing for AI answers.',
+                'Run a free page audit before fixing or monitoring AI search readiness.',
             },
             {
               name: 'Query Fan-Out Tool',
@@ -83,7 +99,8 @@ export const Route = createFileRoute('/')({
             {
               name: 'Sample Fix Pack',
               url: getCanonicalUrl('/sample-aeo-report'),
-              description: 'Preview the $19 AI Search Readiness Fix Pack.',
+              description:
+                'Preview the $19 AI Search Readiness Fix Pack and the monitor path after repair.',
             },
           ])
         ),
@@ -95,7 +112,7 @@ export const Route = createFileRoute('/')({
             },
             {
               q: 'Are these tools free?',
-              a: 'The first page audit and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with a repair plan and copy-ready assets, plus a $99 manual audit when you want human judgment.',
+              a: 'The first page audit and focused tools are free to use. AEOCheck also offers an optional $19 Fix Pack with a repair plan and copy-ready assets, a $29/mo Monitor path for important pages after publishing, and a $99 manual audit when you want human judgment.',
             },
             {
               q: 'Do these tools guarantee AI search visibility?',

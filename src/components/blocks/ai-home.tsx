@@ -92,23 +92,52 @@ const workflowSteps = [
 ];
 
 const trustPoints = [
-  'Audit one page first',
-  'No sign-up for the first audit',
-  'Fix once or monitor monthly',
+  'AI crawler rules reviewed',
+  'LLMs.txt and LLMs-full.txt supported',
+  'Organization, WebSite, and SoftwareApplication schema checks',
   'No ranking or citation promises',
 ];
 
+const proofItems = [
+  'AI crawler access rules are reviewed against public user agents.',
+  'LLMs.txt and LLMs-full.txt checks are built into the scanner.',
+  'Schema checks cover Organization, WebSite, and SoftwareApplication signals.',
+  'Methodology and References pages document what is checked.',
+];
+
 const previewModules = [
-  ['Crawler access', 'Ready'],
-  ['Structured data', 'Needs repair'],
-  ['LLMs.txt readiness', 'Missing'],
-  ['Answer blocks', 'Thin'],
+  {
+    label: 'Crawler access',
+    status: 'Ready',
+    tone: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600',
+  },
+  {
+    label: 'Schema status',
+    status: 'Needs repair',
+    tone: 'border-amber-500/30 bg-amber-500/10 text-amber-600',
+  },
+  {
+    label: 'LLMs.txt status',
+    status: 'Missing',
+    tone: 'border-red-500/30 bg-red-500/10 text-red-600',
+  },
+  {
+    label: 'Answer block',
+    status: 'Thin',
+    tone: 'border-amber-500/30 bg-amber-500/10 text-amber-600',
+  },
 ];
 
 const fixOrder = [
   'Add Organization and WebSite schema.',
   'Rewrite the first answer block for extraction.',
   'Publish a short methodology note for trust.',
+];
+
+const monitorSignals = [
+  ['Last scan', 'Jul 9'],
+  ['Change detected', 'Schema block removed'],
+  ['Monitor drift', '2 signals changed'],
 ];
 
 const readinessPoints = [
@@ -231,6 +260,18 @@ export function AIHomePage() {
                   pages that should not silently break.
                 </p>
               </form>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href="/sample-aeo-report"
+                  onClick={() =>
+                    trackConversionEvent('home_hero_sample_report_clicked')
+                  }
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-background/70 px-5 text-sm font-medium text-foreground transition hover:bg-muted/40 active:scale-[0.98]"
+                >
+                  View sample report
+                  <IconArrowRight size={16} />
+                </a>
+              </div>
             </div>
 
             <AuditPreview />
@@ -247,6 +288,42 @@ export function AIHomePage() {
                 <span>{point}</span>
               </div>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-border/60 bg-muted/20 py-12">
+        <Container className="px-4">
+          <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <div className="max-w-xl">
+              <p className="text-sm font-semibold text-primary">
+                Built against the same checks
+              </p>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                AEOCheck practices the readiness signals it audits.
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                AEOCheck practices the same AI search readiness checks it
+                audits: crawler access, LLMs.txt, schema, methodology, and
+                reference signals.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {proofItems.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-2 rounded-lg border border-border bg-background p-4"
+                >
+                  <IconCheck
+                    size={16}
+                    className="mt-0.5 shrink-0 text-primary"
+                  />
+                  <span className="text-sm leading-6 text-muted-foreground">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -585,16 +662,20 @@ function AuditPreview() {
             </span>
           </div>
 
-          <div className="mt-5 hidden grid-cols-2 gap-3 sm:grid">
-            {previewModules.map(([label, status]) => (
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {previewModules.map((module) => (
               <div
-                key={label}
+                key={module.label}
                 className="rounded-lg border border-border bg-background p-3 sm:p-4"
               >
                 <p className="text-xs font-medium text-foreground sm:text-sm">
-                  {label}
+                  {module.label}
                 </p>
-                <p className="mt-2 text-xs text-muted-foreground">{status}</p>
+                <p
+                  className={`mt-2 inline-flex rounded-md border px-2 py-1 text-xs font-medium ${module.tone}`}
+                >
+                  {module.status}
+                </p>
               </div>
             ))}
           </div>
@@ -609,6 +690,25 @@ function AuditPreview() {
                 </li>
               ))}
             </ol>
+          </div>
+
+          <div className="mt-4 rounded-lg border border-border bg-background p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm font-semibold text-foreground">
+                Monitor drift
+              </p>
+              <span className="rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-600">
+                Needs review
+              </span>
+            </div>
+            <div className="mt-3 grid gap-2 text-xs sm:grid-cols-3">
+              {monitorSignals.map(([label, value]) => (
+                <div key={label} className="rounded-md bg-muted/50 p-2.5">
+                  <p className="text-muted-foreground">{label}</p>
+                  <p className="mt-1 font-medium text-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </main>
       </div>

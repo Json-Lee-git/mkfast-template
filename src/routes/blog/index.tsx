@@ -9,6 +9,9 @@ import { seo } from '@/lib/seo';
 import { getCanonicalUrlForLocale } from '@/lib/urls';
 import { getLocale, localeConfig } from '@/lib/locale';
 
+const BLOG_DESCRIPTION =
+  'Practical guides on AI search readiness, AEO, LLMs.txt, AI crawler access, schema, and getting pages ready for ChatGPT, Perplexity, and AI-assisted search.';
+
 export const Route = createFileRoute('/blog/')({
   validateSearch: (search: Record<string, unknown>) => ({
     page:
@@ -29,7 +32,7 @@ export const Route = createFileRoute('/blog/')({
     const pageSuffix = currentPage > 1 ? ` - Page ${currentPage}` : '';
     const metadata = seo(path, {
       title: `${m.blog_title()}${pageSuffix} | ${websiteConfig.metadata?.name}`,
-      description: m.blog_description(),
+      description: BLOG_DESCRIPTION,
     });
     // Pass the current locale explicitly so canonical/prev/next are stable
     // across SSR + CSR regardless of any mid-render locale swap.
@@ -58,7 +61,7 @@ export const Route = createFileRoute('/blog/')({
       '@context': 'https://schema.org',
       '@type': 'Blog',
       name: m.blog_title(),
-      description: m.blog_description(),
+      description: BLOG_DESCRIPTION,
       url: canonicalHref,
       inLanguage: localeConfig[getLocale()].hreflang,
     };
@@ -91,9 +94,7 @@ function BlogListPage() {
           <h1 className="text-3xl font-bold tracking-tight">
             {m.blog_title()}
           </h1>
-          <p className="text-muted-foreground text-lg">
-            {m.blog_description()}
-          </p>
+          <p className="text-muted-foreground text-lg">{BLOG_DESCRIPTION}</p>
         </div>
         <BlogGrid posts={posts} />
         <BlogPagination currentPage={currentPage} totalPages={totalPages} />

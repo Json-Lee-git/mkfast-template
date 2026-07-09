@@ -4,7 +4,16 @@ import Container from '@/components/layout/container';
 import { PricingTable } from '@/components/pricing/pricing-table';
 import { websiteConfig } from '@/config/website';
 import { useCurrentPlan } from '@/hooks/use-payment';
+import {
+  faqSchema,
+  itemListSchema,
+  jsonLd,
+  organizationSchema,
+  softwareApplicationSchema,
+  websiteSchema,
+} from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
+import { getCanonicalUrl } from '@/lib/urls';
 import { createFileRoute } from '@tanstack/react-router';
 import {
   IconArrowRight,
@@ -21,12 +30,75 @@ export const Route = createFileRoute('/(pages)/pricing')({
     intent: typeof search.intent === 'string' ? search.intent : '',
     url: typeof search.url === 'string' ? search.url : '',
   }),
-  head: () =>
-    seo('/pricing', {
+  head: () => {
+    const pageSeo = seo('/pricing', {
       title: `Pricing - AI Search Readiness Workflow | ${websiteConfig.metadata?.name}`,
       description:
         'Start with a free page audit, unlock a $19 Fix Pack, monitor important pages for $29/mo, or request a $99 manual review.',
-    }),
+    });
+
+    return {
+      ...pageSeo,
+      scripts: [
+        jsonLd(websiteSchema()),
+        jsonLd(organizationSchema()),
+        jsonLd(
+          softwareApplicationSchema({
+            name: 'AEOCheck AI Search Readiness Workflow',
+            websiteUrl: getCanonicalUrl('/pricing'),
+            longDescription:
+              'AEOCheck helps teams scan one URL for AI search readiness, buy a one-time Fix Pack, request managed monitoring after publishing, or upgrade to a manual audit for human review.',
+            startingPrice: '$0',
+            keyFeatures: [
+              'Free one URL AI search readiness scan',
+              '$19 one-time Fix Pack',
+              '$29/mo managed Monitor request path',
+              '$99 Manual Audit for human review',
+            ],
+          })
+        ),
+        jsonLd(
+          itemListSchema('/pricing', [
+            {
+              name: 'Free Scan',
+              url: getCanonicalUrl('/tools/aeo-checker'),
+              description: 'One free URL audit before editing a page.',
+            },
+            {
+              name: '$19 Fix Pack',
+              url: getCanonicalUrl('/sample-aeo-report'),
+              description:
+                'One-time copy-ready repair assets for one scanned page.',
+            },
+            {
+              name: '$29/mo Monitor',
+              url: getCanonicalUrl('/contact?intent=monitor'),
+              description:
+                'Managed monitoring request path for important URLs after publishing.',
+            },
+            {
+              name: '$99 Manual Audit',
+              url: getCanonicalUrl('/ai-search-audit'),
+              description:
+                'Human review for a high-value page, without ranking promises.',
+            },
+          ])
+        ),
+        jsonLd(
+          faqSchema([
+            {
+              q: 'What is the difference between Fix Pack and Monitor?',
+              a: 'Fix Pack is a one-time repair package for one page. Monitor is for recurring checks after the fixes are published so crawler access, schema, LLMs.txt, and answer-ready content do not silently regress.',
+            },
+            {
+              q: 'Does Manual Audit guarantee rankings or citations?',
+              a: 'No. Manual Audit adds human judgment, competitor notes, and priority tradeoffs. It does not guarantee rankings, citations, traffic, or AI Overview inclusion.',
+            },
+          ])
+        ),
+      ],
+    };
+  },
   component: PricingPage,
 });
 
@@ -41,6 +113,8 @@ const tiers = [
     highlight: false,
     badge: '',
     features: [
+      'One URL audit',
+      'No signup for first scan',
       'Technical AEO score (0-100)',
       'Crawl access check',
       'LLMs.txt and AI crawler check',
@@ -85,11 +159,14 @@ const tiers = [
     features: [
       'Monitor one site',
       'Track important URLs',
+      'Monthly or scheduled rescans',
       'Managed recurring readiness re-check',
       'Meaningful regression email summary',
       'Robots and AI crawler access review',
       'LLMs.txt missing or broken review',
       'Schema disappearance review',
+      'Answer-readiness regression review',
+      'Best for pages that should not silently break',
       'Monitored manually during MVP',
     ],
   },
@@ -105,12 +182,14 @@ const tiers = [
     features: [
       'Everything in Fix Pack',
       'Human review of one page',
+      'Priority tradeoffs',
       'Entity strategy assessment',
       'Trust architecture review',
       'Competitive positioning notes',
       'Written audit summary',
       'Priority implementation roadmap',
       'One revision round',
+      'No ranking or citation guarantee',
     ],
   },
 ];
@@ -266,7 +345,8 @@ function PricingPage() {
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               Start with a free scan, unlock the $19 Fix Pack when you need
               copy-ready repair assets, then monitor important pages monthly.
-              Use manual audit for high-stakes pages.
+              Use manual audit for high-stakes pages that need human judgment,
+              not ranking promises.
             </p>
           </div>
         </Container>

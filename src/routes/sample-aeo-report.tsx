@@ -99,6 +99,12 @@ const signalRows = [
     action: 'Publish LLMs.txt with key page summaries',
   },
   {
+    signal: 'LLMs-full.txt present',
+    status: 'fail',
+    evidence: 'No long-form /llms-full.txt file found',
+    action: 'Publish LLMs-full.txt when detailed source coverage is useful',
+  },
+  {
     signal: 'GPTBot allowed',
     status: 'pass',
     evidence: 'Not blocked in robots.txt',
@@ -667,10 +673,9 @@ function SampleAeoReportPage() {
                   After the Fix Pack
                 </h3>
                 <p className="mt-2 text-xs leading-5 text-emerald-100/80">
-                  After the one-time repair, important pages should be monitored
-                  for crawler access, structured data, LLMs.txt, and
-                  answer-readiness changes that can happen after launches, CMS
-                  edits, or template updates.
+                  After these fixes are published, monitor this URL for silent
+                  regressions in crawler access, schema, LLMs.txt, and
+                  answer-ready content.
                 </p>
               </div>
             </div>
@@ -705,7 +710,7 @@ function SampleAeoReportPage() {
                 )}`}
                 className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-300 transition hover:border-zinc-600 hover:bg-zinc-800 active:scale-[0.98]"
               >
-                Monitor options
+                Monitor this URL
               </a>
             </div>
             <p className="mt-4 text-xs text-zinc-500">

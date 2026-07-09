@@ -11,6 +11,26 @@ console.log("[server-entry]: using custom server entry in 'src/server.ts'");
 
 const CANONICAL_HOST = 'aeocheck.xyz';
 const WWW_HOST = `www.${CANONICAL_HOST}`;
+const SECURITY_HEADERS = {
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+};
+
+function withSecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers);
+  for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+    headers.set(key, value);
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
 
 function getCanonicalRedirect(request: Request): Response | null {
   const url = new URL(request.url);
@@ -36,16 +56,17 @@ function getCanonicalRedirect(request: Request): Response | null {
 }
 
 export default {
-  fetch(request: Request) {
+  async fetch(request: Request) {
     const canonicalRedirect = getCanonicalRedirect(request);
-    if (canonicalRedirect) return canonicalRedirect;
+    if (canonicalRedirect) return withSecurityHeaders(canonicalRedirect);
 
-    return localeMiddleware(request, () =>
+    const response = await localeMiddleware(request, () =>
       handler.fetch(request, {
         context: {
           fromFetch: true,
         },
       })
     );
+    return withSecurityHeaders(response);
   },
 };

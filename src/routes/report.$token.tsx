@@ -221,6 +221,56 @@ function ReportPage() {
   // ---------- Active report ----------
   const r = report.result!;
   const hostname = new URL(r.normalizedUrl).hostname;
+  const fixPackContents = [
+    'Score summary',
+    'Priority repair order',
+    'Crawlability review',
+    'AI crawler access review',
+    'LLMs.txt and LLMs-full.txt plan',
+    'Schema and entity clarity checks',
+    'Answer-ready content suggestions',
+    'Trust signals review',
+    'Evidence log',
+  ];
+  const evidenceRows = [
+    {
+      label: 'Crawlability',
+      value: r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'Unknown',
+    },
+    {
+      label: 'AI crawler access',
+      value: r.aiFiles.robotsTxt.exists
+        ? `${r.aiFiles.robotsTxt.crawlers.length} user agents checked`
+        : 'Robots.txt not found',
+    },
+    {
+      label: 'LLMs.txt / LLMs-full.txt',
+      value: `${r.aiFiles.llmsTxt.exists ? 'LLMs.txt found' : 'LLMs.txt missing'}, ${
+        r.aiFiles.llmsFullTxt.exists
+          ? 'LLMs-full.txt found'
+          : 'LLMs-full.txt missing'
+      }`,
+    },
+    {
+      label: 'Schema / entity clarity',
+      value:
+        r.structuredData.schemaTypes.length > 0
+          ? r.structuredData.schemaTypes.join(', ')
+          : 'No JSON-LD schema detected',
+    },
+    {
+      label: 'Answer-ready content',
+      value: r.answerReadyContent.hasShortAnswerParagraphs
+        ? 'Short answer paragraphs found'
+        : 'Short answer paragraphs need work',
+    },
+    {
+      label: 'Trust signals',
+      value: r.trustSignals.hasContactLink
+        ? 'Contact signal found'
+        : 'Contact signal missing',
+    },
+  ];
 
   const handlePrint = () => {
     window.print();
@@ -359,6 +409,25 @@ function ReportPage() {
               />
             </div>
           </div>
+
+          <Card title="Fix Pack Contents" status="neutral">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {fixPackContents.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm dark:border-zinc-800 dark:bg-zinc-900/50"
+                >
+                  <IconCheck
+                    size={15}
+                    className="mt-0.5 shrink-0 text-emerald-500"
+                  />
+                  <span className="text-gray-700 dark:text-zinc-300">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Card>
 
           {/* AI Analysis - the core value of the paid report */}
           {r.aiAnalysis && (
@@ -838,6 +907,38 @@ function ReportPage() {
             )}
           </Card>
 
+          <Card title="Evidence Log" status="neutral">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-zinc-800">
+                    <th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">
+                      Signal
+                    </th>
+                    <th className="py-2 text-left font-medium text-gray-500 dark:text-zinc-400">
+                      Evidence
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {evidenceRows.map((row) => (
+                    <tr
+                      key={row.label}
+                      className="border-b border-gray-100 dark:border-zinc-800/50"
+                    >
+                      <td className="py-2.5 font-medium text-gray-700 dark:text-zinc-300">
+                        {row.label}
+                      </td>
+                      <td className="py-2.5 text-gray-500 dark:text-zinc-400">
+                        {row.value}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+
           {/* Prioritized Fixes (shown when AI analysis is unavailable) */}
           {!r.aiAnalysis && r.recommendations.length > 0 && (
             <Card title="Prioritized Fixes" status="neutral">
@@ -1000,8 +1101,9 @@ function ReportPage() {
               Keep important pages from silently losing readiness
             </h2>
             <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
-              Monitor this page after the Fix Pack so crawler access, schema,
-              LLMs.txt, and answer-readiness changes do not slip by unnoticed.
+              After these fixes are published, monitor this URL for silent
+              regressions in crawler access, schema, LLMs.txt, and answer-ready
+              content.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <a
@@ -1010,7 +1112,7 @@ function ReportPage() {
                 )}`}
                 className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] dark:bg-blue-500 dark:hover:bg-blue-400"
               >
-                Keep this page monitored
+                Monitor this URL
               </a>
               <a
                 href="/tools/aeo-checker"
@@ -1701,6 +1803,56 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     '2. Publish or update the answer-ready content blocks suggested above.',
     '3. Add the JSON-LD and LLMs.txt files, then request recrawls in search tools.',
     '4. Track whether brand, product, and problem queries return clearer snippets or AI answers.',
+    ''
+  );
+
+  lines.push(
+    '## Evidence Log',
+    '',
+    `- Crawlability: ${r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'Unknown'}`,
+    `- AI crawler access: ${
+      r.aiFiles.robotsTxt.exists
+        ? `${r.aiFiles.robotsTxt.crawlers.length} user agents checked`
+        : 'Robots.txt not found'
+    }`,
+    `- LLMs.txt / LLMs-full.txt: ${
+      r.aiFiles.llmsTxt.exists ? 'LLMs.txt found' : 'LLMs.txt missing'
+    }, ${
+      r.aiFiles.llmsFullTxt.exists
+        ? 'LLMs-full.txt found'
+        : 'LLMs-full.txt missing'
+    }`,
+    `- Schema / entity clarity: ${
+      r.structuredData.schemaTypes.length > 0
+        ? r.structuredData.schemaTypes.join(', ')
+        : 'No JSON-LD schema detected'
+    }`,
+    `- Answer-ready content: ${
+      r.answerReadyContent.hasShortAnswerParagraphs
+        ? 'Short answer paragraphs found'
+        : 'Short answer paragraphs need work'
+    }`,
+    `- Trust signals: ${
+      r.trustSignals.hasContactLink
+        ? 'Contact signal found'
+        : 'Contact signal missing'
+    }`,
+    '',
+    '## Fix Pack Contents',
+    '',
+    '- Score summary',
+    '- Priority repair order',
+    '- Crawlability review',
+    '- AI crawler access review',
+    '- LLMs.txt and LLMs-full.txt plan',
+    '- Schema and entity clarity checks',
+    '- Answer-ready content suggestions',
+    '- Trust signals review',
+    '- Evidence log',
+    '',
+    '## Monitor Next Step',
+    '',
+    'After these fixes are published, monitor this URL for silent regressions in crawler access, schema, LLMs.txt, and answer-ready content.',
     ''
   );
 

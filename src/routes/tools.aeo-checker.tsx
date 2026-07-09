@@ -2,7 +2,9 @@ import {
   breadcrumbSchema,
   faqSchema,
   jsonLd,
+  organizationSchema,
   softwareApplicationSchema,
+  websiteSchema,
 } from '@/lib/ai-visibility-schema';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
@@ -1694,6 +1696,8 @@ export const Route = createFileRoute('/tools/aeo-checker')({
         'Audit one landing, product, or comparison page before editing it for AI answers. Check crawl access, schema, LLMs.txt, answer blocks, and trust gaps.',
     }),
     scripts: [
+      jsonLd(websiteSchema()),
+      jsonLd(organizationSchema()),
       jsonLd(
         softwareApplicationSchema({
           name: 'AEO Checker',
