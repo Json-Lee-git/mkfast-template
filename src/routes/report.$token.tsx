@@ -996,29 +996,29 @@ function ReportPage() {
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12 print:hidden">
         <Container>
           <div className="mx-auto max-w-xl text-center">
-            <p className="text-sm text-gray-500 dark:text-zinc-400">
-              Run a new audit:{' '}
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-zinc-100">
+              Keep important pages from silently losing readiness
+            </h2>
+            <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
+              Monitor this page after the Fix Pack so crawler access, schema,
+              LLMs.txt, and answer-readiness changes do not slip by unnoticed.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <a
+                href={`/pricing?intent=monitor&url=${encodeURIComponent(
+                  r.normalizedUrl
+                )}`}
+                className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] dark:bg-blue-500 dark:hover:bg-blue-400"
+              >
+                Keep this page monitored
+              </a>
               <a
                 href="/tools/aeo-checker"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
+                className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 active:scale-[0.98] dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
               >
-                AEO Checker
+                Run a new scan
               </a>
-              {' | '}
-              <a
-                href="/tools/llms-txt-checker"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                LLMs.txt Checker
-              </a>
-              {' | '}
-              <a
-                href="/tools/llms-txt-generator"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                LLMs.txt Generator
-              </a>
-            </p>
+            </div>
           </div>
         </Container>
       </section>

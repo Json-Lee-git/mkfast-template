@@ -7,20 +7,21 @@ import { useCurrentPlan } from '@/hooks/use-payment';
 import { seo } from '@/lib/seo';
 import { createFileRoute } from '@tanstack/react-router';
 import {
-  IconCheck,
   IconArrowRight,
-  IconSearch,
+  IconChartBar,
+  IconCheck,
   IconFileText,
-  IconUserCheck,
+  IconSearch,
   IconStar,
+  IconUserCheck,
 } from '@tabler/icons-react';
 
 export const Route = createFileRoute('/(pages)/pricing')({
   head: () =>
     seo('/pricing', {
-      title: `Pricing — AI Search Readiness Tools | ${websiteConfig.metadata?.name}`,
+      title: `Pricing - AI Search Readiness Workflow | ${websiteConfig.metadata?.name}`,
       description:
-        'Free page audit, $19 Fix Pack with implementation handoff, or $99 manual human review for one important page.',
+        'Start with a free page audit, unlock a $19 Fix Pack, monitor important pages for $29/mo, or request a $99 manual review.',
     }),
   component: PricingPage,
 });
@@ -30,15 +31,15 @@ const tiers = [
     name: 'Free Scan',
     price: '$0',
     period: '',
-    description:
-      'Audit one important page before you edit it. Get your score, find gaps, and see which issues matter first.',
-    cta: 'Run free page audit',
+    description: 'Find out what is broken before you edit the page.',
+    cta: 'Run free scan',
     href: '/tools/aeo-checker',
     highlight: false,
+    badge: '',
     features: [
       'Technical AEO score (0-100)',
       'Crawl access check',
-      'LLMs.txt & AI crawler check',
+      'LLMs.txt and AI crawler check',
       'Structured data validation',
       'Answer-ready content analysis',
       'Entity clarity check',
@@ -51,11 +52,11 @@ const tiers = [
     name: 'Fix Pack',
     price: '$19',
     period: 'one-time',
-    description:
-      'Turn the free diagnosis into copy-ready repair assets. Schema, LLMs.txt, content blocks, and a prioritized implementation handoff.',
-    cta: 'Start with a free scan',
+    description: 'Turn the scan into copy-ready repair assets.',
+    cta: 'Unlock Fix Pack',
     href: '/tools/aeo-checker',
-    highlight: true,
+    highlight: false,
+    badge: '',
     features: [
       'Everything in Free Scan',
       'Full prioritized issue list',
@@ -65,18 +66,38 @@ const tiers = [
       'LLMs.txt improvement plan',
       'Implementation handoff',
       'Downloadable fix pack',
-      'No subscription, one-time purchase',
+      'Entry point before monthly monitoring',
+    ],
+  },
+  {
+    name: 'Monitor',
+    price: '$29',
+    period: '/mo',
+    description: 'Keep important pages from silently losing AI readiness.',
+    cta: 'Monitor this site',
+    href: '/tools/aeo-checker?intent=monitor',
+    highlight: true,
+    badge: 'Best after publishing',
+    features: [
+      'Monitor one site',
+      'Track important URLs',
+      'Recurring readiness re-scan',
+      'Score change alerts',
+      'Robots and AI crawler access alerts',
+      'LLMs.txt missing or broken alerts',
+      'Schema disappearance alerts',
+      'New critical issue summary',
     ],
   },
   {
     name: 'Manual Audit',
     price: '$99',
     period: 'one-time',
-    description:
-      'Human review for one important page. Deeper judgment on entity strategy, trust architecture, and competitive AI visibility positioning.',
+    description: 'Human review for high-stakes pages.',
     cta: 'Request manual audit',
     href: '/ai-search-audit',
     highlight: false,
+    badge: '',
     features: [
       'Everything in Fix Pack',
       'Human review of one page',
@@ -95,102 +116,126 @@ const comparisonRows = [
     feature: 'Page audit',
     free: '1 page',
     fix: '1 page',
+    monitor: 'Important URLs',
     manual: '1 page',
   },
   {
     feature: 'Technical AEO score',
     free: 'Yes',
     fix: 'Yes',
+    monitor: 'Recurring',
     manual: 'Yes',
   },
   {
-    feature: 'Crawl & AI file checks',
+    feature: 'Crawl and AI file checks',
     free: 'Yes',
     fix: 'Yes',
+    monitor: 'Alerts',
     manual: 'Yes',
   },
   {
     feature: 'Structured data validation',
     free: 'Yes',
     fix: 'Yes',
+    monitor: 'Alerts',
     manual: 'Yes',
   },
   {
     feature: 'Content structure analysis',
     free: 'Yes',
     fix: 'Yes',
+    monitor: 'Alerts',
     manual: 'Yes',
   },
   {
     feature: 'Top issues summary',
     free: '3 issues',
     fix: 'Full list, prioritized',
+    monitor: 'New critical issues',
     manual: 'Full list, prioritized',
   },
   {
     feature: 'Markdown export',
     free: 'Free summary',
     fix: 'Full fix pack',
+    monitor: 'Alert summary',
     manual: 'Full audit report',
   },
   {
     feature: 'Copy-ready schema',
-    free: '—',
+    free: 'No',
     fix: 'Yes',
+    monitor: 'Schema change alerts',
     manual: 'Yes',
   },
   {
     feature: 'Answer-ready content blocks',
-    free: '—',
+    free: 'No',
     fix: 'Yes',
+    monitor: 'Structure alerts',
     manual: 'Yes',
   },
   {
     feature: 'Query fan-out gaps',
-    free: '—',
+    free: 'No',
     fix: 'Yes',
+    monitor: 'No',
     manual: 'Yes',
   },
   {
     feature: 'LLMs.txt plan',
-    free: '—',
+    free: 'No',
     fix: 'Yes',
+    monitor: 'Broken file alerts',
     manual: 'Yes',
   },
   {
     feature: 'Implementation handoff',
-    free: '—',
+    free: 'No',
     fix: 'Yes',
+    monitor: 'No',
     manual: 'Yes',
   },
   {
+    feature: 'Ongoing re-scan',
+    free: 'No',
+    fix: 'No',
+    monitor: 'Yes',
+    manual: 'No',
+  },
+  {
     feature: 'Human review',
-    free: '—',
-    fix: '—',
+    free: 'No',
+    fix: 'No',
+    monitor: 'No',
     manual: 'Yes',
   },
   {
     feature: 'Entity strategy notes',
-    free: '—',
-    fix: '—',
+    free: 'No',
+    fix: 'No',
+    monitor: 'No',
     manual: 'Yes',
   },
   {
     feature: 'Competitive positioning',
-    free: '—',
-    fix: '—',
+    free: 'No',
+    fix: 'No',
+    monitor: 'No',
     manual: 'Yes',
   },
   {
     feature: 'Revision round',
-    free: '—',
-    fix: '—',
+    free: 'No',
+    fix: 'No',
+    monitor: 'No',
     manual: '1 round',
   },
   {
     feature: 'Subscription',
     free: 'No',
     fix: 'No, one-time',
+    monitor: 'Yes',
     manual: 'No, one-time',
   },
 ];
@@ -203,25 +248,24 @@ function PricingPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero */}
       <section className="border-b border-border/50 py-16 lg:py-24">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              One free scan. One repair plan. One manual review.
+              Audit once. Fix the page. Keep AI visibility monitored.
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Audit one page free. If you need copy-ready fixes, unlock the $19
-              Fix Pack. If you need human judgment, request a $99 manual audit.
+              Start with a free scan, unlock the $19 Fix Pack when you need
+              copy-ready repair assets, then monitor important pages monthly.
+              Use manual audit for high-stakes pages.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* Tier cards */}
       <section className="py-16">
         <Container>
-          <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-3">
+          <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2 xl:grid-cols-4">
             {tiers.map((tier) => (
               <div
                 key={tier.name}
@@ -234,7 +278,7 @@ function PricingPage() {
                 {tier.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-                      <IconStar size={12} /> Recommended
+                      <IconStar size={12} /> {tier.badge || 'Recommended'}
                     </span>
                   </div>
                 )}
@@ -271,7 +315,7 @@ function PricingPage() {
                   <IconArrowRight size={15} />
                 </a>
 
-                <ul className="mt-7 space-y-3 flex-1">
+                <ul className="mt-7 flex-1 space-y-3">
                   {tier.features.map((feature) => (
                     <li
                       key={feature}
@@ -291,10 +335,9 @@ function PricingPage() {
         </Container>
       </section>
 
-      {/* Compare table */}
       <section className="border-t border-border/50 py-16">
         <Container>
-          <div className="mx-auto max-w-4xl">
+          <div className="mx-auto max-w-5xl">
             <h2 className="text-center text-2xl font-bold text-foreground">
               Compare plans
             </h2>
@@ -310,6 +353,9 @@ function PricingPage() {
                     </th>
                     <th className="py-3 text-center font-medium text-primary">
                       Fix Pack
+                    </th>
+                    <th className="py-3 text-center font-medium text-primary">
+                      Monitor
                     </th>
                     <th className="py-3 text-center font-medium text-muted-foreground">
                       Manual Audit
@@ -331,6 +377,9 @@ function PricingPage() {
                       <td className="py-2.5 text-center font-medium text-primary">
                         {row.fix}
                       </td>
+                      <td className="py-2.5 text-center font-medium text-primary">
+                        {row.monitor}
+                      </td>
                       <td className="py-2.5 text-center text-muted-foreground">
                         {row.manual}
                       </td>
@@ -343,11 +392,10 @@ function PricingPage() {
         </Container>
       </section>
 
-      {/* Trust notes */}
       <section className="border-t border-border/50 py-16">
         <Container>
-          <div className="mx-auto max-w-2xl">
-            <div className="grid gap-4 sm:grid-cols-3">
+          <div className="mx-auto max-w-4xl">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 {
                   icon: IconSearch,
@@ -356,13 +404,18 @@ function PricingPage() {
                 },
                 {
                   icon: IconFileText,
-                  title: 'One-time purchase',
-                  desc: 'No subscriptions. Pay once for the Fix Pack or manual audit.',
+                  title: 'Fix once',
+                  desc: 'Pay once for copy-ready assets before your team edits the page.',
+                },
+                {
+                  icon: IconChartBar,
+                  title: 'Monitor monthly',
+                  desc: 'Use recurring checks for pages that should not silently lose readiness.',
                 },
                 {
                   icon: IconUserCheck,
                   title: 'No ranking guarantees',
-                  desc: 'We audit readiness signals, not rankings. Honest about what we measure.',
+                  desc: 'We do not guarantee citations. We help you catch the technical and content signals that make AI answers more likely to understand, extract, and trust your page.',
                 },
               ].map((item) => (
                 <div
@@ -386,30 +439,28 @@ function PricingPage() {
         </Container>
       </section>
 
-      {/* FAQ */}
       <section className="border-t border-border/50 py-16">
         <Container>
           <div className="mx-auto max-w-2xl">
             <h2 className="text-center text-2xl font-bold text-foreground">
               Frequently Asked Questions
             </h2>
-            <FaqSection className="mt-8" />
+            <FaqSection />
           </div>
         </Container>
       </section>
 
-      {/* SaaS subscription section (if enabled) */}
       {websiteConfig.payment?.enable && (
         <section className="border-t border-border/50 py-16">
           <Container>
             <div className="mx-auto max-w-6xl">
               <div className="mb-8 text-center">
                 <h2 className="text-2xl font-bold text-foreground">
-                  Power-user plans
+                  Account billing
                 </h2>
                 <p className="mt-2 text-muted-foreground">
-                  For teams and agencies that need ongoing access to all tools
-                  and reports.
+                  For teams and agencies that need ongoing access to tools,
+                  reports, and monitoring as billing is expanded.
                 </p>
               </div>
               <PricingTable

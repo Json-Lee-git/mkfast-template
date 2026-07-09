@@ -116,7 +116,7 @@ function buildFreeReportMarkdown(result: AeoAuditResult): string {
     '',
     '## Executive Summary',
     '',
-    `This free summary shows the technical AEO score, key module status, and the top ${topIssues.length} recommended fixes. It is a technical readiness estimate and does not guarantee rankings, citations, traffic, or visibility in any AI search product.`,
+    `This free summary shows the technical AEO score, key module status, and the top ${topIssues.length} recommended fixes. We do not guarantee citations. We help you catch the technical and content signals that make AI answers more likely to understand, extract, and trust your page.`,
     '',
     '## Top Issues',
     '',
@@ -195,79 +195,104 @@ const faqItems = [
   },
 ];
 
-// ---------- Dashboard Preview (shown before audit) ----------
+const auditSignals = [
+  { label: 'Crawlability', icon: IconSearch },
+  { label: 'Schema', icon: IconCode },
+  { label: 'Answer blocks', icon: IconMessageCircle },
+  { label: 'Entity clarity', icon: IconUserCheck },
+  { label: 'Trust signals', icon: IconShield },
+  { label: 'AI crawler access', icon: IconFileText },
+];
 
-const previewSidebarWidths = [78, 64, 86, 72, 82, 68];
+const workflowSteps = [
+  {
+    title: 'Run one page',
+    desc: 'Start with the URL you are about to publish, refresh, or hand to a developer.',
+  },
+  {
+    title: 'Read the blockers',
+    desc: 'Separate crawl, schema, content, entity, trust, and AI file issues.',
+  },
+  {
+    title: 'Choose the next step',
+    desc: 'Use the free summary, unlock the Fix Pack, monitor important pages after the edit, or order human review for a critical page.',
+  },
+];
+
+const heroTrustPoints = [
+  'No sign-up for the first audit',
+  'One page at a time',
+  'No ranking promises',
+];
+
+// ---------- Dashboard Preview (shown before audit) ----------
 
 function DashboardPreview() {
   return (
-    <div
-      className="mx-auto mt-12 max-w-4xl animate-fade-up delay-3"
-      aria-hidden="true"
-    >
-      <p className="mb-4 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Dashboard preview
-      </p>
-      <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm">
-        {/* Top bar */}
-        <div className="flex items-center gap-3 border-b border-border/40 px-4 py-2.5">
-          <div className="flex items-center gap-1.5 rounded-lg border border-border/50 bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground w-64">
-            <IconSearch size={12} />
-            <span>example.com/page</span>
+    <div className="rounded-lg border border-border/70 bg-background p-3 shadow-[0_24px_90px_oklch(0.28_0.04_255_/_0.18)] sm:p-4">
+      <div className="rounded-lg border border-border bg-muted/20 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">
+              Sample page audit
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              example.com/pricing
+            </p>
           </div>
-          <div className="ml-auto h-2 w-20 rounded-full bg-muted/60" />
+          <span className="rounded-lg border border-primary/30 bg-primary/10 px-2.5 py-1.5 text-xs font-medium text-primary">
+            Free scan
+          </span>
         </div>
-        {/* Sidebar + Main */}
-        <div className="flex">
-          {/* Left sidebar */}
-          <div className="hidden sm:block w-40 shrink-0 border-r border-border/40 p-3 space-y-2">
-            {previewSidebarWidths.map((width, i) => (
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-[150px_1fr]">
+          <div className="rounded-lg border border-border bg-background p-4">
+            <p className="text-xs font-medium text-muted-foreground">
+              Readiness score
+            </p>
+            <div className="mt-3 flex items-end gap-1">
+              <span className="text-5xl font-bold tracking-tight text-foreground">
+                64
+              </span>
+              <span className="pb-1 text-sm text-muted-foreground">/100</span>
+            </div>
+            <p className="mt-3 text-xs leading-5 text-muted-foreground">
+              Good foundation. Fix schema and answer extraction first.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            {auditSignals.slice(0, 4).map((signal) => (
               <div
-                key={i}
-                className="h-2 rounded bg-muted/50"
-                style={{ width: `${width}%` }}
-              />
+                key={signal.label}
+                className="rounded-lg border border-border bg-background p-3"
+              >
+                <signal.icon size={15} className="mb-3 text-muted-foreground" />
+                <p className="text-xs font-medium text-foreground">
+                  {signal.label}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {signal.label === 'Schema' ? 'Needs work' : 'Checked'}
+                </p>
+              </div>
             ))}
           </div>
-          {/* Main content */}
-          <div className="flex-1 p-4 space-y-4">
-            {/* Score card */}
-            <div className="rounded-xl border border-border/40 bg-muted/20 p-4">
-              <div className="flex items-center gap-4">
-                <div className="size-16 rounded-full border-4 border-muted/40 flex items-center justify-center">
-                  <span className="text-xl font-bold text-muted-foreground/40">
-                    --
-                  </span>
-                </div>
-                <div>
-                  <div className="h-3 w-32 rounded bg-muted/40" />
-                  <div className="mt-1.5 h-2 w-48 rounded bg-muted/30" />
-                </div>
-              </div>
-            </div>
-            {/* Module grid */}
-            <div className="grid gap-3 md:grid-cols-2">
-              {[
-                { label: 'Crawl access', icon: IconSearch },
-                { label: 'LLMs.txt', icon: IconFileText },
-                { label: 'Structured data', icon: IconCode },
-                { label: 'Answer blocks', icon: IconMessageCircle },
-                { label: 'Trust signals', icon: IconShield },
-                { label: 'Repair priority', icon: IconChartBar },
-              ].map((mod) => (
-                <div
-                  key={mod.label}
-                  className="flex items-center gap-2.5 rounded-lg border border-border/40 bg-muted/20 p-3"
-                >
-                  <mod.icon size={14} className="text-muted-foreground/40" />
-                  <span className="text-xs text-muted-foreground/60">
-                    {mod.label}
-                  </span>
-                  <div className="ml-auto h-1.5 w-12 rounded-full bg-muted/40" />
-                </div>
-              ))}
-            </div>
-          </div>
+        </div>
+
+        <div className="mt-3 hidden rounded-lg border border-border bg-background p-4 sm:block">
+          <p className="text-sm font-semibold text-foreground">Repair order</p>
+          <ol className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground">
+            {[
+              'Repair Organization and WebSite schema.',
+              'Move the direct answer above supporting detail.',
+              'Add clear author, methodology, and source signals.',
+            ].map((item) => (
+              <li key={item} className="flex gap-2">
+                <IconCheck size={15} className="mt-1 shrink-0 text-primary" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </div>
@@ -539,63 +564,88 @@ function AeoCheckerPage() {
   const r = result;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border/50">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-background to-background dark:from-blue-950/20 dark:via-background dark:to-background" />
-        <Container className="relative py-16 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="animate-fade-up text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Audit one page before AI search edits
-            </h1>
-            <p className="animate-fade-up delay-1 mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Check crawl access, schema, answer blocks, LLMs.txt, and trust
-              gaps before you spend time rewriting the page.
-            </p>
-            {/* Inline form */}
-            <form
-              onSubmit={handleSubmit}
-              className="animate-fade-up delay-2 mx-auto mt-8 max-w-xl"
-            >
-              <div className="flex gap-3">
-                <div className="relative flex-1">
-                  <IconSearch
-                    size={16}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Enter the page URL you plan to fix"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    disabled={loading}
-                    className="w-full rounded-xl border border-border bg-background pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="inline-flex items-center gap-2 rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-                >
-                  {loading ? (
-                    <>
-                      <IconLoader2 size={16} className="animate-spin" />{' '}
-                      Auditing...
-                    </>
-                  ) : (
-                    'Run free page audit'
-                  )}
-                </button>
-              </div>
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                Free result: score, module status, and top issues. $19 Fix Pack:
-                copy-ready repair assets and implementation handoff.
+      <section className="relative overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_top_right,oklch(0.93_0.08_255),transparent_34%),linear-gradient(180deg,oklch(0.99_0.004_255),oklch(0.965_0.01_255))] pt-12 pb-8 dark:bg-[radial-gradient(circle_at_top_right,oklch(0.28_0.08_255),transparent_34%),linear-gradient(180deg,oklch(0.145_0.012_255),oklch(0.115_0.01_255))] sm:pt-20 sm:pb-12 lg:pt-24 lg:pb-16">
+        <Container className="px-4">
+          <div className="grid gap-7 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div className="max-w-3xl">
+              <p className="text-sm font-semibold text-primary">
+                Free AEO page audit
               </p>
-            </form>
-          </div>
+              <h1 className="mt-5 max-w-3xl text-3xl font-bold leading-[1.06] tracking-tight text-foreground text-balance sm:text-5xl lg:text-6xl">
+                Audit one page before AI search edits
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
+                Check crawl access, schema, answer blocks, LLMs.txt, entity
+                clarity, and trust gaps before you rewrite the page.
+              </p>
 
-          {/* Dashboard preview (before audit) */}
-          {!r && !loading && <DashboardPreview />}
+              <form
+                onSubmit={handleSubmit}
+                className="mt-8 max-w-xl rounded-lg border border-border/70 bg-background/90 p-3 shadow-[0_18px_60px_oklch(0.32_0.04_255_/_0.12)] backdrop-blur"
+              >
+                <label
+                  htmlFor="aeo-page-url"
+                  className="mb-2 block text-sm font-medium text-foreground"
+                >
+                  Page URL
+                </label>
+                <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                  <div className="flex min-h-12 items-center gap-2 rounded-lg border border-input bg-background px-3 focus-within:border-primary/50">
+                    <IconSearch
+                      size={17}
+                      className="shrink-0 text-muted-foreground"
+                    />
+                    <input
+                      id="aeo-page-url"
+                      type="text"
+                      placeholder="example.com/pricing"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      disabled={loading}
+                      className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground disabled:opacity-50"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-foreground px-5 text-sm font-semibold text-background transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+                  >
+                    {loading ? (
+                      <>
+                        <IconLoader2 size={16} className="animate-spin" />
+                        Auditing
+                      </>
+                    ) : (
+                      <>
+                        Run audit <IconArrowRight size={16} />
+                      </>
+                    )}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  Free result: score, module status, and top issues. Fix Pack:
+                  copy-ready repair assets and implementation handoff.
+                </p>
+              </form>
+
+              <div className="mt-5 grid gap-2 text-sm text-muted-foreground sm:grid-cols-3">
+                {heroTrustPoints.map((point) => (
+                  <div key={point} className="flex items-center gap-2">
+                    <IconCheck size={15} className="shrink-0 text-primary" />
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {!r && !loading ? (
+              <div className="hidden lg:block">
+                <DashboardPreview />
+              </div>
+            ) : null}
+          </div>
         </Container>
       </section>
 
@@ -630,46 +680,80 @@ function AeoCheckerPage() {
       {/* Pre-audit info (only shown before audit) */}
       {!r && !loading && !error && (
         <>
-          <section className="py-16">
-            <Container>
-              <div className="mx-auto max-w-3xl text-center">
-                <h2 className="text-2xl font-bold text-foreground">
-                  From audit score to page repair
-                </h2>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Traditional SEO tools tell you rankings, links, and keywords.
-                  This checker focuses on the page-level structure AI answer
-                  systems need before they can understand your content: crawl
-                  access, schema, concise answers, entity clarity, trust pages,
-                  and AI-readable files.
-                </p>
-                <div className="mt-8 grid gap-3 md:grid-cols-3">
-                  {[
-                    {
-                      title: 'Before publishing',
-                      desc: 'Confirm crawlers, schema, headings, FAQs, and trust signals before the page starts competing.',
-                    },
-                    {
-                      title: 'Before refreshing',
-                      desc: 'Find whether the page gives answer engines direct answers before you rewrite it.',
-                    },
-                    {
-                      title: 'Before handing off',
-                      desc: 'Unlock the Fix Pack for copy-ready schema, content gaps, and a prioritized repair order.',
-                    },
-                  ].map((item) => (
-                    <div
-                      key={item.title}
-                      className="rounded-xl border border-border/60 bg-muted/20 p-5 text-left"
-                    >
-                      <h3 className="text-sm font-semibold text-foreground">
-                        {item.title}
+          <section className="py-16 lg:py-20">
+            <Container className="px-4">
+              <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr]">
+                <div className="max-w-xl">
+                  <h2 className="text-3xl font-bold tracking-tight text-foreground text-balance">
+                    From page scan to repair order
+                  </h2>
+                  <p className="mt-4 text-base leading-7 text-muted-foreground">
+                    Traditional SEO tools explain rankings, links, and keywords.
+                    This checker focuses on the page-level structure AI answer
+                    systems need before they can understand and extract the
+                    page.
+                  </p>
+                  <div className="mt-8 divide-y divide-border rounded-lg border border-border bg-background">
+                    {workflowSteps.map((step, index) => (
+                      <div
+                        key={step.title}
+                        className="grid gap-3 p-5 sm:grid-cols-[40px_1fr]"
+                      >
+                        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary">
+                          {index + 1}
+                        </span>
+                        <div>
+                          <h3 className="text-sm font-semibold text-foreground">
+                            {step.title}
+                          </h3>
+                          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                            {step.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-border bg-muted/20 p-4 sm:p-6">
+                  <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-semibold tracking-tight text-foreground">
+                        What the audit checks
                       </h3>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                        {item.desc}
+                      <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
+                        The scan separates technical blockers from content and
+                        trust gaps, so the next edit is easier to choose.
                       </p>
                     </div>
-                  ))}
+                    <a
+                      href="/sample-aeo-report"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+                    >
+                      Preview handoff <IconArrowRight size={14} />
+                    </a>
+                  </div>
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {auditSignals.map((signal) => (
+                      <div
+                        key={signal.label}
+                        className="rounded-lg border border-border bg-background p-4"
+                      >
+                        <signal.icon
+                          size={18}
+                          className="mb-4 text-primary"
+                          strokeWidth={1.8}
+                        />
+                        <p className="text-sm font-medium text-foreground">
+                          {signal.label}
+                        </p>
+                        <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                          Checked as a separate signal before the repair plan is
+                          generated.
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </Container>
@@ -1211,16 +1295,18 @@ function AeoCheckerPage() {
                   ) : null}
                 </div>
 
-                {/* Fix Pack CTA */}
+                {/* Fix Pack and Monitor CTA */}
                 <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
                   <h3 className="text-xl font-bold text-foreground">
-                    Turn this scan into a repair plan for $19
+                    Fix this page once, then keep it monitored
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">
                     We found {r.recommendations.length} issues on this page. The
-                    Fix Pack turns the diagnosis into prioritized edits,
+                    $19 Fix Pack turns the scan into prioritized edits,
                     copy-ready schema, LLMs.txt guidance, answer blocks, and
-                    query fan-out gaps.
+                    query fan-out gaps. Monitoring is the next step after the
+                    edit: recurring checks for crawl access, schema, LLMs.txt,
+                    and answer structure changes.
                   </p>
 
                   <div className="mt-6 overflow-x-auto">
@@ -1263,6 +1349,35 @@ function AeoCheckerPage() {
                     </table>
                   </div>
 
+                  <div className="mt-6 grid gap-3 text-left md:grid-cols-3">
+                    {[
+                      {
+                        title: 'Free Scan',
+                        desc: 'Know what is broken before editing.',
+                      },
+                      {
+                        title: 'Fix Pack',
+                        desc: 'Get copy-ready repairs your team can ship.',
+                      },
+                      {
+                        title: 'Monitor',
+                        desc: 'Catch silent readiness regressions after publishing.',
+                      },
+                    ].map((step) => (
+                      <div
+                        key={step.title}
+                        className="rounded-xl border border-primary/15 bg-background/70 p-4"
+                      >
+                        <p className="text-sm font-semibold text-foreground">
+                          {step.title}
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                          {step.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
                   <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
                     <button
                       type="button"
@@ -1276,9 +1391,22 @@ function AeoCheckerPage() {
                           Redirecting to checkout...
                         </>
                       ) : (
-                        'Get the repair plan - $19'
+                        'Unlock Fix Pack - $19'
                       )}
                     </button>
+                    <a
+                      href={`/pricing?intent=monitor&url=${encodeURIComponent(
+                        r.normalizedUrl
+                      )}`}
+                      onClick={() =>
+                        trackConversionEvent('aeo_monitor_cta_clicked', {
+                          url: r.normalizedUrl,
+                        })
+                      }
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-background px-5 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/10 active:scale-[0.98]"
+                    >
+                      Monitor this page - $29/mo
+                    </a>
                     <a
                       href="/ai-search-audit"
                       onClick={() =>
@@ -1472,10 +1600,10 @@ function AeoCheckerPage() {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm text-muted-foreground">
-              This AEO Checker provides a technical readiness audit. It does not
-              guarantee rankings or citations, traffic, or visibility in
-              ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews, or other
-              answer engines.
+              We do not guarantee citations. We help you catch the technical and
+              content signals that make AI answers more likely to understand,
+              extract, and trust your page. This AEO Checker provides a
+              technical readiness audit, not ranking or visibility guarantees.
             </p>
           </div>
         </Container>
@@ -1580,6 +1708,7 @@ export const Route = createFileRoute('/tools/aeo-checker')({
             'Answer-ready content analysis',
             'Prioritized repair recommendations',
             '$19 Fix Pack with implementation handoff',
+            '$29/mo monitoring path for important pages',
           ],
         })
       ),
@@ -1591,7 +1720,7 @@ export const Route = createFileRoute('/tools/aeo-checker')({
           },
           {
             q: 'Is the AEO Checker really free?',
-            a: 'Yes. One page audit is free. If you want copy-ready schema, answer blocks, LLMs.txt guidance, and an implementation handoff, a $19 Fix Pack is available. For human judgment on one important page, a $99 manual audit option exists.',
+            a: 'Yes. One page audit is free. If you want copy-ready schema, answer blocks, LLMs.txt guidance, and an implementation handoff, a $19 Fix Pack is available. Important pages can move to the $29/mo monitoring path, and a $99 manual audit option exists for human judgment on one important page.',
           },
           {
             q: 'Does AEO guarantee AI search visibility?',
