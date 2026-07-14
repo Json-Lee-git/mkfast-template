@@ -71,6 +71,12 @@ jobs:
           echo "PUBLIC_SITE_URL=${PUBLIC_SITE_URL}"
           echo "PUBLIC_SITE_URL validation passed."
 
+      - name: Check
+        run: pnpm check
+
+      - name: Test
+        run: pnpm test
+
       - name: Build
         env:
           PUBLIC_SITE_URL: ${{ secrets.PUBLIC_SITE_URL }}

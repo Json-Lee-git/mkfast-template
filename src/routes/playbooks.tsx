@@ -7,6 +7,7 @@ import {
   jsonLd,
 } from '@/lib/ai-visibility-schema';
 import { trackConversionEvent } from '@/lib/conversion-events';
+import type { ConversionEventName } from '@/lib/conversion-event-names';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
 import {
@@ -138,7 +139,13 @@ const conversionPaths = [
     label: 'Order human audit',
     event: 'playbooks_manual_audit_clicked',
   },
-];
+] satisfies Array<{
+  title: string;
+  description: string;
+  href: string;
+  label: string;
+  event: ConversionEventName;
+}>;
 
 const workflowSteps = [
   {

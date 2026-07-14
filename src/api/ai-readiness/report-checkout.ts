@@ -5,15 +5,18 @@ import { getDb } from '@/db';
 import { reportTokens } from '@/db/app.schema';
 import { getBaseUrl } from '@/lib/urls';
 import { nanoid } from 'nanoid';
-import { eq } from 'drizzle-orm';
+import { eq, and, desc } from 'drizzle-orm';
+import { enforceRateLimit } from '@/lib/rate-limit';
+import { trackServerConversionEvent } from '@/lib/conversion-events-server';
 import type { AeoActionPriority, AeoAuditResult } from './aeo';
 import { AI_ANALYSIS_PROMPT } from './aeo';
 import { runAi, parseAiJson } from './ai';
+import { normalizeEmail, normalizeWebsiteUrl } from './report-url';
 
 const checkoutInputSchema = z.object({
   resultJson: z.string().min(1),
   websiteUrl: z.string().min(1),
-  email: z.string().email().optional(),
+  email: z.string().email().min(1).optional(),
 });
 
 /**
@@ -124,14 +127,16 @@ export const createReportCheckout = createServerFn({ method: 'POST' })
     }
 
     // Store report data with pending token
+    const normalizedEmail = data.email ? normalizeEmail(data.email) : null;
+    const normalizedUrl = normalizeWebsiteUrl(data.websiteUrl);
     const db = getDb();
     await db.insert(reportTokens).values({
       id: crypto.randomUUID(),
       token,
       status: 'pending',
       resultJson,
-      email: data.email ?? null,
-      websiteUrl: data.websiteUrl,
+      email: normalizedEmail,
+      websiteUrl: normalizedUrl,
       createdAt: now,
     });
 
@@ -147,11 +152,11 @@ export const createReportCheckout = createServerFn({ method: 'POST' })
       request_id: crypto.randomUUID(),
       metadata: {
         reportToken: token,
-        websiteUrl: data.websiteUrl,
+        websiteUrl: normalizedUrl,
       },
     };
-    if (data.email) {
-      body.customer = { email: data.email };
+    if (normalizedEmail) {
+      body.customer = { email: normalizedEmail };
     }
 
     const res = await fetch(`${apiBase}/v1/checkouts`, {
@@ -164,12 +169,21 @@ export const createReportCheckout = createServerFn({ method: 'POST' })
     });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error('[checkout] Creem API error:', res.status, errorText);
+      console.error('[checkout] Creem API error:', res.status);
+      await trackServerConversionEvent('checkout_failed', {
+        status: res.status,
+        websiteHost: new URL(normalizedUrl).hostname,
+      });
       throw new Error(`Payment service error (${res.status})`);
     }
 
     const checkout = (await res.json()) as { checkout_url: string };
+
+    await trackServerConversionEvent('checkout_created', {
+      websiteHost: new URL(normalizedUrl).hostname,
+      emailDomain: normalizedEmail?.split('@')[1] ?? null,
+    });
+
     return {
       url: checkout.checkout_url ?? '',
     };
@@ -214,5 +228,91 @@ export const getReportByToken = createServerFn({ method: 'GET' })
       createdAt: row.createdAt.toISOString(),
       activatedAt: row.activatedAt?.toISOString() ?? null,
       result: row.status === 'active' ? JSON.parse(row.resultJson) : null,
+    };
+  });
+
+const resendInputSchema = z.object({
+  email: z.string().email().min(1),
+  websiteUrl: z.string().min(1),
+});
+
+/**
+ * Look up an active report by email + websiteUrl and resend the link.
+ * Always returns the same neutral message to avoid leaking whether an
+ * email address has a purchase.
+ */
+export const resendReportLink = createServerFn({ method: 'POST' })
+  .inputValidator(resendInputSchema)
+  .handler(async ({ data }) => {
+    await enforceRateLimit('reportResend');
+
+    const normalizedEmail = normalizeEmail(data.email);
+
+    // Normalize websiteUrl for matching; if the user typed something
+    // invalid, treat it as not-found rather than throwing.
+    let normalizedUrl: string;
+    try {
+      normalizedUrl = normalizeWebsiteUrl(data.websiteUrl);
+    } catch {
+      return {
+        message:
+          "If a matching report exists, we'll email the link. If you don't see it, contact support@aeocheck.xyz.",
+      };
+    }
+
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(reportTokens)
+      .where(
+        and(
+          eq(reportTokens.email, normalizedEmail),
+          eq(reportTokens.websiteUrl, normalizedUrl),
+          eq(reportTokens.status, 'active')
+        )
+      )
+      .orderBy(desc(reportTokens.createdAt))
+      .limit(1);
+
+    const reportUrl =
+      rows.length > 0
+        ? `${getBaseUrl().replace(/\/$/, '')}/report/${rows[0].token}`
+        : null;
+
+    if (reportUrl) {
+      try {
+        const { sendEmail } = await import('@/mail');
+        await sendEmail({
+          to: normalizedEmail,
+          subject: 'Your AI Visibility Fix Pack link',
+          text: [
+            `Your AI Visibility Fix Pack for ${data.websiteUrl} is here:`,
+            '',
+            reportUrl,
+            '',
+            'If you have any questions, contact support@aeocheck.xyz.',
+          ].join('\n'),
+          html: [
+            `<p>Your AI Visibility Fix Pack for <strong>${data.websiteUrl}</strong> is here:</p>`,
+            `<p><a href="${reportUrl}">${reportUrl}</a></p>`,
+            '<p>If you have any questions, contact <a href="mailto:support@aeocheck.xyz">support@aeocheck.xyz</a>.</p>',
+          ].join('\n'),
+        });
+      } catch (err) {
+        console.error('[resendReportLink] Email send failed:', err);
+        console.log(
+          '[resendReportLink] Manual recovery info:',
+          JSON.stringify({
+            emailDomain: normalizedEmail.split('@')[1] ?? null,
+            websiteHost: new URL(normalizedUrl).hostname,
+            reportFound: true,
+          })
+        );
+      }
+    }
+
+    return {
+      message:
+        "If a matching report exists, we'll email the link. If you don't see it, contact support@aeocheck.xyz.",
     };
   });

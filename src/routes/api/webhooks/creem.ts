@@ -7,6 +7,8 @@ import { handleWebhookEvent, isPaymentEnabled } from '@/payment';
 import { getDb } from '@/db';
 import { reportTokens, webhookEvents } from '@/db/app.schema';
 import { verifyCreemWebhookSignature } from '@/lib/creem-webhook';
+import { normalizeEmail } from '@/api/ai-readiness/report-url';
+import { trackServerConversionEvent } from '@/lib/conversion-events-server';
 import { and, eq } from 'drizzle-orm';
 
 /**
@@ -49,8 +51,26 @@ export const Route = createFileRoute('/api/webhooks/creem')({
                   { status: 200 }
                 );
               }
-              await activateReportToken(String(metadata.reportToken));
+              const customerEmail = normalizeOptionalEmail(
+                raw.object?.customer?.email
+              );
+              const token = String(metadata.reportToken);
+              const activated = await activateReportToken(token, customerEmail);
+              if (!activated) {
+                throw new Error('Report token not found');
+              }
+              await sendReportConfirmationEmail(
+                token,
+                customerEmail,
+                metadata.websiteUrl
+              );
               await markCreemWebhookEventProcessed(event.eventId);
+
+              await trackServerConversionEvent('report_activated', {
+                emailDomain: customerEmail?.split('@')[1] ?? null,
+                websiteHost: optionalStringToHost(metadata.websiteUrl),
+              });
+
               return Response.json({ received: true }, { status: 200 });
             } catch (err) {
               console.error('Report checkout webhook error:', err);
@@ -149,7 +169,10 @@ type ClaimedWebhookEvent = {
   shouldProcess: boolean;
 };
 
-async function activateReportToken(token: string) {
+async function activateReportToken(
+  token: string,
+  customerEmail?: string
+): Promise<boolean> {
   const db = getDb();
   const result = await db
     .select()
@@ -158,21 +181,40 @@ async function activateReportToken(token: string) {
     .limit(1);
 
   if (result.length === 0) {
-    console.warn('Report token not found:', token);
-    return;
+    console.warn('Report token not found');
+    return false;
   }
 
-  if (result[0].status === 'active') {
-    console.log('Report token already active:', token);
-    return;
+  const row = result[0];
+
+  if (row.status === 'active') {
+    // Still backfill email if it was missing and webhook has it
+    if (!row.email && customerEmail) {
+      await db
+        .update(reportTokens)
+        .set({ email: customerEmail })
+        .where(eq(reportTokens.token, token));
+      console.log('Report token email backfilled');
+    }
+    console.log('Report token already active');
+    return true;
+  }
+
+  const updates: Record<string, unknown> = {
+    status: 'active',
+    activatedAt: new Date(),
+  };
+  if (!row.email && customerEmail) {
+    updates.email = customerEmail;
   }
 
   await db
     .update(reportTokens)
-    .set({ status: 'active', activatedAt: new Date() })
+    .set(updates)
     .where(eq(reportTokens.token, token));
 
-  console.log('Report token activated:', token);
+  console.log('Report token activated');
+  return true;
 }
 
 async function claimCreemWebhookEvent(
@@ -343,4 +385,72 @@ function optionalString(value: unknown) {
   if (typeof value !== 'string') return undefined;
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
+}
+
+function normalizeOptionalEmail(value: unknown) {
+  const email = optionalString(value);
+  return email ? normalizeEmail(email) : undefined;
+}
+
+function optionalStringToHost(value: unknown): string | null {
+  const s = optionalString(value);
+  if (!s) return null;
+  try {
+    return new URL(s).hostname;
+  } catch {
+    return null;
+  }
+}
+
+async function sendReportConfirmationEmail(
+  token: string,
+  customerEmail?: string,
+  websiteUrl?: unknown
+) {
+  const email = customerEmail;
+  if (!email) {
+    console.log('[report-email] No customer email available');
+    return;
+  }
+
+  const url = String(websiteUrl ?? 'your page');
+  const baseUrl = process.env.PUBLIC_SITE_URL ?? 'https://aeocheck.xyz';
+  const reportUrl = `${baseUrl.replace(/\/$/, '')}/report/${token}`;
+
+  try {
+    const { sendEmail } = await import('@/mail');
+    await sendEmail({
+      to: email,
+      subject: 'Your AI Visibility Fix Pack is ready',
+      text: [
+        `Your AI Visibility Fix Pack for ${url} is ready:`,
+        '',
+        reportUrl,
+        '',
+        'If you lose this link, visit /report/resend to recover it.',
+        'Questions? Contact support@aeocheck.xyz.',
+      ].join('\n'),
+      html: [
+        `<p>Your AI Visibility Fix Pack for <strong>${url}</strong> is ready:</p>`,
+        `<p><a href="${reportUrl}">${reportUrl}</a></p>`,
+        '<p>If you lose this link, visit the <a href="',
+        `${baseUrl.replace(/\/$/, '')}/report/resend`,
+        '">report recovery page</a>.</p>',
+        '<p>Questions? Contact <a href="mailto:support@aeocheck.xyz">support@aeocheck.xyz</a>.</p>',
+      ].join('\n'),
+    });
+    console.log('[report-email] Confirmation sent:', {
+      emailDomain: email.split('@')[1] ?? null,
+    });
+  } catch (err) {
+    console.error('[report-email] Failed to send confirmation:', err);
+    console.log(
+      '[report-email] Manual recovery info:',
+      JSON.stringify({
+        emailDomain: email.split('@')[1] ?? null,
+        websiteHost: optionalStringToHost(url),
+        reportReady: true,
+      })
+    );
+  }
 }

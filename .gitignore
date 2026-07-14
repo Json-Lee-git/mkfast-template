@@ -35,6 +35,7 @@ src/locale/paraglide
 
 # dev log
 dev-server.log
+tmp-dev-*.log
 
 # Windows artifacts
 nul

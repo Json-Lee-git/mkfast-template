@@ -1,10 +1,13 @@
-type ConversionPayload = Record<
-  string,
-  string | number | boolean | null | undefined
->;
+import {
+  sanitizeConversionPath,
+  sanitizeConversionPayload,
+  sanitizeConversionUrl,
+  type ConversionPayload,
+} from '@/lib/conversion-events-sanitize';
+import type { ConversionEventName } from '@/lib/conversion-event-names';
 
 type ConversionEvent = ConversionPayload & {
-  event: string;
+  event: ConversionEventName;
 };
 
 declare global {
@@ -39,14 +42,15 @@ function getSessionId(): string | undefined {
 }
 
 function sendFirstPartyEvent(eventName: string, payload: ConversionPayload) {
+  const sanitizedPayload = sanitizeConversionPayload(payload);
   const body = JSON.stringify({
     event: eventName,
-    path: window.location.pathname,
-    pageUrl: window.location.href,
-    referrer: document.referrer || undefined,
+    path: sanitizeConversionPath(window.location.pathname),
+    pageUrl: sanitizeConversionUrl(window.location.href),
+    referrer: sanitizeConversionUrl(document.referrer),
     sessionId: getSessionId(),
     variant: CONVERSION_VARIANT,
-    payload,
+    payload: sanitizedPayload,
   });
 
   try {
@@ -67,14 +71,15 @@ function sendFirstPartyEvent(eventName: string, payload: ConversionPayload) {
 }
 
 export function trackConversionEvent(
-  eventName: string,
+  eventName: ConversionEventName,
   payload: ConversionPayload = {}
 ) {
   if (typeof window === 'undefined') return;
 
+  const sanitizedPayload = sanitizeConversionPayload(payload);
   const detail: ConversionEvent = {
     event: eventName,
-    ...payload,
+    ...sanitizedPayload,
   };
 
   window.dispatchEvent(
@@ -88,9 +93,9 @@ export function trackConversionEvent(
   if (typeof window.gtag === 'function') {
     window.gtag('event', eventName, {
       event_category: 'conversion',
-      ...payload,
+      ...sanitizedPayload,
     });
   }
 
-  sendFirstPartyEvent(eventName, payload);
+  sendFirstPartyEvent(eventName, sanitizedPayload);
 }

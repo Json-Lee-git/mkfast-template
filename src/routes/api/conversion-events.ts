@@ -1,8 +1,14 @@
 import { getDb } from '@/db';
 import { conversionEvents } from '@/db/app.schema';
 import { createFileRoute } from '@tanstack/react-router';
-import { checkRateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 import { z } from 'zod';
+import { CONVERSION_EVENT_NAMES } from '@/lib/conversion-event-names';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import {
+  sanitizeConversionPath,
+  sanitizeConversionPayload,
+  sanitizeConversionUrl,
+} from '@/lib/conversion-events-sanitize';
 
 const payloadValueSchema = z.union([
   z.string(),
@@ -12,7 +18,7 @@ const payloadValueSchema = z.union([
 ]);
 
 const conversionEventSchema = z.object({
-  event: z.string().trim().min(1).max(120),
+  event: z.enum(CONVERSION_EVENT_NAMES),
   path: z.string().trim().max(500).optional(),
   pageUrl: z.string().trim().max(1000).optional(),
   referrer: z.string().trim().max(1000).optional(),
@@ -48,17 +54,18 @@ export const Route = createFileRoute('/api/conversion-events')({
         }
 
         const data = parsed.data;
+        const sanitizedPayload = sanitizeConversionPayload(data.payload);
         const payloadJson = data.payload
-          ? JSON.stringify(data.payload).slice(0, 4000)
+          ? JSON.stringify(sanitizedPayload).slice(0, 4000)
           : null;
 
         await getDb()
           .insert(conversionEvents)
           .values({
             event: data.event,
-            path: data.path ?? null,
-            pageUrl: data.pageUrl ?? null,
-            referrer: data.referrer ?? null,
+            path: sanitizeConversionPath(data.path) ?? null,
+            pageUrl: sanitizeConversionUrl(data.pageUrl) ?? null,
+            referrer: sanitizeConversionUrl(data.referrer) ?? null,
             sessionId: data.sessionId ?? null,
             variant: data.variant ?? null,
             payloadJson,

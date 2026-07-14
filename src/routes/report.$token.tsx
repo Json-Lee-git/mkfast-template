@@ -15,6 +15,7 @@ import {
   IconCopy,
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { trackConversionEvent } from '@/lib/conversion-events';
 
 // ---------- Shared helpers (mirror aeo-checker) ----------
 
@@ -63,14 +64,25 @@ function scoreColor(score: number): string {
 }
 
 function scoreLabelText(score: number): string {
-  if (score >= 80) return 'Strong technical AEO readiness';
-  if (score >= 60) return 'Good foundation with improvement opportunities';
-  if (score >= 40) return 'Partial readiness, several important gaps';
-  return 'Weak technical AEO readiness';
+  if (score >= 80) return 'Strong AI recommendation readiness';
+  if (score >= 60) return 'Good AI recommendation foundation';
+  if (score >= 40) return 'Partial AI recommendation readiness';
+  return 'Weak AI recommendation readiness';
 }
 
 function formatYesNo(value: boolean): string {
   return value ? 'Yes' : 'No';
+}
+
+const CRAWLER_RULE_PATTERN =
+  /^(GPTBot|OAI-SearchBot|OAI-AdsBot|ChatGPT-User|ClaudeBot|Claude-SearchBot|Claude-User|PerplexityBot|Perplexity-User|Google-Extended|CCBot|Applebot|Applebot-Extended|FacebookBot|meta-externalagent|meta-externalfetcher|User-agent|Allow|Disallow)\s*:/i;
+
+function sanitizeLlmsMarkdownDraft(markdown: string): string {
+  return markdown
+    .split('\n')
+    .filter((line) => !CRAWLER_RULE_PATTERN.test(line.trim()))
+    .join('\n')
+    .trim();
 }
 
 // ---------- Component ----------
@@ -129,6 +141,20 @@ function ReportPage() {
       clearInterval(timer);
     };
   }, [token]);
+
+  useEffect(() => {
+    if (report?.status !== 'active') return;
+    trackConversionEvent('report_viewed', {
+      websiteHost: (() => {
+        try {
+          return new URL(report.websiteUrl).hostname;
+        } catch {
+          return null;
+        }
+      })(),
+      status: report.status,
+    });
+  }, [report?.status, report?.websiteUrl]);
 
   // ---------- Loading ----------
   if (loading) {
@@ -219,14 +245,21 @@ function ReportPage() {
   }
 
   // ---------- Active report ----------
+
   const r = report.result!;
   const hostname = new URL(r.normalizedUrl).hostname;
+  const llmsTxtDraft = r.aiAnalysis?.customLlmsTxt
+    ? sanitizeLlmsMarkdownDraft(r.aiAnalysis.customLlmsTxt)
+    : '';
+  const llmsFullTxtDraft = r.aiAnalysis?.customLlmsFullTxt
+    ? sanitizeLlmsMarkdownDraft(r.aiAnalysis.customLlmsFullTxt)
+    : '';
   const fixPackContents = [
     'Score summary',
     'Priority repair order',
     'Crawlability review',
     'AI crawler access review',
-    'LLMs.txt and LLMs-full.txt plan',
+    '/llms.txt and /llms-full.txt guidance',
     'Schema and entity clarity checks',
     'Answer-ready content suggestions',
     'Trust signals review',
@@ -284,7 +317,7 @@ function ReportPage() {
     const href = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
-    link.download = `ai-search-readiness-fix-pack-${hostname}.md`;
+    link.download = `ai-visibility-fix-pack-${hostname}.md`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -309,7 +342,7 @@ function ReportPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-zinc-100">
-                AI Search Readiness Fix Pack
+                AI Visibility Fix Pack
               </h1>
               <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400">
                 {hostname}
@@ -340,7 +373,7 @@ function ReportPage() {
       {/* Print-only title */}
       <div className="hidden print:block p-8">
         <h1 className="text-2xl font-bold">
-          AI Search Readiness Fix Pack - {hostname}
+          AI Visibility Fix Pack - {hostname}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
           Generated {new Date(r.checkedAt).toLocaleDateString()} | Score:{' '}
@@ -350,10 +383,41 @@ function ReportPage() {
 
       <Container className="py-8">
         <div className="mx-auto max-w-4xl space-y-6">
+          {/* Email confirmation + resend link */}
+          {report.email ? (
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-center dark:border-emerald-900/30 dark:bg-emerald-950/20">
+              <p className="text-sm text-emerald-700 dark:text-emerald-400">
+                We also emailed this report link to{' '}
+                <span className="font-semibold">{report.email}</span>. If you
+                lose it,{' '}
+                <a
+                  href="/report/resend"
+                  className="font-medium text-primary hover:underline"
+                >
+                  resend the link
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-center dark:border-amber-900/30 dark:bg-amber-950/20">
+              <p className="text-sm text-amber-700 dark:text-amber-400">
+                Save this page or bookmark it. If you lose access, contact{' '}
+                <a
+                  href="mailto:support@aeocheck.xyz"
+                  className="font-medium text-primary hover:underline"
+                >
+                  support@aeocheck.xyz
+                </a>{' '}
+                with your website URL to recover your report.
+              </p>
+            </div>
+          )}
+
           {/* Score */}
           <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
             <p className="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide">
-              Technical AEO Score
+              AI Visibility Score
             </p>
             <p className={`mt-2 text-6xl font-bold ${scoreColor(r.score)}`}>
               {r.score}
@@ -477,7 +541,7 @@ function ReportPage() {
               )}
 
               {r.aiAnalysis.actionPlan.length > 0 && (
-                <Card title="Do These 3 Things First" status="warning">
+                <Card title="Fix this first" status="warning">
                   <div className="space-y-3">
                     {r.aiAnalysis.actionPlan.slice(0, 3).map((a, i) => (
                       <div
@@ -505,7 +569,7 @@ function ReportPage() {
               )}
 
               {r.aiAnalysis.actionPlan.length > 0 && (
-                <Card title="Your Action Plan" status="neutral">
+                <Card title="Copy-ready implementation plan" status="neutral">
                   <div className="space-y-4">
                     {r.aiAnalysis.actionPlan.map((a, i) => {
                       const colors: Record<string, string> = {
@@ -602,7 +666,7 @@ function ReportPage() {
 
           {/* AI Files */}
           <Card
-            title="AI Search Files & Crawler Access"
+            title="Diagnostic evidence: AI files and crawler access"
             status={r.aiFiles.llmsTxt.exists ? 'good' : 'issue'}
           >
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -939,13 +1003,13 @@ function ReportPage() {
             </div>
           </Card>
 
-          {/* Prioritized Fixes (shown when AI analysis is unavailable) */}
+          {/* Fix-first list shown when AI analysis is unavailable */}
           {!r.aiAnalysis && r.recommendations.length > 0 && (
-            <Card title="Prioritized Fixes" status="neutral">
+            <Card title="Fix this first" status="neutral">
               <div className="space-y-4">
                 <p className="text-sm text-gray-500 dark:text-zinc-400">
-                  Address these items in order to improve your technical AEO
-                  readiness score.
+                  Address these items in order to improve your readiness-based
+                  AI Visibility Score.
                 </p>
                 <ol className="space-y-3 text-sm">
                   {r.recommendations.map((rec, i) => (
@@ -987,24 +1051,25 @@ function ReportPage() {
             title="LLMs.txt Improvement Plan"
             status={r.aiFiles.llmsTxt.exists ? 'good' : 'issue'}
           >
-            {r.aiAnalysis?.customLlmsTxt ? (
+            {llmsTxtDraft ? (
               <div className="space-y-4 text-sm">
                 <p className="text-gray-500 dark:text-zinc-400">
-                  AI-generated /llms.txt tailored to your site:
+                  AI-generated /llms.txt Markdown draft. Review links and facts
+                  before publishing; crawler permissions belong in robots.txt.
                 </p>
                 <CopyableCodeBlock
-                  code={r.aiAnalysis.customLlmsTxt}
+                  code={llmsTxtDraft}
                   copiedLabel={copiedLabel}
                   label="/llms.txt"
                   onCopy={handleCopyText}
                 />
-                {r.aiAnalysis.customLlmsFullTxt && (
+                {llmsFullTxtDraft && (
                   <>
                     <p className="text-gray-500 dark:text-zinc-400 mt-4">
-                      AI-generated /llms-full.txt:
+                      AI-generated /llms-full.txt Markdown draft:
                     </p>
                     <CopyableCodeBlock
-                      code={r.aiAnalysis.customLlmsFullTxt}
+                      code={llmsFullTxtDraft}
                       copiedLabel={copiedLabel}
                       label="/llms-full.txt"
                       maxHeight
@@ -1121,6 +1186,22 @@ function ReportPage() {
                 Run a new scan
               </a>
             </div>
+            <p className="mt-6 text-xs text-gray-400 dark:text-zinc-500">
+              Lost your link?{' '}
+              <a
+                href="/report/resend"
+                className="text-blue-600 hover:underline dark:text-blue-400"
+              >
+                Resend it
+              </a>{' '}
+              or contact{' '}
+              <a
+                href="mailto:support@aeocheck.xyz"
+                className="text-blue-600 hover:underline dark:text-blue-400"
+              >
+                support@aeocheck.xyz
+              </a>
+            </p>
           </div>
         </Container>
       </section>
@@ -1260,29 +1341,34 @@ function LlmsTxtPlan({
 ## About
 - [Home](${websiteUrl}): ${description || `${brandName} official website`}
 
-## Getting Started
-- The llms.txt file helps AI systems understand your site structure.
+## Core Pages
+- Add links to your most important public pages here.
+
+## Notes for AI Systems
+- This optional file summarizes public site context.
 - Add links to your most important pages under ## Core Pages.
-- Add links to documentation or guides under ## Documentation.`;
+- Add links to documentation or guides under ## Documentation.
+- Crawler permissions are managed separately in /robots.txt.`;
 
   const llmsFullTxt = `# ${brandName} - Full Content
 
 > ${description || `${brandName}`}
 
 ## About
-This file provides expanded content to help AI systems understand
+This optional Markdown file provides expanded public context about
 your website's key information. Replace this template with actual
 content from your most important pages.
 
 Start by including your homepage content, product descriptions,
-and key documentation pages.`;
+and key documentation pages. Keep crawler allow/block rules in
+/robots.txt.`;
 
   return (
     <div className="space-y-4 text-sm">
       <p className="text-gray-500 dark:text-zinc-400">
         {!hasLlmsTxt
-          ? 'An LLMs.txt file gives AI systems a structured summary of your site. Add one at your site root.'
-          : 'Your LLMs.txt exists. Consider adding an LLMs-full.txt for deeper content coverage.'}
+          ? 'A /llms.txt file can provide optional Markdown context about your public pages. It does not control crawler access or guarantee citations.'
+          : 'Your /llms.txt exists. Consider adding /llms-full.txt for deeper public content context.'}
       </p>
 
       {!hasLlmsTxt && (
@@ -1427,7 +1513,9 @@ function SchemaRecommendations({
       <Card title="Schema Recommendations" status="neutral">
         <div className="space-y-4 text-sm">
           <p className="text-gray-500 dark:text-zinc-400">
-            AI-generated schema markup tailored to your page:
+            AI-generated schema enhancement draft. Review and merge it with
+            existing JSON-LD, and only publish verified facts visible on the
+            page. FAQPage must match visible FAQ content.
           </p>
           <CopyableCodeBlock
             code={aiSchemaJson}
@@ -1441,6 +1529,7 @@ function SchemaRecommendations({
   }
 
   const titleLower = pageTitle.toLowerCase();
+  const hasVisibleFaq = hasFaq && hasQuestionHeadings;
   const isTool =
     /\b(checker|generator|tool|audit|converter|calculator|analyzer|validator|scanner|tester)\b/i.test(
       titleLower
@@ -1515,30 +1604,6 @@ function SchemaRecommendations({
     });
   }
 
-  if (hasFaq || hasQuestionHeadings) {
-    schemas.push({
-      label: 'FAQPage',
-      json: JSON.stringify(
-        {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: 'What is this page about?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: metaDescription || `Learn more about ${brandName}.`,
-              },
-            },
-          ],
-        },
-        null,
-        2
-      ),
-    });
-  }
-
   // Always add WebSite as the last base schema
   schemas.push({
     label: 'WebSite',
@@ -1564,8 +1629,11 @@ function SchemaRecommendations({
       <div className="space-y-4 text-sm">
         <p className="text-gray-500 dark:text-zinc-400">
           {existingTypes.length === 0
-            ? 'No structured data detected. Adding JSON-LD schema helps AI systems understand your site.'
-            : `Detected schema types: ${existingTypes.join(', ')}. Below are recommendations:`}
+            ? 'No structured data detected. Use these as reviewable JSON-LD drafts, then publish only verified page facts.'
+            : `Detected schema types: ${existingTypes.join(', ')}. Review these as merge suggestions, not replacements.`}{' '}
+          {hasVisibleFaq
+            ? 'Add FAQPage only if the visible FAQ answers are copied into the schema exactly.'
+            : 'Do not add FAQPage unless visible question-and-answer content exists on the page.'}
         </p>
         {schemas.map((s) => (
           <div key={s.label}>
@@ -1589,13 +1657,22 @@ function SchemaRecommendations({
 
 function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   const ai = r.aiAnalysis;
+  const llmsTxtDraft = ai?.customLlmsTxt
+    ? sanitizeLlmsMarkdownDraft(ai.customLlmsTxt)
+    : '';
+  const llmsFullTxtDraft = ai?.customLlmsFullTxt
+    ? sanitizeLlmsMarkdownDraft(ai.customLlmsFullTxt)
+    : '';
   const lines = [
-    '# AI Search Readiness Fix Pack',
+    '# AI Visibility Fix Pack',
     '',
     `Website: ${new URL(r.normalizedUrl).hostname}`,
     `Checked URL: ${r.normalizedUrl}`,
     `Generated: ${new Date(r.checkedAt).toISOString()}`,
-    `Overall Score: ${r.score}/100 - ${scoreLabelText(r.score)}`,
+    '',
+    '## AI Visibility Score',
+    '',
+    `${r.score}/100 - ${scoreLabelText(r.score)}`,
     '',
     'This report improves the conditions for search engines and AI answer systems to crawl, understand, extract, and cite your content. It does not guarantee rankings, citations, traffic, or visibility in any specific search or AI product.',
     '',
@@ -1606,7 +1683,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   }
 
   if (ai?.actionPlan?.length) {
-    lines.push('## Do These 3 Things First', '');
+    lines.push('## Fix this first', '');
     ai.actionPlan.slice(0, 3).forEach((item, index) => {
       lines.push(
         `${index + 1}. ${item.title}`,
@@ -1617,6 +1694,12 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
         ''
       );
     });
+  } else if (r.recommendations.length > 0) {
+    lines.push('## Fix this first', '');
+    r.recommendations.forEach((rec, index) => {
+      lines.push(`${index + 1}. ${rec}`);
+    });
+    lines.push('');
   }
 
   if (ai?.strengths?.length) {
@@ -1636,7 +1719,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   }
 
   if (ai?.actionPlan?.length) {
-    lines.push('## Full Action Plan', '');
+    lines.push('## Copy-ready implementation plan', '');
     ai.actionPlan.forEach((item, index) => {
       lines.push(
         `### ${index + 1}. ${item.title}`,
@@ -1651,7 +1734,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   }
 
   lines.push(
-    '## Technical Crawlability',
+    '## Diagnostic evidence',
+    '',
+    '### Technical Crawlability',
     '',
     `- HTTP Status: ${r.page.statusCode || 'N/A'}`,
     `- Content Type: ${r.page.contentType || 'N/A'}`,
@@ -1670,7 +1755,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 
   lines.push(
     '',
-    '## AI Search Files & Crawler Access',
+    '### AI files and crawler access',
     '',
     `- LLMs.txt: ${r.aiFiles.llmsTxt.exists ? `Found (${r.aiFiles.llmsTxt.statusCode})` : 'Not Found'}`,
     `- LLMs-full.txt: ${r.aiFiles.llmsFullTxt.exists ? `Found (${r.aiFiles.llmsFullTxt.statusCode})` : 'Not Found'}`,
@@ -1687,7 +1772,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   }
 
   lines.push(
-    '## Structured Data',
+    '### Structured Data',
     '',
     `- JSON-LD: ${r.structuredData.hasJsonLd ? 'Found' : 'Not Found'}`,
     `- Schema Types: ${r.structuredData.schemaTypes.length > 0 ? r.structuredData.schemaTypes.join(', ') : 'None'}`,
@@ -1712,7 +1797,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 
   if (ai?.customSchemaJson) {
     lines.push(
-      '### Copy-Ready JSON-LD',
+      '### JSON-LD Enhancement Draft',
+      '',
+      'Review this before publishing. Merge it with existing schema and keep only verified facts visible on the page. FAQPage must match visible FAQ content; Product schema should be used only for specific product or product-category pages.',
       '',
       '```json',
       ai.customSchemaJson,
@@ -1722,7 +1809,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
   }
 
   lines.push(
-    '## Answer-Ready Content',
+    '### Answer-Ready Content',
     '',
     `- H1: ${r.answerReadyContent.h1Count}`,
     `- H2: ${r.answerReadyContent.h2Count}`,
@@ -1750,34 +1837,39 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     lines.push('');
   }
 
-  if (ai?.customLlmsTxt || ai?.customLlmsFullTxt) {
-    lines.push('## Copy-Ready LLMs.txt Files', '');
+  if (llmsTxtDraft || llmsFullTxtDraft) {
+    lines.push(
+      '## AI-Readable File Drafts',
+      '',
+      '`/llms.txt` and `/llms-full.txt` are Markdown context files. They do not control crawler permissions or guarantee ranking/citation. Manage crawler allow/block rules in `/robots.txt`.',
+      ''
+    );
   }
 
-  if (ai?.customLlmsTxt) {
-    lines.push('### /llms.txt', '', '```txt', ai.customLlmsTxt, '```', '');
+  if (llmsTxtDraft) {
+    lines.push('### /llms.txt', '', '```markdown', llmsTxtDraft, '```', '');
   }
 
-  if (ai?.customLlmsFullTxt) {
+  if (llmsFullTxtDraft) {
     lines.push(
       '### /llms-full.txt',
       '',
-      '```txt',
-      ai.customLlmsFullTxt,
+      '```markdown',
+      llmsFullTxtDraft,
       '```',
       ''
     );
   }
 
   lines.push(
-    '## Entity Clarity',
+    '### Entity Clarity',
     '',
     `- Inferred Brand: ${r.entityClarity.inferredBrandName || 'N/A'}`,
     `- og:site_name: ${formatYesNo(r.entityClarity.hasOgSiteName)}`,
     `- Organization Schema: ${formatYesNo(r.entityClarity.hasOrganizationSchema)}`,
     `- Brand Mentions: ${r.entityClarity.brandMentionCount ?? 0}`,
     '',
-    '## Trust Signals',
+    '### Trust Signals',
     '',
     `- Author: ${formatYesNo(r.trustSignals.hasAuthor)}`,
     `- Published Date: ${formatYesNo(r.trustSignals.hasPublishedDate)}`,
@@ -1786,14 +1878,8 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     `- Contact Link: ${formatYesNo(r.trustSignals.hasContactLink)}`,
     `- Privacy Link: ${formatYesNo(r.trustSignals.hasPrivacyLink)}`,
     `- External Links: ${r.trustSignals.externalLinkCount}`,
-    '',
-    '## Prioritized Fixes',
     ''
   );
-
-  r.recommendations.forEach((rec, i) => {
-    lines.push(`${i + 1}. ${rec}`);
-  });
 
   lines.push(
     '',
@@ -1801,13 +1887,13 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     '',
     '1. Apply the top 3 fixes first, then re-run this checker.',
     '2. Publish or update the answer-ready content blocks suggested above.',
-    '3. Add the JSON-LD and LLMs.txt files, then request recrawls in search tools.',
+    '3. Publish verified schema and /llms.txt drafts, validate them, then request recrawls where supported.',
     '4. Track whether brand, product, and problem queries return clearer snippets or AI answers.',
     ''
   );
 
   lines.push(
-    '## Evidence Log',
+    '### Evidence Log',
     '',
     `- Crawlability: ${r.page.statusCode ? `HTTP ${r.page.statusCode}` : 'Unknown'}`,
     `- AI crawler access: ${
@@ -1844,7 +1930,7 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     '- Priority repair order',
     '- Crawlability review',
     '- AI crawler access review',
-    '- LLMs.txt and LLMs-full.txt plan',
+    '- /llms.txt and /llms-full.txt guidance',
     '- Schema and entity clarity checks',
     '- Answer-ready content suggestions',
     '- Trust signals review',
@@ -1865,9 +1951,9 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
 export const Route = createFileRoute('/report/$token')({
   head: () => ({
     ...seo('/report/$token', {
-      title: 'AI Search Readiness Fix Pack',
+      title: 'AI Visibility Fix Pack',
       description:
-        'Your paid AI search readiness fix pack with prioritized fixes, copy-ready schema, llms.txt files, and content improvement suggestions.',
+        'Your paid AI Visibility Fix Pack with a readiness-based AI Visibility Score, prioritized fixes, schema guidance, /llms.txt drafts, and content improvements.',
       noIndex: true,
     }),
   }),

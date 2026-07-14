@@ -28,6 +28,7 @@ export const RATE_LIMITS = {
   queryFanOut: { max: 30, windowSec: 60 },
   llmsGenerate: { max: 10, windowSec: 60 },
   conversionEvent: { max: 60, windowSec: 60 },
+  reportResend: { max: 3, windowSec: 300 },
 } as const;
 
 export type RateLimitKey = keyof typeof RATE_LIMITS;

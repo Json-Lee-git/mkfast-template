@@ -31,6 +31,7 @@ import { Route as ToolsQueryFanOutToolRouteImport } from './routes/tools.query-f
 import { Route as ToolsLlmsTxtGeneratorRouteImport } from './routes/tools.llms-txt-generator'
 import { Route as ToolsLlmsTxtCheckerRouteImport } from './routes/tools.llms-txt-checker'
 import { Route as ToolsGeoAuditRouteImport } from './routes/tools.geo-audit'
+import { Route as ToolsChatgptVisibilityCheckerRouteImport } from './routes/tools.chatgpt-visibility-checker'
 import { Route as ToolsChatgptCitationReadinessCheckerRouteImport } from './routes/tools.chatgpt-citation-readiness-checker'
 import { Route as ToolsAiOverviewReadinessCheckerRouteImport } from './routes/tools.ai-overview-readiness-checker'
 import { Route as ToolsAiCrawlerCheckerRouteImport } from './routes/tools.ai-crawler-checker'
@@ -39,6 +40,7 @@ import { Route as SettingsSecurityRouteImport } from './routes/settings/security
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPaymentRouteImport } from './routes/settings/payment'
 import { Route as SettingsBillingRouteImport } from './routes/settings/billing'
+import { Route as ReportResendRouteImport } from './routes/report.resend'
 import { Route as ReportTokenRouteImport } from './routes/report.$token'
 import { Route as GuidesQueryFanOutRouteImport } from './routes/guides.query-fan-out'
 import { Route as GuidesLlmsTxtSeoRouteImport } from './routes/guides.llms-txt-seo'
@@ -190,6 +192,12 @@ const ToolsGeoAuditRoute = ToolsGeoAuditRouteImport.update({
   path: '/tools/geo-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsChatgptVisibilityCheckerRoute =
+  ToolsChatgptVisibilityCheckerRouteImport.update({
+    id: '/tools/chatgpt-visibility-checker',
+    path: '/tools/chatgpt-visibility-checker',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsChatgptCitationReadinessCheckerRoute =
   ToolsChatgptCitationReadinessCheckerRouteImport.update({
     id: '/tools/chatgpt-citation-readiness-checker',
@@ -231,6 +239,11 @@ const SettingsBillingRoute = SettingsBillingRouteImport.update({
   id: '/billing',
   path: '/billing',
   getParentRoute: () => SettingsRoute,
+} as any)
+const ReportResendRoute = ReportResendRouteImport.update({
+  id: '/report/resend',
+  path: '/report/resend',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ReportTokenRoute = ReportTokenRouteImport.update({
   id: '/report/$token',
@@ -482,6 +495,7 @@ export interface FileRoutesByFullPath {
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
   '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
   '/report/$token': typeof ReportTokenRoute
+  '/report/resend': typeof ReportResendRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -490,6 +504,7 @@ export interface FileRoutesByFullPath {
   '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
   '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
   '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/chatgpt-visibility-checker': typeof ToolsChatgptVisibilityCheckerRoute
   '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
@@ -550,6 +565,7 @@ export interface FileRoutesByTo {
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
   '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
   '/report/$token': typeof ReportTokenRoute
+  '/report/resend': typeof ReportResendRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -558,6 +574,7 @@ export interface FileRoutesByTo {
   '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
   '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
   '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/chatgpt-visibility-checker': typeof ToolsChatgptVisibilityCheckerRoute
   '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
@@ -622,6 +639,7 @@ export interface FileRoutesById {
   '/guides/llms-txt-seo': typeof GuidesLlmsTxtSeoRoute
   '/guides/query-fan-out': typeof GuidesQueryFanOutRoute
   '/report/$token': typeof ReportTokenRoute
+  '/report/resend': typeof ReportResendRoute
   '/settings/billing': typeof SettingsBillingRoute
   '/settings/payment': typeof SettingsPaymentRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -630,6 +648,7 @@ export interface FileRoutesById {
   '/tools/ai-crawler-checker': typeof ToolsAiCrawlerCheckerRoute
   '/tools/ai-overview-readiness-checker': typeof ToolsAiOverviewReadinessCheckerRoute
   '/tools/chatgpt-citation-readiness-checker': typeof ToolsChatgptCitationReadinessCheckerRoute
+  '/tools/chatgpt-visibility-checker': typeof ToolsChatgptVisibilityCheckerRoute
   '/tools/geo-audit': typeof ToolsGeoAuditRoute
   '/tools/llms-txt-checker': typeof ToolsLlmsTxtCheckerRoute
   '/tools/llms-txt-generator': typeof ToolsLlmsTxtGeneratorRoute
@@ -695,6 +714,7 @@ export interface FileRouteTypes {
     | '/guides/llms-txt-seo'
     | '/guides/query-fan-out'
     | '/report/$token'
+    | '/report/resend'
     | '/settings/billing'
     | '/settings/payment'
     | '/settings/profile'
@@ -703,6 +723,7 @@ export interface FileRouteTypes {
     | '/tools/ai-crawler-checker'
     | '/tools/ai-overview-readiness-checker'
     | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/chatgpt-visibility-checker'
     | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
@@ -763,6 +784,7 @@ export interface FileRouteTypes {
     | '/guides/llms-txt-seo'
     | '/guides/query-fan-out'
     | '/report/$token'
+    | '/report/resend'
     | '/settings/billing'
     | '/settings/payment'
     | '/settings/profile'
@@ -771,6 +793,7 @@ export interface FileRouteTypes {
     | '/tools/ai-crawler-checker'
     | '/tools/ai-overview-readiness-checker'
     | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/chatgpt-visibility-checker'
     | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
@@ -834,6 +857,7 @@ export interface FileRouteTypes {
     | '/guides/llms-txt-seo'
     | '/guides/query-fan-out'
     | '/report/$token'
+    | '/report/resend'
     | '/settings/billing'
     | '/settings/payment'
     | '/settings/profile'
@@ -842,6 +866,7 @@ export interface FileRouteTypes {
     | '/tools/ai-crawler-checker'
     | '/tools/ai-overview-readiness-checker'
     | '/tools/chatgpt-citation-readiness-checker'
+    | '/tools/chatgpt-visibility-checker'
     | '/tools/geo-audit'
     | '/tools/llms-txt-checker'
     | '/tools/llms-txt-generator'
@@ -898,10 +923,12 @@ export interface RootRouteChildren {
   GuidesLlmsTxtSeoRoute: typeof GuidesLlmsTxtSeoRoute
   GuidesQueryFanOutRoute: typeof GuidesQueryFanOutRoute
   ReportTokenRoute: typeof ReportTokenRoute
+  ReportResendRoute: typeof ReportResendRoute
   ToolsAeoCheckerRoute: typeof ToolsAeoCheckerRoute
   ToolsAiCrawlerCheckerRoute: typeof ToolsAiCrawlerCheckerRoute
   ToolsAiOverviewReadinessCheckerRoute: typeof ToolsAiOverviewReadinessCheckerRoute
   ToolsChatgptCitationReadinessCheckerRoute: typeof ToolsChatgptCitationReadinessCheckerRoute
+  ToolsChatgptVisibilityCheckerRoute: typeof ToolsChatgptVisibilityCheckerRoute
   ToolsGeoAuditRoute: typeof ToolsGeoAuditRoute
   ToolsLlmsTxtCheckerRoute: typeof ToolsLlmsTxtCheckerRoute
   ToolsLlmsTxtGeneratorRoute: typeof ToolsLlmsTxtGeneratorRoute
@@ -1070,6 +1097,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsGeoAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/chatgpt-visibility-checker': {
+      id: '/tools/chatgpt-visibility-checker'
+      path: '/tools/chatgpt-visibility-checker'
+      fullPath: '/tools/chatgpt-visibility-checker'
+      preLoaderRoute: typeof ToolsChatgptVisibilityCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/chatgpt-citation-readiness-checker': {
       id: '/tools/chatgpt-citation-readiness-checker'
       path: '/tools/chatgpt-citation-readiness-checker'
@@ -1125,6 +1159,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/billing'
       preLoaderRoute: typeof SettingsBillingRouteImport
       parentRoute: typeof SettingsRoute
+    }
+    '/report/resend': {
+      id: '/report/resend'
+      path: '/report/resend'
+      fullPath: '/report/resend'
+      preLoaderRoute: typeof ReportResendRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/report/$token': {
       id: '/report/$token'
@@ -1511,11 +1552,13 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesLlmsTxtSeoRoute: GuidesLlmsTxtSeoRoute,
   GuidesQueryFanOutRoute: GuidesQueryFanOutRoute,
   ReportTokenRoute: ReportTokenRoute,
+  ReportResendRoute: ReportResendRoute,
   ToolsAeoCheckerRoute: ToolsAeoCheckerRoute,
   ToolsAiCrawlerCheckerRoute: ToolsAiCrawlerCheckerRoute,
   ToolsAiOverviewReadinessCheckerRoute: ToolsAiOverviewReadinessCheckerRoute,
   ToolsChatgptCitationReadinessCheckerRoute:
     ToolsChatgptCitationReadinessCheckerRoute,
+  ToolsChatgptVisibilityCheckerRoute: ToolsChatgptVisibilityCheckerRoute,
   ToolsGeoAuditRoute: ToolsGeoAuditRoute,
   ToolsLlmsTxtCheckerRoute: ToolsLlmsTxtCheckerRoute,
   ToolsLlmsTxtGeneratorRoute: ToolsLlmsTxtGeneratorRoute,
