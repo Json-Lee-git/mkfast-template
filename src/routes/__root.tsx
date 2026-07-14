@@ -20,7 +20,7 @@ import { Routes } from '@/lib/routes';
 import { getCanonicalUrl, getOgImage, twitterHandleFromUrl } from '@/lib/urls';
 import { getCanonicalPathname, getLocale, localeConfig } from '@/lib/locale';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 
 const DevTools = import.meta.env.DEV
   ? lazy(() => import('@/integrations/devtools'))
@@ -185,7 +185,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <Toaster richColors position="top-right" offset={64} />
           </TooltipProvider>
         </ThemeProvider>
-        <DevTools />
+        <Suspense fallback={null}>
+          <DevTools />
+        </Suspense>
         <Analytics />
         <CrispChat />
         <Scripts />
