@@ -1,4 +1,5 @@
 import { createFileRoute, notFound } from '@tanstack/react-router';
+import { AIAnswerFramework } from '@/components/ai-visibility/ai-answer-framework';
 import Container from '@/components/layout/container';
 import { websiteConfig } from '@/config/website';
 import {
@@ -254,6 +255,17 @@ function MethodologyPage() {
               Last reviewed: June 26, 2026
             </p>
           </div>
+        </Container>
+      </section>
+
+      {/* AI answer framework */}
+      <section className="border-b border-border/50 py-16">
+        <Container>
+          <AIAnswerFramework
+            eyebrow="Methodology model"
+            title="The five layers behind an AI-ready page"
+            description="Our audits translate public page signals into five layers: access, machine-readable structure, answer extraction, trust evidence, and fit for generated answers."
+          />
         </Container>
       </section>
 

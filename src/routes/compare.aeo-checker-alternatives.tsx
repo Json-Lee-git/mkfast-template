@@ -27,7 +27,7 @@ const comparisonRows = [
   {
     criteria: 'Primary output',
     aiSearchReadiness:
-      'A readiness score, repair priorities, and Fix Pack path',
+      'An AI Visibility Score, repair priorities, and Fix Pack path',
     manualAudit: 'A custom document created by an expert or agency',
     genericSeoTool: 'Rank, backlink, crawl, and keyword reports',
   },

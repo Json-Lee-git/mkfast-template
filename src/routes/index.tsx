@@ -14,9 +14,9 @@ import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/')({
   head: () => {
     const pageSeo = seo('/', {
-      title: 'AI Search Readiness Checker and Monitor | AEOCheck',
+      title: 'AI Visibility Audit and ChatGPT Visibility Checker | AEOCheck',
       description:
-        'Run a free AEO scan, unlock a $19 Fix Pack, then monitor important pages for crawl access, schema, LLMs.txt, and answer-readiness regressions.',
+        'Run a free AI visibility audit to check whether ChatGPT-style answers can understand, trust, and recommend your brand. Get a prioritized fix path.',
     });
     return {
       ...pageSeo,
@@ -37,10 +37,11 @@ export const Route = createFileRoute('/')({
             name: 'AEOCheck',
             websiteUrl: getCanonicalUrl('/'),
             longDescription:
-              'AI search readiness tool for free URL scans, one-time Fix Packs, managed monitoring requests, and manual audits. It checks crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, and trust signals.',
+              'AI visibility audit tool for free URL scans, one-time Fix Packs, managed monitoring requests, and manual audits. It checks crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, entity clarity, and trust signals behind ChatGPT-style recommendations.',
             startingPrice: '$0',
             keyFeatures: [
-              'Free AI search readiness scan',
+              'Free AI visibility audit',
+              'ChatGPT visibility readiness checker',
               '$19 one-time Fix Pack',
               '$29/mo managed Monitor request path',
               '$99 Manual Audit for human review',
@@ -49,6 +50,24 @@ export const Route = createFileRoute('/')({
         ),
         jsonLd(
           itemListSchema('/', [
+            {
+              name: 'ChatGPT Visibility Checker',
+              url: getCanonicalUrl('/tools/chatgpt-visibility-checker'),
+              description:
+                'Run a free readiness-based audit for ChatGPT-style brand recommendations.',
+            },
+            {
+              name: 'AEO Checker',
+              url: getCanonicalUrl('/tools/aeo-checker'),
+              description:
+                'Diagnose page-level crawlability, schema, answer-ready content, entity clarity, and trust signals.',
+            },
+            {
+              name: 'Query Fan-Out Tool',
+              url: getCanonicalUrl('/tools/query-fan-out-tool'),
+              description:
+                'Simulate related sub-queries, intent clusters, and content gaps.',
+            },
             {
               name: 'LLMs.txt Checker',
               url: getCanonicalUrl('/tools/llms-txt-checker'),
@@ -59,18 +78,6 @@ export const Route = createFileRoute('/')({
               name: 'LLMs.txt Generator',
               url: getCanonicalUrl('/tools/llms-txt-generator'),
               description: 'Generate a clean AI-readable LLMs.txt file.',
-            },
-            {
-              name: 'AEO Checker',
-              url: getCanonicalUrl('/tools/aeo-checker'),
-              description:
-                'Run a free page audit before fixing or monitoring AI search readiness.',
-            },
-            {
-              name: 'Query Fan-Out Tool',
-              url: getCanonicalUrl('/tools/query-fan-out-tool'),
-              description:
-                'Simulate related sub-queries, intent clusters, and content gaps.',
             },
             {
               name: 'AI Crawler Checker',
@@ -97,10 +104,10 @@ export const Route = createFileRoute('/')({
                 'Review public citation-readiness signals for AI retrieval systems.',
             },
             {
-              name: 'Sample Fix Pack',
+              name: 'Sample AI Visibility Report',
               url: getCanonicalUrl('/sample-aeo-report'),
               description:
-                'Preview the $19 AI Search Readiness Fix Pack and the monitor path after repair.',
+                'Preview the $19 AI Visibility Fix Pack and its copy-ready implementation plan.',
             },
           ])
         ),
@@ -108,7 +115,7 @@ export const Route = createFileRoute('/')({
           faqSchema([
             {
               q: 'What is AI search readiness?',
-              a: 'AI search readiness means your website is technically easy for search engines, answer engines, and AI-assisted retrieval systems to crawl, parse, and understand. It includes crawlability, robots.txt rules, AI crawler access, structured data, sitemap discovery, optional LLMs.txt files, answer-ready content formatting, clear entity signals, and trust indicators.',
+              a: 'AI search readiness is the repair layer behind AI visibility. It means your website is technically easy for search engines, answer engines, and AI-assisted retrieval systems to crawl, parse, and understand. It includes crawlability, robots.txt rules, AI crawler access, structured data, sitemap discovery, optional LLMs.txt files, answer-ready content formatting, clear entity signals, and trust indicators.',
             },
             {
               q: 'Are these tools free?',

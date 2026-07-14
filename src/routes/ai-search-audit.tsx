@@ -21,7 +21,7 @@ import {
 } from '@tabler/icons-react';
 
 const includedItems = [
-  'AI search readiness score for one important page',
+  'AI Visibility Score for one important page',
   'Top 5 technical and content blockers',
   'AI crawler, robots.txt, sitemap, and LLMs.txt review',
   'Schema and answer-ready content recommendations',
@@ -212,7 +212,8 @@ function AuditServicePage() {
                     $99
                   </p>
                   <p className="mt-1 text-sm text-gray-500 dark:text-zinc-400">
-                    One page, one priority order, delivered by email.
+                    One-time, no subscription. One page, one priority order,
+                    delivered by email.
                   </p>
                 </div>
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-600 text-white">
@@ -262,7 +263,8 @@ function AuditServicePage() {
                   className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
                 />
                 <span className="mt-1.5 block text-xs font-normal text-gray-500 dark:text-zinc-500">
-                  The report and checkout receipt go to this address.
+                  Used only to deliver your report. Not shared, not added to any
+                  list.
                 </span>
               </label>
 
@@ -314,7 +316,13 @@ function AuditServicePage() {
               <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-gray-500 dark:text-zinc-500">
                 <IconShieldCheck size={14} className="mt-0.5 shrink-0" />
                 Secure checkout is handled by Creem. You receive the report by
-                email after payment.
+                email after payment.{' '}
+                <a
+                  href="/sample-aeo-report"
+                  className="text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Preview a sample report.
+                </a>
               </p>
             </form>
           </div>
@@ -464,16 +472,16 @@ function AuditServicePage() {
 export const Route = createFileRoute('/ai-search-audit')({
   head: () => ({
     ...seo('/ai-search-audit', {
-      title: 'Manual AI Search Readiness Audit - Human Fix Order in 48 Hours',
+      title: 'Manual AI Visibility Audit - Human Fix Order in 48 Hours',
       description:
-        'Order a $99 human AI Search Readiness Audit after the free scan. Get a priority order for crawlability, schema, LLMs.txt, answer-ready content, and competitor context.',
+        'Order a $99 human AI Visibility Audit after the free scan. Get a priority order for crawlability, schema, LLMs.txt, answer-ready content, and competitor context.',
     }),
     scripts: [
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
           {
-            name: 'Manual AI Search Readiness Audit',
+            name: 'Manual AI Visibility Audit',
             url: getCanonicalUrl('/ai-search-audit'),
           },
         ])
@@ -482,7 +490,7 @@ export const Route = createFileRoute('/ai-search-audit')({
       jsonLd({
         '@context': 'https://schema.org',
         '@type': 'Service',
-        name: 'Manual AI Search Readiness Audit',
+        name: 'Manual AI Visibility Audit',
         description:
           'Human-reviewed AI search readiness audit for SaaS pages, including technical blockers, schema, LLMs.txt readiness, answer-ready content, and prioritized fixes.',
         provider: {

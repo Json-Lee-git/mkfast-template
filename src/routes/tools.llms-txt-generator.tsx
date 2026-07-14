@@ -578,6 +578,28 @@ function GeneratorPage() {
         </Container>
       </section>
 
+      {/* Commercial CTA */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
+        <Container>
+          <div className="mx-auto max-w-xl text-center space-y-3">
+            <a
+              href="/sample-aeo-report"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+            >
+              See a sample AI Visibility Report <IconArrowRight size={14} />
+            </a>
+            <span className="mx-3 text-gray-300 dark:text-zinc-700">|</span>
+            <a
+              href="/tools/chatgpt-visibility-checker"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Run the full ChatGPT Visibility Checker{' '}
+              <IconArrowRight size={14} />
+            </a>
+          </div>
+        </Container>
+      </section>
+
       {/* Trust disclaimer */}
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
         <Container>

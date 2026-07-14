@@ -34,9 +34,9 @@ export const websiteConfig: WebsiteConfig = {
   },
   metadata: {
     name: 'AEOCheck',
-    title: 'AEOCheck — Free AEO Checker, LLMs.txt Validator & AI Search Tools',
+    title: 'AEOCheck - AI Visibility Audit and ChatGPT Visibility Checker',
     description:
-      'Free tools to check if your site is visible to ChatGPT, Perplexity, and AI search. AEO audit, LLMs.txt validator, AI crawler checker, and more. No signup required.',
+      'Run a free AI visibility audit to check whether ChatGPT-style answers can understand, trust, and recommend your brand. Get a prioritized fix path.',
     supportEmail: 'support@aeocheck.xyz',
     images: {
       ogImage: '/og.png',

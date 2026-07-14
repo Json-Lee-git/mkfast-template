@@ -107,8 +107,15 @@ async function checkPage(
   }
 
   const canonicalPath = path.split('?')[0];
-  assertNotIncludes(`${path} localhost URLs`, text, 'http://localhost:3000');
-  assertNotIncludes(`${path} localhost URLs`, text, 'https://localhost:3000');
+
+  // Skip hardcoded-localhost check when the canonical base itself is localhost
+  // (dev server). In that case getCanonicalUrl() naturally derives localhost
+  // from the request host — it is not a hardcoded leak.
+  const isLocalDev = canonicalBaseUrl.startsWith('http://localhost:');
+  if (!isLocalDev) {
+    assertNotIncludes(`${path} localhost URLs`, text, 'http://localhost:3000');
+    assertNotIncludes(`${path} localhost URLs`, text, 'https://localhost:3000');
+  }
   assertIncludes(
     `${path} canonical`,
     text,
@@ -126,8 +133,8 @@ async function checkPage(
   );
 }
 
-await checkPage('/ai-search-audit', 'Manual AI Search Readiness Audit');
-await checkPage('/sample-aeo-report', 'Sample Fix Pack');
+await checkPage('/ai-search-audit', 'Manual AI Visibility Audit');
+await checkPage('/sample-aeo-report', 'Sample AI Visibility Report');
 await checkPage('/blog/ai-search-readiness-audit', 'AI Search Readiness Audit');
 await checkPage('/methodology', 'Methodology');
 
@@ -151,6 +158,10 @@ await checkPage(
     noIndex: true,
   }
 );
+
+await checkPage('/report/resend', 'Find your Fix Pack link', {
+  noIndex: true,
+});
 
 const { response: robotsResponse, text: robots } =
   await fetchText('/robots.txt');

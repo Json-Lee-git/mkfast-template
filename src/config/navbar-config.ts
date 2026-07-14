@@ -11,8 +11,13 @@ export function getNavbarLinks(): MenuItemConfig[] {
           title: 'Start here',
           items: [
             {
-              title: 'Free AEO Checker',
-              description: 'Audit one page before AI search edits',
+              title: 'ChatGPT Visibility Checker',
+              description: 'Start the free AI visibility audit',
+              href: '/tools/chatgpt-visibility-checker',
+            },
+            {
+              title: 'AEO Checker',
+              description: 'Diagnose page-level visibility blockers',
               href: '/tools/aeo-checker',
             },
             {
@@ -36,7 +41,7 @@ export function getNavbarLinks(): MenuItemConfig[] {
           title: 'Fix workflow',
           items: [
             {
-              title: 'Sample Fix Pack',
+              title: 'Sample AI Visibility Report',
               description: 'Preview what a repair plan looks like',
               href: '/sample-aeo-report',
             },
@@ -67,7 +72,7 @@ export function getNavbarLinks(): MenuItemConfig[] {
             },
             {
               title: 'Compare tools',
-              description: 'AEO checker vs alternatives',
+              description: 'AI visibility audit vs alternatives',
               href: '/compare/aeo-checker-alternatives',
             },
           ],
@@ -107,7 +112,7 @@ export function getNavbarLinks(): MenuItemConfig[] {
           items: [
             {
               title: 'AEO checker alternatives',
-              description: 'How we compare to other tools',
+              description: 'How the fix workflow compares',
               href: '/compare/aeo-checker-alternatives',
             },
             {

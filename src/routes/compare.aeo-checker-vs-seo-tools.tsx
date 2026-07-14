@@ -120,7 +120,7 @@ const faqItems = [
   },
   {
     q: 'Can I use the free AEO checker without paying for an SEO tool?',
-    a: 'Yes. The free AEO checker gives you an AI readiness score and priority issues without any cost. The optional $19 Fix Pack adds a repair plan, copy-ready assets, and implementation guidance. But for ongoing keyword tracking and competitive analysis, you will still want an SEO tool.',
+    a: 'Yes. The free AEO checker gives you an AI Visibility Score and priority issues without any cost. The optional $19 Fix Pack adds a repair plan, copy-ready assets, and implementation guidance. But for ongoing keyword tracking and competitive analysis, you will still want an SEO tool.',
   },
   {
     q: 'How do SEO tools and AEO tools work together?',
@@ -390,7 +390,7 @@ function AeoCheckerVsSeoToolsPage() {
             <ol className="mt-5 space-y-4 text-gray-700 dark:text-zinc-300">
               <li>
                 <strong>1. Start with the free AEO checker.</strong> Enter your
-                URL and get an AI readiness score. Fix the flagged issues first
+                URL and get an AI Visibility Score. Fix the flagged issues first
                 — they are usually quick wins (add LLMs.txt, update robots.txt
                 for AI crawlers, add schema).
               </li>

@@ -167,14 +167,21 @@ const aiSimulation = {
     'This page describes a page-level AI search readiness audit tool. It checks crawlability, structured data, answer-ready content, entity clarity, trust signals, and AI crawler access. Pricing starts with a free single-page scan, a $19 Fix Pack with copy-ready schema and content blocks, a $29/mo Monitor path for important pages, and a $99 manual audit option.',
 };
 
+const competitorContext = [
+  'Competitor A: appears stronger on trust signals',
+  'Competitor B: has clearer product/category pages',
+  'Your gap: missing answer-ready comparison content',
+];
+
 const fixPackItems = [
   'Executive summary',
-  'Technical AEO score breakdown',
-  'Prioritized fix order with impact levels',
+  'AI Visibility Score breakdown',
+  'Fix this first order with impact levels',
   'Copy-ready JSON-LD schema snippets',
   'Answer-ready content blocks',
   'LLMs.txt and LLMs-full.txt plan',
-  'Query fan-out content gaps',
+  'Competitor visibility gaps',
+  'Query coverage gaps',
   'Entity and trust signal review',
   'Downloadable implementation handoff',
 ];
@@ -182,7 +189,7 @@ const fixPackItems = [
 const sampleFaqItems = [
   {
     q: 'What do I get after paying $19?',
-    a: 'You get an AI Search Readiness Fix Pack with a prioritized repair order, copy-ready JSON-LD, answer-ready content blocks, AI file recommendations, query fan-out gaps, and a downloadable implementation handoff.',
+    a: 'You get an AI Visibility Fix Pack with a prioritized repair order, copy-ready JSON-LD, answer-ready content blocks, AI file recommendations, competitor context, query coverage gaps, and a downloadable implementation handoff.',
   },
   {
     q: 'Is the report useful if I am not technical?',
@@ -262,7 +269,7 @@ function SampleAeoReportPage() {
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded bg-zinc-800 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-zinc-300">
                 <IconFileAnalytics size={13} />
-                AI Search Readiness Audit
+                AI Visibility Audit
               </span>
               <span className="h-3 w-px bg-zinc-700" />
               <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
@@ -282,13 +289,18 @@ function SampleAeoReportPage() {
 
             {/* Score row */}
             <div className="mt-8 flex flex-wrap items-start gap-x-10 gap-y-6">
-              <div className="flex items-end gap-1.5">
-                <span
-                  className={`text-6xl font-bold tracking-tight ${scoreColor(reportMeta.score)}`}
-                >
-                  {reportMeta.score}
-                </span>
-                <span className="pb-1.5 text-xl text-zinc-600">/100</span>
+              <div>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  AI Visibility Score
+                </p>
+                <div className="flex items-end gap-1.5">
+                  <span
+                    className={`text-6xl font-bold tracking-tight ${scoreColor(reportMeta.score)}`}
+                  >
+                    {reportMeta.score}
+                  </span>
+                  <span className="pb-1.5 text-xl text-zinc-600">/100</span>
+                </div>
               </div>
               <div className="min-w-[200px] flex-1">
                 <p className="text-sm font-semibold text-zinc-200">
@@ -343,9 +355,9 @@ function SampleAeoReportPage() {
       <section className="pb-16">
         <Container>
           <div className="mx-auto max-w-4xl space-y-5">
-            {/* ---- 2. Diagnostic Overview ---- */}
+            {/* ---- 2. Visibility Blockers ---- */}
             <div className={`${panel} p-5 sm:p-6`}>
-              <h2 className={sectionLabel}>Diagnostic Overview</h2>
+              <h2 className={sectionLabel}>Visibility blockers</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {moduleScores.map((mod) => {
                   const s = statusDefs[mod.status];
@@ -375,12 +387,12 @@ function SampleAeoReportPage() {
               </div>
             </div>
 
-            {/* ---- 3. Repair Order ---- */}
+            {/* ---- 3. Fix This First ---- */}
             <div className={`${panel} overflow-hidden`}>
               <div className="px-5 pt-5 sm:px-6 sm:pt-6">
-                <h2 className={sectionLabel}>Repair Order</h2>
+                <h2 className={sectionLabel}>Fix this first</h2>
                 <p className="mt-1 text-xs text-zinc-500">
-                  Ranked by impact on AI search readiness for{' '}
+                  Ranked by impact on AI recommendation readiness for{' '}
                   <span className="font-mono text-zinc-300">{scannedUrl}</span>.
                 </p>
               </div>
@@ -523,20 +535,39 @@ function SampleAeoReportPage() {
               </div>
             </div>
 
-            {/* ---- 5. Scan Evidence Log ---- */}
+            {/* ---- 5. Competitor Context ---- */}
+            <div className={`${panel} p-5 sm:p-6`}>
+              <h2 className={sectionLabel}>Competitor context</h2>
+              <div className="mt-4 grid gap-3 md:grid-cols-3">
+                {competitorContext.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-lg border border-zinc-800 bg-zinc-950 p-4"
+                  >
+                    <p className="text-sm leading-6 text-zinc-300">{item}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-xs leading-5 text-zinc-500">
+                This sample uses static competitor context. Live competitor
+                prompt tracking is not included in the free checker.
+              </p>
+            </div>
+
+            {/* ---- 6. Diagnostic Evidence ---- */}
             <div className={`${panel} overflow-hidden`}>
               <div className="px-5 pt-5 sm:px-6 sm:pt-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <h2 className={sectionLabel}>Scan Evidence Log</h2>
+                    <h2 className={sectionLabel}>Diagnostic evidence</h2>
                     <p className="mt-1 text-xs text-zinc-500">
                       This is a sample scan of{' '}
                       <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-xs text-zinc-200">
                         {scannedUrl}
                       </span>
-                      . Each signal was checked against the live page and
-                      recorded with evidence. A real audit includes the same
-                      checks against your actual URL.
+                      . Each sample signal is shown with evidence and a
+                      recommended action. A real audit runs the same checks
+                      against your actual URL.
                     </p>
                   </div>
                   <span className="shrink-0 rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-400">
@@ -647,12 +678,12 @@ function SampleAeoReportPage() {
               </div>
             </div>
 
-            {/* ---- 6. Fix Pack Contents ---- */}
+            {/* ---- 7. Fix Pack Contents ---- */}
             <div className={`${panel} p-5 sm:p-6`}>
-              <h2 className={sectionLabel}>What the $19 Fix Pack Includes</h2>
+              <h2 className={sectionLabel}>Copy-ready implementation plan</h2>
               <p className="mt-1 text-xs text-zinc-500">
-                Every Fix Pack ships with the same structure: diagnosis, assets,
-                and an implementation handoff.
+                The $19 AI Visibility Fix Pack ships with diagnosis, copy-ready
+                assets, and an implementation handoff.
               </p>
               <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {fixPackItems.map((item) => (
@@ -691,8 +722,8 @@ function SampleAeoReportPage() {
               Run this audit on your own page
             </h2>
             <p className="mt-3 text-sm text-zinc-400">
-              Free single-page scan. No sign-up required. See your score, gaps,
-              and fix priorities before paying anything.
+              Free single-page scan. No sign-up required. See your AI Visibility
+              Score, gaps, and fix priorities before paying anything.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <a
@@ -731,12 +762,15 @@ function SampleAeoReportPage() {
 
 const includedSectionsForSchema = [
   'Executive summary',
-  'Technical AEO score',
-  'Crawler access and AI files audit',
+  'AI Visibility Score',
+  'Visibility blockers',
+  'Fix this first',
+  'Competitor visibility gaps',
+  'Diagnostic evidence',
   'Copy-ready JSON-LD schema',
   'Answer-ready content blocks',
   'Entity and trust signal review',
-  'Query fan-out content gaps',
+  'Query coverage gaps',
   'Copy-ready LLMs.txt files',
   'Downloadable implementation handoff',
 ];
@@ -746,17 +780,17 @@ const includedSectionsForSchema = [
 export const Route = createFileRoute('/sample-aeo-report')({
   head: () => ({
     ...seo('/sample-aeo-report', {
-      title: 'Sample AI Search Readiness Fix Pack - $19 Repair Plan Preview',
+      title: 'Sample AI Visibility Report - $19 Fix Pack Preview',
       description:
-        'Preview the $19 AI Search Readiness Fix Pack with a prioritized repair order, copy-ready schema, answer-ready content blocks, query fan-out gaps, LLMs.txt guidance, and the $29/mo Monitor path for important pages.',
+        'Preview the $19 AI Visibility Fix Pack with an AI Visibility Score, visibility blockers, competitor context, copy-ready schema, answer-ready content blocks, query coverage gaps, and fix-first order.',
     }),
     scripts: [
       jsonLd(
         softwareApplicationSchema({
-          name: 'AI Search Readiness Fix Pack',
+          name: 'AI Visibility Fix Pack',
           websiteUrl: getCanonicalUrl('/sample-aeo-report'),
           longDescription:
-            'A paid AEO fix pack with prioritized technical, content, schema, trust, query fan-out, and AI-readable file recommendations, plus a $29/mo Monitor path for important pages after repair.',
+            'A paid AI visibility fix pack with a readiness-based visibility score, visibility blockers, competitor context, query coverage gaps, copy-ready implementation assets, and AI-readable file recommendations.',
           startingPrice: '$19',
           keyFeatures: includedSectionsForSchema,
         })
@@ -782,7 +816,7 @@ export const Route = createFileRoute('/sample-aeo-report')({
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
           {
-            name: 'Sample Fix Pack',
+            name: 'Sample AI Visibility Report',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
         ])

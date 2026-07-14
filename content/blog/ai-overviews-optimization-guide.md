@@ -125,7 +125,7 @@ Traditional rank tracking is not enough for AI search. Track proxies instead:
 4. Manual prompt-bank checks for your highest-value topics.
 5. Changes in branded search demand and third-party mentions.
 
-Run a free [AI Overview readiness check](/tools/aeo-checker) on your pages to
+Run a free [AI Overview readiness check](/tools/ai-overview-readiness-checker) on your pages to
 find and fix technical gaps. If you need a broader page-level checklist, follow
 the [AI search readiness audit framework](/blog/ai-search-readiness-audit) before
 changing crawler rules, schema, or page structure.
@@ -189,7 +189,7 @@ pages that answer specific questions: guides, tutorials, definitions, and FAQ
 pages. Your pricing page and checkout flow don't need AI Overview optimization.
 
 ---
-> **Check your AI Overview readiness** — free audit of the signals Google AI Overviews looks for.
+> **Check your AI Overview readiness** — free audit of readiness signals associated with AI Overview eligibility.
 > Run the readiness checker and get a prioritized list of what to fix first.
 >
 > 👉 [Check AI Overview readiness](https://aeocheck.xyz/tools/ai-overview-readiness-checker?utm_source=blog&utm_medium=organic&utm_campaign=seo-ai-overviews)

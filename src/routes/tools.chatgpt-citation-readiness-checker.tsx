@@ -70,10 +70,9 @@ export const Route = createFileRoute(
 )({
   head: () => ({
     ...seo('/tools/chatgpt-citation-readiness-checker', {
-      title:
-        'ChatGPT Citation Readiness Checker - Free AI Search Readiness Audit',
+      title: 'ChatGPT Citation Readiness Checker - Free Citation Signal Audit',
       description:
-        'Check ChatGPT citation readiness signals including crawl access, entity clarity, structured data, references, answer-ready content, and LLMs.txt.',
+        'Check ChatGPT citation readiness signals including crawl access, entity clarity, structured data, references, answer-ready content, and LLMs.txt. A technical citation signal layer, not a full visibility audit.',
     }),
     scripts: [
       jsonLd(

@@ -50,6 +50,11 @@ export const Route = createFileRoute('/sitemap.xml')({
             priority: '0.9',
           },
           {
+            path: '/tools/chatgpt-visibility-checker',
+            changefreq: 'weekly',
+            priority: '0.95',
+          },
+          {
             path: '/tools/aeo-checker',
             changefreq: 'weekly',
             priority: '0.9',
@@ -91,6 +96,11 @@ export const Route = createFileRoute('/sitemap.xml')({
           },
           {
             path: '/sample-aeo-report',
+            changefreq: 'monthly',
+            priority: '0.8',
+          },
+          {
+            path: '/pricing',
             changefreq: 'monthly',
             priority: '0.8',
           },

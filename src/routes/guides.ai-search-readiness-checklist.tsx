@@ -244,7 +244,7 @@ export const Route = createFileRoute('/guides/ai-search-readiness-checklist')({
             url: getCanonicalUrl('/tools/aeo-checker'),
           },
           {
-            name: 'Preview Sample Fix Pack',
+            name: 'Preview Sample AI Visibility Report',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
           {

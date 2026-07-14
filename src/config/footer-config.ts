@@ -8,6 +8,16 @@ export function getFooterLinks(): MenuItemConfig[] {
       title: 'Tools',
       items: [
         {
+          title: 'ChatGPT Visibility Checker',
+          href: '/tools/chatgpt-visibility-checker',
+          external: false,
+        },
+        {
+          title: 'AEO Checker',
+          href: '/tools/aeo-checker',
+          external: false,
+        },
+        {
           title: 'LLMs.txt Checker',
           href: '/tools/llms-txt-checker',
           external: false,
@@ -17,7 +27,6 @@ export function getFooterLinks(): MenuItemConfig[] {
           href: '/tools/llms-txt-generator',
           external: false,
         },
-        { title: 'AEO Checker', href: '/tools/aeo-checker', external: false },
         {
           title: 'AI Crawler Checker',
           href: '/tools/ai-crawler-checker',
@@ -54,7 +63,7 @@ export function getFooterLinks(): MenuItemConfig[] {
           external: false,
         },
         {
-          title: 'Sample AEO Report',
+          title: 'Sample AI Visibility Report',
           href: '/sample-aeo-report',
           external: false,
         },

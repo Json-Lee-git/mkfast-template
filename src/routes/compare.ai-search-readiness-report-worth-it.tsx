@@ -61,8 +61,8 @@ const notFit = [
 
 const faqItems = [
   {
-    q: 'Is the $19 AI Search Readiness Fix Pack worth it?',
-    a: 'It is worth it when you need a concrete one-page repair plan: prioritized fixes, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and query fan-out gaps. It is not a replacement for rank tracking, backlink research, or a full agency audit.',
+    q: 'Is the $19 AI Visibility Fix Pack worth it?',
+    a: 'It is worth it when you need a concrete one-page repair plan: prioritized fixes, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and query coverage gaps. It is not a replacement for rank tracking, backlink research, or a full agency audit.',
   },
   {
     q: 'What is the difference between the free scan and the $19 Fix Pack?',
@@ -88,7 +88,7 @@ function WorthItPage() {
               $19 Fix Pack decision guide
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-950 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
-              Is the AI Search Readiness Fix Pack worth it?
+              Is the AI Visibility Fix Pack worth it?
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-gray-600 dark:text-zinc-400">
               Use this page to decide whether the free scan is enough, or
@@ -245,14 +245,14 @@ export const Route = createFileRoute(
 )({
   head: () => ({
     ...seo('/compare/ai-search-readiness-report-worth-it', {
-      title: 'Is the AI Search Readiness Fix Pack Worth It? $19 Guide',
+      title: 'Is the AI Visibility Fix Pack Worth It? $19 Guide',
       description:
-        'Decide whether the $19 AI Search Readiness Fix Pack is worth it. Compare the free scan with the repair plan, deliverables, limits, and best-fit use cases.',
+        'Decide whether the $19 AI Visibility Fix Pack is worth it. Compare the free scan with the repair plan, deliverables, limits, and best-fit use cases.',
     }),
     scripts: [
       jsonLd(
         softwareApplicationSchema({
-          name: 'AI Search Readiness Fix Pack',
+          name: 'AI Visibility Fix Pack',
           websiteUrl: getCanonicalUrl(
             '/compare/ai-search-readiness-report-worth-it'
           ),
@@ -260,10 +260,10 @@ export const Route = createFileRoute(
             'A one-page AI search readiness Fix Pack with a prioritized repair plan, copy-ready schema, answer-ready content blocks, LLMs.txt recommendations, and implementation handoff.',
           startingPrice: '$19',
           keyFeatures: [
-            'Prioritized AEO fixes',
+            'Prioritized AI visibility fixes',
             'Copy-ready JSON-LD',
             'Answer-ready content blocks',
-            'Query fan-out gaps',
+            'Query coverage gaps',
             'LLMs.txt recommendations',
             'Implementation handoff',
           ],
@@ -273,7 +273,7 @@ export const Route = createFileRoute(
       jsonLd(
         itemListSchema('/compare/ai-search-readiness-report-worth-it', [
           {
-            name: 'Sample Fix Pack',
+            name: 'Sample AI Visibility Report',
             url: getCanonicalUrl('/sample-aeo-report'),
           },
           {

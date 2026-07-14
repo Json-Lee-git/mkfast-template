@@ -138,7 +138,7 @@ export function HighIntentToolPage({
                 ))}
               </ul>
               <a
-                href="/tools/aeo-checker"
+                href="/tools/chatgpt-visibility-checker"
                 onClick={() =>
                   trackConversionEvent('full_report_path_clicked', {
                     source: title,
@@ -146,7 +146,7 @@ export function HighIntentToolPage({
                 }
                 className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:underline dark:text-blue-400"
               >
-                Run the audit before checkout <IconArrowRight size={14} />
+                Start with AI visibility audit <IconArrowRight size={14} />
               </a>
             </div>
           </div>
@@ -157,7 +157,7 @@ export function HighIntentToolPage({
         <Container>
           <div className="mx-auto max-w-3xl">
             <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
-              Related AI search readiness tools
+              Related AI visibility audit tools
             </h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {related.map((link) => (

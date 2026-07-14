@@ -9,6 +9,7 @@ import { getCanonicalUrl } from '@/lib/urls';
 import { trackConversionEvent } from '@/lib/conversion-events';
 import { createFileRoute } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
+import { FAQ } from '@/components/ai-visibility/faq';
 import {
   IconCheck,
   IconX,
@@ -72,6 +73,60 @@ function scoreColor(score: number): string {
   if (score >= 40) return 'text-amber-500';
   return 'text-red-500';
 }
+
+const commonIssueItems = [
+  {
+    title: 'Missing or unreachable /llms.txt',
+    desc: 'The validator checks whether the file exists at the expected root path and returns a successful response.',
+  },
+  {
+    title: 'Wrong content type',
+    desc: 'It flags HTML responses, redirects, or headers that make the file harder to treat as plain Markdown.',
+  },
+  {
+    title: 'Broken links inside the file',
+    desc: 'Listed URLs are checked so your curated AI-readable index does not point crawlers at dead pages.',
+  },
+  {
+    title: 'Weak Markdown structure',
+    desc: 'The checker looks for a clear title, useful sections, and descriptive links instead of a raw sitemap dump.',
+  },
+  {
+    title: 'Missing llms-full.txt or sitemap context',
+    desc: 'It checks supporting discovery files that can help AI systems understand important public pages.',
+  },
+  {
+    title: 'AI crawler access problems',
+    desc: 'Robots rules are reviewed for common AI crawlers including OpenAI, Anthropic, Perplexity, and Google agents.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What is an llms.txt validator?',
+    a: 'An llms.txt validator checks whether your website serves a valid /llms.txt file, verifies structure and headers, tests listed links, and reviews supporting files such as llms-full.txt and your sitemap.',
+  },
+  {
+    q: 'Is this different from an llms.txt checker?',
+    a: 'No. This page works as both an llms.txt checker and an llms.txt validator. It checks existence, accessibility, Markdown quality, link health, and AI crawler access.',
+  },
+  {
+    q: 'Does this tool check AI crawlers?',
+    a: 'Yes. It reviews common AI crawler access signals in robots.txt so you can see whether important public pages appear reachable to AI-related crawlers and search assistants.',
+  },
+  {
+    q: 'Does ChatGPT require llms.txt?',
+    a: 'No public search product requires every site to have llms.txt. A useful file can still help explain your key pages clearly to AI systems and teams reviewing AI search readiness.',
+  },
+  {
+    q: 'Does Perplexity use llms.txt?',
+    a: 'LLMs.txt is an emerging convention, not a guaranteed Perplexity ranking or citation factor. The validator helps you make the file clean, reachable, and useful if AI systems or reviewers read it.',
+  },
+  {
+    q: 'Does Claude use llms.txt?',
+    a: 'Claude and related crawlers may interact with public web content under different access policies. This checker focuses on whether your llms.txt file and crawler rules are technically clear and accessible.',
+  },
+];
 
 // ---------- Component ----------
 
@@ -154,7 +209,7 @@ function CheckerPage() {
         <Container className="relative py-20 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">
-              LLMs.txt Checker & Validator
+              Free llms.txt validator and checker
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-500 dark:text-zinc-400">
               Check whether your website has a valid LLMs.txt file, accessible
@@ -163,7 +218,7 @@ function CheckerPage() {
               required for Google AI Overviews or AI Mode.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
-              Use this free LLMs.txt validator to test the file at
+              Use this free llms.txt validator to test the file at
               <code className="mx-1 rounded bg-gray-100 px-1 py-0.5 text-xs dark:bg-zinc-900">
                 /llms.txt
               </code>
@@ -171,7 +226,7 @@ function CheckerPage() {
               crawlers can reach the public pages listed in your file.
             </p>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500 dark:text-zinc-400">
-              This checker also works as a free LLMs.txt validation tool for
+              This checker also works as a free llms.txt validation tool for
               teams that need to verify headers, Markdown structure, link
               health, and AI crawler access before submitting a site for AI
               search review.
@@ -582,7 +637,7 @@ function CheckerPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 dark:text-zinc-200">
-                      Get the AI Search Readiness Fix Pack
+                      Get the AI Visibility Fix Pack
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-zinc-400">
                       We'll email you the complete handoff for {r.normalizedUrl}
@@ -636,6 +691,49 @@ function CheckerPage() {
         </section>
       )}
 
+      {/* Common issues */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-50">
+              Common llms.txt issues this tool checks
+            </h2>
+            <p className="mt-4 text-center text-sm leading-6 text-gray-500 dark:text-zinc-400">
+              A useful llms.txt file should be easy to fetch, easy to parse, and
+              selective about the pages it recommends. This validator checks the
+              failure points that most often make the file less useful.
+            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {commonIssueItems.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-zinc-800/60 dark:bg-zinc-900/30"
+                >
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-zinc-50">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-zinc-400">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-50">
+              Frequently Asked Questions
+            </h2>
+            <FAQ items={faqItems} className="mt-8" />
+          </div>
+        </Container>
+      </section>
+
       {/* Internal link: guide */}
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-12">
         <Container>
@@ -681,7 +779,7 @@ function CheckerPage() {
                 href="/tools/aeo-checker"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
-                AEO Checker
+                free AEO checker
               </a>
               .
             </p>
@@ -756,9 +854,9 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 export const Route = createFileRoute('/tools/llms-txt-checker')({
   head: () => ({
     ...seo('/tools/llms-txt-checker', {
-      title: 'Free LLMs.txt Checker & Validator - Test Your AI Crawler Access',
+      title: 'Free llms.txt Validator & Checker - Test Your AI Crawler Access',
       description:
-        'Validate your llms.txt, llms-full.txt, sitemap, and AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and more. See what AI sees. Free, instant, no signup.',
+        'Validate your llms.txt file with a free llms.txt validator and checker. Test headers, Markdown structure, broken links, llms-full.txt, sitemap, ChatGPT, Claude, Perplexity, and AI crawler access.',
     }),
     scripts: [
       jsonLd(
@@ -773,26 +871,11 @@ export const Route = createFileRoute('/tools/llms-txt-checker')({
             'Link health & broken link detection',
             'AI crawler access analysis',
             'Sitemap & llms-full.txt checks',
-            'Readiness score (0-100)',
+            'AI Visibility Score (0-100)',
           ],
         })
       ),
-      jsonLd(
-        faqSchema([
-          {
-            q: 'What is an LLMs.txt validator?',
-            a: 'An LLMs.txt validator checks whether your website has a correctly structured /llms.txt file, validates its internal links, confirms llms-full.txt and sitemap discoverability, and reports AI crawler access for GPTBot, ClaudeBot, PerplexityBot, and other AI user agents.',
-          },
-          {
-            q: 'Why does my site need an llms.txt file?',
-            a: 'LLMs.txt helps AI systems and LLM-based search tools discover, crawl, and understand your key content. Without one, AI crawlers may miss important pages or get an incomplete picture of your site.',
-          },
-          {
-            q: 'Is this tool free?',
-            a: 'Yes - the LLMs.txt Checker & Validator is free to use. No account, no signup required.',
-          },
-        ])
-      ),
+      jsonLd(faqSchema(faqItems)),
       jsonLd(websiteSchema()),
     ],
   }),
