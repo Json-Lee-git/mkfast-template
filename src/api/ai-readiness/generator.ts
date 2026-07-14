@@ -358,8 +358,11 @@ export interface EnhanceResult {
 const ENHANCE_PROMPT = `You are an expert at writing LLMs.txt files for AI search readiness. Given a draft LLMs.txt file, improve it:
 
 1. Polish the site summary line (after "> ") to be concise and informative
-2. Improve link descriptions to be useful for AI systems — describe what each page contains, not just its name
-3. Add or improve section names if they're vague (e.g. "More Pages" → better grouping)
+2. Improve link descriptions to be useful for AI systems - describe what each page contains, not just its name
+3. Add or improve section names if they're vague (e.g. "More Pages" -> better grouping)
+4. Do not add crawler permission rules such as "GPTBot: allow",
+   "ClaudeBot: allow", "User-agent:", "Allow:", or "Disallow:".
+   /llms.txt is Markdown context; robots.txt controls crawler access.
 
 Return ONLY valid JSON:
 {

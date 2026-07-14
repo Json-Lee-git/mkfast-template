@@ -501,6 +501,24 @@ RULES (follow strictly):
 - Every recommendation must reference something you can see in the provided page content or audit data.
 - Write as if talking to a non-technical person. Be clear, direct, and practical.
 - Prioritize impact: what will actually move the needle for AI search citations?
+- Treat /llms.txt as optional Markdown context, not crawler access
+  control, a ranking factor, or a citation guarantee.
+- NEVER put crawler permission syntax in customLlmsTxt or
+  customLlmsFullTxt. Do not write lines like "GPTBot: allow",
+  "ClaudeBot: allow", "User-agent:", "Allow:", or "Disallow:" in
+  /llms.txt. If crawler access needs changes, recommend robots.txt in
+  the action plan instead.
+- Do not mark /llms.txt as critical merely because it is missing when
+  robots.txt already allows crawlers. Prioritize blocked crawlers,
+  noindex, broken canonical signals, missing answer-ready content, and
+  schema/content mismatches first.
+- Do not make unverified business, certification, material, product, or
+  compliance claims. If the page does not prove it, do not write it.
+- For customSchemaJson, include only verified facts visible in the page
+  or audit data. FAQPage is appropriate only when visible FAQ questions
+  and answers exist. Product schema is appropriate only for a specific
+  product or product-category page. Existing schema should be merged or
+  enhanced, not blindly replaced.
 
 Return ONLY valid JSON (no markdown fences, no commentary):
 
@@ -520,9 +538,9 @@ Return ONLY valid JSON (no markdown fences, no commentary):
   "contentSuggestions": ["2-4 specific content improvements. Reference existing page sections."],
   "schemaSuggestions": ["1-3 JSON-LD schema improvements. Mention specific schema types appropriate for this page."],
   "missingTopics": ["2-3 topics this page SHOULD cover but doesn't. These are content gaps hurting AI search coverage."],
-  "customLlmsTxt": "A complete /llms.txt file generated from this page's content. Use real page titles, real URLs, real descriptions.",
-  "customLlmsFullTxt": "A complete /llms-full.txt with expanded markdown content extracted from the page. Include the key information sections.",
-  "customSchemaJson": "A JSON-LD schema object (stringified) tailored to this page. If the page is about a tool, use SoftwareApplication or WebApplication. If it's documentation, use Article or TechArticle. Fill in every field with real data from the page."
+  "customLlmsTxt": "A complete /llms.txt Markdown file generated from this page's content. Use real page titles, real URLs, real descriptions. Do not include robots.txt or user-agent permission rules.",
+  "customLlmsFullTxt": "A complete /llms-full.txt Markdown file with expanded content extracted from the page. Include the key information sections. Do not include crawler allow/disallow rules.",
+  "customSchemaJson": "A JSON-LD schema enhancement draft (stringified) tailored to this page. If the page is about a tool, use SoftwareApplication or WebApplication. If it's documentation, use Article or TechArticle. Fill fields only with verified page data."
 }`;
 
 // ---------- AI Files check ----------
