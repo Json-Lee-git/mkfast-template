@@ -14,12 +14,7 @@ const BLOG_DESCRIPTION =
 
 export const Route = createFileRoute('/blog/')({
   validateSearch: (search: Record<string, unknown>) => ({
-    page:
-      typeof search.page === 'number'
-        ? search.page
-        : typeof search.page === 'string'
-          ? Number(search.page) || undefined
-          : undefined,
+    page: search.page,
   }),
   loader: ({ location }) => {
     const pageValues = new URLSearchParams(location.searchStr).getAll('page');
