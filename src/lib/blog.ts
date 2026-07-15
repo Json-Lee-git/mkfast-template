@@ -25,6 +25,28 @@ export function getBlogRedirect(slug: string): string | undefined {
   return BLOG_REDIRECTS[slug];
 }
 
+export function getBlogPageRedirect(
+  rawPage: string | null,
+  pageValueCount = rawPage === null ? 0 : 1
+): string | undefined {
+  if (rawPage === null) {
+    return undefined;
+  }
+
+  if (pageValueCount !== 1 || !/^[1-9]\d*$/.test(rawPage)) {
+    return '/blog';
+  }
+
+  return rawPage === '1' ? '/blog' : undefined;
+}
+
+export function getBlogLastmod(post: {
+  date: string;
+  updated?: string;
+}): string {
+  return new Date(post.updated ?? post.date).toISOString().slice(0, 10);
+}
+
 function getPageSize(): number {
   return websiteConfig.blog?.paginationSize ?? DEFAULT_PAGE_SIZE;
 }

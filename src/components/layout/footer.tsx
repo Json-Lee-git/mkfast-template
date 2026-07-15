@@ -9,7 +9,7 @@ import { Link, useLocation } from '@tanstack/react-router';
 import { websiteConfig } from '@/config/website';
 
 const footerTagline =
-  'Compare AI visibility tools for tracking brand mentions across AI search platforms.';
+  'Audit AI search readiness across crawler access, schema, and answer extraction.';
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   const pathname = useLocation().pathname;

@@ -97,14 +97,14 @@ function WorthItPage() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
-                href="/sample-aeo-report?utm_source=compare&utm_medium=organic&utm_campaign=report-worth-it&utm_content=cta-top"
+                href="/sample-aeo-report"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 Preview sample Fix Pack
                 <IconArrowRight size={16} />
               </a>
               <a
-                href="/tools/aeo-checker?utm_source=compare&utm_medium=organic&utm_campaign=report-worth-it&utm_content=cta-top"
+                href="/tools/aeo-checker"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
                 Run free scan first

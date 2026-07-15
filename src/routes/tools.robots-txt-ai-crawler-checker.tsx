@@ -1,6 +1,5 @@
 import {
   breadcrumbSchema,
-  faqSchema,
   jsonLd,
   softwareApplicationSchema,
 } from '@/lib/ai-visibility-schema';
@@ -50,17 +49,6 @@ const page: HighIntentToolPageProps = {
   ],
 };
 
-const faqItems = [
-  {
-    q: 'Can robots.txt block AI search visibility?',
-    a: 'It can block crawler access to public pages for user agents that respect robots.txt. That may reduce discoverability, but it is not the only factor behind AI search visibility or citations.',
-  },
-  {
-    q: 'Should I allow every AI crawler?',
-    a: 'Not always. Some teams allow search and answer crawlers while limiting training-related crawlers. The right policy depends on your content strategy and risk tolerance.',
-  },
-];
-
 export const Route = createFileRoute('/tools/robots-txt-ai-crawler-checker')({
   head: () => ({
     ...seo('/tools/robots-txt-ai-crawler-checker', {
@@ -78,7 +66,6 @@ export const Route = createFileRoute('/tools/robots-txt-ai-crawler-checker')({
           keyFeatures: page.checks,
         })
       ),
-      jsonLd(faqSchema(faqItems)),
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
