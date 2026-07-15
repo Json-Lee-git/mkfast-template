@@ -11,7 +11,15 @@ describe('Cloudflare deploy workflow', () => {
     expect(workflow).toContain(
       'PUBLIC_SITE_URL: $' + '{{ secrets.PUBLIC_SITE_URL }}'
     );
-    expect(workflow).toContain('run: pnpx wrangler deploy');
+    expect(workflow).toContain('run: pnpm exec wrangler deploy');
     expect(workflow).not.toMatch(/wrangler deploy[^\n]*--var/);
+  });
+
+  it('runs the built Worker smoke test before deployment', () => {
+    const smokeIndex = workflow.indexOf('run: pnpm smoke:worker-ssr');
+    const deployIndex = workflow.indexOf('run: pnpm exec wrangler deploy');
+
+    expect(smokeIndex).toBeGreaterThan(-1);
+    expect(deployIndex).toBeGreaterThan(smokeIndex);
   });
 });

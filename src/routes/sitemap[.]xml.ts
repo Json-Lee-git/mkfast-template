@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getBaseUrl } from '@/lib/urls';
-import { getSortedPosts } from '@/lib/blog';
+import { getBlogLastmod, getSortedPosts } from '@/lib/blog';
 import { getGlossaryTerms } from '@/lib/glossary';
 import { websiteConfig } from '@/config/website';
 import { submitUrls } from '@/lib/indexnow';
@@ -226,7 +226,7 @@ export const Route = createFileRoute('/sitemap.xml')({
             .map((p) =>
               urlEntry(`/blog/${p.slug}`, {
                 changefreq: 'weekly',
-                lastmod: new Date(p.date).toISOString().slice(0, 10),
+                lastmod: getBlogLastmod(p),
               })
             )
             .join('\n');

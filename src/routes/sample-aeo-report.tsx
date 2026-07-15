@@ -278,7 +278,10 @@ function SampleAeoReportPage() {
             </div>
 
             {/* URL + meta */}
-            <div className="mt-5">
+            <h1 className="mt-5 text-2xl font-bold tracking-tight text-zinc-100 sm:text-3xl">
+              Sample AI Visibility Audit Report
+            </h1>
+            <div className="mt-3">
               <p className="font-mono text-lg text-zinc-100 sm:text-xl">
                 {scannedUrl}
               </p>

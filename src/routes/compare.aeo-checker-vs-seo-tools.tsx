@@ -140,10 +140,6 @@ export const Route = createFileRoute('/compare/aeo-checker-vs-seo-tools')({
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
           {
-            name: 'Compare',
-            url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools'),
-          },
-          {
             name: 'AEO Checker vs SEO Tools',
             url: getCanonicalUrl('/compare/aeo-checker-vs-seo-tools'),
           },
@@ -203,14 +199,14 @@ function AeoCheckerVsSeoToolsPage() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
-                href="/tools/aeo-checker?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-vs-seo-tools&utm_content=cta-top"
+                href="/tools/aeo-checker"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 Run free AEO checker
                 <IconArrowRight size={16} />
               </a>
               <a
-                href="/sample-aeo-report?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-vs-seo-tools&utm_content=cta-top"
+                href="/sample-aeo-report"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
                 Preview sample Fix Pack
@@ -446,14 +442,14 @@ function AeoCheckerVsSeoToolsPage() {
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
               <a
-                href="/tools/aeo-checker?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-vs-seo-tools&utm_content=cta-bottom"
+                href="/tools/aeo-checker"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 Run free AEO checker
                 <IconArrowRight size={16} />
               </a>
               <a
-                href="/blog/aeo-vs-seo?utm_source=compare&utm_medium=organic&utm_campaign=seo-aeo-checker-vs-seo-tools&utm_content=cta-bottom"
+                href="/blog/aeo-vs-seo"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/40 dark:border-zinc-400 dark:text-gray-950 dark:hover:border-zinc-600"
               >
                 Read: AEO vs SEO explained
