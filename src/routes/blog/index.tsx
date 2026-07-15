@@ -13,9 +13,6 @@ const BLOG_DESCRIPTION =
   'Practical guides on AI search readiness, AEO, LLMs.txt, AI crawler access, schema, and getting pages ready for ChatGPT, Perplexity, and AI-assisted search.';
 
 export const Route = createFileRoute('/blog/')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    page: search.page,
-  }),
   loader: ({ location }) => {
     const pageValues = new URLSearchParams(location.searchStr).getAll('page');
     const rawPage = pageValues[0] ?? null;
