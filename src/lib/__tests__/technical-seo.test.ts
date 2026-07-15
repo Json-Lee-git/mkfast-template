@@ -67,6 +67,17 @@ describe('blog pagination canonicalization', () => {
     expect(source).toContain('if (page > pagination.totalPages)');
     expect(source).toContain('throw notFound()');
   });
+
+  it('normalizes repeated page parameters before TanStack Router', () => {
+    const source = fs.readFileSync(
+      path.resolve(process.cwd(), 'src/server.ts'),
+      'utf8'
+    );
+
+    expect(source).toContain('getBlogPaginationRedirect(request)');
+    expect(source).toContain("url.searchParams.getAll('page').length <= 1");
+    expect(source).toContain("Location: '/blog'");
+  });
 });
 
 describe('sitemap blog dates', () => {

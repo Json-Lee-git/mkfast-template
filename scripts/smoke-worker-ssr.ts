@@ -87,34 +87,41 @@ async function stopWorker() {
 }
 
 async function requestRoute(route: string) {
-  return await new Promise<number>((resolve, reject) => {
-    const request = https.request(
-      {
-        hostname: 'aeocheck.xyz',
-        port: PORT,
-        path: route,
-        method: 'GET',
-        lookup: (_hostname, options, callback) => {
-          if (options.all) {
-            callback(null, [{ address: HOST, family: 4 }]);
-            return;
-          }
-          callback(null, HOST, 4);
+  return await new Promise<{ location?: string; status: number }>(
+    (resolve, reject) => {
+      const request = https.request(
+        {
+          hostname: 'aeocheck.xyz',
+          port: PORT,
+          path: route,
+          method: 'GET',
+          lookup: (_hostname, options, callback) => {
+            if (options.all) {
+              callback(null, [{ address: HOST, family: 4 }]);
+              return;
+            }
+            callback(null, HOST, 4);
+          },
+          rejectUnauthorized: false,
         },
-        rejectUnauthorized: false,
-      },
-      (response) => {
-        response.resume();
-        response.once('end', () => resolve(response.statusCode ?? 0));
-      }
-    );
+        (response) => {
+          response.resume();
+          response.once('end', () =>
+            resolve({
+              location: response.headers.location,
+              status: response.statusCode ?? 0,
+            })
+          );
+        }
+      );
 
-    request.setTimeout(10_000, () => {
-      request.destroy(new Error(`Request timed out for ${route}`));
-    });
-    request.once('error', reject);
-    request.end();
-  });
+      request.setTimeout(10_000, () => {
+        request.destroy(new Error(`Request timed out for ${route}`));
+      });
+      request.once('error', reject);
+      request.end();
+    }
+  );
 }
 
 async function main() {
@@ -122,7 +129,7 @@ async function main() {
     await waitForWorker();
 
     for (const route of ROUTES) {
-      const status = await requestRoute(route);
+      const { status } = await requestRoute(route);
       console.log(`${status} ${route}`);
 
       if (status !== 200) {
@@ -130,6 +137,16 @@ async function main() {
           `Worker smoke failed for ${route}: HTTP ${status}\n${output}`
         );
       }
+    }
+
+    const repeatedPage = await requestRoute('/blog?page=2&page=3');
+    console.log(
+      `${repeatedPage.status} /blog?page=2&page=3 -> ${repeatedPage.location}`
+    );
+    if (repeatedPage.status !== 301 || repeatedPage.location !== '/blog') {
+      throw new Error(
+        `Worker smoke failed for repeated blog page parameters: HTTP ${repeatedPage.status}, Location ${repeatedPage.location}\n${output}`
+      );
     }
   } finally {
     await stopWorker();
