@@ -55,10 +55,27 @@ function getCanonicalRedirect(request: Request): Response | null {
   });
 }
 
+function getBlogPaginationRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (url.pathname !== '/blog' && url.pathname !== '/blog/') return null;
+  if (url.searchParams.getAll('page').length <= 1) return null;
+
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: '/blog',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}
+
 export default {
   async fetch(request: Request) {
     const canonicalRedirect = getCanonicalRedirect(request);
     if (canonicalRedirect) return withSecurityHeaders(canonicalRedirect);
+
+    const paginationRedirect = getBlogPaginationRedirect(request);
+    if (paginationRedirect) return withSecurityHeaders(paginationRedirect);
 
     const response = await localeMiddleware(request, () =>
       handler.fetch(request, {
