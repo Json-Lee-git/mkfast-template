@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { getBlogLastmod, getBlogPageRedirect } from '@/lib/blog';
 
 vi.mock('content-collections', () => ({ allBlogs: [] }));
+vi.mock('@/config/website', () => ({
+  siteConfig: { blog: { paginationSize: 6 } },
+}));
 
 const routesDirectory = path.resolve('src/routes');
 
