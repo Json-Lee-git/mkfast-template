@@ -63,8 +63,7 @@ describe('blog pagination canonicalization', () => {
 
     expect(source).toContain('location.searchStr');
     expect(source).not.toContain('new URLSearchParams(location.search)');
-    expect(source).toContain('page: search.page');
-    expect(source).not.toContain('Number(search.page)');
+    expect(source).not.toContain('validateSearch');
     expect(source).toContain('if (page > pagination.totalPages)');
     expect(source).toContain('throw notFound()');
   });
