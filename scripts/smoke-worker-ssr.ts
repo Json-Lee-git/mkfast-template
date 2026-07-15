@@ -7,6 +7,7 @@ const PORT = 18766;
 const BASE_URL = `https://${HOST}:${PORT}`;
 const START_TIMEOUT_MS = 90_000;
 const ROUTES = ['/playbooks', '/report/test-token', '/api/ping'];
+const AUTH_PROBE_ROUTE = '/api/auth/get-session';
 const STOP_TIMEOUT_MS = 5_000;
 
 const wranglerBin = path.resolve('node_modules/wrangler/bin/wrangler.js');
@@ -137,6 +138,14 @@ async function main() {
           `Worker smoke failed for ${route}: HTTP ${status}\n${output}`
         );
       }
+    }
+
+    const authProbe = await requestRoute(AUTH_PROBE_ROUTE);
+    console.log(`${authProbe.status} ${AUTH_PROBE_ROUTE}`);
+    if (authProbe.status >= 500) {
+      throw new Error(
+        `Worker smoke failed to initialize the auth route: HTTP ${authProbe.status}\n${output}`
+      );
     }
 
     const repeatedPage = await requestRoute('/blog?page=2&page=3');

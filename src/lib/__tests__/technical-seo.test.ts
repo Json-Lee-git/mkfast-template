@@ -5,7 +5,11 @@ import { getBlogLastmod, getBlogPageRedirect } from '@/lib/blog';
 
 vi.mock('content-collections', () => ({ allBlogs: [] }));
 vi.mock('@/config/website', () => ({
-  siteConfig: { blog: { paginationSize: 6 } },
+  websiteConfig: { blog: { paginationSize: 6 } },
+}));
+vi.mock('@/lib/locale', () => ({
+  baseLocale: 'en',
+  getLocale: () => 'en',
 }));
 
 const routesDirectory = path.resolve('src/routes');
