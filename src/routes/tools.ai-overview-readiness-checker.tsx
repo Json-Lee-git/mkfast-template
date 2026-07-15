@@ -1,6 +1,5 @@
 import {
   breadcrumbSchema,
-  faqSchema,
   jsonLd,
   softwareApplicationSchema,
 } from '@/lib/ai-visibility-schema';
@@ -51,17 +50,6 @@ const page: HighIntentToolPageProps = {
   ],
 };
 
-const faqItems = [
-  {
-    q: 'Can this tool tell me if I will appear in Google AI Overviews?',
-    a: 'No. It checks technical readiness signals only. Google AI Overview inclusion is controlled by Google and cannot be guaranteed by any third-party checker.',
-  },
-  {
-    q: 'What helps AI Overview readiness?',
-    a: 'Clear crawlability, concise answers, useful headings, structured data, trustworthy sourcing, and strong topical coverage can all make a page easier to understand.',
-  },
-];
-
 export const Route = createFileRoute('/tools/ai-overview-readiness-checker')({
   head: () => ({
     ...seo('/tools/ai-overview-readiness-checker', {
@@ -79,7 +67,6 @@ export const Route = createFileRoute('/tools/ai-overview-readiness-checker')({
           keyFeatures: page.checks,
         })
       ),
-      jsonLd(faqSchema(faqItems)),
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },

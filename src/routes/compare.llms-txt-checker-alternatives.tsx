@@ -158,10 +158,6 @@ export const Route = createFileRoute('/compare/llms-txt-checker-alternatives')({
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },
           {
-            name: 'Compare',
-            url: getCanonicalUrl('/compare/llms-txt-checker-alternatives'),
-          },
-          {
             name: 'LLMs.txt Checker Alternatives',
             url: getCanonicalUrl('/compare/llms-txt-checker-alternatives'),
           },
@@ -215,14 +211,14 @@ function LLMsTxtCheckerAlternativesPage() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
-                href="/tools/llms-txt-checker?utm_source=compare&utm_medium=organic&utm_campaign=seo-llms-txt-checker-alternatives&utm_content=cta-top"
+                href="/tools/llms-txt-checker"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 Run free LLMs.txt Checker
                 <IconArrowRight size={16} />
               </a>
               <a
-                href="/tools/llms-txt-generator?utm_source=compare&utm_medium=organic&utm_campaign=seo-llms-txt-checker-alternatives&utm_content=cta-top"
+                href="/tools/llms-txt-generator"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500"
               >
                 Try LLMs.txt Generator
@@ -490,14 +486,14 @@ function LLMsTxtCheckerAlternativesPage() {
             </p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
               <a
-                href="/tools/llms-txt-checker?utm_source=compare&utm_medium=organic&utm_campaign=seo-llms-txt-checker-alternatives&utm_content=cta-bottom"
+                href="/tools/llms-txt-checker"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 Run free LLMs.txt Checker
                 <IconArrowRight size={16} />
               </a>
               <a
-                href="/guides/llms-txt-file?utm_source=compare&utm_medium=organic&utm_campaign=seo-llms-txt-checker-alternatives&utm_content=cta-bottom"
+                href="/guides/llms-txt-file"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/40 dark:border-zinc-400 dark:text-gray-950 dark:hover:border-zinc-600"
               >
                 Read: LLMs.txt guide

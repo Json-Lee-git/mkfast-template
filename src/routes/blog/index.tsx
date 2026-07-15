@@ -1,9 +1,9 @@
 import { m } from '@/locale/paraglide/messages';
-import { createFileRoute, notFound } from '@tanstack/react-router';
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router';
 import Container from '@/components/layout/container';
 import { BlogGrid } from '@/components/blog/blog-grid';
 import { BlogPagination } from '@/components/blog/blog-pagination';
-import { getPaginatedPosts } from '@/lib/blog';
+import { getBlogPageRedirect, getPaginatedPosts } from '@/lib/blog';
 import { websiteConfig } from '@/config/website';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrlForLocale } from '@/lib/urls';
@@ -22,8 +22,21 @@ export const Route = createFileRoute('/blog/')({
           : undefined,
   }),
   loader: ({ location }) => {
-    const page = Number(new URLSearchParams(location.search).get('page')) || 1;
-    return getPaginatedPosts(page);
+    const pageValues = new URLSearchParams(location.searchStr).getAll('page');
+    const rawPage = pageValues[0] ?? null;
+    const redirectTo = getBlogPageRedirect(rawPage, pageValues.length);
+
+    if (redirectTo) {
+      throw redirect({ href: redirectTo, statusCode: 301 });
+    }
+
+    const page = rawPage === null ? 1 : Number(rawPage);
+    const pagination = getPaginatedPosts(page);
+    if (page > pagination.totalPages) {
+      throw notFound();
+    }
+
+    return pagination;
   },
   head: ({ loaderData }) => {
     const path = '/blog';
