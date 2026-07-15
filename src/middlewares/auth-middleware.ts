@@ -1,4 +1,3 @@
-import { auth } from '@/auth/auth';
 import { redirect } from '@tanstack/react-router';
 import { createMiddleware } from '@tanstack/react-start';
 import { getRequestHeaders } from '@tanstack/react-start/server';
@@ -16,6 +15,7 @@ export const authRouteMiddleware = createMiddleware().server(
       throw redirect({ to: Routes.Root });
     }
 
+    const { auth } = await import('@/auth/auth');
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
 
@@ -39,6 +39,7 @@ export const authRouteMiddleware = createMiddleware().server(
  * Passes context: { userId } so server function handlers can use context.userId.
  */
 export const authApiMiddleware = createMiddleware().server(async ({ next }) => {
+  const { auth } = await import('@/auth/auth');
   const headers = getRequestHeaders();
   const session = await auth.api.getSession({ headers });
 
