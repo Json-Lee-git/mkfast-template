@@ -59,6 +59,9 @@ const config = defineConfig({
       ignored: ['**/src/locale/paraglide/**', '**/.wrangler/**'],
     },
   },
+  ssr: {
+    noExternal: ['better-auth-harmony', 'validator'],
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
