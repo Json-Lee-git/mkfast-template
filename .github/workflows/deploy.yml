@@ -83,4 +83,4 @@ jobs:
         run: pnpm build
 
       - name: Deploy to Cloudflare Workers
-        run: pnpx wrangler deploy --var "PUBLIC_SITE_URL=${{ secrets.PUBLIC_SITE_URL }}"
+        run: pnpx wrangler deploy
