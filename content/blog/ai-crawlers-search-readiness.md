@@ -2,7 +2,7 @@
 title: AI Crawlers Are Scanning Your Site Right Now - How to Check and Control Access
 description: A practical guide to AI crawler identification, robots.txt configuration, and search readiness auditing. Which crawlers to allow, which to block, and why.
 date: 2026-06-25
-updated: 2026-06-26
+updated: 2026-07-16
 category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
@@ -15,8 +15,8 @@ Some are used for search retrieval, some for training, and some for broader web
 indexing. If you care about AI search visibility, you need to know which ones
 can access your public pages.
 
-The most common accidental blocker is simple: a robots.txt rule or CDN bot
-setting that prevents AI crawlers from reaching the content you want discovered.
+One accidental blocker to check is a robots.txt rule or CDN bot setting that
+prevents AI crawlers from reaching the content you want discovered.
 If you are reviewing OpenAI crawler rules specifically, see
 [GPTBot vs OAI-SearchBot](/blog/gptbot-vs-oai-searchbot). If you use Cloudflare
 or another WAF, also check
@@ -27,10 +27,9 @@ or another WAF, also check
 | Signal | Count / Status | Why it matters |
 |--------|---------------|----------------|
 | Major AI crawlers to track | 8 (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, Google-Extended, CCBot, PerplexityBot) | Each serves a different purpose — search vs training vs user-triggered |
-| Most common blocker | `User-agent: * Disallow: /` | Blocks every well-behaved crawler indiscriminately |
-| Sites we checked with working AI crawler access | ~35% | Majority of sites accidentally block at least one major AI crawler |
+| Broad blocking rule to review | `User-agent: * Disallow: /` | Blocks every well-behaved crawler indiscriminately |
 | Fastest fix | Add per-crawler `Allow: /` rules in robots.txt | Takes effect on next crawl (hours to days) |
-| CDN interference rate | ~20% of blocks caused by CDN bot protection, not robots.txt | Check Cloudflare/WAF settings — not just your robots.txt |
+| Additional access layer | CDN or WAF bot protection | Check network-level settings as well as robots.txt |
 
 ## The major AI crawler tokens to check
 
@@ -74,7 +73,7 @@ Three quick diagnostic steps:
 For a step-by-step diagnostic workflow, see
 [AI Crawler Checker: see if ChatGPT, Perplexity, and AI bots can access your site](/blog/ai-crawler-checker-chatgpt-perplexity).
 
-## The most common mistake
+## A broad blocking mistake
 
 The blunt rule that makes sites invisible to many crawlers:
 
@@ -109,9 +108,8 @@ private areas.
 **Block completely** only when you intentionally do not want a crawler to access
 any public content.
 
-For most content sites, SaaS marketing sites, and documentation sites, the
-practical approach is to allow public pages and block private or operational
-paths.
+For content sites, SaaS marketing sites, and documentation sites, a practical
+approach is to allow public pages and block private or operational paths.
 
 ## Configuring robots.txt
 
@@ -179,9 +177,9 @@ Run our [AEO Checker](/tools/aeo-checker) to audit these signals in one scan.
 
 ## The bottom line
 
-Most accidental AI crawler blocks come from broad robots.txt rules or CDN bot
-settings. Both are fixable. The right setup is not "allow everything forever";
-it is to make public discovery intentional and private areas truly private.
+Broad robots.txt rules and CDN bot settings can both prevent crawler access.
+Review both layers. The right setup is not "allow everything forever"; it is to
+make public discovery intentional and private areas truly private.
 
 ## Sources and further reading
 

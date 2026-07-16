@@ -2,7 +2,7 @@
 title: How to Get Cited by ChatGPT, Perplexity, and AI Search Engines in 2026
 description: A practical guide to getting your content cited by ChatGPT, Perplexity, Google AI Overviews, and other AI search engines. Technical signals, content structure, and off-site presence that actually matter.
 date: 2026-06-25
-updated: 2026-06-26
+updated: 2026-07-16
 category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
@@ -189,11 +189,9 @@ than "link juice."
 
 ### How long does it take to start appearing in ChatGPT citations?
 
-There's no fixed timeline. Technical readiness (crawl access, schema, structure)
-can be improved in days. Getting actually cited typically takes weeks to months
-because: (1) AI models don't re-crawl in real time, (2) new content needs to
-build external corroboration before it's trusted, (3) citation patterns depend
-on the AI model's refresh cycle.
+There is no predictable citation timeline. Timing varies by platform, crawl
+cadence, retrieval system, query, source authority, and content changes. AEOCheck
+does not estimate when a page will begin appearing in ChatGPT citations.
 
 ### Can I request ChatGPT to cite my website?
 

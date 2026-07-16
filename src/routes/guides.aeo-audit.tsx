@@ -65,7 +65,7 @@ function AeoAuditGuidePage() {
               and which fixes matter most for AI search readiness.
             </p>
             <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
-              Last updated: June 25, 2026
+              Last updated: July 16, 2026
             </p>
           </div>
         </Container>
@@ -196,17 +196,16 @@ function AeoAuditGuidePage() {
         <Container>
           <div className="mx-auto max-w-3xl">
             <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
-              Real-world example: Tailscale
+              Documentation structure example: Tailscale
             </h2>
             <p className="mt-6 text-gray-500 dark:text-zinc-400">
-              Tailscale's documentation site demonstrates strong AEO readiness
-              in production. Every page has: a single H1, descriptive H2
-              sections, structured FAQ blocks with question headings, JSON-LD
-              Organization and WebSite schema, clear author and date metadata,
-              an accessible LLMs.txt, and explicit AI crawler rules in
-              robots.txt allowing GPTBot and ClaudeBot. Run{' '}
-              <code>tailscale.com</code> through the AEO Checker to see how a
-              well-optimized technical docs site scores.
+              Tailscale's public documentation is a useful structure example:
+              topic-focused pages, descriptive headings, navigation between
+              related concepts, and direct technical explanations. This is an
+              editorial example of documentation organization, not a current
+              audit result or a guarantee about its LLMs.txt, schema, crawler
+              rules, or score. Those implementation details can change and
+              should be verified directly before citing them.
             </p>
           </div>
         </Container>
