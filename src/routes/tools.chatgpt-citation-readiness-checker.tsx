@@ -1,6 +1,5 @@
 import {
   breadcrumbSchema,
-  faqSchema,
   jsonLd,
   softwareApplicationSchema,
 } from '@/lib/ai-visibility-schema';
@@ -54,17 +53,6 @@ const page: HighIntentToolPageProps = {
   ],
 };
 
-const faqItems = [
-  {
-    q: 'Can this checker prove my site will be cited by ChatGPT?',
-    a: 'No. It checks public readiness signals only. ChatGPT citation behavior depends on retrieval, product design, query context, and many factors outside this tool.',
-  },
-  {
-    q: 'What is citation readiness?',
-    a: 'Citation readiness means your page is technically accessible, clearly structured, attributable, evidence-backed, and easy for retrieval systems to understand.',
-  },
-];
-
 export const Route = createFileRoute(
   '/tools/chatgpt-citation-readiness-checker'
 )({
@@ -86,7 +74,6 @@ export const Route = createFileRoute(
           keyFeatures: page.checks,
         })
       ),
-      jsonLd(faqSchema(faqItems)),
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },

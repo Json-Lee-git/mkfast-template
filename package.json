@@ -33,6 +33,7 @@
     "manual-audit:notification-payload": "tsx scripts/test-manual-audit-notification-payload.ts",
     "growth:assets": "tsx scripts/generate-growth-assets.ts",
     "smoke:route-tree": "tsx scripts/smoke-route-tree.ts",
+    "smoke:worker-ssr": "tsx scripts/smoke-worker-ssr.ts",
     "smoke:seo-funnel": "tsx scripts/smoke-seo-funnel.ts"
   },
   "dependencies": {
@@ -115,6 +116,6 @@
     "typescript": "^5.7.2",
     "vite": "^7.1.7",
     "vitest": "^4.1.9",
-    "wrangler": "^4.84.1"
+    "wrangler": "4.110.0"
   }
 }

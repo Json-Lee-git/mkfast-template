@@ -1,6 +1,5 @@
 import {
   breadcrumbSchema,
-  faqSchema,
   jsonLd,
   softwareApplicationSchema,
 } from '@/lib/ai-visibility-schema';
@@ -60,25 +59,6 @@ const page: HighIntentToolPageProps = {
   ],
 };
 
-const faqItems = [
-  {
-    q: 'What is an AI crawler checker?',
-    a: 'An AI crawler checker reviews public technical signals that affect whether AI crawlers can discover and parse your site, including robots.txt, sitemap.xml, LLMs.txt, crawlable metadata, links, and possible WAF blocks.',
-  },
-  {
-    q: 'What is the difference between GPTBot and OAI-SearchBot?',
-    a: 'OpenAI documents GPTBot for improving models and OAI-SearchBot for search features. A site may choose different robots.txt rules for training crawlers and search crawlers, so readiness checks should treat them separately.',
-  },
-  {
-    q: 'Does allowing AI crawlers guarantee ChatGPT citations?',
-    a: 'No. Crawler access is only one readiness signal. Citations depend on many factors outside this tool, including content usefulness, authority, retrieval systems, and product-specific policies.',
-  },
-  {
-    q: 'Can Cloudflare or another WAF block AI crawlers?',
-    a: 'Yes. Perplexity documents cases where WAFs may need allow rules for its crawlers. Robots.txt is not the only control surface; firewall and bot-management rules can also affect AI crawler access.',
-  },
-];
-
 export const Route = createFileRoute('/tools/ai-crawler-checker')({
   head: () => ({
     ...seo('/tools/ai-crawler-checker', {
@@ -97,7 +77,6 @@ export const Route = createFileRoute('/tools/ai-crawler-checker')({
           keyFeatures: page.checks,
         })
       ),
-      jsonLd(faqSchema(faqItems)),
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },

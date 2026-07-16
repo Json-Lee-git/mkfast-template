@@ -1,6 +1,5 @@
 import {
   breadcrumbSchema,
-  faqSchema,
   jsonLd,
   softwareApplicationSchema,
 } from '@/lib/ai-visibility-schema';
@@ -54,17 +53,6 @@ const page: HighIntentToolPageProps = {
   ],
 };
 
-const faqItems = [
-  {
-    q: 'What is a GEO audit?',
-    a: 'A GEO audit reviews whether a page is easy for generative search and answer systems to crawl, understand, extract, and potentially cite. It overlaps with SEO and AEO but focuses on AI-assisted answers.',
-  },
-  {
-    q: 'Is GEO different from AEO?',
-    a: 'They overlap heavily. AEO focuses on answer extraction and answer engines, while GEO is often used for visibility in generative search experiences. The technical foundation is similar.',
-  },
-];
-
 export const Route = createFileRoute('/tools/geo-audit')({
   head: () => ({
     ...seo('/tools/geo-audit', {
@@ -82,7 +70,6 @@ export const Route = createFileRoute('/tools/geo-audit')({
           keyFeatures: page.checks,
         })
       ),
-      jsonLd(faqSchema(faqItems)),
       jsonLd(
         breadcrumbSchema([
           { name: 'Home', url: getCanonicalUrl('/') },

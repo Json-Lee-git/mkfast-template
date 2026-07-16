@@ -82,5 +82,8 @@ jobs:
           PUBLIC_SITE_URL: ${{ secrets.PUBLIC_SITE_URL }}
         run: pnpm build
 
+      - name: Smoke test built Worker
+        run: pnpm smoke:worker-ssr
+
       - name: Deploy to Cloudflare Workers
-        run: pnpx wrangler deploy
+        run: pnpm exec wrangler deploy

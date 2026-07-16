@@ -1,4 +1,3 @@
-import { auth } from '@/auth/auth';
 import { redirect } from '@tanstack/react-router';
 import { createMiddleware } from '@tanstack/react-start';
 import { getRequestHeaders } from '@tanstack/react-start/server';
@@ -16,6 +15,7 @@ export const guestRouteMiddleware = createMiddleware().server(
       throw redirect({ to: Routes.Root });
     }
 
+    const { auth } = await import('@/auth/auth');
     const headers = getRequestHeaders();
     const session = await auth.api.getSession({ headers });
 
