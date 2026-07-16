@@ -4,7 +4,6 @@ import path from 'node:path';
 
 const HOST = '127.0.0.1';
 const PORT = 18766;
-const BASE_URL = `https://${HOST}:${PORT}`;
 const START_TIMEOUT_MS = 90_000;
 const ROUTES = ['/playbooks', '/report/test-token', '/api/ping'];
 const AUTH_PROBE_ROUTE = '/api/auth/get-session';
@@ -52,7 +51,12 @@ async function waitForWorker() {
       throw new Error(`Wrangler exited before startup.\n${output}`);
     }
 
-    if (output.includes(`Ready on ${BASE_URL}`)) return;
+    try {
+      const { status } = await requestRoute('/api/ping', 1_000);
+      if (status === 200) return;
+    } catch {
+      // Wrangler may be listening before the Worker is ready to serve requests.
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
@@ -87,7 +91,7 @@ async function stopWorker() {
   });
 }
 
-async function requestRoute(route: string) {
+async function requestRoute(route: string, timeoutMs = 10_000) {
   return await new Promise<{ location?: string; status: number }>(
     (resolve, reject) => {
       const request = https.request(
@@ -116,7 +120,7 @@ async function requestRoute(route: string) {
         }
       );
 
-      request.setTimeout(10_000, () => {
+      request.setTimeout(timeoutMs, () => {
         request.destroy(new Error(`Request timed out for ${route}`));
       });
       request.once('error', reject);
