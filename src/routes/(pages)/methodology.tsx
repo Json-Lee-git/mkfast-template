@@ -3,6 +3,8 @@ import { AIAnswerFramework } from '@/components/ai-visibility/ai-answer-framewor
 import Container from '@/components/layout/container';
 import { websiteConfig } from '@/config/website';
 import {
+  articleSchema,
+  breadcrumbSchema,
   jsonLd,
   organizationSchema,
   websiteSchema,
@@ -37,39 +39,37 @@ export const Route = createFileRoute('/(pages)/methodology')({
       title: `${p.title} | ${websiteConfig.metadata?.name}`,
       description: p.description,
     });
-    const url = getCanonicalUrl('/methodology');
+    const path = '/methodology';
     return {
       ...metadata,
       scripts: [
         jsonLd(organizationSchema()),
         jsonLd(websiteSchema()),
-        jsonLd({
-          '@context': 'https://schema.org',
-          '@type': 'TechArticle',
-          name: p.title,
-          headline: p.title,
-          description: p.description,
-          url,
-          datePublished: p.date ? new Date(p.date).toISOString() : PAGE_DATE,
-          dateModified: PAGE_DATE,
-          author: {
-            '@type': 'Organization',
-            name: websiteConfig.metadata?.name,
-            url: getCanonicalUrl('/'),
-          },
-          publisher: {
-            '@type': 'Organization',
-            name: websiteConfig.metadata?.name,
-            url: getCanonicalUrl('/'),
-          },
-          about: [
-            'Answer engine optimization',
-            'AI search readiness',
-            'Structured data',
-            'AI crawler access',
-          ],
-          mainEntityOfPage: url,
-        }),
+        jsonLd(
+          articleSchema({
+            path,
+            type: 'TechArticle',
+            headline: p.title,
+            description: p.description,
+            datePublished: p.date ? new Date(p.date).toISOString() : PAGE_DATE,
+            dateModified: PAGE_DATE,
+            about: [
+              'Answer engine optimization',
+              'AI search readiness',
+              'Structured data',
+              'AI crawler access',
+            ],
+          })
+        ),
+        jsonLd(
+          breadcrumbSchema(
+            [
+              { name: 'Home', url: getCanonicalUrl('/') },
+              { name: p.title, url: getCanonicalUrl(path) },
+            ],
+            path
+          )
+        ),
       ],
     };
   },

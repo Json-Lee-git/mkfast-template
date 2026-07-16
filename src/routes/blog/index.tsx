@@ -8,6 +8,14 @@ import { websiteConfig } from '@/config/website';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrlForLocale } from '@/lib/urls';
 import { getLocale, localeConfig } from '@/lib/locale';
+import {
+  jsonLd,
+  organizationId,
+  organizationSchema,
+  schemaReference,
+  websiteId,
+  websiteSchema,
+} from '@/lib/ai-visibility-schema';
 
 const BLOG_DESCRIPTION =
   'Practical guides on AI search readiness, AEO, LLMs.txt, AI crawler access, schema, and getting pages ready for ChatGPT, Perplexity, and AI-assisted search.';
@@ -46,6 +54,7 @@ export const Route = createFileRoute('/blog/')({
       return page && page > 1 ? `${base}?page=${page}` : base;
     };
     const canonicalHref = localizedUrl(currentPage);
+    const blogHref = localizedUrl();
     const paginationLinks: Array<{
       rel: string;
       href: string;
@@ -65,10 +74,13 @@ export const Route = createFileRoute('/blog/')({
     const blogJsonLd = {
       '@context': 'https://schema.org',
       '@type': 'Blog',
+      '@id': `${blogHref}#blog`,
       name: m.blog_title(),
       description: BLOG_DESCRIPTION,
       url: canonicalHref,
       inLanguage: localeConfig[getLocale()].hreflang,
+      publisher: schemaReference(organizationId()),
+      isPartOf: schemaReference(websiteId()),
     };
     return {
       ...metadata,
@@ -77,10 +89,9 @@ export const Route = createFileRoute('/blog/')({
         ...metadata.links.filter((link) => link.rel !== 'canonical'),
       ],
       scripts: [
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify(blogJsonLd),
-        },
+        jsonLd(organizationSchema()),
+        jsonLd(websiteSchema()),
+        jsonLd(blogJsonLd),
       ],
     };
   },

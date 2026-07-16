@@ -1,6 +1,7 @@
 import { FAQ } from '@/components/ai-visibility/faq';
 import Container from '@/components/layout/container';
 import {
+  articleSchema,
   breadcrumbSchema,
   faqSchema,
   jsonLd,
@@ -48,23 +49,6 @@ const checklist = [
   'Entity signals clarify the brand, product, service, author, or publisher',
   'Trust signals include author, date, about, contact, privacy, and source links where relevant',
 ];
-
-function articleSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: 'AEO Audit Guide',
-    description:
-      'Learn what an AEO audit checks and how to prepare a website for answer engines and AI search readiness.',
-    url: getCanonicalUrl('/guides/aeo-audit'),
-    mainEntityOfPage: getCanonicalUrl('/guides/aeo-audit'),
-    publisher: {
-      '@type': 'Organization',
-      name: 'AI Search Readiness Tools',
-      url: getCanonicalUrl('/'),
-    },
-  };
-}
 
 function AeoAuditGuidePage() {
   return (
@@ -253,16 +237,27 @@ export const Route = createFileRoute('/guides/aeo-audit')({
       type: 'article',
     }),
     scripts: [
-      jsonLd(articleSchema()),
+      jsonLd(
+        articleSchema({
+          path: '/guides/aeo-audit',
+          type: 'Article',
+          headline: 'AEO Audit Guide',
+          description:
+            'Learn what an AEO audit checks and how to prepare a website for answer engines and AI search readiness.',
+        })
+      ),
       jsonLd(faqSchema(faqItems)),
       jsonLd(
-        breadcrumbSchema([
-          { name: 'Home', url: getCanonicalUrl('/') },
-          {
-            name: 'AEO Audit Guide',
-            url: getCanonicalUrl('/guides/aeo-audit'),
-          },
-        ])
+        breadcrumbSchema(
+          [
+            { name: 'Home', url: getCanonicalUrl('/') },
+            {
+              name: 'AEO Audit Guide',
+              url: getCanonicalUrl('/guides/aeo-audit'),
+            },
+          ],
+          '/guides/aeo-audit'
+        )
       ),
     ],
   }),

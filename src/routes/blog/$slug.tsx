@@ -14,7 +14,12 @@ import { getLocale, localeConfig } from '@/lib/locale';
 import { seo } from '@/lib/seo';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { formatDate } from '@/lib/formatter';
-import { faqSchema, jsonLd } from '@/lib/ai-visibility-schema';
+import {
+  articleSchema,
+  breadcrumbSchema,
+  faqSchema,
+  jsonLd,
+} from '@/lib/ai-visibility-schema';
 
 /** Extract FAQ Q&A pairs from a "## Frequently asked questions" section. */
 function extractFaqFromContent(content: string): { q: string; a: string }[] {
@@ -52,7 +57,6 @@ export const Route = createFileRoute('/blog/$slug')({
     const description =
       post.description ?? websiteConfig.metadata?.description ?? '';
     const image = post.image ? getImageUrl(post.image) : undefined;
-    const canonicalUrl = getCanonicalUrl(path);
     const modifiedDate = new Date(post.updated ?? post.date).toISOString();
     const authorName = post.author ?? 'AI Search Readiness Editorial Team';
     const authorTitle = post.authorTitle ?? 'Technical editorial team';
@@ -62,71 +66,36 @@ export const Route = createFileRoute('/blog/$slug')({
       image,
       type: 'article',
     });
-    const articleJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
+    const articleJsonLd = articleSchema({
+      path,
+      type: 'Article',
       headline: post.title,
       description,
       inLanguage: localeConfig[getLocale()].hreflang,
-      ...(image && { image }),
+      image,
       datePublished: new Date(post.date).toISOString(),
       dateModified: modifiedDate,
-      url: canonicalUrl,
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': canonicalUrl,
-      },
-      author: {
-        '@type': 'Organization',
-        name: authorName,
-        description: authorTitle,
-        url: getCanonicalUrl('/about'),
-      },
-      ...(post.reviewedBy
-        ? {
-            reviewedBy: {
-              '@type': 'Organization',
-              name: post.reviewedBy,
-              url: getCanonicalUrl('/about'),
-            },
-          }
-        : {}),
-      publisher: {
-        '@type': 'Organization',
-        name: websiteConfig.metadata?.name ?? '',
-        url: getCanonicalUrl('/'),
-        logo: {
-          '@type': 'ImageObject',
-          url: getImageUrl(
-            websiteConfig.metadata?.images?.logoLight ?? '/logo.png'
-          ),
-        },
-      },
-    };
-    const breadcrumbJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
+      authorName,
+      authorDescription: authorTitle,
+      reviewedBy: post.reviewedBy,
+    });
+    const breadcrumbJsonLd = breadcrumbSchema(
+      [
         {
-          '@type': 'ListItem',
-          position: 1,
           name: 'Home',
-          item: getCanonicalUrl('/'),
+          url: getCanonicalUrl('/'),
         },
         {
-          '@type': 'ListItem',
-          position: 2,
           name: 'Blog',
-          item: getCanonicalUrl('/blog'),
+          url: getCanonicalUrl('/blog'),
         },
         {
-          '@type': 'ListItem',
-          position: 3,
           name: post.title,
-          item: canonicalUrl,
+          url: getCanonicalUrl(path),
         },
       ],
-    };
+      path
+    );
 
     const scripts = [jsonLd(breadcrumbJsonLd), jsonLd(articleJsonLd)];
 

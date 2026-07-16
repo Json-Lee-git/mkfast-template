@@ -5,8 +5,12 @@ import { getPageBySlug } from '@/lib/pages';
 import { websiteConfig } from '@/config/website';
 import { seo } from '@/lib/seo';
 import {
+  breadcrumbSchema,
   jsonLd,
+  organizationId,
   organizationSchema,
+  schemaReference,
+  webPageSchema,
   websiteSchema,
 } from '@/lib/ai-visibility-schema';
 import { getCanonicalUrl } from '@/lib/urls';
@@ -24,31 +28,32 @@ export const Route = createFileRoute('/(pages)/about')({
       title: `${p.title} | ${websiteConfig.metadata?.name}`,
       description: p.description,
     });
-    const url = getCanonicalUrl('/about');
+    const path = '/about';
     return {
       ...metadata,
       scripts: [
         jsonLd(organizationSchema()),
         jsonLd(websiteSchema()),
-        jsonLd({
-          '@context': 'https://schema.org',
-          '@type': 'AboutPage',
-          name: p.title,
-          description: p.description,
-          url,
-          datePublished: p.date ? new Date(p.date).toISOString() : undefined,
-          dateModified: '2026-06-26T00:00:00.000Z',
-          isPartOf: {
-            '@type': 'WebSite',
-            name: websiteConfig.metadata?.name,
-            url: getCanonicalUrl('/'),
-          },
-          about: {
-            '@type': 'Organization',
-            name: websiteConfig.metadata?.name,
-            url: getCanonicalUrl('/'),
-          },
-        }),
+        jsonLd(
+          webPageSchema({
+            path,
+            type: 'AboutPage',
+            name: p.title,
+            description: p.description,
+            datePublished: p.date ? new Date(p.date).toISOString() : undefined,
+            dateModified: '2026-06-26T00:00:00.000Z',
+            about: schemaReference(organizationId()),
+          })
+        ),
+        jsonLd(
+          breadcrumbSchema(
+            [
+              { name: 'Home', url: getCanonicalUrl('/') },
+              { name: p.title, url: getCanonicalUrl(path) },
+            ],
+            path
+          )
+        ),
       ],
     };
   },

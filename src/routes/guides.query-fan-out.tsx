@@ -1,6 +1,7 @@
 import { FAQ } from '@/components/ai-visibility/faq';
 import Container from '@/components/layout/container';
 import {
+  articleSchema,
   breadcrumbSchema,
   faqSchema,
   jsonLd,
@@ -41,23 +42,6 @@ const workflow = [
   'Use FAQ questions to cover follow-up intent',
   'Run the AEO Checker to audit structured data, crawlability, and trust signals',
 ];
-
-function articleSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: 'Query Fan-Out Guide',
-    description:
-      'Learn how query fan-out helps plan answer-ready content for AI search and AEO workflows.',
-    url: getCanonicalUrl('/guides/query-fan-out'),
-    mainEntityOfPage: getCanonicalUrl('/guides/query-fan-out'),
-    publisher: {
-      '@type': 'Organization',
-      name: 'AI Search Readiness Tools',
-      url: getCanonicalUrl('/'),
-    },
-  };
-}
 
 function QueryFanOutGuidePage() {
   return (
@@ -235,16 +219,27 @@ export const Route = createFileRoute('/guides/query-fan-out')({
       type: 'article',
     }),
     scripts: [
-      jsonLd(articleSchema()),
+      jsonLd(
+        articleSchema({
+          path: '/guides/query-fan-out',
+          type: 'Article',
+          headline: 'Query Fan-Out Guide',
+          description:
+            'Learn how query fan-out helps plan answer-ready content for AI search and AEO workflows.',
+        })
+      ),
       jsonLd(faqSchema(faqItems)),
       jsonLd(
-        breadcrumbSchema([
-          { name: 'Home', url: getCanonicalUrl('/') },
-          {
-            name: 'Query Fan-Out Guide',
-            url: getCanonicalUrl('/guides/query-fan-out'),
-          },
-        ])
+        breadcrumbSchema(
+          [
+            { name: 'Home', url: getCanonicalUrl('/') },
+            {
+              name: 'Query Fan-Out Guide',
+              url: getCanonicalUrl('/guides/query-fan-out'),
+            },
+          ],
+          '/guides/query-fan-out'
+        )
       ),
     ],
   }),
