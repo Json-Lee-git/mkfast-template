@@ -1,44 +1,53 @@
 ---
 title: Methodology
-description: How AI Search Readiness Tools evaluates crawlability, AI-readable files, structured data, content structure, entity clarity, and trust signals.
+description: How AEOCheck scores technical crawlability, AI files and crawler access, schema, answer-ready content, entity clarity, and trust signals.
 date: 2026-06-26
+updated: 2026-07-16
 ---
 
 ## Methodology
 
-AI Search Readiness Tools evaluates public, machine-readable signals that a
+AEOCheck evaluates public, machine-readable signals that a
 search engine, answer engine, or crawler can reasonably inspect from a website.
 The tools are designed for technical readiness checks, not for ranking
 predictions.
 
 ### What we inspect
 
-Depending on the tool and the target URL, checks may include:
+The AEO Checker currently inspects:
 
-- HTTP status, redirects, title, meta description, canonical URL, and robots
-  directives.
-- Robots.txt availability, sitemap discovery, and whether major AI crawler
-  user agents are explicitly allowed or blocked.
-- Separate crawler-control signals for search, AI search, and model-training
-  user agents such as Googlebot, GPTBot, OAI-SearchBot, PerplexityBot,
-  Perplexity-User, ClaudeBot, and Google-Extended.
-- Possible access issues caused by WAF, bot-management, or CDN rules when those
-  controls are likely to affect AI crawler access.
-- LLMs.txt and LLMs-full.txt availability, formatting, links, and relationship
-  to the sitemap.
-- JSON-LD structured data, including Organization, WebSite, Article, FAQPage,
-  SoftwareApplication, and BreadcrumbList where relevant.
-- Heading hierarchy, question-format headings, short answer blocks, lists,
-  tables, and FAQ-style content.
-- Entity clarity signals such as consistent brand names, og:site_name, page
-  titles, and Organization schema.
+- HTTP status, title, meta description, canonical URL presence, and meta robots
+  `noindex` directives.
+- Robots.txt, sitemap.xml, LLMs.txt, and LLMs-full.txt availability, plus access
+  rules for the AI crawler user agents listed in the scan result.
+- JSON-LD presence, parse errors, detected schema types, and whether selected
+  entity or content schema types are present.
+- H1 and H2 counts, question-format headings, FAQ-section signals, and concise
+  answer paragraphs. A concise answer paragraph contains 20-100 words, and at
+  least two qualifying paragraphs are required for that check to pass.
+- Entity clarity signals such as an inferred brand name, `og:site_name`, brand
+  mentions, and Organization schema.
 - Trust signals such as author attribution, publication dates, about/contact
   pages, privacy information, and external references.
 
-### How the AEO readiness score is built
+### How the AI Search Readiness Score is built
 
-The AEO Checker groups findings into crawlability, AI search files, structured
-data, answer-ready content, entity clarity, trust signals, and recommendations.
+The AI Search Readiness Score is the sum of six categories, for a maximum of
+100:
+
+- **Technical crawlability: 15 points**
+- **AI files and crawler access: 20 points**
+- **Schema: 20 points**
+- **Answer-ready content: 20 points**
+- **Entity clarity: 15 points**
+- **Trust signals: 10 points**
+
+Recommendations are generated from findings but do not add or subtract points.
+Any AI-generated analysis shown in a report is also not scored. AEOCheck does
+not currently publish an explicit algorithm version identifier. The page's
+**Last reviewed** date records an editorial review of this explanation; it is
+not an algorithm version or a claim that the scoring code changed on that date.
+
 The score is a product readiness estimate based on visible technical signals.
 
 It does not claim that a page will rank, be cited, appear in an AI Overview, or
@@ -46,6 +55,19 @@ receive traffic from any search product. Google says there are no extra
 technical requirements, special schema, or AI-specific files required for AI
 Overviews or AI Mode. Platforms do not publish complete ranking or citation
 systems, and many signals are outside the scope of a public page audit.
+
+The retained interpretation thresholds are **80**, **60**, and **40**: 80-100
+is strong technical readiness, 60-79 is a good foundation, 40-59 is partial
+readiness, and 0-39 indicates substantial gaps.
+
+### Current limitations and planned checks
+
+The current score does not test WAF, bot-management, or CDN behavior; verify
+those controls separately. It does not run dedicated Googlebot or Bingbot access
+checks, compare a canonical URL with redirect or sitemap variants for
+consistency, judge schema completeness against every recommended property, or
+award points for tables and list markup. These may be considered for future
+versions, but they must not be interpreted as implemented checks today.
 
 ### External standards we use
 
@@ -88,4 +110,4 @@ If you find an outdated crawler name, incorrect technical recommendation, or
 unclear limitation, use the [contact page](/contact). Corrections are treated
 as product quality issues.
 
-Last reviewed: June 26, 2026.
+Last reviewed: July 16, 2026.

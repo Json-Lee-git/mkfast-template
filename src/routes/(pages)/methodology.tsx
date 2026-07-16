@@ -9,6 +9,7 @@ import {
   organizationSchema,
   websiteSchema,
 } from '@/lib/ai-visibility-schema';
+import { getAiReadinessCategoryWeight } from '@/lib/ai-readiness-score-model';
 import { getPageBySlug } from '@/lib/pages';
 import { seo } from '@/lib/seo';
 import { getCanonicalUrl } from '@/lib/urls';
@@ -24,7 +25,7 @@ import {
   IconExternalLink,
 } from '@tabler/icons-react';
 
-const PAGE_DATE = '2026-06-26T00:00:00.000Z';
+const PAGE_DATE = '2026-07-16T00:00:00.000Z';
 
 export const Route = createFileRoute('/(pages)/methodology')({
   loader: () => {
@@ -82,81 +83,74 @@ const auditModules = [
   {
     id: 'crawl',
     icon: IconSearch,
-    title: 'Technical Crawlability',
+    title: `Technical Crawlability · ${getAiReadinessCategoryWeight('technical')} points`,
     description:
-      'HTTP status, redirects, title, meta description, canonical URL, and robots directives. These are the basic signals every crawler needs to reach and understand a page.',
+      'HTTP status, title, meta description, canonical URL presence, and the meta robots noindex directive.',
     checks: [
-      'HTTP status code and redirect chain',
-      'Content-Type header',
-      'Title tag presence and length',
+      'Successful HTTP status',
+      'Title tag presence',
       'Meta description presence',
-      'Canonical URL consistency',
-      'Meta robots directives',
+      'Canonical URL presence',
+      'Meta robots noindex detection',
     ],
   },
   {
     id: 'files',
     icon: IconFileText,
-    title: 'AI Search Files & Crawler Access',
+    title: `AI Files & Crawler Access · ${getAiReadinessCategoryWeight('files')} points`,
     description:
-      'Robots.txt availability, sitemap discovery, and whether major AI crawler user agents are explicitly allowed or blocked. Separate checks for search, AI search, and model-training crawlers.',
+      'Availability of public AI-readable files and robots.txt rules for the AI crawler user agents listed in the scan.',
     checks: [
-      'Robots.txt availability and parsing',
-      'Sitemap.xml discovery',
+      'Robots.txt availability and reported crawler rules',
+      '/sitemap.xml availability',
       'LLMs.txt and LLMs-full.txt availability',
-      'AI crawler access (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended)',
-      'Search crawler access (Googlebot, Bingbot)',
-      'WAF/CDN bot-management impact assessment',
+      'AI crawler rules reported by the scan',
     ],
   },
   {
     id: 'schema',
     icon: IconCode,
-    title: 'Structured Data',
+    title: `Schema · ${getAiReadinessCategoryWeight('schema')} points`,
     description:
-      'JSON-LD schema validation including Organization, WebSite, Article, FAQPage, Product, HowTo, SoftwareApplication, and BreadcrumbList. Schema helps answer engines understand entity relationships.',
+      'JSON-LD presence, parse errors, detected types, and selected entity or content schema type coverage.',
     checks: [
       'JSON-LD presence and parse validity',
-      'Schema type coverage',
-      'Organization schema completeness',
-      'WebSite schema with SearchAction',
-      'Article/BlogPosting schema with author and dates',
-      'FAQPage schema for question-answer pairs',
+      'Detected schema types',
+      'Organization, WebSite, or WebPage type presence',
+      'Article, BlogPosting, FAQPage, Product, or HowTo type presence',
     ],
   },
   {
     id: 'content',
     icon: IconMessageCircle,
-    title: 'Answer-ready Content',
+    title: `Answer-ready Content · ${getAiReadinessCategoryWeight('content')} points`,
     description:
-      'Heading hierarchy, question-format headings, short answer blocks, lists, tables, and FAQ-style content. Answer engines prefer well-structured content they can extract directly.',
+      'H1 and H2 counts, question-format headings, FAQ-section signals, and concise answer paragraphs.',
     checks: [
-      'H1-H3 heading counts and hierarchy',
+      'H1 count',
+      'At least two H2 headings',
       'Question-format heading detection',
-      'Short answer paragraph identification',
-      'List and table presence',
       'FAQ section detection',
-      'Content structure for AI extraction',
+      'At least two paragraphs containing 20-100 words each',
     ],
   },
   {
     id: 'entity',
     icon: IconUserCheck,
-    title: 'Entity Clarity',
+    title: `Entity Clarity · ${getAiReadinessCategoryWeight('entity')} points`,
     description:
-      'Consistent brand names, og:site_name, page titles, and Organization schema. Clear entity signals help AI systems associate content with the right brand or organization.',
+      'An inferred brand name, og:site_name, Organization schema, and repeated brand mentions provide observable entity clarity signals.',
     checks: [
       'Inferred brand name from title/OG/H1',
-      'og:site_name presence and consistency',
-      'Organization schema entity mapping',
+      'og:site_name presence',
+      'Organization schema presence',
       'Brand mention frequency',
-      'Title-to-brand alignment',
     ],
   },
   {
     id: 'trust',
     icon: IconShield,
-    title: 'Trust Signals',
+    title: `Trust Signals · ${getAiReadinessCategoryWeight('trust')} points`,
     description:
       'Author attribution, publication dates, about/contact pages, privacy information, and external references. Trust signals help AI systems assess content authority.',
     checks: [
@@ -165,7 +159,7 @@ const auditModules = [
       'About page link detection',
       'Contact page link detection',
       'Privacy policy link detection',
-      'External reference and citation evaluation',
+      'At least two external links',
     ],
   },
 ];
@@ -243,7 +237,7 @@ function MethodologyPage() {
         <Container>
           <div className="mx-auto max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              AI Search Readiness Standard
+              AEOCheck Methodology
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               How we audit AI search readiness
@@ -252,7 +246,7 @@ function MethodologyPage() {
               {page.description}
             </p>
             <p className="mt-6 text-sm text-muted-foreground">
-              Last reviewed: June 26, 2026
+              Last reviewed: July 16, 2026
             </p>
           </div>
         </Container>
@@ -263,8 +257,8 @@ function MethodologyPage() {
         <Container>
           <AIAnswerFramework
             eyebrow="Methodology model"
-            title="The five layers behind an AI-ready page"
-            description="Our audits translate public page signals into five layers: access, machine-readable structure, answer extraction, trust evidence, and fit for generated answers."
+            title="The six scored readiness categories"
+            description="The score covers technical crawlability, AI files and crawler access, schema, answer-ready content, entity clarity, and trust signals."
           />
         </Container>
       </section>
@@ -277,10 +271,10 @@ function MethodologyPage() {
               What we inspect
             </h2>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              AI Search Readiness Tools evaluates public, machine-readable
-              signals that a search engine, answer engine, or crawler can
-              reasonably inspect from a website. The tools are designed for
-              technical readiness checks, not for ranking predictions.
+              AEOCheck evaluates public, machine-readable signals that a search
+              engine, answer engine, or crawler can reasonably inspect from a
+              website. The tools are designed for technical readiness checks,
+              not for ranking predictions.
             </p>
 
             <div className="mt-10 space-y-6">
@@ -328,15 +322,20 @@ function MethodologyPage() {
         <Container>
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-bold text-foreground">
-              How the AEO readiness score is built
+              How the AI Search Readiness Score is built
             </h2>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              The AEO Checker groups findings into crawlability, AI search
-              files, structured data, answer-ready content, entity clarity,
-              trust signals, and recommendations. The score is a product
-              readiness estimate based on visible technical signals. It does not
-              claim that a page will rank, be cited, appear in an AI Overview,
-              or receive traffic from any search product.
+              The AI Search Readiness Score totals 100 points across exactly six
+              categories: technical crawlability (15), AI files and crawler
+              access (20), schema (20), answer-ready content (20), entity
+              clarity (15), and trust signals (10). Recommendations and any
+              AI-generated analysis do not add or subtract points.
+            </p>
+            <p className="mt-3 text-muted-foreground leading-relaxed">
+              AEOCheck does not publish an explicit algorithm version
+              identifier. The Last reviewed date is editorial metadata for this
+              explanation, not an algorithm version or evidence of a scoring
+              code change.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -359,6 +358,25 @@ function MethodologyPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Current limitations */}
+      <section className="border-t border-border/50 py-16">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-2xl font-bold text-foreground">
+              Current limitations and planned checks
+            </h2>
+            <p className="mt-3 text-muted-foreground leading-relaxed">
+              The current score does not test WAF, bot-management, or CDN
+              behavior; run dedicated Googlebot or Bingbot access checks;
+              compare canonical, redirect, and sitemap variants for consistency;
+              judge every recommended schema property for completeness; or award
+              points for tables and list markup. These may be considered for
+              future versions and must not be treated as implemented checks.
+            </p>
           </div>
         </Container>
       </section>

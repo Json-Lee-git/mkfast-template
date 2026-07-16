@@ -3,6 +3,7 @@ import { csrfMiddleware } from '@/lib/csrf';
 import { enforceRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import { AI_CRAWLERS } from '@/lib/ai-crawlers';
+import { calculateAiReadinessScore } from '@/lib/ai-readiness-score-model';
 import {
   FETCH_TIMEOUT_MS,
   MAX_REDIRECTS,
@@ -617,76 +618,8 @@ async function checkAiFiles(
 
 // ---------- Score calculation ----------
 
-function calculateScore(result: AeoAuditResult): number {
-  let score = 0;
-
-  // Technical crawlability: 15
-  if (
-    result.page.statusCode &&
-    result.page.statusCode >= 200 &&
-    result.page.statusCode < 400
-  )
-    score += 4;
-  if (result.page.title) score += 3;
-  if (result.page.metaDescription) score += 3;
-  if (result.page.canonical) score += 3;
-  if (!result.page.metaRobots?.toLowerCase().includes('noindex')) score += 2;
-
-  // AI files + crawler access: 20
-  if (result.aiFiles.llmsTxt.exists) score += 5;
-  if (result.aiFiles.llmsFullTxt.exists) score += 3;
-  if (result.aiFiles.sitemap.exists) score += 4;
-  if (result.aiFiles.robotsTxt.exists) {
-    const crawlers = result.aiFiles.robotsTxt.crawlers;
-    const allowed = crawlers.filter((c) => c.access === 'allowed').length;
-    score += Math.round((allowed / Math.max(crawlers.length, 1)) * 8);
-  }
-
-  // Structured data: 20
-  if (result.structuredData.hasJsonLd) score += 5;
-  if (result.structuredData.schemaTypes.length > 0) score += 5;
-  if (
-    result.structuredData.schemaTypes.some((t) =>
-      /organization|website|webpage/i.test(t)
-    )
-  )
-    score += 5;
-  if (
-    result.structuredData.schemaTypes.some((t) =>
-      /article|blogposting|faqpage|product|howto/i.test(t)
-    )
-  )
-    score += 3;
-  if (result.structuredData.parseErrors.length === 0) score += 2;
-
-  // Answer-ready content: 20
-  if (result.answerReadyContent.h1Count === 1) score += 5;
-  else if (result.answerReadyContent.h1Count > 1) score += 2;
-  if (result.answerReadyContent.h2Count >= 2) score += 4;
-  if (result.answerReadyContent.hasFaqSection) score += 4;
-  if (result.answerReadyContent.hasQuestionHeadings) score += 4;
-  if (result.answerReadyContent.hasShortAnswerParagraphs) score += 3;
-
-  // Entity clarity: 15
-  if (result.entityClarity.inferredBrandName) score += 4;
-  if (result.entityClarity.hasOgSiteName) score += 4;
-  if (result.entityClarity.hasOrganizationSchema) score += 5;
-  if (
-    result.entityClarity.brandMentionCount &&
-    result.entityClarity.brandMentionCount >= 2
-  )
-    score += 2;
-
-  // Trust signals: 10
-  if (result.trustSignals.hasAuthor) score += 2;
-  if (result.trustSignals.hasPublishedDate) score += 2;
-  if (result.trustSignals.hasAboutLink) score += 1;
-  if (result.trustSignals.hasContactLink) score += 1;
-  if (result.trustSignals.hasPrivacyLink) score += 1;
-  if (result.trustSignals.externalLinkCount >= 2) score += 1;
-  if (result.trustSignals.hasModifiedDate) score += 2;
-
-  return Math.min(score, 100);
+export function calculateScore(result: AeoAuditResult): number {
+  return calculateAiReadinessScore(result);
 }
 
 // ---------- Recommendations ----------
@@ -751,7 +684,7 @@ function generateRecommendations(result: AeoAuditResult): string[] {
     );
   }
   if (!result.answerReadyContent.hasShortAnswerParagraphs) {
-    recs.push('Rewrite key paragraphs to provide concise 40-80 word answers.');
+    recs.push('Rewrite key paragraphs to provide concise 20-100 word answers.');
   }
 
   // Entity clarity
@@ -846,7 +779,7 @@ export const runAeoAudit = createServerFn({ method: 'POST' })
     if (!qHeadings) answerWarnings.push('No question-format headings found.');
     if (!shortAnswers)
       answerWarnings.push(
-        'No concise answer paragraphs (40-80 words) detected.'
+        'No concise answer paragraphs (20-100 words) detected.'
       );
 
     // Parse JSON-LD
