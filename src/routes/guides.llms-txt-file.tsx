@@ -12,11 +12,11 @@ const faqItems = [
   },
   {
     q: 'How is LLMs.txt different from robots.txt?',
-    a: 'robots.txt controls which crawlers are allowed to access your site. LLMs.txt provides structured, AI-readable content about your site. They serve different purposes: robots.txt is about access control, LLMs.txt is about content discovery.',
+    a: 'robots.txt controls which crawlers are allowed to access your site. LLMs.txt is an optional structured summary that a system or reviewer may use if it chooses to read the file. It is not a confirmed discovery, ranking, or citation signal.',
   },
   {
     q: 'What is the difference between LLMs.txt and sitemap.xml?',
-    a: 'A sitemap.xml lists every URL on your site for search engines. An LLMs.txt file highlights your most important pages with descriptions so AI models understand what matters. Sitemap is a directory. LLMs.txt is a curated guide.',
+    a: 'A sitemap.xml lists URLs for search engines. An LLMs.txt file is an optional curated guide to selected pages. Publishing one does not guarantee that an AI platform will read or use it.',
   },
   {
     q: 'What is the LLMs.txt format?',
@@ -56,7 +56,7 @@ function LLMsTxtFileGuidePage() {
               how to create one for your website.
             </p>
             <p className="mt-3 text-xs text-gray-400 dark:text-zinc-500">
-              Last updated: June 25, 2026
+              Last updated: July 16, 2026
             </p>
           </div>
         </Container>
@@ -143,6 +143,14 @@ function LLMsTxtFileGuidePage() {
 
 - [LLMs-full.txt](https://example.com/llms-full.txt): Full expanded content.`}
             </pre>
+            <p>
+              There are two practical approaches to LLMs-full.txt. A site can
+              publish a full Markdown corpus of important page content, or an
+              expanded machine-readable overview with more context than the
+              short index. Label the choice honestly. AEOCheck currently uses
+              the expanded-overview approach; its LLMs-full.txt is not a copy of
+              every page's complete body text.
+            </p>
 
             <h2>LLMs.txt vs robots.txt</h2>
             <p>
@@ -232,21 +240,22 @@ function LLMsTxtFileGuidePage() {
       </section>
 
       {/* FAQ */}
-      {/* Real-world example */}
+      {/* Maintained first-party example */}
       <section className="border-t border-gray-200 dark:border-zinc-800/50 py-16">
         <Container>
           <div className="mx-auto max-w-3xl">
             <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-zinc-100">
-              Real-world example: Cursor
+              Current example: AEOCheck
             </h2>
             <p className="mt-6 text-gray-500 dark:text-zinc-400">
-              The AI code editor Cursor maintains an LLMs.txt file at{' '}
-              <code>cursor.com/llms.txt</code>. It uses concise sections
-              ("Product," "Documentation," "Community") with one-line
-              descriptions for each link. The file is under 30 lines, follows
-              every best practice, and shows exactly how a SaaS tool should
-              structure its AI-readable summary. Open it for inspiration - it is
-              a textbook example of the format in production.
+              AEOCheck publishes a curated index at{' '}
+              <a href="/llms.txt">aeocheck.xyz/llms.txt</a> and an{' '}
+              <a href="/llms-full.txt">expanded machine-readable overview</a>.
+              The short file groups core tools, specialized audit entry points,
+              guides, and trust resources. The expanded file adds product and
+              methodology context; it does not claim to contain every page's
+              complete body text. This first-party example was reviewed on July
+              16, 2026 and can be inspected directly.
             </p>
           </div>
         </Container>

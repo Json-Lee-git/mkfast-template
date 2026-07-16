@@ -175,7 +175,7 @@ const competitorContext = [
 
 const fixPackItems = [
   'Executive summary',
-  'AI Visibility Score breakdown',
+  'AI Search Readiness Score breakdown',
   'Fix this first order with impact levels',
   'Copy-ready JSON-LD schema snippets',
   'Answer-ready content blocks',
@@ -294,7 +294,7 @@ function SampleAeoReportPage() {
             <div className="mt-8 flex flex-wrap items-start gap-x-10 gap-y-6">
               <div>
                 <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                  AI Visibility Score
+                  AI Search Readiness Score
                 </p>
                 <div className="flex items-end gap-1.5">
                   <span
@@ -304,6 +304,11 @@ function SampleAeoReportPage() {
                   </span>
                   <span className="pb-1.5 text-xl text-zinc-600">/100</span>
                 </div>
+                <p className="mt-2 max-w-md text-xs leading-5 text-zinc-500">
+                  A 0-100 estimate based on observable technical, content,
+                  entity, and trust signals. It does not measure rankings,
+                  citations, traffic, or actual visibility.
+                </p>
               </div>
               <div className="min-w-[200px] flex-1">
                 <p className="text-sm font-semibold text-zinc-200">
@@ -765,7 +770,7 @@ function SampleAeoReportPage() {
 
 const includedSectionsForSchema = [
   'Executive summary',
-  'AI Visibility Score',
+  'AI Search Readiness Score',
   'Visibility blockers',
   'Fix this first',
   'Competitor visibility gaps',
@@ -785,7 +790,7 @@ export const Route = createFileRoute('/sample-aeo-report')({
     ...seo('/sample-aeo-report', {
       title: 'Sample AI Visibility Report - $19 Fix Pack Preview',
       description:
-        'Preview the $19 AI Visibility Fix Pack with an AI Visibility Score, visibility blockers, competitor context, copy-ready schema, answer-ready content blocks, query coverage gaps, and fix-first order.',
+        'Preview the $19 AI Visibility Fix Pack with an AI Search Readiness Score, visibility blockers, competitor context, copy-ready schema, answer-ready content blocks, query coverage gaps, and fix-first order.',
     }),
     scripts: [
       jsonLd(
@@ -793,7 +798,7 @@ export const Route = createFileRoute('/sample-aeo-report')({
           name: 'AI Visibility Fix Pack',
           websiteUrl: getCanonicalUrl('/sample-aeo-report'),
           longDescription:
-            'A paid AI visibility fix pack with a readiness-based visibility score, visibility blockers, competitor context, query coverage gaps, copy-ready implementation assets, and AI-readable file recommendations.',
+            'A paid AI visibility fix pack with an AI Search Readiness Score, visibility blockers, competitor context, query coverage gaps, copy-ready implementation assets, and AI-readable file recommendations.',
           startingPrice: '$19',
           keyFeatures: includedSectionsForSchema,
         })

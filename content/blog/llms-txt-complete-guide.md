@@ -1,8 +1,8 @@
 ---
 title: LLMs.txt Guide — What It Is, Why It Matters, and How to Make One That Actually Works
-description: A practical guide to LLMs.txt files from someone who has checked hundreds of them. Real examples, common mistakes, and a template you can copy.
+description: A practical guide to LLMs.txt files with examples, common mistakes, and a template you can copy.
 date: 2026-06-25
-updated: 2026-06-26
+updated: 2026-07-16
 category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
@@ -10,7 +10,7 @@ reviewedBy: AI Search Readiness Editorial Team
 image: https://aeocheck.xyz/og.png
 ---
 
-I've looked at a lot of `/llms.txt` files over the past few months. Most of them are broken. Not in a "the server returns 500" way, but in a "this is a copy-pasted robots.txt with the wrong MIME type" way. A few are genuinely useful. This guide is about making yours one of the useful ones.
+We've reviewed a range of public `/llms.txt` implementations. Recurring problems include HTML fallback pages, unclear descriptions, and broken links. This guide explains how to make a useful file without overstating what the format can achieve.
 
 ## What LLMs.txt actually is
 
@@ -35,9 +35,9 @@ Dead simple. Three parts:
 - [Another Page](https://example.com/another): Brief description
 ```
 
-## What I see people getting wrong
+## What implementations can get wrong
 
-After checking hundreds of sites with our [LLMs.txt Checker](/tools/llms-txt-checker), here are the most common mistakes:
+Based on public examples and the failure modes our [LLMs.txt Checker](/tools/llms-txt-checker) is designed to detect, here are common mistakes:
 
 ### 1. Wrong content type
 
@@ -45,7 +45,7 @@ Your server needs to serve `/llms.txt` as `text/plain` or `text/markdown` with `
 
 ### 2. Listing every page on the site
 
-I see people dumping their entire sitemap into LLMs.txt. Don't do this. The point is curation. Pick 10-30 pages that actually matter. An LLM doesn't need to know about your cookie policy page or your 47th blog post from 2023.
+Some implementations dump an entire sitemap into LLMs.txt. Avoid this. The point is curation. Pick 10-30 pages that actually matter. An LLM doesn't need to know about your cookie policy page or your 47th blog post from 2023.
 
 ### 3. Missing or useless descriptions
 
@@ -55,9 +55,9 @@ A link with no description is just a URL. A link with "Click here to learn more"
 
 You'd be surprised how many LLMs.txt files link to pages that 404. Test your links. Our checker catches these automatically.
 
-### 5. Only having LLMs.txt, no LLMs-full.txt
+### 5. Treating LLMs-full.txt as if it had only one valid form
 
-LLMs.txt is the summary — 10-30 links with one-line descriptions. LLMs-full.txt (at `/llms-full.txt`) is the expanded version with full Markdown content. If you have documentation or guides, having both gives AI models the option to read the detailed version when they need deeper context.
+LLMs.txt is the curated summary. There are two practical approaches to `/llms-full.txt`: publish a full Markdown corpus of important page content, or publish an expanded machine-readable overview with substantially more context than the short index. Choose one and label it honestly. AEOCheck currently uses the second approach: its [LLMs-full.txt](/llms-full.txt) is an expanded overview, not a copy of every page's complete body text.
 
 ## What a good LLMs.txt looks like
 
@@ -118,28 +118,12 @@ Don't use vague section names like "Other" or "Misc." If a page doesn't fit into
 
 Use absolute URLs. Test every link. Keep it under 50 links.
 
-## How many sites actually have LLMs.txt?
+## How to evaluate public examples
 
-On June 25, 2026, I checked 13 well-known developer and SaaS sites by requesting their `/llms.txt`. Here's what I found:
-
-| Site | Status | Notes |
-|------|--------|-------|
-| tanstack.com | 200 OK | Excellent — product docs index with full routing guide |
-| stripe.com | 200 OK | Clean summary with link to LLMs-full.txt |
-| cloudflare.com | 301 Redirect | Exists but redirects to www subdomain first |
-| openai.com | 403 Forbidden | Has a file but intentionally blocks direct access |
-| cursor.com | No file | Connection refused |
-| vercel.com | No file | Connection refused |
-| tailscale.com | No file | Connection refused |
-| linear.app | No file | Connection refused |
-| anthropic.com | No file | Connection refused |
-| perplexity.ai | No file | Connection refused |
-| supabase.com | No file | Connection refused |
-| github.com | No file | Connection refused |
-
-That's 2 out of 13 with a proper working LLMs.txt. Even among the companies building AI tooling, adoption is near zero. Stripe and TanStack are the exceptions — and their implementations are solid reference examples.
-
-If you ship an LLMs.txt today, you're ahead of most of the internet.
+Public LLMs.txt files change over time, and a failed request does not prove that
+a file is absent. When evaluating an external example, record the check date,
+final URL, redirects, HTTP status, content type, and response body. Treat a
+small hand-picked list as an illustration, not an adoption study.
 
 ## Testing your file
 
@@ -147,9 +131,11 @@ Use our [LLMs.txt Checker](/tools/llms-txt-checker) — it validates format, che
 
 ## Does LLMs.txt guarantee AI citations?
 
-No. Having an LLMs.txt file does not guarantee that ChatGPT, Claude, Perplexity, or Google AI Overviews will cite your site. It removes a barrier — making your site easy to understand — but the AI still needs to decide whether your content is relevant and trustworthy.
+No. Having an LLMs.txt file does not guarantee that ChatGPT, Claude, Perplexity,
+or Google AI Overviews will cite your site. It provides an optional curated
+summary, but platforms decide whether and how to use public files.
 
-That said, I've seen sites with well-maintained LLMs.txt files get cited more consistently than those without. It's not a ranking signal. It's just good communication.
+There is no controlled evidence here that a maintained LLMs.txt file causes more citations. Treat it as clear site communication and technical preparation, not as a ranking or citation signal.
 
 ## Frequently asked questions
 
@@ -187,10 +173,10 @@ you're not giving the AI enough context.
 ### What's the difference between LLMs.txt and LLMs-full.txt?
 
 LLMs.txt is the summary: 10-30 key pages with one-line descriptions.
-LLMs-full.txt (at `/llms-full.txt`) is the expanded version with full Markdown
-content of your important pages. Use LLMs.txt as the curated index and
-LLMs-full.txt when you have documentation or guides where deeper context
-matters.
+LLMs-full.txt (at `/llms-full.txt`) can be a full Markdown corpus of important
+pages or an honestly labeled expanded machine-readable overview. AEOCheck
+currently uses the expanded-overview approach rather than reproducing every
+page's complete body text.
 
 ### How do I verify my LLMs.txt is working?
 

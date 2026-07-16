@@ -114,11 +114,11 @@ function buildFreeReportMarkdown(result: AeoAuditResult): string {
     `Checked URL: ${result.normalizedUrl}`,
     `Generated at: ${new Date(result.checkedAt).toISOString()}`,
     `Overall Score: ${result.score}/100`,
-    `AI Visibility Score: ${result.scoreLabel}`,
+    `AI Search Readiness Score: ${result.scoreLabel}`,
     '',
     '## Executive Summary',
     '',
-    `This free summary shows the readiness-based visibility score, key module status, and the top ${topIssues.length} recommended fixes. We do not guarantee citations. We help you catch the technical and content signals that make AI answers more likely to understand, extract, and trust your page.`,
+    `This free summary shows the AI Search Readiness Score, a 0-100 estimate based on observable technical, content, entity, and trust signals, plus key module status and the top ${topIssues.length} recommended fixes. It does not measure rankings, citations, traffic, or actual visibility.`,
     '',
     '## Top Issues',
     '',
@@ -227,7 +227,7 @@ const aeoAnalysisItems = [
   },
   {
     title: 'AI-readable files',
-    desc: 'LLMs.txt, LLMs-full.txt, sitemap, and robots.txt availability so AI systems can discover important public pages.',
+    desc: 'LLMs.txt, LLMs-full.txt, sitemap, and robots.txt availability. AI-readable files are optional summaries and do not guarantee platform discovery or use.',
   },
   {
     title: 'Entity and trust signals',
@@ -288,7 +288,7 @@ function DashboardPreview() {
         <div className="mt-5 grid gap-3 sm:grid-cols-[150px_1fr]">
           <div className="rounded-lg border border-border bg-background p-4">
             <p className="text-xs font-medium text-muted-foreground">
-              AI Visibility Score
+              AI Search Readiness Score
             </p>
             <div className="mt-3 flex items-end gap-1">
               <span className="text-5xl font-bold tracking-tight text-foreground">
@@ -406,7 +406,7 @@ function ScoreRing({ score, animate }: { score: number; animate: boolean }) {
 // ---------- Dashboard Sidebar Nav ----------
 
 const dashboardSections = [
-  { id: 'score', label: 'AI Visibility Score', icon: IconChartBar },
+  { id: 'score', label: 'AI Search Readiness Score', icon: IconChartBar },
   { id: 'crawl', label: 'Crawlability', icon: IconSearch },
   { id: 'files', label: 'AI Search Files', icon: IconFileText },
   { id: 'schema', label: 'Structured Data', icon: IconCode },
@@ -907,16 +907,16 @@ function AeoCheckerPage() {
                         <ScoreRing score={r.score} animate={scoreAnimated} />
                         <div className="text-center sm:text-left">
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            AI Visibility Score
+                            AI Search Readiness Score
                           </p>
                           <p className="mt-1 text-lg font-semibold text-foreground">
                             {scoreLabelText(r.score)}
                           </p>
                           <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                            This readiness-based visibility score estimates
-                            whether AI-assisted answers can crawl, parse, trust,
-                            and recommend the page. It is not a live ranking or
-                            citation guarantee.
+                            This 0-100 estimate is based on observable
+                            technical, content, entity, and trust signals. It
+                            does not measure rankings, citations, traffic, or
+                            actual visibility.
                           </p>
                           <div className="mt-4 flex flex-wrap gap-2">
                             {[
@@ -1512,7 +1512,7 @@ function AeoCheckerPage() {
                       </thead>
                       <tbody className="text-muted-foreground">
                         {[
-                          ['AI Visibility Score', 'Yes', 'Yes'],
+                          ['AI Search Readiness Score', 'Yes', 'Yes'],
                           ['AI Readiness Preview', 'Yes', 'Yes'],
                           ['Top Issues', 'Yes', 'Yes'],
                           ['Full Issue List', 'No', 'Yes'],
@@ -1913,7 +1913,7 @@ export const Route = createFileRoute('/tools/aeo-checker')({
             'Free tool that audits one URL for AI search readiness before you edit it: crawlability, LLMs.txt, structured data, entity clarity, trust signals, and answer-ready formatting.',
           startingPrice: '$0',
           keyFeatures: [
-            'AI Visibility Score (0-100)',
+            'AI Search Readiness Score (0-100)',
             'AI crawler & LLMs.txt checks',
             'Structured data validation',
             'Answer-ready content analysis',

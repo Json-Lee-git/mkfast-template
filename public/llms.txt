@@ -2,18 +2,29 @@
 
 > Free AI search readiness audit tools. Start with a free AEO scan, then choose a $19 Fix Pack or $99 human-reviewed audit when you need implementation help.
 
-## Tools
+Last reviewed: July 16, 2026
 
-- [LLMs.txt Checker](https://aeocheck.xyz/tools/llms-txt-checker): Check if your site has a valid LLMs.txt file. Get a technical readiness report.
-- [LLMs.txt Generator](https://aeocheck.xyz/tools/llms-txt-generator): Generate an LLMs.txt file from your sitemap or manual input.
+## Core tools
+
+- [LLMs.txt Checker](https://aeocheck.xyz/tools/llms-txt-checker): Run practical readiness validation for a public LLMs.txt file and related discoverability signals.
+- [LLMs.txt Generator](https://aeocheck.xyz/tools/llms-txt-generator): Generate an LLMs.txt file from a sitemap or manual input.
 - [AEO Checker](https://aeocheck.xyz/tools/aeo-checker): Audit technical answer engine optimization readiness, structured data, trust signals, and AI crawler access.
 - [Query Fan-Out Tool](https://aeocheck.xyz/tools/query-fan-out-tool): Simulate related sub-queries, intent clusters, headings, FAQs, and content gaps.
+
+## Specialized audit entry points
+
+These six focused entry points reuse the underlying AEO audit workflow with intent-specific framing. They are not separate real-time monitoring platforms and do not verify visibility inside third-party AI products.
+
+- [ChatGPT Visibility Checker](https://aeocheck.xyz/tools/chatgpt-visibility-checker): Start a technical readiness audit framed around public signals relevant to ChatGPT visibility.
 - [AI Crawler Checker](https://aeocheck.xyz/tools/ai-crawler-checker): Check GPTBot, ClaudeBot, PerplexityBot, robots.txt, sitemap, and AI-readable file access.
 - [Robots.txt AI Crawler Checker](https://aeocheck.xyz/tools/robots-txt-ai-crawler-checker): Review robots.txt rules that may block or allow AI crawler access.
 - [GEO Audit Tool](https://aeocheck.xyz/tools/geo-audit): Audit generative engine optimization readiness signals across crawlability, schema, content, and trust.
 - [AI Overview Readiness Checker](https://aeocheck.xyz/tools/ai-overview-readiness-checker): Check readiness signals for AI-assisted search summaries.
 - [ChatGPT Citation Readiness Checker](https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker): Review public citation-readiness signals for AI retrieval systems.
-- [Sample AEO Report](https://aeocheck.xyz/sample-aeo-report): Preview the $19 AI Search Readiness Fix Pack before running an audit.
+
+## Reports and services
+
+- [Sample AEO Report](https://aeocheck.xyz/sample-aeo-report): Preview the $19 AI Visibility Fix Pack, including its AI Search Readiness Score, before running an audit.
 - [Manual AI Search Readiness Audit](https://aeocheck.xyz/ai-search-audit): Order a $99 human-reviewed fix plan for one important SaaS page.
 
 ## Decision pages

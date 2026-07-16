@@ -1,29 +1,45 @@
-# AEOCheck - Full Content
+# AEOCheck - Expanded Machine-Readable Overview
 
 > Free AI search readiness audit tools. Start with a free AEO scan, then choose
 > a $19 Fix Pack or $99 human-reviewed audit when you need implementation help.
 
-## LLMs.txt Checker
+Last reviewed: July 16, 2026
 
-Check whether your site has a valid LLMs.txt file, accessible AI-readable links,
-LLMs-full.txt, sitemap, and AI crawler access. The checker validates:
+This file is an expanded machine-readable overview of AEOCheck. It summarizes
+the product, public resources, and methodology; it is not a corpus containing
+the complete Markdown body of every linked page.
+
+## Four Core Tools
+
+### LLMs.txt Checker
+
+URL: https://aeocheck.xyz/tools/llms-txt-checker
+
+Run practical readiness validation for a public LLMs.txt file and related
+discoverability signals. The checker validates:
 
 - LLMs.txt file existence and HTTP status
 - Link structure and formatting in your LLMs.txt
+- HTTP accessibility for up to the first 20 links found in the file
 - LLMs-full.txt availability
 - Sitemap.xml accessibility
 - Robots.txt with AI crawler rules for OpenAI, Anthropic, Perplexity, Google,
   Common Crawl, Apple, and Meta crawlers
 
-## LLMs.txt Generator
+### LLMs.txt Generator
+
+URL: https://aeocheck.xyz/tools/llms-txt-generator
 
 Generate a clean LLMs.txt file for your website from your sitemap or manual
 inputs. The generator creates properly formatted Markdown with your site
-structure, key pages, and descriptions that AI systems can parse efficiently.
+structure, key pages, and descriptions. Sitemap generation includes at most 30
+URLs. It generates LLMs.txt only; it does not generate LLMs-full.txt.
 
-## AEO Checker
+### AEO Checker
 
-Run a technical AEO audit covering seven dimensions:
+URL: https://aeocheck.xyz/tools/aeo-checker
+
+Run a technical AEO audit covering six dimensions:
 
 1. Crawlability - HTTP status, title, meta description, canonical URL, meta
    robots
@@ -31,23 +47,30 @@ Run a technical AEO audit covering seven dimensions:
    per-crawler access analysis
 3. Structured Data - JSON-LD detection, schema type enumeration, parse error
    reporting
-4. Answer-Ready Content - Heading hierarchy, FAQ sections, question-format
-   headings, list usage, short answer paragraphs
+4. Answer-Ready Content - H1 count, at least two H2 headings, FAQ-section
+   signals, question-format headings, and concise answer paragraphs
 5. Entity Clarity - Brand name inference, og:site_name, Organization schema,
    brand mention count
 6. Trust Signals - Author attribution, published/modified dates,
    About/Contact/Privacy links, external references
 
-## Query Fan-Out Tool
+### Query Fan-Out Tool
+
+URL: https://aeocheck.xyz/tools/query-fan-out-tool
 
 Simulate how AI search engines expand a query into sub-queries, intents, and
 content gaps. Enter a query to see potential fan-out patterns that help you plan
 comprehensive, answer-ready content.
 
-## High-intent AI Search Readiness Pages
+## Six Specialized Audit Entry Points
 
-The site now exposes focused entry points for searchers who already have a
-specific SEO, AEO, or GEO problem:
+These focused pages reuse the underlying AEO audit workflow with
+intent-specific framing. They are not six independent tools, real-time platform
+monitors, citation trackers, or direct integrations with third-party AI
+products.
+
+- ChatGPT Visibility Checker:
+  https://aeocheck.xyz/tools/chatgpt-visibility-checker
 
 - AI Crawler Checker:
   https://aeocheck.xyz/tools/ai-crawler-checker
@@ -59,6 +82,12 @@ specific SEO, AEO, or GEO problem:
   https://aeocheck.xyz/tools/ai-overview-readiness-checker
 - ChatGPT Citation Readiness Checker:
   https://aeocheck.xyz/tools/chatgpt-citation-readiness-checker
+
+These are the six specialized entry points. Together with the four core tools,
+they provide ten public tool URLs with clearly different roles.
+
+## Reports, Services, and Supporting Pages
+
 - Sample AEO Report:
   https://aeocheck.xyz/sample-aeo-report
 - AI Search Readiness Checklist:
@@ -66,8 +95,8 @@ specific SEO, AEO, or GEO problem:
 - Is the AI Search Readiness Report Worth It?:
   https://aeocheck.xyz/compare/ai-search-readiness-report-worth-it
 
-These pages route visitors toward the free AEO Checker, the optional $19 AI
-Search Readiness Fix Pack, and the $99 Manual AI Search Readiness Audit. The
+The supporting pages route visitors toward the free AEO Checker, the optional $19 AI
+Visibility Fix Pack, and the $99 Manual AI Search Readiness Audit. The
 sample report shows the paid Fix Pack before checkout: prioritized fixes, schema
 recommendations, answer-ready content suggestions, query fan-out gaps, and an
 LLMs.txt improvement plan.

@@ -1,14 +1,19 @@
 ---
 title: About
-description: AI Search Readiness Tools helps website owners check technical AI search visibility signals with free tools for LLMs.txt validation, AEO auditing, crawler access, and query fan-out simulation.
+description: AEOCheck helps website owners inspect technical AI search readiness signals with free tools for LLMs.txt validation, AEO auditing, crawler access, and query fan-out simulation.
 date: 2026-02-15
 ---
 
-## About AI Search Readiness Tools
+## About AEOCheck
 
-AI Search Readiness Tools is an independent tool project for website owners,
+AEOCheck is a product and website for website owners,
 marketers, developers, and technical SEO teams who want to understand how
-visible their sites are to AI-powered discovery systems.
+ready their sites are for AI-powered discovery systems.
+
+AEOCheck publishes its guides and methodology under the organizational byline
+**AI Search Readiness Editorial Team**. That team is part of AEOCheck's
+publishing operation. When the same team is listed as author and reviewer, it
+does not represent an independent review by a separate organization.
 
 The project focuses on measurable readiness signals: crawl access, LLMs.txt
 availability, sitemap discoverability, structured data, page structure, entity
@@ -29,9 +34,12 @@ clarity, and trust signals that answer engines can parse.
 ### How our checks work
 
 Our tools inspect public technical signals that a crawler or answer engine can
-reasonably access. Depending on the tool, checks may include:
+reasonably access. The AEO Checker currently evaluates the signals documented
+on the [methodology page](/methodology). Other AEOCheck tools have narrower,
+tool-specific scopes.
 
-- HTTP status, canonical URL, robots.txt, sitemap, and crawl permissions.
+- HTTP status, canonical URL presence, robots.txt, sitemap, and documented AI
+  crawler rules.
 - LLMs.txt and LLMs-full.txt presence, format, and discoverability.
 - JSON-LD schema types such as Organization, WebSite, Article, FAQPage, and
   SoftwareApplication.
@@ -68,8 +76,9 @@ advice. Content pages show publication metadata, and important updates are
 reflected in the page metadata where supported.
 
 If you find a technical error, outdated recommendation, or unclear explanation,
-please use the contact page. Corrections are reviewed as product quality issues,
-not as marketing feedback.
+please use the [contact page](/contact) or the support email listed there. We
+accept correction requests as product quality feedback, but do not promise a
+specific response or correction time.
 
 ### Our philosophy
 

@@ -21,7 +21,7 @@ import {
 } from '@tabler/icons-react';
 
 const includedItems = [
-  'AI Visibility Score for one important page',
+  'AI Search Readiness Score for one important page',
   'Top 5 technical and content blockers',
   'AI crawler, robots.txt, sitemap, and LLMs.txt review',
   'Schema and answer-ready content recommendations',
@@ -496,7 +496,6 @@ export const Route = createFileRoute('/ai-search-audit')({
         provider: {
           '@type': 'Organization',
           name: 'AEOCheck',
-          alternateName: 'AI Search Readiness Tools',
           url: getCanonicalUrl('/'),
         },
         areaServed: 'Worldwide',

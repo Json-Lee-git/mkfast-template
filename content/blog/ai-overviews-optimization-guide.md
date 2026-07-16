@@ -2,7 +2,7 @@
 title: AI Overviews Optimization Guide - What Actually Works in 2026
 description: A practical guide to optimizing for Google AI Overviews, ChatGPT, and other AI answer engines. What public documentation supports, what is observable, and what should be treated as readiness guidance.
 date: 2026-06-25
-updated: 2026-06-26
+updated: 2026-07-16
 category: Guides
 author: AI Search Readiness Editorial Team
 authorTitle: Technical SEO and AI search readiness research
@@ -20,16 +20,16 @@ That does not mean every page needs a separate "AI SEO" playbook. The durable
 work is still clear crawl access, helpful content, structured data, strong
 entity signals, and transparent publisher information.
 
-## Key stats: AI Overviews readiness at a glance
+## AI Overviews readiness checks at a glance
 
-| Signal | What to do | Expected timeline |
-|--------|-----------|-------------------|
-| Crawl access | Allow Google-Extended in robots.txt | Days (next Google crawl) |
-| Structured data | Add Organization, Article, FAQPage schema | 1-2 weeks (recrawl + processing) |
-| Answer positioning | Direct answer in first 100 words of each section | Immediate (content change) |
-| Entity clarity | Consistent brand name, sameAs links, About page | 2-4 weeks (entity graph updates) |
-| Trust signals | Author attribution, dates, references, methodology page | 1-4 weeks (cumulative trust building) |
-| External corroboration | Get cited by Wikipedia, major publications, industry sources | 1-6 months (reputation building) |
+| Signal | What to do | What can be verified |
+|--------|-----------|----------------------|
+| Search crawl access | Check Googlebot access, robots.txt, and noindex directives | Public crawl controls; recrawl timing is controlled by Google |
+| Structured data | Add only applicable Organization, Article, or FAQPage schema | Syntax and visible-content alignment; search processing time is not predictable |
+| Answer positioning | Lead each section with a direct answer | The published page structure, not an AI citation outcome |
+| Entity clarity | Use a consistent brand name, relevant sameAs links, and an About page | Public entity signals on the page |
+| Trust signals | Show truthful author, date, reference, and methodology information | The disclosed evidence, not a fixed trust-building timeline |
+| External corroboration | Earn independent references from relevant sources | Published references; there is no guaranteed reputation timeline |
 
 ## Content structure is your biggest lever
 

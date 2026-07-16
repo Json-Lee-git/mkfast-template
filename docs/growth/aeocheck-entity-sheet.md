@@ -11,6 +11,21 @@ Use this sheet as the source of truth for AEOCheck wording across website copy, 
 - Primary CTA: Run the free AEO checker
 - Paid offer: Manual AI Search Readiness Audit
 
+## Scoring Terminology
+
+- Public score name: AI Search Readiness Score
+- Short form after first mention: readiness score
+- Total: 100 points across exactly six scored categories
+- Category weights: technical crawlability 15; AI files and crawler access 20;
+  schema 20; answer-ready content 20; entity clarity 15; trust signals 10
+- Interpretation bands: 80-100 strong; 60-79 good foundation; 40-59 partial;
+  0-39 substantial gaps
+- Recommendations and AI-generated analysis are unscored outputs.
+- Do not call the score an "AI Visibility Score" or imply it measures actual
+  rankings, citations, referral traffic, or inclusion in an AI answer.
+- A page's Last reviewed date is editorial metadata, not an algorithm version.
+- AEOCheck does not currently publish an explicit algorithm version identifier.
+
 ## Target Users
 
 - SaaS founders who rely on search-driven demand
@@ -21,8 +36,10 @@ Use this sheet as the source of truth for AEOCheck wording across website copy, 
 ## Core Differentiators
 
 - Focuses on AI search readiness instead of generic SEO scoring.
-- Checks technical access signals such as robots.txt, sitemap exposure, canonical URLs, and AI crawler visibility.
-- Reviews answer-ready structure such as direct answers, FAQ blocks, comparison tables, schema, and clear entity details.
+- Checks technical access signals such as HTTP status, robots.txt and sitemap
+  availability, canonical URL presence, and documented AI crawler rules.
+- Reviews answer-ready signals such as heading counts, question headings, FAQ
+  sections, and at least two concise paragraphs of 20-100 words each.
 - Connects free checks with a paid manual audit workflow for teams that want deeper review.
 - Publishes sample reports and methodology-oriented content so prospects can inspect the workflow before buying.
 

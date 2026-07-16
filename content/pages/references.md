@@ -1,6 +1,6 @@
 ---
 title: References
-description: Official standards, platform documentation, and public resources used by AI Search Readiness Tools.
+description: Official standards, platform documentation, and public resources used by AEOCheck.
 date: 2026-06-26
 ---
 
@@ -49,7 +49,7 @@ building checks, and explaining AI search readiness recommendations.
 
 - [Google Search Central: Creating helpful, reliable, people-first content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 - [Our methodology](/methodology)
-- [About AI Search Readiness Tools](/about)
+- [About AEOCheck](/about)
 - [Contact and corrections](/contact)
 
 Last reviewed: June 26, 2026.

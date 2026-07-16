@@ -115,7 +115,7 @@ const tiers = [
     features: [
       'One URL audit',
       'No signup for first scan',
-      'AI Visibility Score (0-100)',
+      'AI Search Readiness Score (0-100)',
       'Crawl access check',
       'LLMs.txt and AI crawler check',
       'Structured data validation',
@@ -203,7 +203,7 @@ const comparisonRows = [
     manual: '1 page',
   },
   {
-    feature: 'AI Visibility Score',
+    feature: 'AI Search Readiness Score',
     free: 'Yes',
     fix: 'Yes',
     monitor: 'Recurring',

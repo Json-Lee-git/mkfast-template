@@ -334,8 +334,8 @@ function LLMsTxtCheckerAlternativesPage() {
                 },
                 { label: 'Manual check time', value: '5-15 min per file' },
                 {
-                  label: 'Sites with working LLMs.txt',
-                  value: '~2 out of 13 we tested',
+                  label: 'Readiness validation',
+                  value: 'Access + format + links + crawler rules',
                 },
               ].map((stat) => (
                 <div

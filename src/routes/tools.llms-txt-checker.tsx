@@ -871,7 +871,7 @@ export const Route = createFileRoute('/tools/llms-txt-checker')({
             'Link health & broken link detection',
             'AI crawler access analysis',
             'Sitemap & llms-full.txt checks',
-            'AI Visibility Score (0-100)',
+            'LLMs.txt Readiness Score (0-100)',
           ],
         })
       ),
