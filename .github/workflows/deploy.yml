@@ -23,7 +23,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_DATABASE_ID: ${{ secrets.CLOUDFLARE_DATABASE_ID }}
       # --- Client-side (VITE_*) env vars baked into the build ---
-      VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+      VITE_BASE_URL: ${{ secrets.PUBLIC_SITE_URL }}
       VITE_PAYMENT_PROVIDER: ${{ secrets.VITE_PAYMENT_PROVIDER }}
       VITE_STRIPE_PRICE_PRO_MONTHLY: ${{ secrets.VITE_STRIPE_PRICE_PRO_MONTHLY }}
       VITE_STRIPE_PRICE_PRO_YEARLY: ${{ secrets.VITE_STRIPE_PRICE_PRO_YEARLY }}
@@ -64,11 +64,10 @@ jobs:
             echo "::error::PUBLIC_SITE_URL secret is not set. Production deploy requires PUBLIC_SITE_URL in GitHub Secrets."
             exit 1
           fi
-          if ! echo "$PUBLIC_SITE_URL" | grep -Eq '^https://[a-zA-Z0-9]'; then
-            echo "::error::PUBLIC_SITE_URL must be a valid HTTPS URL (e.g. https://example.com). Got: $PUBLIC_SITE_URL"
+          if [[ ! "$PUBLIC_SITE_URL" =~ ^https://[a-zA-Z0-9] ]]; then
+            echo "::error::PUBLIC_SITE_URL must be a valid HTTPS URL, such as https://example.com."
             exit 1
           fi
-          echo "PUBLIC_SITE_URL=${PUBLIC_SITE_URL}"
           echo "PUBLIC_SITE_URL validation passed."
 
       - name: Check
