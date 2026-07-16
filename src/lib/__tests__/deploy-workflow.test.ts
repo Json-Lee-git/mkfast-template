@@ -15,6 +15,16 @@ describe('Cloudflare deploy workflow', () => {
     expect(workflow).not.toMatch(/wrangler deploy[^\n]*--var/);
   });
 
+  it('uses PUBLIC_SITE_URL as the build-time base URL source', () => {
+    expect(workflow).toContain(
+      'VITE_BASE_URL: $' + '{{ secrets.PUBLIC_SITE_URL }}'
+    );
+    expect(workflow).not.toContain(
+      'VITE_BASE_URL: $' + '{{ secrets.VITE_BASE_URL }}'
+    );
+    expect(workflow).not.toMatch(/echo[^\n]*\$PUBLIC_SITE_URL/);
+  });
+
   it('runs the built Worker smoke test before deployment', () => {
     const smokeIndex = workflow.indexOf('run: pnpm smoke:worker-ssr');
     const deployIndex = workflow.indexOf('run: pnpm exec wrangler deploy');
