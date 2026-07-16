@@ -3,8 +3,10 @@ import Container from '@/components/layout/container';
 import { MarkdownPage } from '@/components/page/markdown-page';
 import { websiteConfig } from '@/config/website';
 import {
+  breadcrumbSchema,
   jsonLd,
   organizationSchema,
+  webPageSchema,
   websiteSchema,
 } from '@/lib/ai-visibility-schema';
 import { getPageBySlug } from '@/lib/pages';
@@ -26,32 +28,37 @@ export const Route = createFileRoute('/(pages)/references')({
       title: `${p.title} | ${websiteConfig.metadata?.name}`,
       description: p.description,
     });
-    const url = getCanonicalUrl('/references');
+    const path = '/references';
     return {
       ...metadata,
       scripts: [
         jsonLd(organizationSchema()),
         jsonLd(websiteSchema()),
-        jsonLd({
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: p.title,
-          description: p.description,
-          url,
-          datePublished: p.date ? new Date(p.date).toISOString() : PAGE_DATE,
-          dateModified: PAGE_DATE,
-          isPartOf: {
-            '@type': 'WebSite',
-            name: websiteConfig.metadata?.name,
-            url: getCanonicalUrl('/'),
-          },
-          about: [
-            'Search documentation',
-            'Schema.org',
-            'AI crawler documentation',
-            'LLMs.txt',
-          ],
-        }),
+        jsonLd(
+          webPageSchema({
+            path,
+            type: 'CollectionPage',
+            name: p.title,
+            description: p.description,
+            datePublished: p.date ? new Date(p.date).toISOString() : PAGE_DATE,
+            dateModified: PAGE_DATE,
+            about: [
+              'Search documentation',
+              'Schema.org',
+              'AI crawler documentation',
+              'LLMs.txt',
+            ],
+          })
+        ),
+        jsonLd(
+          breadcrumbSchema(
+            [
+              { name: 'Home', url: getCanonicalUrl('/') },
+              { name: p.title, url: getCanonicalUrl(path) },
+            ],
+            path
+          )
+        ),
       ],
     };
   },

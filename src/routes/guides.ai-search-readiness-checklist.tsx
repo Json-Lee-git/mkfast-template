@@ -1,6 +1,7 @@
 import { FAQ } from '@/components/ai-visibility/faq';
 import Container from '@/components/layout/container';
 import {
+  articleSchema,
   breadcrumbSchema,
   faqSchema,
   itemListSchema,
@@ -73,23 +74,6 @@ const faqItems = [
     a: 'Fix crawl blockers first: failed HTTP status, noindex, broken canonicals, blocked crawlers, missing sitemap entries, and invalid schema. Then improve answer-ready content and trust signals.',
   },
 ];
-
-function articleSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: 'AI Search Readiness Checklist',
-    description:
-      'A practical checklist for crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, trust signals, and GEO readiness.',
-    url: getCanonicalUrl('/guides/ai-search-readiness-checklist'),
-    mainEntityOfPage: getCanonicalUrl('/guides/ai-search-readiness-checklist'),
-    publisher: {
-      '@type': 'Organization',
-      name: 'AI Search Readiness Tools',
-      url: getCanonicalUrl('/'),
-    },
-  };
-}
 
 function AiSearchReadinessChecklistPage() {
   return (
@@ -235,7 +219,15 @@ export const Route = createFileRoute('/guides/ai-search-readiness-checklist')({
       type: 'article',
     }),
     scripts: [
-      jsonLd(articleSchema()),
+      jsonLd(
+        articleSchema({
+          path: '/guides/ai-search-readiness-checklist',
+          type: 'Article',
+          headline: 'AI Search Readiness Checklist',
+          description:
+            'A practical checklist for crawl access, AI crawler access, LLMs.txt, schema, answer-ready content, trust signals, and GEO readiness.',
+        })
+      ),
       jsonLd(faqSchema(faqItems)),
       jsonLd(
         itemListSchema('/guides/ai-search-readiness-checklist', [
@@ -258,13 +250,16 @@ export const Route = createFileRoute('/guides/ai-search-readiness-checklist')({
         ])
       ),
       jsonLd(
-        breadcrumbSchema([
-          { name: 'Home', url: getCanonicalUrl('/') },
-          {
-            name: 'AI Search Readiness Checklist',
-            url: getCanonicalUrl('/guides/ai-search-readiness-checklist'),
-          },
-        ])
+        breadcrumbSchema(
+          [
+            { name: 'Home', url: getCanonicalUrl('/') },
+            {
+              name: 'AI Search Readiness Checklist',
+              url: getCanonicalUrl('/guides/ai-search-readiness-checklist'),
+            },
+          ],
+          '/guides/ai-search-readiness-checklist'
+        )
       ),
     ],
   }),
