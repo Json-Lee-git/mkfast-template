@@ -116,7 +116,7 @@ export const Route = createRootRouteWithContext<{
         {
           rel: 'alternate',
           type: 'application/rss+xml',
-          title: 'AI Search Readiness Tools RSS Feed',
+          title: 'AEOCheck RSS Feed',
           href: '/api/rss.xml',
         },
       ],

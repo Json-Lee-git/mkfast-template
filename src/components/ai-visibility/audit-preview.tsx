@@ -45,7 +45,7 @@ export function AuditPreview({
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="font-mono text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
-              AI Visibility Score
+              AI Search Readiness Score
             </p>
             <div className="mt-1 flex items-baseline gap-1.5">
               <span className="font-display text-5xl font-bold tracking-tight text-foreground">

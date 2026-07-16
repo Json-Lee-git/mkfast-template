@@ -417,13 +417,18 @@ function ReportPage() {
           {/* Score */}
           <div className="rounded-2xl border border-gray-200 dark:border-zinc-800/60 bg-gray-50 dark:bg-zinc-900/30 p-8 text-center">
             <p className="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide">
-              AI Visibility Score
+              AI Search Readiness Score
             </p>
             <p className={`mt-2 text-6xl font-bold ${scoreColor(r.score)}`}>
               {r.score}
             </p>
             <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
               {scoreLabelText(r.score)}
+            </p>
+            <p className="mx-auto mt-3 max-w-2xl text-xs leading-5 text-gray-500 dark:text-zinc-400">
+              A 0-100 estimate based on observable technical, content, entity,
+              and trust signals. It does not measure rankings, citations,
+              traffic, or actual visibility.
             </p>
           </div>
 
@@ -1009,7 +1014,7 @@ function ReportPage() {
               <div className="space-y-4">
                 <p className="text-sm text-gray-500 dark:text-zinc-400">
                   Address these items in order to improve your readiness-based
-                  AI Visibility Score.
+                  AI Search Readiness Score.
                 </p>
                 <ol className="space-y-3 text-sm">
                   {r.recommendations.map((rec, i) => (
@@ -1435,7 +1440,7 @@ function ContentSuggestions({
 
   if (!hasFaq) {
     items.push(
-      'Add an FAQ section with clear question/answer pairs. Use question-format headings (e.g. "What is X?") followed by 40-80 word answers.'
+      'Add an FAQ section with clear question/answer pairs. Use question-format headings (e.g. "What is X?") followed by 20-100 word answers.'
     );
   } else if (!hasQuestions) {
     items.push(
@@ -1445,7 +1450,7 @@ function ContentSuggestions({
 
   if (!hasShortAnswers) {
     items.push(
-      'Rewrite key explanatory paragraphs to 40-80 words. AI systems favor concise, self-contained answers over long discursive text.'
+      'Rewrite key explanatory paragraphs to 20-100 words. Keep each answer focused and self-contained.'
     );
   }
 
@@ -1670,11 +1675,11 @@ function buildFullReportMarkdown(r: NonNullable<ReportData['result']>): string {
     `Checked URL: ${r.normalizedUrl}`,
     `Generated: ${new Date(r.checkedAt).toISOString()}`,
     '',
-    '## AI Visibility Score',
+    '## AI Search Readiness Score',
     '',
     `${r.score}/100 - ${scoreLabelText(r.score)}`,
     '',
-    'This report improves the conditions for search engines and AI answer systems to crawl, understand, extract, and cite your content. It does not guarantee rankings, citations, traffic, or visibility in any specific search or AI product.',
+    'This score is a 0-100 estimate based on observable technical, content, entity, and trust signals. It does not measure rankings, citations, traffic, or actual visibility.',
     '',
   ];
 
@@ -1953,7 +1958,7 @@ export const Route = createFileRoute('/report/$token')({
     ...seo('/report/$token', {
       title: 'AI Visibility Fix Pack',
       description:
-        'Your paid AI Visibility Fix Pack with a readiness-based AI Visibility Score, prioritized fixes, schema guidance, /llms.txt drafts, and content improvements.',
+        'Your paid AI Visibility Fix Pack with an AI Search Readiness Score, prioritized fixes, schema guidance, /llms.txt drafts, and content improvements.',
       noIndex: true,
     }),
   }),

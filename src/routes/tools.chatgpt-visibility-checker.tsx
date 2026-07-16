@@ -30,8 +30,8 @@ const checks = [
 
 const modules = [
   {
-    title: 'AI Visibility Score',
-    desc: 'A readiness-based AI Visibility Score for whether the page is easy to understand, cite, and recommend.',
+    title: 'AI Search Readiness Score',
+    desc: 'A 0-100 estimate based on observable technical, content, entity, and trust signals. It does not measure rankings, citations, traffic, or actual visibility.',
   },
   {
     title: 'Competitor gaps',
@@ -46,7 +46,7 @@ const modules = [
 const faqItems = [
   {
     q: 'Does this checker run a live ChatGPT ranking test?',
-    a: 'No. This first version checks ChatGPT visibility readiness signals and routes the page into a full AEO diagnosis. It does not claim live rankings, citations, or prompt-level ChatGPT results.',
+    a: 'No. This first version checks ChatGPT visibility readiness signals and routes the page into a full AEO diagnosis. It is not live platform monitoring and does not measure rankings, citations, traffic, actual visibility, or prompt-level ChatGPT results.',
   },
   {
     q: 'Why use a ChatGPT visibility checker if it is readiness-based?',
@@ -139,9 +139,9 @@ function ChatGptVisibilityCheckerPage() {
                 brand?
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Paste a URL. Get an AI Visibility Score, top issue, ChatGPT
-                citation readiness, competitor gaps, and a fix list — all on one
-                screen.
+                Paste a URL. Get an AI Search Readiness Score, top issue,
+                ChatGPT citation readiness, competitor gaps, and a fix list —
+                all on one screen. This is not live platform monitoring.
               </p>
               <div className="mt-6 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
                 {checks.slice(0, 4).map((check) => (

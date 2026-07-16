@@ -5,6 +5,7 @@ import {
   faqSchema,
   itemListSchema,
   jsonLd,
+  organizationSchema,
 } from '@/lib/ai-visibility-schema';
 import { trackConversionEvent } from '@/lib/conversion-events';
 import type { ConversionEventName } from '@/lib/conversion-event-names';
@@ -200,11 +201,7 @@ function collectionPageSchema() {
       'AI crawler access',
       'AI referral measurement',
     ],
-    publisher: {
-      '@type': 'Organization',
-      name: 'AI Search Readiness Tools',
-      url: getCanonicalUrl('/'),
-    },
+    publisher: organizationSchema(),
   };
 }
 

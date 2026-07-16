@@ -38,9 +38,7 @@ export function buildRssFeed(): Response {
   const posts = getSortedPosts().slice(0, 20);
   const base = getBaseUrl().replace(/\/$/, '');
   const siteUrl = getCanonicalUrl('/');
-  const siteName = esc(
-    websiteConfig.metadata?.name ?? 'AI Search Readiness Tools'
-  );
+  const siteName = esc(websiteConfig.metadata?.name ?? 'AEOCheck');
   const siteDesc = esc(websiteConfig.metadata?.description ?? '');
   const now = new Date().toUTCString();
 

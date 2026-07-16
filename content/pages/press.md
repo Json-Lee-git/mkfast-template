@@ -1,6 +1,6 @@
 ---
 title: Press and Media Kit
-description: Product facts, boilerplate descriptions, official links, and citation guidance for AI Search Readiness Tools.
+description: Product facts, boilerplate descriptions, official links, and citation guidance for AEOCheck.
 date: 2026-06-26
 ---
 
@@ -8,17 +8,17 @@ date: 2026-06-26
 
 This page provides concise, verifiable information for directories,
 newsletters, community posts, reviewers, and publications that want to mention
-AI Search Readiness Tools.
+AEOCheck.
 
 ### Short description
 
-AI Search Readiness Tools is a free toolkit for checking whether public website
+AEOCheck is a free AI search readiness toolkit for checking whether public website
 pages are technically ready for AI-assisted search, answer engines, and crawler
 discovery.
 
 ### Long description
 
-AI Search Readiness Tools helps website owners, marketers, developers, and
+AEOCheck helps website owners, marketers, developers, and
 technical SEO teams evaluate public readiness signals such as robots.txt,
 LLMs.txt, LLMs-full.txt, sitemap discovery, JSON-LD structured data, answer-ready
 content structure, entity clarity, and trust signals.
@@ -29,20 +29,21 @@ Claude, Gemini, Google AI Overviews, or any other product.
 
 ### Product facts
 
-- Product name: AI Search Readiness Tools
+- Product name: AEOCheck
 - Website: [aeocheck.xyz](https://aeocheck.xyz)
 - Category: Technical SEO, AEO, GEO, AI search readiness
 - Core tools: LLMs.txt Checker, LLMs.txt Generator, AEO Checker, Query Fan-Out
   Tool
 - Pricing: Free core tools, with an optional paid report where available
-- Publisher: AI Search Readiness Editorial Team
+- Publisher: AEOCheck
+- Editorial byline: AI Search Readiness Editorial Team
 - Methodology: [How our checks work](/methodology)
 - References: [Official sources and standards](/references)
 - Corrections: [Contact page](/contact)
 
 ### Official links
 
-- Homepage: [AI Search Readiness Tools](/)
+- Homepage: [AEOCheck](/)
 - AEO Checker: [Run a technical AEO audit](/tools/aeo-checker)
 - LLMs.txt Checker: [Check AI-readable site files](/tools/llms-txt-checker)
 - LLMs.txt Generator: [Generate an LLMs.txt file](/tools/llms-txt-generator)
@@ -60,7 +61,7 @@ page. For platform documentation or standards, link to the references page.
 
 Suggested format:
 
-> AI Search Readiness Tools provides free checks for LLMs.txt, AI crawler
+> AEOCheck provides free checks for LLMs.txt, AI crawler
 > access, structured data, and technical AEO readiness.
 
 ### What not to claim

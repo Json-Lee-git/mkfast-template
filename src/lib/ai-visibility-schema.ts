@@ -127,7 +127,6 @@ export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     ...organizationNode(),
-    alternateName: ['AI Search Readiness Tools'],
     description: websiteConfig.metadata?.description,
     foundingDate: '2026-02-15',
     contactPoint: [
@@ -168,7 +167,6 @@ export function websiteSchema() {
   return {
     '@context': 'https://schema.org',
     ...websiteNode(),
-    alternateName: ['AI Search Readiness Tools'],
     description: websiteConfig.metadata?.description,
   };
 }
@@ -197,7 +195,7 @@ function articleContributor(name: string, description?: string) {
       '@type': 'Organization',
       '@id': editorialTeamId(),
       name,
-      ...(description ? { description } : {}),
+      description: 'AEOCheck organizational editorial byline',
       url: getCanonicalUrl('/about'),
     };
   }

@@ -43,9 +43,10 @@ const signalLayers = [
 
 const previewCards = [
   {
-    label: 'AI Visibility Score',
+    label: 'AI Search Readiness Score',
     value: '64/100',
-    detail: 'Readiness-based. Not a ranking.',
+    detail:
+      '0-100 estimate from observable technical, content, entity, and trust signals. Not rankings, citations, traffic, or actual visibility.',
     status: 'warn' as const,
   },
   {

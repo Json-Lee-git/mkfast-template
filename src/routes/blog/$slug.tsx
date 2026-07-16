@@ -21,6 +21,15 @@ import {
   jsonLd,
 } from '@/lib/ai-visibility-schema';
 
+const EDITORIAL_TEAM_NAME = 'AI Search Readiness Editorial Team';
+const EDITORIAL_BYLINE_DESCRIPTION = 'AEOCheck organizational editorial byline';
+
+function publicAuthorTitle(authorName: string, authorTitle?: string): string {
+  return authorName === EDITORIAL_TEAM_NAME
+    ? EDITORIAL_BYLINE_DESCRIPTION
+    : (authorTitle ?? 'Technical editorial team');
+}
+
 /** Extract FAQ Q&A pairs from a "## Frequently asked questions" section. */
 function extractFaqFromContent(content: string): { q: string; a: string }[] {
   const faqSection = content.match(
@@ -59,7 +68,7 @@ export const Route = createFileRoute('/blog/$slug')({
     const image = post.image ? getImageUrl(post.image) : undefined;
     const modifiedDate = new Date(post.updated ?? post.date).toISOString();
     const authorName = post.author ?? 'AI Search Readiness Editorial Team';
-    const authorTitle = post.authorTitle ?? 'Technical editorial team';
+    const authorTitle = publicAuthorTitle(authorName, post.authorTitle);
     const metadata = seo(path, {
       title,
       description,
@@ -114,7 +123,7 @@ function BlogPostPage() {
   const post = Route.useLoaderData();
   if (!post || !websiteConfig.blog?.enable) throw notFound();
   const authorName = post.author ?? 'AI Search Readiness Editorial Team';
-  const authorTitle = post.authorTitle ?? 'Technical editorial team';
+  const authorTitle = publicAuthorTitle(authorName, post.authorTitle);
   const showUpdated = post.updated && post.updated !== post.date;
   return (
     <Container className="py-16 px-4">
